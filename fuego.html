@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fuego en la Niebla | Edgar Romero</title>
+    <style>
+        :root {
+            --oro-brillante: #f7e6b0;
+            --oro-profundo: #d4af37;
+            --oscuro: #020205;
+            --brillo-aura: rgba(212, 175, 55, 0.4);
+        }
+
+        body {
+            margin: 0;
+            background: radial-gradient(circle at center, rgba(50, 20, 100, 0.2) 0%, #020205 70%), var(--oscuro);
+            color: var(--oro-brillante);
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            text-align: center;
+            letter-spacing: 0.05em;
+        }
+
+        .tarjeta {
+            background: linear-gradient(160deg, rgba(20, 20, 30, 0.8) 0%, rgba(0, 0, 0, 0.95) 100%);
+            border: 2px solid var(--oro-profundo);
+            padding: 50px 30px;
+            border-radius: 25px;
+            width: 85%;
+            max-width: 420px;
+            box-shadow: 0 0 30px var(--brillo-aura);
+            backdrop-filter: blur(5px);
+            position: relative;
+        }
+
+        .tarjeta::before {
+            content: '';
+            position: absolute;
+            top: -2px; left: 50px; right: 50px; height: 2px;
+            background: linear-gradient(90deg, transparent, var(--oro-brillante), transparent);
+        }
+
+        h1 {
+            font-size: 1.6rem;
+            margin: 10px 0;
+            color: white;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+        }
+
+        .eslogan {
+            color: var(--oro-profundo);
+            font-size: 0.9rem;
+            font-weight: 300;
+            margin-bottom: 40px;
+            text-transform: uppercase;
+        }
+
+        .contenedor-de-audio h3 {
+            color: var(--oro-brillante);
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+        }
+
+        audio {
+            width: 100%;
+            outline: none;
+            border-radius: 50px;
+            filter: invert(100%) sepia(80%) saturate(600%) hue-rotate(340deg) brightness(100%) contrast(100%);
+        }
+    </style>
+</head>
+<body>
+    <div class="tarjeta">
+        <h1>Edgar Romero</h1>
+        <p class="eslogan">Ingeniería Sonora y Minería Emocional</p>
+        
+        <div class="contenedor-de-audio">
+            <h3>Fuego en la Niebla</h3>
+            <audio controls autoplay>
+                <source src="fuego_en_la_niebla.mp3" type="audio/mpeg">
+                Tu navegador no soporta el elemento de audio.
+            </audio>
+        </div>
+    </div>
+</body>
+</html>
+
