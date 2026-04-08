@@ -2,110 +2,97 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>Edgar Romero | Activos Musicales</title>
-    
-    <meta property="og:title" content="Edgar Romero - Estrategia Musical">
-    <meta property="og:description" content="Escucha una muestra de mis activos musicales digitales.">
-    <meta property="og:type" content="website">
-    
-    <meta name="theme-color" content="#000000">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black">
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edgar Romero | Galería Sonora</title>
     <style>
         :root {
-            --gold: #d4af37;
-            --dark: #0a0a0a;
-            --soft-gold: #f1e5ac;
+            --oro: #d4af37;
+            --crema: #fdf6e3;
+            --oscuro: #0a0a0c;
         }
-
         body {
-            margin: 0;
-            padding: 0;
-            background-color: var(--dark);
-            color: white;
-            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
+            background: var(--oscuro);
+            color: var(--crema);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0; padding: 20px;
             text-align: center;
         }
-
-        .card {
-            background: linear-gradient(145deg, #1a1a1a, #000000);
-            border: 1px solid var(--gold);
+        .header {
             padding: 40px 20px;
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(212, 175, 55, 0.15);
-            width: 85%;
-            max-width: 400px;
-        }
-
-        .profile-img {
-            width: 100px;
-            height: 100px;
-            border-radius: 50%;
-            border: 2px solid var(--gold);
-            margin-bottom: 15px;
-            object-fit: cover;
-        }
-
-        h1 {
-            font-size: 1.4rem;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            margin: 10px 0 5px 0;
-            color: white;
-        }
-
-        .tagline {
-            color: var(--gold);
-            font-size: 0.85rem;
-            letter-spacing: 1px;
+            border-bottom: 1px solid var(--oro);
             margin-bottom: 30px;
-            font-weight: 300;
+        }
+        h1 { letter-spacing: 3px; text-transform: uppercase; font-size: 1.5rem; margin: 0; }
+        .tagline { color: var(--oro); font-size: 0.8rem; margin-top: 10px; opacity: 0.8; }
+
+        .galeria {
+            display: grid;
+            gap: 20px;
+            max-width: 400px;
+            margin: 0 auto;
         }
 
-        /* Estilo del Reproductor */
-        .audio-container {
-            margin-top: 20px;
-            padding: 15px;
-            border-top: 0.5px solid rgba(212, 175, 55, 0.3);
+        .boton-muestra {
+            background: rgba(212, 175, 55, 0.1);
+            border: 1px solid var(--oro);
+            border-radius: 15px;
+            padding: 25px;
+            text-decoration: none;
+            color: white;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
-        audio {
-            width: 100%;
-            filter: invert(100%) sepia(50%) saturate(1000%) hue-rotate(10deg) brightness(90%);
+        .boton-muestra:active {
+            background: var(--oro);
+            color: var(--oscuro);
         }
 
-        .footer-text {
+        .tipo { font-size: 0.7rem; text-transform: uppercase; color: var(--oro); margin-bottom: 5px; }
+        .titulo-cancion { font-weight: bold; font-size: 1.1rem; }
+
+        .footer {
+            margin-top: 50px;
             font-size: 0.7rem;
-            color: #555;
-            margin-top: 25px;
-            text-transform: uppercase;
-            letter-spacing: 2px;
+            color: gray;
         }
     </style>
 </head>
 <body>
 
-    <div class="card">
-        <div style="font-size: 50px; margin-bottom: 10px;">🎙️</div>
-        
-        <h1>Edgar Romero</h1>
-        <div class="tagline">Estratega de Activos Musicales</div>
+    <div class="header">
+        <h1>EDGAR ROMERO</h1>
+        <div class="tagline">INGENIERÍA SONORA • MINERÍA EMOCIONAL</div>
+    </div>
 
-        <div class="audio-container">
-            <p style="font-size: 0.9rem; margin-bottom: 15px; color: #ccc;">Escucha la propuesta sonora:</p>
-            <audio controls>
-                <source src="audio.mp3" type="audio/mpeg">
-                Tu navegador no soporta audio.
-            </audio>
-        </div>
+    <p>Selecciona una experiencia para escuchar:</p>
 
-        <div class="footer-text">Activos Musicales Digitales 2026</div>
+    <div class="galeria">
+        <a href="caliz.html" class="boton-muestra">
+            <span class="tipo">Muestra de Metal / Instrumental</span>
+            <span class="titulo-cancion">Cáliz del Viento</span>
+        </a>
+
+        <a href="fuego.html" class="boton-muestra">
+            <span class="tipo">Muestra de Rock / Atmosférico</span>
+            <span class="titulo-cancion">Fuego en la Niebla</span>
+        </a>
+
+        <a href="mal.html" class="boton-muestra">
+            <span class="tipo">Muestra de Humor / Rítmico</span>
+            <span class="titulo-cancion">Mal del Puerco</span>
+        </a>
+
+        <a href="prisionero.html" class="boton-muestra">
+            <span class="tipo">Muestra de Balada / Sentimental</span>
+            <span class="titulo-cancion">Prisionero de tu Amor</span>
+        </a>
+    </div>
+
+    <div class="footer">
+        © 2026 Proyectos Personalizados • Pregunta por tu propia canción
     </div>
 
 </body>
