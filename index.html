@@ -3,26 +3,40 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Catálogo Musical - Edgar Romero</title>
+    <title>Edgar Romero - Ingeniería de Arquitectura Sonora</title>
     <style>
         body {
             background-color: #000;
             color: #fff;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
-            padding: 40px 20px;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
+
+        /* Contenedor del Banner Principal */
+        .banner-container {
+            width: 100%;
+            max-width: 1000px;
+            margin-top: 20px;
+            padding: 10px;
+            box-sizing: border-box;
+        }
+
+        .banner-img {
+            width: 100%;
+            border-radius: 15px;
+            border: 1px solid #c9a050;
+            box-shadow: 0 0 20px rgba(201, 160, 80, 0.2);
+        }
+
         header {
             text-align: center;
-            margin-bottom: 50px;
+            margin: 30px 0;
         }
-        .artista-principal {
-            font-size: 32px;
-            font-weight: 800;
-            letter-spacing: 3px;
-            text-transform: uppercase;
-            margin-bottom: 10px;
-        }
+
         .subtitulo-principal {
             color: #c9a050;
             font-size: 14px;
@@ -30,86 +44,93 @@
             letter-spacing: 2px;
             text-transform: uppercase;
         }
-        /* Contenedor de la rejilla */
+
+        /* Galería más compacta */
         .galeria-musical {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-            max-width: 1200px;
-            margin: 0 auto;
+            /* Cuadros más pequeños: mínimo 250px */
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            width: 90%;
+            max-width: 1100px;
+            margin-bottom: 50px;
         }
-        /* Estilo de cada tarjeta de canción */
+
         .tarjeta-cancion {
-            border: 1px solid #c9a050;
-            border-radius: 20px;
-            padding: 30px 20px;
+            border: 1px solid rgba(201, 160, 80, 0.4);
+            border-radius: 15px;
+            padding: 20px; /* Reducido */
             text-align: center;
             background: linear-gradient(145deg, #0f0f0f, #050505);
-            transition: transform 0.3s ease;
+            transition: all 0.3s ease;
         }
+
         .tarjeta-cancion:hover {
             transform: translateY(-5px);
+            border-color: #c9a050;
             box-shadow: 0 5px 15px rgba(201, 160, 80, 0.3);
         }
+
         .titulo-pista {
-            font-size: 18px;
+            font-size: 16px; /* Más pequeño */
             font-weight: 600;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
+            color: #fff;
             display: block;
         }
+
         audio {
             width: 100%;
-            height: 35px;
+            height: 30px; /* Más compacto */
             filter: sepia(20%) saturate(70%) grayscale(1) contrast(90%) invert(100%);
+        }
+
+        /* Responsive para móviles */
+        @media (max-width: 600px) {
+            .galeria-musical {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
 <body>
 
+    <div class="banner-container">
+        <img src="30478.png" alt="Ingeniería de Arquitectura Sonora" class="banner-img">
+    </div>
+
     <header>
-        <div class="artista-principal">Edgar Romero</div>
-        <div class="subtitulo-principal">Ingeniería Sonora y Minería Emocional</div>
+        <div class="subtitulo-principal">Catálogo de Activos Musicales Digitales</div>
     </header>
 
     <main class="galeria-musical">
 
         <div class="tarjeta-cancion">
             <span class="titulo-pista">Cáliz del Viento</span>
-            <audio controls>
-                <source src="caliz_del_viento.mp3" type="audio/mpeg">
-            </audio>
+            <audio controls><source src="caliz_del_viento.mp3" type="audio/mpeg"></audio>
         </div>
 
         <div class="tarjeta-cancion">
             <span class="titulo-pista">Fuego en la Niebla</span>
-            <audio controls>
-                <source src="fuego_en_la_niebla.mp3" type="audio/mpeg">
-            </audio>
+            <audio controls><source src="fuego_en_la_niebla.mp3" type="audio/mpeg"></audio>
         </div>
 
         <div class="tarjeta-cancion">
             <span class="titulo-pista">Mal del Puerco</span>
-            <audio controls>
-                <source src="mal_del_puerco.mp3" type="audio/mpeg">
-            </audio>
+            <audio controls><source src="mal_del_puerco.mp3" type="audio/mpeg"></audio>
         </div>
 
         <div class="tarjeta-cancion">
             <span class="titulo-pista">Midnight Sanctuary</span>
-            <audio controls>
-                <source src="midnight_sanctuary.mp3" type="audio/mpeg">
-            </audio>
+            <audio controls><source src="midnight_sanctuary.mp3" type="audio/mpeg"></audio>
         </div>
 
         <div class="tarjeta-cancion">
             <span class="titulo-pista">Prisionero de tu Amor</span>
-            <audio controls>
-                <source src="prisionero_de_tu_amor.mp3" type="audio/mpeg">
-            </audio>
+            <audio controls><source src="prisionero_de_tu_amor.mp3" type="audio/mpeg"></audio>
         </div>
 
     </main>
 
 </body>
 </html>
-
