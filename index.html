@@ -3,91 +3,66 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edgar Romero - Ingeniería de Arquitectura Sonora</title>
+    <title>Catálogo de Activos Musicales</title>
     <style>
         body {
             background-color: #000;
             color: #fff;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            margin: 0;
-            padding: 0;
             display: flex;
-            flex-direction: column;
-            align-items: center;
+            justify-content: center;
+            padding: 20px;
         }
 
-        /* Contenedor del Banner Principal */
-        .banner-container {
+        .container {
             width: 100%;
-            max-width: 1000px;
-            margin-top: 20px;
-            padding: 10px;
-            box-sizing: border-box;
+            max-width: 800px;
         }
 
-        .banner-img {
-            width: 100%;
-            border-radius: 15px;
-            border: 1px solid #c9a050;
-            box-shadow: 0 0 20px rgba(201, 160, 80, 0.2);
-        }
-
-        header {
-            text-align: center;
-            margin: 30px 0;
-        }
-
-        .subtitulo-principal {
-            color: #c9a050;
-            font-size: 14px;
-            font-weight: 300;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-        }
-
-        /* Galería más compacta */
-        .galeria-musical {
+        .grid {
             display: grid;
-            /* Cuadros más pequeños: mínimo 250px */
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            grid-template-columns: 1fr 1fr;
             gap: 20px;
-            width: 90%;
-            max-width: 1100px;
-            margin-bottom: 50px;
         }
 
-        .tarjeta-cancion {
-            border: 1px solid rgba(201, 160, 80, 0.4);
-            border-radius: 15px;
-            padding: 20px; /* Reducido */
+        .card {
+            background-color: #0a0a0a;
+            border: 1px solid #332b1a;
+            border-radius: 12px;
+            padding: 25px 15px;
             text-align: center;
-            background: linear-gradient(145deg, #0f0f0f, #050505);
-            transition: all 0.3s ease;
+            transition: transform 0.3s ease;
         }
 
-        .tarjeta-cancion:hover {
+        .card:hover {
+            border-color: #d4af37;
             transform: translateY(-5px);
-            border-color: #c9a050;
-            box-shadow: 0 5px 15px rgba(201, 160, 80, 0.3);
         }
 
-        .titulo-pista {
-            font-size: 16px; /* Más pequeño */
-            font-weight: 600;
-            margin-bottom: 15px;
+        .title {
+            font-size: 1.1rem;
+            font-weight: bold;
             color: #fff;
+            margin-bottom: 0; /* Eliminamos el margen inferior del título */
+        }
+
+        .genre {
+            color: #a8a8a8;
+            font-size: 0.95rem;
+            /* Ajuste de espaciado: 8px suele ser el punto medio ideal */
+            margin-top: 8px; 
+            margin-bottom: 20px;
             display: block;
         }
 
         audio {
             width: 100%;
-            height: 30px; /* Más compacto */
-            filter: sepia(20%) saturate(70%) grayscale(1) contrast(90%) invert(100%);
+            height: 35px;
+            filter: invert(100%) hue-rotate(180deg) brightness(1.2);
         }
 
-        /* Responsive para móviles */
         @media (max-width: 600px) {
-            .galeria-musical {
+            .grid {
                 grid-template-columns: 1fr;
             }
         }
@@ -95,47 +70,35 @@
 </head>
 <body>
 
-    <div class="banner-container">
-        <img src="pancarta_final.png" alt="Ingeniería de Arquitectura Sonora" class="banner-img">
+<div class="container">
+    <div class="grid">
+        
+        <div class="card">
+            <div class="title">Cáliz del Viento</div>
+            <span class="genre">Rock Instrumental</span>
+            <audio controls src="tu-archivo-1.mp3"></audio>
+        </div>
+
+        <div class="card">
+            <div class="title">Fuego en la Niebla</div>
+            <span class="genre">Reggae</span>
+            <audio controls src="tu-archivo-2.mp3"></audio>
+        </div>
+
+        <div class="card">
+            <div class="title">Mal del Puerco</div>
+            <span class="genre">Cumbia</span>
+            <audio controls src="tu-archivo-3.mp3"></audio>
+        </div>
+
+        <div class="card">
+            <div class="title">Midnight Sanctuary</div>
+            <span class="genre">Folk Rock</span>
+            <audio controls src="tu-archivo-4.mp3"></audio>
+        </div>
+
     </div>
-
-    <header>
-        <div class="subtitulo-principal">Catálogo de Activos Musicales Digitales</div>
-    </header>
-
-    <main class="galeria-musical">
-
-        <div class="tarjeta-cancion">
-            <span class="titulo-pista">Cáliz del Viento</span><br>
-            <span class="genero-pista">Rock Instrumental</span>
-            <audio controls><source src="caliz_del_viento.mp3" type="audio/mpeg"></audio>
-        </div>
-
-        <div class="tarjeta-cancion">
-            <span class="titulo-pista">Fuego en la Niebla</span><br>
-            <span class="genero-pista">Reggae</span>
-            <audio controls><source src="fuego_en_la_niebla.mp3" type="audio/mpeg"></audio>
-        </div>
-
-        <div class="tarjeta-cancion"> 
-    <span class="titulo-pista">Mal del Puerco</span><br>
-    <span class="genero-pista">Cumbia</span>
-    <audio controls><source src="mal_del_puerco.mp3" type="audio/mpeg"></audio>
 </div>
-
-      <div class="tarjeta-cancion">
-            <span class="titulo-pista">Midnight Sanctuary</span><br>
-            <span class="genero-pista">Folk Rock</span>
-            <audio controls><source src="midnight_sanctuary.mp3" type="audio/mpeg"></audio>
-        </div>
-
-        <div class="tarjeta-cancion">
-            <span class="titulo-pista">Prisionero de tu Amor</span><br>
-            <span class="genero-pista">Romantica</span>
-            <audio controls><source src="prisionero_de_tu_amor.mp3" type="audio/mpeg"></audio>
-        </div>
-
-    </main>
 
 </body>
 </html>
