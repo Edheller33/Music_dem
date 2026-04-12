@@ -3,142 +3,159 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ingeniería de Arquitectura Sonora</title>
+    <title>Catálogo de Activos Musicales</title>
     <style>
+        /* Estilos generales y fondo oscuro */
         body {
-            background-color: #000;
-            color: #fff;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #050505;
+            color: #ffffff;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
             margin: 0;
-            padding: 0;
+            padding: 15px;
             display: flex;
-            flex-direction: column;
-            align-items: center;
+            justify-content: center;
+        }
+
+        .main-container {
+            max-width: 900px;
+            width: 100%;
         }
 
         /* Contenedor de la Pancarta */
         .banner-container {
-            width: 100%;
-            max-width: 1000px; /* Ajusta según el ancho de tu imagen */
-            margin-bottom: 20px;
+            margin-bottom: 35px;
+            border-radius: 12px;
+            overflow: hidden;
+            /* Borde sutil dorado/bronce para que coincida con la imagen */
+            border: 1px solid rgba(212, 175, 55, 0.4); 
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+            display: flex;
         }
 
-        .banner-container img {
+        .banner-img {
             width: 100%;
             height: auto;
-            display: block;
+            display: block; /* Evita márgenes inferiores indeseados */
         }
 
-        /* Estilo para el subtítulo del catálogo con el color claro solicitado */
-        .catalogo-header {
-            color: #e5c07b; 
-            font-size: 0.9rem;
-            letter-spacing: 2px;
+        /* Título del catálogo */
+        .catalog-title {
+            text-align: center;
+            color: #cca654; /* Tono dorado tenue */
+            font-size: 0.85rem;
+            letter-spacing: 1.5px;
             text-transform: uppercase;
-            margin: 40px 0 30px 0;
-            text-align: center;
-            font-weight: 500;
+            margin-bottom: 25px;
+            font-weight: 600;
         }
 
-        .container {
-            width: 90%;
-            max-width: 800px;
-            padding-bottom: 50px;
-        }
-
-        .grid {
+        /* Cuadrícula de reproductores (Responsiva) */
+        .grid-container {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
+            /* En móviles mostrará 1 columna, en pantallas más anchas 2 o más */
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 15px;
         }
 
-        .card {
-            background-color: #0a0a0a;
-            border: 1px solid #332b1a;
+        /* Tarjetas de audio */
+        .audio-card {
+            background-color: #0f0f0f;
+            border: 1px solid #222;
             border-radius: 12px;
-            padding: 25px 15px;
+            padding: 20px 15px;
             text-align: center;
-            transition: transform 0.3s ease;
+            transition: border-color 0.3s ease;
         }
 
-        .card:hover {
-            border-color: #d4af37;
-            transform: translateY(-5px);
+        .audio-card:hover {
+            border-color: #333;
         }
 
-        .title {
-            font-size: 1.1rem;
-            font-weight: bold;
-            color: #fff;
-            margin-bottom: 0;
+        .audio-card h3 {
+            margin: 0 0 5px 0;
+            font-size: 1rem;
+            font-weight: 600;
         }
 
-        .genre {
-            color: #a8a8a8;
-            font-size: 0.95rem;
-            margin-top: 8px; /* Espaciado equilibrado */
-            margin-bottom: 20px;
-            display: block;
+        .audio-card p {
+            margin: 0 0 20px 0;
+            font-size: 0.8rem;
+            color: #888888;
         }
 
+        /* Estilo del reproductor nativo */
         audio {
             width: 100%;
             height: 35px;
-            filter: invert(100%) hue-rotate(180deg) brightness(1.2);
+            outline: none;
         }
 
-        @media (max-width: 600px) {
-            .grid {
-                grid-template-columns: 1fr;
-            }
+        /* Personalización sutil para navegadores basados en WebKit (Chrome/Edge/Safari) */
+        audio::-webkit-media-controls-panel {
+            background-color: #1a1a1a;
+        }
+        audio::-webkit-media-controls-current-time-display,
+        audio::-webkit-media-controls-time-remaining-display {
+            color: #dddddd;
         }
     </style>
 </head>
 <body>
 
-<div class="banner-container">
-    <img src="30478.png" alt="Ingeniería de Arquitectura Sonora y Minería Emocional">
-</div>
-
-<div class="catalogo-header">
-    Catálogo de Activos Musicales Digitales
-</div>
-
-<div class="container">
-    <div class="grid">
+    <div class="main-container">
         
-        <div class="card">
-            <div class="title">Cáliz del Viento</div>
-            <span class="genre">Rock Instrumental</span>
-            <audio controls src="tu-archivo-1.mp3"></audio>
+        <div class="banner-container">
+            <img src="ruta_a_tu_imagen.jpg" alt="Ingeniería de Arquitectura Sonora y Minería Emocional" class="banner-img">
         </div>
 
-        <div class="card">
-            <div class="title">Fuego en la Niebla</div>
-            <span class="genre">Reggae</span>
-            <audio controls src="tu-archivo-2.mp3"></audio>
+        <div class="catalog-title">
+            Catálogo de Activos Musicales Digitales
         </div>
 
-        <div class="card">
-            <div class="title">Mal del Puerco</div>
-            <span class="genre">Cumbia</span>
-            <audio controls src="tu-archivo-3.mp3"></audio>
-        </div>
+        <div class="grid-container">
+            
+            <div class="audio-card">
+                <h3>Cáliz del Viento</h3>
+                <p>Rock Instrumental</p>
+                <audio controls>
+                    <source src="audio/caliz_del_viento.mp3" type="audio/mpeg">
+                </audio>
+            </div>
 
-        <div class="card">
-            <div class="title">Midnight Sanctuary</div>
-            <span class="genre">Folk Rock</span>
-            <audio controls src="tu-archivo-4.mp3"></audio>
-        </div>
+            <div class="audio-card">
+                <h3>Fuego en la Niebla</h3>
+                <p>Reggae</p>
+                <audio controls>
+                    <source src="audio/fuego_en_la_niebla.mp3" type="audio/mpeg">
+                </audio>
+            </div>
 
-        <div class="card">
-            <div class="title">Prisionero de tu Amor</div>
-            <span class="genre">Romántica</span>
-            <audio controls src="tu-archivo-5.mp3"></audio>
-        </div>
+            <div class="audio-card">
+                <h3>Mal del Puerco</h3>
+                <p>Cumbia</p>
+                <audio controls>
+                    <source src="audio/mal_del_puerco.mp3" type="audio/mpeg">
+                </audio>
+            </div>
 
+            <div class="audio-card">
+                <h3>Midnight Sanctuary</h3>
+                <p>Folk Rock</p>
+                <audio controls>
+                    <source src="audio/midnight_sanctuary.mp3" type="audio/mpeg">
+                </audio>
+            </div>
+
+            <div class="audio-card">
+                <h3>Prisionero de tu Amor</h3>
+                <p>Romántica</p>
+                <audio controls>
+                    <source src="audio/prisionero_de_tu_amor.mp3" type="audio/mpeg">
+                </audio>
+            </div>
+
+        </div>
     </div>
-</div>
 
 </body>
 </html>
