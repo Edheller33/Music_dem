@@ -3,32 +3,47 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Catálogo de Activos Musicales</title>
+    <title>Ingeniería de Arquitectura Sonora</title>
     <style>
         body {
             background-color: #000;
             color: #fff;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding: 20px;
         }
 
-        /* Estilo para el subtítulo del catálogo */
+        /* Contenedor de la Pancarta */
+        .banner-container {
+            width: 100%;
+            max-width: 1000px; /* Ajusta según el ancho de tu imagen */
+            margin-bottom: 20px;
+        }
+
+        .banner-container img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        /* Estilo para el subtítulo del catálogo con el color claro solicitado */
         .catalogo-header {
-            color: #e5c07b; /* Color dorado claro para mayor visibilidad */
+            color: #e5c07b; 
             font-size: 0.9rem;
             letter-spacing: 2px;
             text-transform: uppercase;
-            margin-bottom: 30px;
+            margin: 40px 0 30px 0;
             text-align: center;
             font-weight: 500;
         }
 
         .container {
-            width: 100%;
+            width: 90%;
             max-width: 800px;
+            padding-bottom: 50px;
         }
 
         .grid {
@@ -80,6 +95,10 @@
     </style>
 </head>
 <body>
+
+<div class="banner-container">
+    <img src="30478.png" alt="Ingeniería de Arquitectura Sonora y Minería Emocional">
+</div>
 
 <div class="catalogo-header">
     Catálogo de Activos Musicales Digitales
