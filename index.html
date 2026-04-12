@@ -10,8 +10,20 @@
             color: #fff;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             display: flex;
-            justify-content: center;
+            flex-direction: column;
+            align-items: center;
             padding: 20px;
+        }
+
+        /* Estilo para el subtítulo del catálogo */
+        .catalogo-header {
+            color: #e5c07b; /* Color dorado claro para mayor visibilidad */
+            font-size: 0.9rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 30px;
+            text-align: center;
+            font-weight: 500;
         }
 
         .container {
@@ -43,14 +55,13 @@
             font-size: 1.1rem;
             font-weight: bold;
             color: #fff;
-            margin-bottom: 0; /* Eliminamos el margen inferior del título */
+            margin-bottom: 0;
         }
 
         .genre {
             color: #a8a8a8;
             font-size: 0.95rem;
-            /* Ajuste de espaciado: 8px suele ser el punto medio ideal */
-            margin-top: 8px; 
+            margin-top: 8px; /* Espaciado equilibrado */
             margin-bottom: 20px;
             display: block;
         }
@@ -69,6 +80,10 @@
     </style>
 </head>
 <body>
+
+<div class="catalogo-header">
+    Catálogo de Activos Musicales Digitales
+</div>
 
 <div class="container">
     <div class="grid">
@@ -95,6 +110,12 @@
             <div class="title">Midnight Sanctuary</div>
             <span class="genre">Folk Rock</span>
             <audio controls src="tu-archivo-4.mp3"></audio>
+        </div>
+
+        <div class="card">
+            <div class="title">Prisionero de tu Amor</div>
+            <span class="genre">Romántica</span>
+            <audio controls src="tu-archivo-5.mp3"></audio>
         </div>
 
     </div>
