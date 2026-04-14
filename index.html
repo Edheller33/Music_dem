@@ -565,8 +565,8 @@
   <p class="footer-copy">© Edgar Romero · Todos los derechos de cada canción pertenecen al comprador · Composiciones irrepetibles</p>
 </footer>
 
-<script>
-  // Intersection Observer for card reveal
+<<script>
+  // Animación de cards
   const cards = document.querySelectorAll('.song-card');
   const observer = new IntersectionObserver((entries) => {
     entries.forEach((entry, i) => {
@@ -578,8 +578,51 @@
       }
     });
   }, { threshold: 0.08 });
-
   cards.forEach(card => observer.observe(card));
-</script>
+
+  // Reproductor de audio
+  const songs = [
+    { btn: null, src: 'caliz_del_viento.mp3' },
+    { btn: null, src: 'fuego_en_la_niebla.mp3' },
+    { btn: null, src: 'mal_del_puerco.mp3' },
+    { btn: null, src: 'midnight_sanctuary.mp3' },
+    { btn: null, src: 'prisionero_de_tu_amor.mp3' }
+  ];
+
+  let currentAudio = null;
+
+  document.querySelectorAll('.player-btn').forEach((btn, i) => {
+    const audio = new Audio(songs[i].src);
+    songs[i].btn = btn;
+
+    btn.addEventListener('click', () => {
+      if (currentAudio && currentAudio !== audio) {
+        currentAudio.pause();
+        currentAudio.currentTime = 0;
+        document.querySelectorAll('.player-btn').forEach(b => b.innerHTML = playIcon());
+      }
+      if (audio.paused) {
+        audio.play();
+        btn.innerHTML = pauseIcon();
+        currentAudio = audio;
+      } else {
+        audio.pause();
+        btn.innerHTML = playIcon();
+      }
+    });
+
+    audio.addEventListener('ended', () => {
+      btn.innerHTML = playIcon();
+      currentAudio = null;
+    });
+  });
+
+  function playIcon() {
+    return `<svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>`;
+  }
+  function pauseIcon() {
+    return `<svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>`;
+  }
+</script>  
 </body>
 </html>
