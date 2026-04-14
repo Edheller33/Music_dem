@@ -1,91 +1,91 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fuego en la Niebla | Edgar Romero</title>
-    <style>
-        :root {
-            --oro-brillante: #f7e6b0;
-            --oro-profundo: #d4af37;
-            --oscuro: #020205;
-            --brillo-aura: rgba(212, 175, 55, 0.4);
-        }
-
-        body {
-            margin: 0;
-            background: radial-gradient(circle at center, rgba(50, 20, 100, 0.2) 0%, #020205 70%), var(--oscuro);
-            color: var(--oro-brillante);
-            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            text-align: center;
-            letter-spacing: 0.05em;
-        }
-
-        .tarjeta {
-            background: linear-gradient(160deg, rgba(20, 20, 30, 0.8) 0%, rgba(0, 0, 0, 0.95) 100%);
-            border: 2px solid var(--oro-profundo);
-            padding: 50px 30px;
-            border-radius: 25px;
-            width: 85%;
-            max-width: 420px;
-            box-shadow: 0 0 30px var(--brillo-aura);
-            backdrop-filter: blur(5px);
-            position: relative;
-        }
-
-        .tarjeta::before {
-            content: '';
-            position: absolute;
-            top: -2px; left: 50px; right: 50px; height: 2px;
-            background: linear-gradient(90deg, transparent, var(--oro-brillante), transparent);
-        }
-
-        h1 {
-            font-size: 1.6rem;
-            margin: 10px 0;
-            color: white;
-            text-transform: uppercase;
-            letter-spacing: 0.15em;
-        }
-
-        .eslogan {
-            color: var(--oro-profundo);
-            font-size: 0.9rem;
-            font-weight: 300;
-            margin-bottom: 40px;
-            text-transform: uppercase;
-        }
-
-        .contenedor-de-audio h3 {
-            color: var(--oro-brillante);
-            margin-bottom: 15px;
-            font-size: 1.1rem;
-        }
-
-        audio {
-            width: 100%;
-            outline: none;
-            border-radius: 50px;
-            filter: invert(100%) sepia(80%) saturate(600%) hue-rotate(340deg) brightness(100%) contrast(100%);
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Fuego en la Niebla — IA Music</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Lato:wght@300;400;700&display=swap');
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: #0a0a0a; color: #e8d9b0; font-family: 'Lato', sans-serif;
+      min-height: 100vh; display: flex; flex-direction: column;
+      align-items: center; padding: 30px 16px 50px;
+    }
+    .brand { font-family: 'Cinzel', serif; font-size: 0.75rem; letter-spacing: 0.25em; color: #b8973a; text-transform: uppercase; margin-bottom: 32px; text-align: center; }
+    .card { background: linear-gradient(160deg, #141414 0%, #1c1a14 100%); border: 1px solid #3a2e10; border-radius: 16px; max-width: 560px; width: 100%; overflow: hidden; box-shadow: 0 8px 40px rgba(0,0,0,0.7); }
+    .hero { background: linear-gradient(135deg, #1a1500 0%, #0d1a0d 50%, #0a0a14 100%); padding: 36px 28px 28px; text-align: center; border-bottom: 1px solid #2e2510; position: relative; }
+    .hero::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 0%, rgba(184,151,58,0.12) 0%, transparent 70%); pointer-events: none; }
+    .genre-badge { display: inline-block; background: rgba(184,151,58,0.15); border: 1px solid rgba(184,151,58,0.4); color: #c9a84c; font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase; padding: 4px 14px; border-radius: 20px; margin-bottom: 14px; font-family: 'Cinzel', serif; }
+    .song-title { font-family: 'Cinzel', serif; font-size: 2rem; font-weight: 700; color: #d4a843; line-height: 1.2; margin-bottom: 6px; text-shadow: 0 0 30px rgba(212,168,67,0.3); }
+    .song-subtitle { font-size: 0.85rem; color: #8a7a50; letter-spacing: 0.1em; font-style: italic; }
+    .player-wrap { padding: 24px 28px; border-bottom: 1px solid #2e2510; }
+    audio { width: 100%; height: 44px; border-radius: 8px; filter: sepia(40%) saturate(60%); }
+    .info-section { padding: 20px 28px; border-bottom: 1px solid #1e1a0a; }
+    .info-section:last-child { border-bottom: none; }
+    .section-label { font-family: 'Cinzel', serif; font-size: 0.65rem; letter-spacing: 0.3em; color: #b8973a; text-transform: uppercase; margin-bottom: 10px; display: flex; align-items: center; gap: 10px; }
+    .section-label::after { content: ''; flex: 1; height: 1px; background: linear-gradient(90deg, #3a2e10, transparent); }
+    .section-body { font-size: 0.95rem; line-height: 1.75; color: #c8b888; }
+    .tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px; }
+    .tag { background: rgba(184,151,58,0.1); border: 1px solid rgba(184,151,58,0.25); color: #c9a84c; font-size: 0.75rem; padding: 4px 12px; border-radius: 12px; letter-spacing: 0.05em; }
+    .emotion-list { display: flex; flex-wrap: wrap; gap: 8px; }
+    .emotion-chip { background: rgba(255,255,255,0.04); border: 1px solid #2e2a18; color: #d4c090; font-size: 0.8rem; padding: 5px 13px; border-radius: 20px; }
+    .back-link { margin-top: 28px; display: inline-flex; align-items: center; gap: 8px; color: #8a7a50; font-size: 0.8rem; text-decoration: none; letter-spacing: 0.1em; transition: color 0.2s; }
+    .back-link:hover { color: #c9a84c; }
+    .back-link::before { content: '←'; }
+    .footer-note { margin-top: 40px; font-size: 0.7rem; color: #4a4030; text-align: center; letter-spacing: 0.15em; text-transform: uppercase; }
+  </style>
 </head>
 <body>
-    <div class="tarjeta">
-        <h1>Edgar Romero</h1>
-        <p class="eslogan">Ingeniería Sonora y Minería Emocional</p> 
-        <div class="contenedor-de-audio">
-            <h3>Fuego en la Niebla</h3>
-            <audio controls autoplay>
-                <source src="fuego_en_la_niebla.mp3" type="audio/mpeg">
-                Tu navegador no soporta el elemento de audio.
-            </audio>
-        </div>
+  <p class="brand">Ingeniería de Arquitectura Sonora &amp; Minería Emocional</p>
+  <div class="card">
+    <div class="hero">
+      <div class="genre-badge">Reggae</div>
+      <h1 class="song-title">Fuego en la Niebla</h1>
+      <p class="song-subtitle">Composición Original — Activo Musical Digital</p>
     </div>
+    <div class="player-wrap">
+      <audio controls>
+        <source src="fuego_en_la_niebla.mp3" type="audio/mpeg">
+        Tu navegador no soporta el reproductor de audio.
+      </audio>
+    </div>
+    <div class="info-section">
+      <p class="section-label">Temática</p>
+      <p class="section-body">
+        La dualidad entre la pasión que arde y la incertidumbre que la envuelve. El fuego representa la 
+        convicción interna — ese núcleo de certeza que persiste incluso cuando el entorno es confuso y 
+        opaco como la niebla. Una declaración de resiliencia emocional: no es necesario ver con claridad 
+        el camino completo para seguir avanzando con fe y determinación.
+      </p>
+    </div>
+    <div class="info-section">
+      <p class="section-label">Estilo Musical</p>
+      <div class="tags">
+        <span class="tag">Reggae</span>
+        <span class="tag">Roots Reggae</span>
+        <span class="tag">Reggae Contemporáneo</span>
+      </div>
+    </div>
+    <div class="info-section">
+      <p class="section-label">Emoción</p>
+      <div class="emotion-list">
+        <span class="emotion-chip">Pasión</span>
+        <span class="emotion-chip">Persistencia</span>
+        <span class="emotion-chip">Fe interna</span>
+        <span class="emotion-chip">Calma activa</span>
+      </div>
+    </div>
+    <div class="info-section">
+      <p class="section-label">Instrumentación</p>
+      <p class="section-body">
+        Ritmo reggae característico con guitarra rítmica en contratiempo · Bajo prominente y melódico · 
+        Batería con énfasis en el tercer tiempo · Teclados o piano eléctrico con textura cálida · 
+        Voz principal con vibrato natural y coros de apoyo.
+      </p>
+    </div>
+  </div>
+  <a href="index.html" class="back-link">Volver al catálogo</a>
+  <p class="footer-note">Tu historia, nuestra ciencia · Emoción real al instante</p>
 </body>
 </html>
-
