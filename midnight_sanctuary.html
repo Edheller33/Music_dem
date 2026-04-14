@@ -1,71 +1,261 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Midnight Sanctuary - Edgar Romero</title>
-    <style>
-        body {
-            background-color: #000;
-            color: #fff;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-        }
-        .contenedor-reproductor {
-            border: 2px solid #c9a050;
-            border-radius: 25px;
-            padding: 50px 30px;
-            text-align: center;
-            width: 320px;
-            background: linear-gradient(145deg, #0f0f0f, #050505);
-            box-shadow: 0 0 20px rgba(201, 160, 80, 0.2);
-        }
-        .artista {
-            font-size: 26px;
-            font-weight: 800;
-            letter-spacing: 2px;
-            margin-bottom: 5px;
-            text-transform: uppercase;
-        }
-        .subtitulo {
-            color: #c9a050;
-            font-size: 11px;
-            font-weight: 300;
-            letter-spacing: 1.5px;
-            margin-bottom: 35px;
-            text-transform: uppercase;
-        }
-        .titulo-pista {
-            color: #fff;
-            font-size: 22px;
-            font-weight: 600;
-            margin-bottom: 25px;
-        }
-        audio {
-            width: 100%;
-            height: 40px;
-            border-radius: 20px;
-            filter: sepia(20%) saturate(70%) grayscale(1) contrast(90%) invert(100%);
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Midnight Sanctuary — IA Music</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Lato:wght@300;400;700&display=swap');
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: #0a0a0a;
+      color: #e8d9b0;
+      font-family: 'Lato', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 30px 16px 50px;
+    }
+
+    /* ── Header ── */
+    .brand {
+      font-family: 'Cinzel', serif;
+      font-size: 0.75rem;
+      letter-spacing: 0.25em;
+      color: #b8973a;
+      text-transform: uppercase;
+      margin-bottom: 32px;
+      text-align: center;
+    }
+
+    /* ── Card ── */
+    .card {
+      background: linear-gradient(160deg, #141414 0%, #1c1a14 100%);
+      border: 1px solid #3a2e10;
+      border-radius: 16px;
+      max-width: 560px;
+      width: 100%;
+      overflow: hidden;
+      box-shadow: 0 8px 40px rgba(0,0,0,0.7);
+    }
+
+    /* ── Hero ── */
+    .hero {
+      background: linear-gradient(135deg, #1a1500 0%, #0d1a0d 50%, #0a0a14 100%);
+      padding: 36px 28px 28px;
+      text-align: center;
+      border-bottom: 1px solid #2e2510;
+      position: relative;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at 50% 0%, rgba(184,151,58,0.12) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .genre-badge {
+      display: inline-block;
+      background: rgba(184,151,58,0.15);
+      border: 1px solid rgba(184,151,58,0.4);
+      color: #c9a84c;
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      padding: 4px 14px;
+      border-radius: 20px;
+      margin-bottom: 14px;
+      font-family: 'Cinzel', serif;
+    }
+    .song-title {
+      font-family: 'Cinzel', serif;
+      font-size: 2rem;
+      font-weight: 700;
+      color: #d4a843;
+      line-height: 1.2;
+      margin-bottom: 6px;
+      text-shadow: 0 0 30px rgba(212,168,67,0.3);
+    }
+    .song-subtitle {
+      font-size: 0.85rem;
+      color: #8a7a50;
+      letter-spacing: 0.1em;
+      font-style: italic;
+    }
+
+    /* ── Audio Player ── */
+    .player-wrap {
+      padding: 24px 28px;
+      border-bottom: 1px solid #2e2510;
+    }
+    audio {
+      width: 100%;
+      height: 44px;
+      border-radius: 8px;
+      filter: sepia(40%) saturate(60%);
+    }
+    audio::-webkit-media-controls-panel { background: #1c1a10; }
+
+    /* ── Info Sections ── */
+    .info-section {
+      padding: 20px 28px;
+      border-bottom: 1px solid #1e1a0a;
+    }
+    .info-section:last-child { border-bottom: none; }
+
+    .section-label {
+      font-family: 'Cinzel', serif;
+      font-size: 0.65rem;
+      letter-spacing: 0.3em;
+      color: #b8973a;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .section-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(90deg, #3a2e10, transparent);
+    }
+
+    .section-body {
+      font-size: 0.95rem;
+      line-height: 1.75;
+      color: #c8b888;
+    }
+
+    /* ── Tag pills ── */
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 4px;
+    }
+    .tag {
+      background: rgba(184,151,58,0.1);
+      border: 1px solid rgba(184,151,58,0.25);
+      color: #c9a84c;
+      font-size: 0.75rem;
+      padding: 4px 12px;
+      border-radius: 12px;
+      letter-spacing: 0.05em;
+    }
+
+    /* ── Emotion bar ── */
+    .emotion-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .emotion-chip {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid #2e2a18;
+      color: #d4c090;
+      font-size: 0.8rem;
+      padding: 5px 13px;
+      border-radius: 20px;
+    }
+
+    /* ── Back link ── */
+    .back-link {
+      margin-top: 28px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: #8a7a50;
+      font-size: 0.8rem;
+      text-decoration: none;
+      letter-spacing: 0.1em;
+      transition: color 0.2s;
+    }
+    .back-link:hover { color: #c9a84c; }
+    .back-link::before { content: '←'; }
+
+    /* ── Footer ── */
+    .footer-note {
+      margin-top: 40px;
+      font-size: 0.7rem;
+      color: #4a4030;
+      text-align: center;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+    }
+  </style>
 </head>
 <body>
 
-    <div class="contenedor-reproductor">
-        <div class="artista">Edgar Romero</div>
-        <div class="subtitulo">Ingeniería Sonora y Minería Emocional</div>
-        
-        <div class="titulo-pista">Midnight Sanctuary</div>
-        
-        <audio controls>
-            <source src="midnight_sanctuary.mp3" type="audio/mpeg">
-            Tu navegador no soporta la reproducción de audio.
-        </audio>
+  <p class="brand">Ingeniería de Arquitectura Sonora &amp; Minería Emocional</p>
+
+  <div class="card">
+
+    <!-- Hero -->
+    <div class="hero">
+      <div class="genre-badge">Gospel-Folk · Blues Espiritual</div>
+      <h1 class="song-title">Midnight Sanctuary</h1>
+      <p class="song-subtitle">Himno Moderno de Raíces</p>
     </div>
+
+    <!-- Player -->
+    <div class="player-wrap">
+      <audio controls>
+        <source src="midnight_sanctuary.mp3" type="audio/mpeg">
+        Tu navegador no soporta el reproductor de audio.
+      </audio>
+    </div>
+
+    <!-- Temática -->
+    <div class="info-section">
+      <p class="section-label">Temática</p>
+      <p class="section-body">
+        Búsqueda de paz y refugio espiritual en medio del caos moderno. La noche se convierte en un 
+        <em>santuario</em> sagrado donde encontrar claridad y conexión con lo trascendental — un espacio 
+        interior, no un edificio. Cada verso invita a soltar las cargas del día y encontrar serenidad 
+        en el silencio profundo.
+      </p>
+    </div>
+
+    <!-- Estilo musical -->
+    <div class="info-section">
+      <p class="section-label">Estilo Musical</p>
+      <div class="tags">
+        <span class="tag">Gospel-Folk</span>
+        <span class="tag">Blues Espiritual</span>
+        <span class="tag">Himno Moderno de Raíces</span>
+      </div>
+    </div>
+
+    <!-- Emoción -->
+    <div class="info-section">
+      <p class="section-label">Emoción</p>
+      <div class="emotion-list">
+        <span class="emotion-chip">Serenidad</span>
+        <span class="emotion-chip">Reverencia</span>
+        <span class="emotion-chip">Alivio</span>
+        <span class="emotion-chip">Esperanza</span>
+      </div>
+    </div>
+
+    <!-- Instrumentación -->
+    <div class="info-section">
+      <p class="section-label">Instrumentación</p>
+      <p class="section-body">
+        Órgano tipo Hammond como base cálida · Piano con acordes lentos y resonantes · Coros en 
+        llamada y respuesta estilo gospel · Pulso rítmico suave, casi como un latido · Barítono 
+        principal con textura y profundidad, respaldado por coro mixto.
+      </p>
+    </div>
+
+  </div><!-- /card -->
+
+  <a href="index.html" class="back-link">Volver al catálogo</a>
+
+  <p class="footer-note">Tu historia, nuestra ciencia · Emoción real al instante</p>
 
 </body>
 </html>
