@@ -1,139 +1,744 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ingeniería de Arquitectura Sonora</title>
-    <style>
-        body {
-            background-color: #000;
-            color: #fff;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            margin: 0;
-            padding: 20px;
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>IA Music — Ingeniería de Arquitectura Sonora</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500&family=Bebas+Neue&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --gold: #C9A84C;
+      --gold-light: #E8C97A;
+      --cream: #F5EDD6;
+      --dark: #0D0B08;
+      --dark2: #1A1710;
+      --dark3: #252218;
+      --rust: #8B3A1A;
+      --teal: #2A6B6E;
+      --text: #D6CCBA;
+    }
 
-        /* Contenedor de la Pancarta */
-        .banner-container {
-            text-align: center;
-            margin-bottom: 30px;
-        }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-        .banner-img {
-            max-width: 100%;
-            height: auto;
-            border-radius: 10px;
-        }
+    html { scroll-behavior: smooth; }
 
-        /* Texto de Activos Digitales - Color más claro */
-        .subtitulo-principal {
-            color: #e0c08d; /* Dorado más claro y sutil */
-            font-size: 14px;
-            font-weight: 300;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            text-align: center;
-            margin-bottom: 40px;
-        }
+    body {
+      background-color: var(--dark);
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 300;
+      overflow-x: hidden;
+    }
 
-        /* Rejilla de canciones */
-        .galeria-musical {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 25px;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
+    /* ── HERO / PORTADA ── */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 60px 24px 80px;
+      background:
+        radial-gradient(ellipse at 20% 20%, rgba(201,168,76,0.12) 0%, transparent 60%),
+        radial-gradient(ellipse at 80% 80%, rgba(42,107,110,0.10) 0%, transparent 60%),
+        var(--dark);
+      overflow: hidden;
+    }
 
-        /* Tarjeta de canción */
-        .tarjeta-cancion {
-            border: 1px solid #c9a050;
-            border-radius: 15px;
-            padding: 25px;
-            text-align: center;
-            background: linear-gradient(145deg, #0f0f0f, #050505);
-            transition: transform 0.3s ease;
-        }
+    /* Vintage grain overlay */
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+      background-size: 200px 200px;
+      opacity: 0.4;
+      pointer-events: none;
+    }
 
-        .tarjeta-cancion:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 5px 15px rgba(201, 160, 80, 0.2);
-        }
+    /* Decorative border lines */
+    .hero-frame {
+      position: absolute;
+      inset: 20px;
+      border: 1px solid rgba(201,168,76,0.18);
+      pointer-events: none;
+    }
+    .hero-frame::before, .hero-frame::after {
+      content: '';
+      position: absolute;
+      background: var(--gold);
+    }
+    .hero-frame::before {
+      top: -1px; left: 40px; right: 40px; height: 1px;
+      opacity: 0.5;
+    }
+    .hero-frame::after {
+      bottom: -1px; left: 40px; right: 40px; height: 1px;
+      opacity: 0.5;
+    }
 
-        .titulo-pista {
-            font-size: 18px;
-            font-weight: 600;
-            display: block;
-            margin-bottom: 4px; /* Espacio controlado con el género */
-        }
+    .hero-badge {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 0.85rem;
+      letter-spacing: 0.35em;
+      color: var(--gold);
+      margin-bottom: 24px;
+      opacity: 0.85;
+    }
 
-        .genero-pista {
-            color: #c9a050; /* Dorado estándar para el género */
-            font-size: 13px;
-            font-weight: 300;
-            text-transform: uppercase;
-            display: block;
-            margin-bottom: 15px; /* Espacio antes del reproductor */
-        }
+    .hero-poster {
+      position: relative;
+      width: 100%;
+      max-width: 540px;
+      margin: 0 auto 40px;
+    }
 
-        audio {
-            width: 100%;
-            height: 35px;
-            filter: sepia(20%) saturate(70%) grayscale(1) contrast(90%) invert(100%);
-        }
-    </style>
+    .hero-poster img {
+      width: 100%;
+      border-radius: 6px;
+      box-shadow:
+        0 0 0 1px rgba(201,168,76,0.25),
+        0 0 60px rgba(201,168,76,0.08),
+        0 32px 80px rgba(0,0,0,0.8);
+      animation: fadeUp 1s ease both;
+    }
+
+    /* Poster corner ornaments */
+    .corner {
+      position: absolute;
+      width: 24px; height: 24px;
+      border-color: var(--gold);
+      border-style: solid;
+      opacity: 0.6;
+    }
+    .corner-tl { top: -6px; left: -6px; border-width: 2px 0 0 2px; }
+    .corner-tr { top: -6px; right: -6px; border-width: 2px 2px 0 0; }
+    .corner-bl { bottom: -6px; left: -6px; border-width: 0 0 2px 2px; }
+    .corner-br { bottom: -6px; right: -6px; border-width: 0 2px 2px 0; }
+
+    .hero-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(2.4rem, 8vw, 4.5rem);
+      letter-spacing: 0.08em;
+      color: var(--cream);
+      line-height: 1;
+      margin-bottom: 12px;
+      animation: fadeUp 1s 0.2s ease both;
+    }
+
+    .hero-title span {
+      color: var(--gold);
+    }
+
+    .hero-sub {
+      font-size: 0.9rem;
+      letter-spacing: 0.2em;
+      color: var(--gold-light);
+      text-transform: uppercase;
+      margin-bottom: 16px;
+      opacity: 0.8;
+      animation: fadeUp 1s 0.35s ease both;
+    }
+
+    .hero-tagline {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: clamp(1rem, 2.5vw, 1.3rem);
+      color: var(--text);
+      opacity: 0.7;
+      max-width: 480px;
+      line-height: 1.6;
+      animation: fadeUp 1s 0.5s ease both;
+    }
+
+    .hero-divider {
+      width: 80px;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+      margin: 28px auto;
+      animation: fadeUp 1s 0.6s ease both;
+    }
+
+    .hero-stats {
+      display: flex;
+      gap: 48px;
+      justify-content: center;
+      flex-wrap: wrap;
+      animation: fadeUp 1s 0.7s ease both;
+    }
+
+    .stat {
+      text-align: center;
+    }
+    .stat-num {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2.4rem;
+      color: var(--gold);
+      line-height: 1;
+    }
+    .stat-label {
+      font-size: 0.7rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--text);
+      opacity: 0.5;
+      margin-top: 4px;
+    }
+
+    .scroll-hint {
+      position: absolute;
+      bottom: 28px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      opacity: 0.35;
+      animation: bounce 2s infinite;
+    }
+    .scroll-hint span { font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase; }
+    .scroll-hint svg { width: 16px; height: 16px; }
+
+    /* ── CATALOG SECTION ── */
+    .catalog {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 80px 24px 120px;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 64px;
+    }
+
+    .section-eyebrow {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 0.8rem;
+      letter-spacing: 0.4em;
+      color: var(--gold);
+      margin-bottom: 12px;
+      opacity: 0.7;
+    }
+
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.8rem, 5vw, 2.8rem);
+      color: var(--cream);
+      font-weight: 700;
+    }
+
+    /* ── SONG CARDS ── */
+    .songs-grid {
+      display: grid;
+      gap: 2px;
+    }
+
+    .song-card {
+      position: relative;
+      background: var(--dark2);
+      border: 1px solid rgba(201,168,76,0.08);
+      border-radius: 4px;
+      padding: 28px 32px;
+      display: grid;
+      grid-template-columns: 48px 1fr auto;
+      gap: 0 24px;
+      align-items: start;
+      transition: background 0.3s, border-color 0.3s;
+      cursor: default;
+    }
+
+    .song-card:hover {
+      background: var(--dark3);
+      border-color: rgba(201,168,76,0.22);
+    }
+
+    .song-card:hover .song-num {
+      color: var(--gold);
+    }
+
+    .song-num {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2rem;
+      color: rgba(201,168,76,0.2);
+      line-height: 1;
+      transition: color 0.3s;
+      padding-top: 4px;
+    }
+
+    .song-body { min-width: 0; }
+
+    .song-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.25rem;
+      color: var(--cream);
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+
+    .song-genre {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 0.72rem;
+      letter-spacing: 0.25em;
+      color: var(--gold);
+      margin-bottom: 14px;
+      opacity: 0.85;
+    }
+
+    .song-desc {
+      font-size: 0.9rem;
+      line-height: 1.7;
+      color: var(--text);
+      opacity: 0.75;
+      max-width: 620px;
+    }
+
+    .song-emotion {
+      font-size: 0.75rem;
+      letter-spacing: 0.05em;
+      color: var(--gold-light);
+      opacity: 0.5;
+      margin-top: 12px;
+      font-style: italic;
+    }
+
+    .song-player {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 8px;
+      padding-top: 4px;
+      min-width: 120px;
+    }
+
+    .player-btn {
+      width: 40px; height: 40px;
+      border-radius: 50%;
+      border: 1px solid rgba(201,168,76,0.3);
+      background: rgba(201,168,76,0.05);
+      color: var(--gold);
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer;
+      transition: all 0.2s;
+      flex-shrink: 0;
+    }
+    .player-btn:hover {
+      background: rgba(201,168,76,0.15);
+      border-color: var(--gold);
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 1px solid rgba(201,168,76,0.12);
+      padding: 40px 24px;
+      text-align: center;
+    }
+
+    .footer-logo {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.5rem;
+      letter-spacing: 0.15em;
+      color: var(--gold);
+      margin-bottom: 8px;
+    }
+
+    .footer-copy {
+      font-size: 0.75rem;
+      color: var(--text);
+      opacity: 0.3;
+      letter-spacing: 0.08em;
+    }
+
+    .quote-bar {
+      background: linear-gradient(90deg, transparent, rgba(201,168,76,0.08), transparent);
+      border-top: 1px solid rgba(201,168,76,0.1);
+      border-bottom: 1px solid rgba(201,168,76,0.1);
+      padding: 32px 24px;
+      text-align: center;
+      margin: 0 0 0;
+    }
+
+    .quote-text {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: clamp(1rem, 2.5vw, 1.3rem);
+      color: var(--cream);
+      opacity: 0.7;
+      max-width: 600px;
+      margin: 0 auto 8px;
+      line-height: 1.6;
+    }
+
+    .quote-author {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 0.75rem;
+      letter-spacing: 0.25em;
+      color: var(--gold);
+      opacity: 0.6;
+    }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateX(-50%) translateY(0); }
+      50%       { transform: translateX(-50%) translateY(6px); }
+    }
+
+    /* Staggered card reveal */
+    .song-card {
+      opacity: 0;
+      transform: translateY(16px);
+      transition: opacity 0.5s ease, transform 0.5s ease, background 0.3s, border-color 0.3s;
+    }
+    .song-card.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 600px) {
+      .song-card {
+        grid-template-columns: 36px 1fr;
+        padding: 20px 18px;
+      }
+      .song-player { display: none; }
+      .hero-stats { gap: 28px; }
+    }
+  </style>
 </head>
 <body>
 
-    <div class="banner-container">
-        <img src="pancarta_final.png" alt="Ingeniería de Arquitectura Sonora" class="banner-img">
+<!-- ══ HERO ══ -->
+<section class="hero">
+  <div class="hero-frame"></div>
+
+  <p class="hero-badge">◆ Activos Musicales Digitales · Edgar Romero ◆</p>
+
+  <div class="hero-poster">
+    <div class="corner corner-tl"></div>
+    <div class="corner corner-tr"></div>
+    <div class="corner corner-bl"></div>
+    <div class="corner corner-br"></div>
+    <img src="pancarta_final.png" alt="Ambicionar las grandes glorias mientras se aman las pequeñas alegrías — Pascal Bruckner" />
+  </div>
+
+  <h1 class="hero-title">IA <span>Music</span></h1>
+  <p class="hero-sub">Ingeniería de Arquitectura Sonora</p>
+
+  <div class="hero-divider"></div>
+
+  <p class="hero-tagline">Cada composición es irrepetible. Tu historia, nuestra ciencia. Emoción real al instante.</p>
+
+  <div class="hero-divider"></div>
+
+  <div class="hero-stats">
+    <div class="stat">
+      <div class="stat-num">15</div>
+      <div class="stat-label">Canciones Originales</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">8+</div>
+      <div class="stat-label">Géneros Musicales</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">IA</div>
+      <div class="stat-label">Composición Generativa</div>
+    </div>
+  </div>
+
+  <div class="scroll-hint">
+    <span>Explorar</span>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="M12 5v14M5 12l7 7 7-7"/>
+    </svg>
+  </div>
+</section>
+
+<!-- ── QUOTE BAR ── -->
+<div class="quote-bar">
+  <p class="quote-text">"Uno puede amar las pequeñas alegrías mientras se ambicionan las grandes glorias."</p>
+  <p class="quote-author">— Pascal Bruckner</p>
+</div>
+
+<!-- ══ CATALOG ══ -->
+<section class="catalog">
+  <div class="section-header">
+    <p class="section-eyebrow">◆ Catálogo Completo ◆</p>
+    <h2 class="section-title">Las Composiciones</h2>
+  </div>
+
+  <div class="songs-grid" id="songs">
+
+    <!-- 01 -->
+    <div class="song-card">
+      <div class="song-num">01</div>
+      <div class="song-body">
+        <h3 class="song-title">The Concrete Meadow</h3>
+        <p class="song-genre">Baroque Pop · Folk Rock Psicodélico · Harmony Vocal</p>
+        <p class="song-desc">Un himno de paz y protesta ante los conflictos bélicos del siglo XXI. La canción critica la guerra tecnológica —drones, algoritmos, desinformación— que arrasa ciudades como Kyiv y Járkov, mientras apela a la resistencia civil pacífica. Las voces masivas del coro evocan una multitud que se niega a rendirse ante el "prado de cemento" que construye la guerra.</p>
+        <p class="song-emotion">Urgente · Esperanzadora · Nostálgica</p>
+      </div>
+      <div class="song-player">
+        <button class="player-btn" aria-label="Reproducir">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+        </button>
+      </div>
     </div>
 
-    <div class="subtitulo-principal">Catálogo de Activos Musicales Digitales</div>
-
-    <div class="galeria-musical">
-
-        <div class="tarjeta-cancion">
-            <span class="titulo-pista">Cáliz del Viento</span>
-            <span class="genero-pista">Rock Instrumental</span>
-            <audio controls>
-                <source src="caliz_del_viento.mp3" type="audio/mpeg">
-            </audio>
-        </div>
-
-        <div class="tarjeta-cancion">
-            <span class="titulo-pista">Fuego en la Niebla</span>
-            <span class="genero-pista">Reggae</span>
-            <audio controls>
-                <source src="fuego_en_la_niebla.mp3" type="audio/mpeg">
-            </audio>
-        </div>
-
-        <div class="tarjeta-cancion">
-            <span class="titulo-pista">Mal del Puerco</span>
-            <span class="genero-pista">Cumbia</span>
-            <audio controls>
-                <source src="mal_del_puerco.mp3" type="audio/mpeg">
-            </audio>
-        </div>
-
-        <div class="tarjeta-cancion">
-            <span class="titulo-pista">Midnight Sanctuary</span>
-            <span class="genero-pista">Folk Rock</span>
-            <audio controls>
-                <source src="midnight_sanctuary.mp3" type="audio/mpeg">
-            </audio>
-        </div>
-
-        <div class="tarjeta-cancion">
-            <span class="titulo-pista">Prisionero de tu Amor</span>
-            <span class="genero-pista">Romántica</span>
-            <audio controls>
-                <source src="prisionero_de_tu_amor.mp3" type="audio/mpeg">
-            </audio>
-        </div>
-
+    <!-- 02 -->
+    <div class="song-card">
+      <div class="song-num">02</div>
+      <div class="song-body">
+        <h3 class="song-title">Silicon Canyon</h3>
+        <p class="song-genre">Indie Rock · Synth-Rock · Psicodelia Moderna</p>
+        <p class="song-desc">Un viaje sonoro por la tensión entre humanidad y tecnología digital. Evoca el espíritu contracultural del "Verano del Amor" de los años 60 para confrontarlo con la realidad actual: algoritmos, firewalls y máscaras digitales. En este cañón de silicio, el amor emerge como el único dato verdaderamente valioso en un mundo de simulación y señales vacías.</p>
+        <p class="song-emotion">Melancolía futurista · Nostalgia analógica · Asombro digital</p>
+      </div>
+      <div class="song-player">
+        <button class="player-btn" aria-label="Reproducir">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+        </button>
+      </div>
     </div>
 
+    <!-- 03 -->
+    <div class="song-card">
+      <div class="song-num">03</div>
+      <div class="song-body">
+        <h3 class="song-title">It Ain't Me</h3>
+        <p class="song-genre">Swamp Rock · Hard Rock Contemporáneo</p>
+        <p class="song-desc">Una canción de protesta de nuestro tiempo. Con la energía visceral del rock de pantanos, denuncia la desconexión total de las élites que se enriquecen con conflictos armados —drones, satélites, guerras remotas— mientras el ciudadano común paga las consecuencias con su vida. Una reinterpretación digital del clásico de Creedence Clearwater Revival, actualizada con rabia contemporánea.</p>
+        <p class="song-emotion">Indignación · Rebeldía · Desafío</p>
+      </div>
+      <div class="song-player">
+        <button class="player-btn" aria-label="Reproducir">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- 04 -->
+    <div class="song-card">
+      <div class="song-num">04</div>
+      <div class="song-body">
+        <h3 class="song-title">Dust on the Screen</h3>
+        <p class="song-genre">Swamp Rock · Roots Rock · Delta Blues</p>
+        <p class="song-desc">Una meditación sobre la alienación producida por la tecnología y la pérdida de conexión con el mundo natural. El polvo físico acumulado en la pantalla digital es la metáfora central: la imperfección humana —sudor, tierra, vida— que empaña la fría perfección de las interfaces digitales. La guitarra con overdrive valvular y el ritmo propulsivo del blues sureño crean una urgencia que las teclas plásticas nunca podrán reemplazar.</p>
+        <p class="song-emotion">Frustración orgánica · Rabia cansada · Alienación existencial</p>
+      </div>
+      <div class="song-player">
+        <button class="player-btn" aria-label="Reproducir">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- 05 -->
+    <div class="song-card">
+      <div class="song-num">05</div>
+      <div class="song-body">
+        <h3 class="song-title">Fade to Static</h3>
+        <p class="song-genre">Rock Psicodélico · Acid Rock · Proto-Punk Atmosférico</p>
+        <p class="song-desc">En un mundo saturado de pantallas, drones y máscaras digitales, el protagonista busca escapar hacia "la noche de terciopelo" —un espacio anterior al ruido tecnológico. El "Fade to Static" no es rendición: es un acto de liberación consciente, apagar la señal para recuperar la humanidad. Con guitarras de fuzz denso y una voz que evoca a Jim Morrison, la canción convierte el colapso digital en una declaración de libertad.</p>
+        <p class="song-emotion">Angustia cibernética · Rebelión visceral · Fatalismo desafiante</p>
+      </div>
+      <div class="song-player">
+        <button class="player-btn" aria-label="Reproducir">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- 06 -->
+    <div class="song-card">
+      <div class="song-num">06</div>
+      <div class="song-body">
+        <h3 class="song-title">Heirs of Fortune</h3>
+        <p class="song-genre">Southern Rock · Swamp Rock · Blues-Rock de los 60</p>
+        <p class="song-desc">Una declaración de identidad de los olvidados frente al privilegio heredado. Los "herederos de la fortuna" —los que dictan leyes, suben precios y venden humo desde sus yates digitales— se contraponen a quienes realmente "pagan la cuenta". Con guitarras de overdrive crujiente y coros que suenan a multitud de protesta, la canción es un himno de orgullo proletario que no pide permiso.</p>
+        <p class="song-emotion">Indignación desafiante · Orgullo proletario · Energía de mitin</p>
+      </div>
+      <div class="song-player">
+        <button class="player-btn" aria-label="Reproducir">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- 07 -->
+    <div class="song-card">
+      <div class="song-num">07</div>
+      <div class="song-body">
+        <h3 class="song-title">Rain on the Old Road</h3>
+        <p class="song-genre">Country-Rock · Blues-Rock Balada · Folk Tradicional</p>
+        <p class="song-desc">Un viaje de regreso al hogar —físico y emocional. La carretera vieja bajo la lluvia es la metáfora de dejar atrás un pasado turbulento y encontrar consuelo en lo conocido, en la tierra roja húmeda y el olor a pino. La voz barítono que crece del susurro al canto pleno conduce al oyente a través del mismo proceso interno: la paz no llega de golpe, llega kilómetro a kilómetro.</p>
+        <p class="song-emotion">Melancolía reconfortante · Esperanza · Alivio redentor</p>
+      </div>
+      <div class="song-player">
+        <button class="player-btn" aria-label="Reproducir">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- 08 -->
+    <div class="song-card">
+      <div class="song-num">08</div>
+      <div class="song-body">
+        <h3 class="song-title">River Keep Moving</h3>
+        <p class="song-genre">Pop-Rock Contemporáneo · Rock Alternativo · Folk-Rock</p>
+        <p class="song-desc">Una canción sobre la necesidad impostergable de soltar el pasado y seguir fluyendo. El río —que no se detiene ni pregunta si estás listo— se convierte en maestro de resiliencia. Desde la casa vacía que se abandona al amanecer hasta el cielo ancho de la carretera abierta, la canción acompaña ese momento bisagra en que dejar ir se convierte en el único acto de libertad disponible.</p>
+        <p class="song-emotion">Nostalgia melancólica · Determinación · Liberación catártica</p>
+      </div>
+      <div class="song-player">
+        <button class="player-btn" aria-label="Reproducir">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- 09 -->
+    <div class="song-card">
+      <div class="song-num">09</div>
+      <div class="song-body">
+        <h3 class="song-title">Mud on the Wheels</h3>
+        <p class="song-genre">Country-Rock · Americana · Roots Rock</p>
+        <p class="song-desc">El barro en las ruedas no frena al que sabe a dónde va. Una canción sobre la perseverancia frente a las dificultades del camino real y figurado: tormenta, grava profunda, colinas empinadas. El pulso constante de la batería imita el movimiento ininterrumpido de quien tiene promesas que cumplir, y la armónica con toque de blues añade la capa emocional de quien ha recorrido ese camino más de una vez.</p>
+        <p class="song-emotion">Determinación · Rudeza · Optimismo melancólico</p>
+      </div>
+      <div class="song-player">
+        <button class="player-btn" aria-label="Reproducir">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- 10 -->
+    <div class="song-card">
+      <div class="song-num">10</div>
+      <div class="song-body">
+        <h3 class="song-title">The Lucky One</h3>
+        <p class="song-genre">Folk-Pop · Country-Rock · Sunshine Americana</p>
+        <p class="song-desc">Una declaración de gratitud genuina: la suerte no está en el oro ni en las cartas que te reparten, sino en despertar junto a la persona correcta. La canción contrasta con delicadeza la vida material —las monedas contadas, el viento perseguido— con la riqueza emocional de una presencia que lo cambia todo. Es un himno de sol interior para los que encontraron su tesoro en una mano que sostiene la suya.</p>
+        <p class="song-emotion">Paz · Alegría genuina · Optimismo · Seguridad</p>
+      </div>
+      <div class="song-player">
+        <button class="player-btn" aria-label="Reproducir">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- 11 -->
+    <div class="song-card">
+      <div class="song-num">11</div>
+      <div class="song-body">
+        <h3 class="song-title">Rain on a Crooked Road</h3>
+        <p class="song-genre">Roots Rock · Americana · Swamp Rock Narrativo</p>
+        <p class="song-desc">Un viaje introspectivo por una carretera que no va en línea recta —igual que la vida. La lluvia no es el enemigo: lava el polvo del alma y da permiso para mirar hacia adelante sin el peso de lo que se dijo y no se debería haber dicho. La caja seca que marca cada paso como una marcha interior, y la reverberación espacial, crean la sensación de viajar solo por un paisaje que es también una mente en proceso de clarificarse.</p>
+        <p class="song-emotion">Soledad · Determinación · Calma reflexiva · Aceptación</p>
+      </div>
+      <div class="song-player">
+        <button class="player-btn" aria-label="Reproducir">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- 12 -->
+    <div class="song-card">
+      <div class="song-num">12</div>
+      <div class="song-body">
+        <h3 class="song-title">Smoke and River Mud</h3>
+        <p class="song-genre">Swamp Rock · Roots Rock · Delta Blues</p>
+        <p class="song-desc">Una oda a la identidad arraigada en la tierra y la herencia familiar. Nacido donde el agua se encuentra con el junco alto, el narrador lleva el río en las venas —literalmente. La vida en el delta no es romanticismo: es barro en las botas, catfish en la madrugada y la certeza de que ninguna fortuna externa puede reemplazar el espíritu que da el lugar de origen. "El delta llama y me siento bien."</p>
+        <p class="song-emotion">Orgullo · Aspereza · Fuerza telúrica · Conexión con la tierra</p>
+      </div>
+      <div class="song-player">
+        <button class="player-btn" aria-label="Reproducir">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- 13 -->
+    <div class="song-card">
+      <div class="song-num">13</div>
+      <div class="song-body">
+        <h3 class="song-title">Midnight Sanctuary</h3>
+        <p class="song-genre">Gospel-Folk · Blues Espiritual · Himno Moderno de Raíces</p>
+        <p class="song-desc">En el corazón del caos moderno existe un santuario: no de ladrillos, sino de silencio interior. La canción acompaña ese momento de la medianoche en que uno entra en la oscuridad no con miedo sino con alivio, porque ahí —entre el órgano cálido y los coros en llamada y respuesta— el alma puede finalmente decir su nombre. Una oración sin dogma, una misa sin iglesia.</p>
+        <p class="song-emotion">Serenidad · Reverencia · Alivio · Esperanza</p>
+      </div>
+      <div class="song-player">
+        <button class="player-btn" aria-label="Reproducir">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- 14 -->
+    <div class="song-card">
+      <div class="song-num">14</div>
+      <div class="song-body">
+        <h3 class="song-title">Mercury River</h3>
+        <p class="song-genre">Psicodelia Moderna · Neo-Psicodelia · Rock Espacial Alternativo</p>
+        <p class="song-desc">El río de mercurio no se puede tocar sin que cambie de forma —igual que la realidad y el tiempo cuando uno los observa de cerca. Una inmersión surrealista en la naturaleza fluida de la conciencia: lo sólido se licúa, los espejos muestran colores imposibles, el nombre propio se disuelve en la corriente plateada. La producción espacial en estéreo convierte cada escucha en una experiencia de desorientación controlada que es, paradójicamente, liberadora.</p>
+        <p class="song-emotion">Trance · Asombro · Desorientación controlada · Fascinación hipnótica</p>
+      </div>
+      <div class="song-player">
+        <button class="player-btn" aria-label="Reproducir">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- 15 -->
+    <div class="song-card">
+      <div class="song-num">15</div>
+      <div class="song-body">
+        <h3 class="song-title">Garden of Ash</h3>
+        <p class="song-genre">Gothic Folk · Dark Americana · Balada Sombría Minimalista</p>
+        <p class="song-desc">Donde antes había rosas rojas ahora hay cenizas. El jardín que floreció —una relación, una etapa, un yo anterior— quedó reducido a polvo después de las palabras amargas. La canción no busca redención fácil ni cierre luminoso: habita honestamente el duelo, camina entre los árboles esqueléticos y las fuentes rotas, y espera —tal vez— que algún día llueva sobre las cenizas. La guitarra de acero fría y el reverb vacío son el sonido exacto de lo que queda después de la destrucción emocional.</p>
+        <p class="song-emotion">Desesperanza · Duelo · Vacío · Profunda tristeza · Finalidad</p>
+      </div>
+      <div class="song-player">
+        <button class="player-btn" aria-label="Reproducir">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+        </button>
+      </div>
+    </div>
+
+  </div><!-- /songs-grid -->
+</section>
+
+<!-- ══ FOOTER ══ -->
+<footer>
+  <p class="footer-logo">IA MUSIC</p>
+  <p class="footer-copy">© Edgar Romero · Todos los derechos de cada canción pertenecen al comprador · Composiciones irrepetibles</p>
+</footer>
+
+<script>
+  // Intersection Observer for card reveal
+  const cards = document.querySelectorAll('.song-card');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => {
+          entry.target.classList.add('visible');
+        }, 60);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.08 });
+
+  cards.forEach(card => observer.observe(card));
+</script>
 </body>
 </html>
