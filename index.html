@@ -361,6 +361,40 @@ footer {
   letter-spacing: 0.08em;
 }
 
+.footer-clause {
+  max-width: 680px;
+  margin: 28px auto 28px;
+  padding: 24px 28px;
+  border: 1px solid rgba(201,168,76,0.15);
+  border-radius: 4px;
+  background: rgba(201,168,76,0.03);
+  text-align: left;
+}
+
+.footer-clause-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 0.78rem;
+  letter-spacing: 0.2em;
+  color: var(--gold);
+  margin-bottom: 14px;
+  text-align: center;
+}
+
+.footer-clause-body {
+  font-size: 0.8rem;
+  line-height: 1.75;
+  color: var(--text);
+  opacity: 0.55;
+  margin-bottom: 12px;
+}
+
+.footer-clause-body:last-child { margin-bottom: 0; }
+
+.footer-clause-body strong {
+  color: var(--gold-light);
+  font-weight: 500;
+}
+
 .quote-bar {
   background: linear-gradient(90deg, transparent, rgba(201,168,76,0.08), transparent);
   border-top: 1px solid rgba(201,168,76,0.1);
@@ -563,6 +597,24 @@ footer {
 <!-- ══ FOOTER ══ -->
 <footer>
   <p class="footer-logo">IA MUSIC</p>
+
+  <div class="footer-clause">
+    <p class="footer-clause-title">Cláusula de Propiedad y Uso &ndash; Licencia de Acceso Público</p>
+    <p class="footer-clause-body">
+      El presente activo musical ha sido generado mediante modelos de inteligencia artificial
+      bajo una modalidad de acceso gratuito. En cumplimiento con los términos de servicio de
+      la plataforma proveedora, se informa que la titularidad de los derechos patrimoniales y
+      comerciales puede estar restringida o pertenecer a la entidad desarrolladora del software.
+    </p>
+    <p class="footer-clause-body">
+      El usuario recibe una licencia de uso estrictamente <strong>personal y no lucrativa</strong>.
+      Queda prohibida la reventa, distribución comercial o registro de esta obra en plataformas
+      de monetización (streaming comercial, radio o publicidad). Se reconoce que la labor de
+      <strong>Edgar Romero</strong> se limita a la arquitectura sonora, curaduría técnica y
+      diseño del prompt emocional, sin garantizar la exclusividad legal de la obra.
+    </p>
+  </div>
+
   <p class="footer-copy">© Edgar Romero · Todos los derechos de cada canción pertenecen al comprador · Composiciones irrepetibles</p>
 </footer>
 
@@ -590,123 +642,52 @@ footer {
     { src: 'prisionero_de_tu_amor.mp3' }
   ];
 
-    ]; // Aquí termina tu lista de canciones
+  let currentAudio = null;
+  let currentBtn = null;
 
-</script>   
-  ]; // Fin de la lista de canciones
+  document.querySelectorAll('.player-btn').forEach((btn, i) => {
+    const audio = new Audio(songs[i].src);
 
-</script>
-
-<!--
-  ══════════════════════════════════════════════════════
-  FOOTER CORREGIDO — Reemplaza el <footer> actual en tu index.html
-  ══════════════════════════════════════════════════════
-  PROBLEMA ORIGINAL: Los placeholders [span_0](start_span)...(end_span)
-  del documento Word quedaron pegados como texto plano en el HTML.
-  SOLUCIÓN: Texto limpio, semántica correcta, diseño coherente con la web.
--->
-
-<footer style="
-  padding: 48px 24px 32px;
-  border-top: 1px solid rgba(201,168,76,0.15);
-  margin-top: 60px;
-  font-size: 0.82em;
-  color: #a89060;
-  font-family: inherit;
-  text-align: center;
-  max-width: 800px;
-  margin-left: auto;
-  margin-right: auto;
-">
-
-  <!-- Título de la cláusula -->
-  <strong style="
-    display: block;
-    color: #C9A84C;
-    letter-spacing: 0.12em;
-    font-size: 0.9em;
-    margin-bottom: 20px;
-    text-transform: uppercase;
-  ">
-    Cláusula de Propiedad y Uso &ndash; Licencia de Acceso Público
-  </strong>
-
-  <!-- Párrafo 1: Generación con IA y titularidad -->
-  <p style="margin: 0 0 14px; line-height: 1.7;">
-    El presente activo musical ha sido generado mediante modelos de inteligencia artificial
-    bajo una modalidad de acceso gratuito. En cumplimiento con los términos de servicio de
-    la plataforma proveedora, se informa que la titularidad de los derechos patrimoniales y
-    comerciales puede estar restringida o pertenecer a la entidad desarrolladora del software.
-  </p>
-
-  <!-- Párrafo 2: Licencia personal + prohibiciones + atribución -->
-  <p style="margin: 0 0 24px; line-height: 1.7;">
-    El usuario recibe una licencia de uso estrictamente <strong style="color:#C9A84C;">personal y no lucrativa</strong>.
-    Queda prohibida la reventa, distribución comercial o registro de esta obra en plataformas
-    de monetización (streaming comercial, radio o publicidad). Se reconoce que la labor de
-    <strong style="color:#C9A84C;">Edgar Romero</strong> se limita a la arquitectura sonora,
-    curaduría técnica y diseño del prompt emocional, sin garantizar la exclusividad legal de la obra.
-  </p>
-
-  <!-- Línea de copyright -->
-  <p style="
-    margin: 0;
-    font-size: 0.88em;
-    opacity: 0.6;
-    letter-spacing: 0.05em;
-  ">
-    &copy; Edgar Romero &middot; Todos los derechos de cada canción pertenecen al comprador &middot; Composiciones irrepetibles
-  </p>
-
-</footer>
-  
-<script>
-    let currentAudio = null;
-    let currentBtn = null;
-
-    document.querySelectorAll('.player-btn').forEach((btn, i) => {
-        const audio = new Audio(songs[i].src);
-
-        btn.addEventListener('click', () => {
-            if (currentAudio && currentAudio !== audio) {
-                currentAudio.pause();
-                currentAudio.currentTime = 0;
-                if (currentBtn) {
-                    currentBtn.classList.remove('playing');
-                    currentBtn.innerHTML = playIcon();
-                }
-            }
-
-            if (audio.paused) {
-                audio.play();
-                btn.innerHTML = pauseIcon();
-                btn.classList.add('playing');
-                currentAudio = audio;
-                currentBtn = btn;
-            } else {
-                audio.pause();
-                btn.innerHTML = playIcon();
-                btn.classList.remove('playing');
-                currentAudio = null;
-                currentBtn = null;
-            }
-        });
-
-        audio.addEventListener('ended', () => {
-            btn.innerHTML = playIcon();
-            btn.classList.remove('playing');
-            currentAudio = null;
-            currentBtn = null;
-        });
+    btn.addEventListener('click', () => {
+      if (currentAudio && currentAudio !== audio) {
+        currentAudio.pause();
+        currentAudio.currentTime = 0;
+        if (currentBtn) {
+          currentBtn.classList.remove('playing');
+          currentBtn.innerHTML = playIcon();
+        }
+      }
+      if (audio.paused) {
+        audio.play();
+        btn.innerHTML = pauseIcon();
+        btn.classList.add('playing');
+        currentAudio = audio;
+        currentBtn = btn;
+      } else {
+        audio.pause();
+        btn.innerHTML = playIcon();
+        btn.classList.remove('playing');
+        currentAudio = null;
+        currentBtn = null;
+      }
     });
 
-    function playIcon() {
-        return `<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>`;
-    }
+    audio.addEventListener('ended', () => {
+      btn.innerHTML = playIcon();
+      btn.classList.remove('playing');
+      currentAudio = null;
+      currentBtn = null;
+    });
+  });
 
-    function pauseIcon() {
-        return `<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>`;
-    }
+  function playIcon() {
+    return `<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>`;
+  }
+
+  function pauseIcon() {
+    return `<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>`;
+  }
 </script>
+
 </body>
 </html>
