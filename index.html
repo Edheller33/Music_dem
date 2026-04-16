@@ -592,71 +592,72 @@ footer {
 
     ]; // Aquí termina tu lista de canciones
 
-</script> 
-  
-  <footer style="padding: 40px 24px; border-top: 1px solid rgba(201,168,76,0.12); margin-top: 50px; font-size: 0.85em; color: #D6CCBA; line-height: 1.6; font-family: 'DM Sans', sans-serif; text-align: center; background: rgba(20, 18, 13, 0.95);">
+</script>   
+  ]; // Fin de la lista de canciones
+
+</script>
+
+<footer style="padding: 40px 24px; border-top: 1px solid rgba(201,168,76,0.12); margin-top: 50px; font-size: 0.85em; color: #D6CCBA; line-height: 1.6; font-family: 'DM Sans', sans-serif; text-align: center; background: rgba(20, 18, 13, 0.95);">
     <div style="max-width: 800px; margin: 0 auto; opacity: 0.8;">
         <strong style="color: #C9A84C; letter-spacing: 0.1em;">CLÁUSULA DE PROPIEDAD Y USO – LICENCIA DE ACCESO PÚBLICO:</strong>
         <p style="margin-top: 15px;">
-            [span_0](start_span)El presente activo musical ha sido generado mediante modelos de inteligencia artificial bajo una modalidad de acceso gratuito.[span_0](end_span) 
-            [span_1](start_span)En cumplimiento con los términos de servicio de la plataforma proveedora, se informa que la titularidad de los derechos patrimoniales y comerciales puede estar restringida o pertenecer a la entidad desarrolladora del software.[span_1](end_span)
+            [span_1](start_span)El presente activo musical ha sido generado mediante modelos de inteligencia artificial bajo una modalidad de acceso gratuito[span_1](end_span). 
+            [span_2](start_span)En cumplimiento con los términos de servicio de la plataforma proveedora, se informa que la titularidad de los derechos patrimoniales y comerciales puede estar restringida o pertenecer a la entidad desarrolladora del software[span_2](end_span).
         </p>
         <p style="margin-top: 10px;">
-            [span_2](start_span)El usuario recibe una licencia de uso estrictamente <strong>personal y no lucrativa</strong>.[span_2](end_span) 
-            [span_3](start_span)Queda prohibida la reventa, distribución comercial o registro de esta obra en plataformas de monetización (streaming comercial, radio o publicidad).[span_3](end_span) 
-            [span_4](start_span)Se reconoce que la labor de <strong>Edgar Romero</strong> se limita a la arquitectura sonora, curaduría técnica y diseño del prompt emocional, sin garantizar la exclusividad legal de la obra.[span_4](end_span)
+            [span_3](start_span)El usuario recibe una licencia de uso estrictamente <strong>personal y no lucrativa</strong>[span_3](end_span). 
+            [span_4](start_span)Queda prohibida la reventa, distribución comercial o registro de esta obra en plataformas de monetización, reconociendo que la labor de <strong>Edgar Romero</strong> se limita a la arquitectura sonora, curaduría técnica y diseño del prompt emocional[span_4](end_span).
         </p>
     </div>
 </footer>
-<script> let currentAudio = null;
+
+<script>
+    let currentAudio = null;
     let currentBtn = null;
 
-  let currentAudio = null;
-  let currentBtn = null;
+    document.querySelectorAll('.player-btn').forEach((btn, i) => {
+        const audio = new Audio(songs[i].src);
 
-  document.querySelectorAll('.player-btn').forEach((btn, i) => {
-    const audio = new Audio(songs[i].src);
+        btn.addEventListener('click', () => {
+            if (currentAudio && currentAudio !== audio) {
+                currentAudio.pause();
+                currentAudio.currentTime = 0;
+                if (currentBtn) {
+                    currentBtn.classList.remove('playing');
+                    currentBtn.innerHTML = playIcon();
+                }
+            }
 
-    btn.addEventListener('click', () => {
-      if (currentAudio && currentAudio !== audio) {
-        currentAudio.pause();
-        currentAudio.currentTime = 0;
-        if (currentBtn) {
-          currentBtn.classList.remove('playing');
-          currentBtn.innerHTML = playIcon();
-        }
-      }
-      if (audio.paused) {
-        audio.play();
-        btn.innerHTML = pauseIcon();
-        btn.classList.add('playing');
-        currentAudio = audio;
-        currentBtn = btn;
-      } else {
-        audio.pause();
-        btn.innerHTML = playIcon();
-        btn.classList.remove('playing');
-        currentAudio = null;
-        currentBtn = null;
-      }
+            if (audio.paused) {
+                audio.play();
+                btn.innerHTML = pauseIcon();
+                btn.classList.add('playing');
+                currentAudio = audio;
+                currentBtn = btn;
+            } else {
+                audio.pause();
+                btn.innerHTML = playIcon();
+                btn.classList.remove('playing');
+                currentAudio = null;
+                currentBtn = null;
+            }
+        });
+
+        audio.addEventListener('ended', () => {
+            btn.innerHTML = playIcon();
+            btn.classList.remove('playing');
+            currentAudio = null;
+            currentBtn = null;
+        });
     });
 
-    audio.addEventListener('ended', () => {
-      btn.innerHTML = playIcon();
-      btn.classList.remove('playing');
-      currentAudio = null;
-      currentBtn = null;
-    });
-  });
+    function playIcon() {
+        return `<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>`;
+    }
 
-  function playIcon() {
-    return `<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>`;
-  }
-
-  function pauseIcon() {
-    return `<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>`;
-  }
+    function pauseIcon() {
+        return `<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>`;
+    }
 </script>
-
 </body>
 </html>
