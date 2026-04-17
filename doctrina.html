@@ -1,1 +1,224 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Doctrina de Cristal — IA Music · Edgar Romero</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet" />
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  background: #0a0a0a;
+  font-family: 'Lato', sans-serif;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: #c8b888;
+}
+.brand {
+  font-family: 'Cinzel', serif;
+  font-size: 0.75rem;
+  letter-spacing: 0.25em;
+  color: #b8973a;
+  text-transform: uppercase;
+  padding: 28px 24px 0;
+  text-align: center;
+}
+.card {
+  background: linear-gradient(160deg, #1a1a1a 0%, #141414 60%, #1c1a14 100%);
+  border: 1px solid #3a2e10;
+  border-radius: 16px;
+  margin: 28px 16px;
+  padding: 36px 28px 28px;
+  max-width: 480px;
+  width: 100%;
+}
+.hero {
+  background: radial-gradient(ellipse at 50% 0%, rgba(184,151,58,0.18) 0%, transparent 70%);
+  padding: 36px 28px 28px;
+  text-align: center;
+}
+.genre-badge {
+  display: inline-block;
+  background: rgba(184,151,58,0.15);
+  border: 1px solid rgba(184,151,58,0.4);
+  color: #c9a84c;
+  font-size: 0.7rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  padding: 5px 14px;
+  border-radius: 20px;
+  margin-bottom: 18px;
+}
+.song-title {
+  font-family: 'Cinzel', serif;
+  font-size: 2rem;
+  font-weight: 700;
+  color: #f0e6c8;
+  line-height: 1.2;
+  margin-bottom: 6px;
+}
+.song-subtitle {
+  font-size: 0.82rem;
+  color: #8a7a50;
+  letter-spacing: 0.1em;
+  font-style: italic;
+}
+.hero::before {
+  content: '';
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #3a2e10, transparent);
+  display: block;
+  margin-bottom: 28px;
+}
+.player-wrap {
+  padding: 24px 28px;
+  border-bottom: 1px solid #1e1a0a;
+}
+audio {
+  width: 100%;
+  height: 44px;
+  border-radius: 8px;
+  filter: sepia(40%) saturate(60%);
+}
+.info-section {
+  padding: 20px 28px;
+  border-bottom: 1px solid #1e1a0a;
+}
+.info-section:last-child { border-bottom: none; }
+.section-label {
+  font-family: 'Cinzel', serif;
+  font-size: 0.65rem;
+  letter-spacing: 0.3em;
+  color: #b8973a;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+.section-label::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, #3a2e10, transparent);
+  display: inline-block;
+  width: 60px;
+  margin-left: 10px;
+  vertical-align: middle;
+}
+.section-body {
+  font-size: 0.95rem;
+  line-height: 1.75;
+  color: #c8b888;
+}
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 4px;
+}
+.tag {
+  background: rgba(184,151,58,0.1);
+  border: 1px solid rgba(184,151,58,0.25);
+  color: #c9a84c;
+  font-size: 0.75rem;
+  padding: 4px 12px;
+  border-radius: 20px;
+  letter-spacing: 0.05em;
+}
+.emotion-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.emotion-chip {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid #2e2a18;
+  color: #d4c090;
+  font-size: 0.8rem;
+  padding: 6px 14px;
+  border-radius: 20px;
+}
+.back-link {
+  margin: 28px 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: #8a7a50;
+  font-size: 0.8rem;
+  text-decoration: none;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+.back-link::before { content: '←'; }
+.back-link:hover { color: #c9a84c; }
+.footer-note {
+  margin-top: 40px;
+  font-size: 0.7rem;
+  color: #4a4030;
+  text-align: center;
+  letter-spacing: 0.15em;
+  padding: 0 24px 32px;
+  max-width: 480px;
+  line-height: 1.7;
+}
+</style>
+</head>
+<body>
+
+<p class="brand">Ingeniería de Arquitectura Sonora &amp; Minería Emocional</p>
+
+<div class="card">
+  <div class="hero">
+    <div class="genre-badge">Hip-Hop · Conscious Rap · Boombap</div>
+    <h1 class="song-title">Doctrina de Cristal</h1>
+    <p class="song-subtitle">Composición Original — Activo Musical Digital</p>
+  </div>
+
+  <div class="player-wrap">
+    <audio controls>
+      <source src="doctrina_de_cristal.mp3" type="audio/mpeg">
+      Tu navegador no soporta el reproductor de audio.
+    </audio>
+  </div>
+
+  <div class="info-section">
+    <p class="section-label">Temática</p>
+    <p class="section-body">
+      Un manifiesto contra la hipocresía y el extremismo de la cultura de la cancelación.
+      El autor se posiciona como un observador que busca la verdad cruda frente a la mentira cómoda,
+      denunciando la pérdida de la libertad de expresión y el matiz en el entorno digital y social.
+      La producción prioriza la claridad del mensaje sobre la complejidad melódica.
+    </p>
+  </div>
+
+  <div class="info-section">
+    <p class="section-label">Estilo Musical</p>
+    <div class="tags">
+      <span class="tag">Hip-Hop Clásico</span>
+      <span class="tag">Boombap</span>
+      <span class="tag">Conscious Rap</span>
+      <span class="tag">Oratoria Urbana</span>
+    </div>
+  </div>
+
+  <div class="info-section">
+    <p class="section-label">Emoción</p>
+    <div class="emotion-list">
+      <span class="emotion-chip">Confrontación</span>
+      <span class="emotion-chip">Asertividad</span>
+      <span class="emotion-chip">Reflexión Crítica</span>
+      <span class="emotion-chip">Indignación</span>
+    </div>
+  </div>
+</div>
+
+<a class="back-link" href="index.html">Volver al catálogo</a>
+
+<p class="footer-note">
+  © Edgar Romero · Activo musical generado con IA · Licencia de uso personal y no lucrativa ·
+  Queda prohibida su distribución comercial o registro en plataformas de monetización.
+</p>
+
+</body>
+</html>
 
