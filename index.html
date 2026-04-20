@@ -603,7 +603,7 @@ footer {
     <!-- 05 -->
     <div class="song-card">
       <div class="song-num">05</div>
-      <div class="song-body<">
+      <div class="song-body">
         <h3 class="song-title">Prisionero de tu amor</h3>
         <p class="song-genre">Pop Romántico · Balada Latina · Lírica de Claudicación</p>
         <p class="song-desc">Donde antes había rosas rojas ahora hay cenizas. El jardín que floreció —una relación, una etapa, un yo anterior— quedó reducido a polvo después de las palabras amargas. La canción no busca redención fácil ni cierre luminoso: habita honestamente el duelo, camina entre los árboles esqueléticos y las fuentes rotas, y espera —tal vez— que algún día llueva sobre las cenizas. La guitarra de acero fría y el reverb vacío son el sonido exacto de lo que queda después de la destrucción emocional.</p>
@@ -635,7 +635,7 @@ footer {
     <!-- 07 -->
     <div class="song-card">
       <div class="song-num">07</div>
-      <div class="song-body<">
+      <div class="song-body">
         <h3 class="song-title">Doctrina de Cristal</h3>
         <p class="song-genre">Hip-Hop clásico (Boombap), Conscious Rap y elementos de oratoria urbana</p>
         <p class="song-desc">Es un manifiesto contra la hipocresía y el extremismo de la cultura WOKE también llamada "cultura de la cancelación", la "superioridad moral" y la polarización ideológica. El autor se posiciona como un observador que busca la "verdad cruda" frente a la "mentira cómoda", denunciando lo que percibe como una pérdida de la libertad de expresión en el entorno digital y social</p>
@@ -651,7 +651,7 @@ footer {
     <!-- 08 -->
     <div class="song-card">
       <div class="song-num">08</div>
-      <div class="song-body<">
+      <div class="song-body">
         <h3 class="song-title">Visto en Azul</h3>
         <p class="song-genre">Urban Pop, Reggaetón melódico y destellos de R&B latino</p>
         <p class="song-desc">La letra explora el impacto psicológico de la comunicación asincrónica (el "doble check azul", las fotos de perfil, el brillo del iPhone). Describe una relación donde la validación depende de la interfaz tecnológica, generando un ciclo de euforia (el audio que sana) y dolor (el visto)</p>
@@ -667,7 +667,7 @@ footer {
        <!-- 09 -->
     <div class="song-card">
       <div class="song-num">09</div>
-      <div class="song-body<">
+      <div class="song-body">
         <h3 class="song-title">Aunque me duela el alma</h3>
         <p class="song-genre">Género Primario: Regional Mexicano / Balada Ranchera.
                               Estilo: Mariachi Contemporáneo con Fusión Adulto Contemporáneo (AC)</p>
@@ -687,7 +687,7 @@ footer {
        <!-- 10 -->
     <div class="song-card">
       <div class="song-num">10</div>
-      <div class="song-body<">
+      <div class="song-body">
         <h3 class="song-title">Cicatriz de Seda</h3>
         <p class="song-genre">Pop-Rock / Balada Rock. Estilo: Power Ballad Contemporánea.</p>
         <p class="song-desc">Esta obra analiza la marca imborrable de un amor complejo a través de una narrativa de madurez emocional. El eje central presenta al dolor como un proceso de "diseño" y aprendizaje, donde la protagonista se asume como alumna de una lección estéticamente profunda. Tras la ruptura, la identidad se reconstruye en una soledad necesaria para la sanación, declarando este aislamiento como el nuevo "dueño de su piel". La dualidad del título simboliza un recuerdo suave como la seda, pero permanente como una cicatriz, sustituyendo el odio por una aceptación melancólica. Además, la canción establece una soberanía emocional única al distanciarse de figuras culturales del desamor, rechazando la victimización convencional. En conjunto, es un himno a la fortaleza que honra la herida sin perder la dignidad. Es el equilibrio perfecto entre la vulnerabilidad del pasado y el empoderamiento del presente.</p>
@@ -742,15 +742,18 @@ footer {
   }, { threshold: 0.08 });
   cards.forEach(card => observer.observe(card));
 
-  // Reproductor de audio
+  // Reproductor de audio — 10 canciones en orden de aparición
   const songs = [
-    { src: 'caliz_del_viento.mp3' },
-    { src: 'fuego_en_la_niebla.mp3' },
-    { src: 'mal_del_puerco.mp3' },
-    { src: 'midnight_sanctuary.mp3' },
-    { src: 'prisionero_de_tu_amor.mp3' },
-    { src: 'pureza.mp3' },
-    { src: 'aunque_me_duela_el_alma.mp3' },
+    { src: 'caliz_del_viento.mp3' },          // 01
+    { src: 'fuego_en_la_niebla.mp3' },         // 02
+    { src: 'mal_del_puerco.mp3' },             // 03
+    { src: 'midnight_sanctuary.mp3' },          // 04
+    { src: 'prisionero_de_tu_amor.mp3' },       // 05
+    { src: 'pureza.mp3' },                      // 06 Manual de Pureza
+    { src: 'doctrina_de_cristal.mp3' },         // 07
+    { src: 'visto_en_azul.mp3' },               // 08
+    { src: 'aunque_me_duela_el_alma.mp3' },     // 09
+    { src: 'cicatriz_de_seda.mp3' },            // 10
   ];
 
   let currentAudio = null;
