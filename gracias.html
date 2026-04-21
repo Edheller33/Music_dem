@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Recibido — EAMD · Arquitectura Sonora</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500&family=Bebas+Neue&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --gold: #C9A84C;
+    --gold-light: #E8C97A;
+    --dark: #0D0B08;
+    --dark2: #1A1710;
+    --text: #D6CCBA;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background-color: var(--dark);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 24px;
+    background:
+      radial-gradient(ellipse at 50% 30%, rgba(201,168,76,0.14) 0%, transparent 65%),
+      var(--dark);
+  }
+  .card {
+    max-width: 520px;
+    width: 100%;
+    text-align: center;
+    border: 1px solid rgba(201,168,76,0.22);
+    padding: 60px 40px;
+    position: relative;
+  }
+  .card::before, .card::after {
+    content: '';
+    position: absolute;
+    background: var(--gold);
+    opacity: 0.5;
+    height: 1px;
+    left: 40px; right: 40px;
+  }
+  .card::before { top: -1px; }
+  .card::after  { bottom: -1px; }
+  .icon {
+    font-size: 2.8rem;
+    color: var(--gold);
+    margin-bottom: 28px;
+    display: block;
+  }
+  .eyebrow {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 0.75rem;
+    letter-spacing: 0.22em;
+    color: var(--gold);
+    margin-bottom: 16px;
+  }
+  h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.8rem, 5vw, 2.6rem);
+    font-weight: 700;
+    color: #F5EDD6;
+    line-height: 1.2;
+    margin-bottom: 24px;
+  }
+  p {
+    font-size: 1rem;
+    line-height: 1.75;
+    color: var(--text);
+    margin-bottom: 16px;
+  }
+  .divider {
+    width: 48px;
+    height: 1px;
+    background: var(--gold);
+    opacity: 0.4;
+    margin: 32px auto;
+  }
+  .btn {
+    display: inline-block;
+    margin-top: 12px;
+    padding: 14px 36px;
+    border: 1px solid var(--gold);
+    color: var(--gold);
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 0.9rem;
+    letter-spacing: 0.18em;
+    text-decoration: none;
+    transition: background 0.2s, color 0.2s;
+  }
+  .btn:hover {
+    background: var(--gold);
+    color: var(--dark);
+  }
+</style>
+</head>
+<body>
+  <div class="card">
+    <span class="icon">✦</span>
+    <p class="eyebrow">EAMD · Arquitectura Sonora</p>
+    <h1>Recibido.<br>Gracias.</h1>
+    <p>Tu cuestionario ha llegado a manos de <strong style="color:#E8C97A;">EAMD</strong>.</p>
+    <p>Revisaremos cada detalle de tu historia, construiremos el prompt emocional y sonoro, y te contactaremos por el medio que indicaste.</p>
+    <div class="divider"></div>
+    <p style="font-style:italic; color:#9A9080;">Tu historia merece una canción única.</p>
+    <a class="btn" href="https://edheller33.github.io/Music_dem/">← Volver al inicio</a>
+  </div>
+</body>
+</html>
