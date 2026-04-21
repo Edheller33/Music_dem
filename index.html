@@ -1028,7 +1028,12 @@ footer {
     </div>
   </div>
 
-  <form id="song-form" novalidate>
+  <form id="song-form" action="https://formsubmit.co/hiperdrive8833@gmail.com" method="POST">
+    <!-- Configuración FormSubmit -->
+    <input type="hidden" name="_subject" value="✦ Nuevo Cuestionario — Canción Personalizada EAMD">
+    <input type="hidden" name="_template" value="table">
+    <input type="hidden" name="_captcha" value="false">
+    <input type="hidden" name="_next" value="https://edheller33.github.io/Music_dem/gracias.html">
 
     <!-- BLOQUE 1 -->
     <div class="form-block" data-block="1">
@@ -1340,17 +1345,29 @@ footer {
     formBlocks.forEach(function(b) { b.classList.add('visible'); });
   }
 
-  // Submit
+  // Submit — validación básica antes de enviar a FormSubmit
   document.getElementById('song-form').addEventListener('submit', function(e) {
-    e.preventDefault();
-    var data = new FormData(this);
-    var lines = [];
-    data.forEach(function(value, key) {
-      if (value && value.toString().trim()) lines.push(key.toUpperCase() + ': ' + value);
-    });
-    var subject = encodeURIComponent('Cuestionario Canción Personalizada — EAMD');
-    var body = encodeURIComponent(lines.join('\n\n'));
-    window.location.href = 'mailto:hiperdrive8833@gmail.com?subject=' + subject + '&body=' + body;
+    var historia = document.getElementById('historia');
+    var nombre   = document.getElementById('nombre');
+    var contacto = document.getElementById('contacto');
+    var dedicatoria = document.querySelector('input[name="dedicatoria"]:checked');
+    var genero      = document.querySelector('input[name="genero"]:checked');
+    var animo       = document.querySelector('input[name="animo"]:checked');
+
+    var faltantes = [];
+    if (!dedicatoria)                         faltantes.push('¿A quién va dedicada la canción?');
+    if (!historia || !historia.value.trim())  faltantes.push('La historia detrás');
+    if (!genero)                              faltantes.push('Género musical preferido');
+    if (!animo)                               faltantes.push('Estado de ánimo de la música');
+    if (!nombre   || !nombre.value.trim())    faltantes.push('Tu nombre completo');
+    if (!contacto || !contacto.value.trim())  faltantes.push('WhatsApp o correo de contacto');
+
+    if (faltantes.length > 0) {
+      e.preventDefault();
+      alert('Por favor completa los siguientes campos antes de enviar:\n\n• ' + faltantes.join('\n• '));
+      return;
+    }
+    // Si pasa la validación, el formulario se envía normalmente a FormSubmit
   });
 </script>
 
