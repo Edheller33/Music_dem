@@ -311,7 +311,6 @@ body {
   min-width: 60px;
 }
 
-/* ── BOTÓN PLAY — tamaño móvil ── */
 .player-btn {
   width: 56px;
   height: 56px;
@@ -434,7 +433,6 @@ footer {
   50%       { transform: translateX(-50%) translateY(6px); }
 }
 
-/* Staggered card reveal */
 .song-card {
   opacity: 0;
   transform: translateY(16px);
@@ -454,6 +452,335 @@ footer {
   }
   .hero-stats { gap: 28px; }
 }
+
+/* ══════════════════════════════════════
+   CUESTIONARIO — ESTILOS
+   ══════════════════════════════════════ */
+
+.form-intro-bar {
+  background: linear-gradient(90deg, transparent, rgba(201,168,76,0.06), transparent);
+  border-top: 1px solid rgba(201,168,76,0.1);
+  border-bottom: 1px solid rgba(201,168,76,0.1);
+  padding: 40px 24px;
+  text-align: center;
+}
+
+.form-intro-eyebrow {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 0.78rem;
+  letter-spacing: 0.4em;
+  color: var(--gold);
+  opacity: 0.7;
+  margin-bottom: 14px;
+}
+
+.form-intro-text {
+  font-family: 'Playfair Display', serif;
+  font-style: italic;
+  font-size: clamp(1rem, 2.5vw, 1.3rem);
+  color: var(--cream);
+  opacity: 0.7;
+  max-width: 560px;
+  margin: 0 auto;
+  line-height: 1.65;
+}
+
+.cuestionario {
+  max-width: 780px;
+  margin: 0 auto;
+  padding: 80px 24px 100px;
+}
+
+.cuestionario .section-header { margin-bottom: 56px; }
+
+.form-block {
+  margin-bottom: 40px;
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.form-block.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.form-block-header {
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+  margin-bottom: 18px;
+  border-bottom: 1px solid rgba(201,168,76,0.1);
+  padding-bottom: 10px;
+}
+
+.form-block-num {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.6rem;
+  color: rgba(201,168,76,0.25);
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.form-block-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1rem;
+  letter-spacing: 0.22em;
+  color: var(--gold);
+}
+
+.form-block-sub {
+  font-size: 0.78rem;
+  color: var(--text);
+  opacity: 0.45;
+  font-style: italic;
+  margin-left: auto;
+}
+
+.form-field { margin-bottom: 22px; }
+
+.form-label {
+  display: block;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 0.72rem;
+  letter-spacing: 0.25em;
+  color: var(--gold-light);
+  opacity: 0.75;
+  margin-bottom: 8px;
+}
+
+.form-hint {
+  font-size: 0.75rem;
+  color: var(--text);
+  opacity: 0.35;
+  font-style: italic;
+  margin-bottom: 8px;
+  line-height: 1.5;
+  display: block;
+}
+
+.form-input,
+.form-textarea {
+  width: 100%;
+  background: rgba(201,168,76,0.03);
+  border: 1px solid rgba(201,168,76,0.15);
+  border-radius: 3px;
+  color: var(--cream);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 300;
+  padding: 12px 16px;
+  outline: none;
+  transition: border-color 0.25s, background 0.25s;
+}
+
+.form-input:focus,
+.form-textarea:focus {
+  border-color: rgba(201,168,76,0.5);
+  background: rgba(201,168,76,0.06);
+}
+
+.form-input::placeholder,
+.form-textarea::placeholder {
+  color: var(--text);
+  opacity: 0.22;
+  font-style: italic;
+}
+
+.form-textarea {
+  resize: vertical;
+  min-height: 100px;
+  line-height: 1.65;
+}
+
+.form-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.form-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(201,168,76,0.04);
+  border: 1px solid rgba(201,168,76,0.18);
+  border-radius: 2px;
+  padding: 8px 14px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.form-chip:hover {
+  background: rgba(201,168,76,0.1);
+  border-color: rgba(201,168,76,0.4);
+}
+
+.form-chip input[type="radio"],
+.form-chip input[type="checkbox"] { display: none; }
+
+.form-chip span {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.82rem;
+  color: var(--text);
+  opacity: 0.65;
+  transition: color 0.2s, opacity 0.2s;
+}
+
+.form-chip.selected {
+  background: rgba(201,168,76,0.12);
+  border-color: var(--gold);
+}
+
+.form-chip.selected span {
+  color: var(--gold-light);
+  opacity: 1;
+}
+
+.ancla-inputs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.form-grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.form-progress-wrap {
+  margin-bottom: 48px;
+  text-align: center;
+}
+
+.form-progress-label {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 0.7rem;
+  letter-spacing: 0.3em;
+  color: var(--gold);
+  opacity: 0.5;
+  margin-bottom: 8px;
+}
+
+.form-progress-bar-bg {
+  width: 100%;
+  height: 2px;
+  background: rgba(201,168,76,0.1);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.form-progress-bar-fill {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, var(--gold), var(--gold-light));
+  border-radius: 2px;
+  transition: width 0.4s ease;
+}
+
+.form-divider {
+  width: 60px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  margin: 36px auto;
+  opacity: 0.4;
+}
+
+.form-optional-badge {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 0.62rem;
+  letter-spacing: 0.2em;
+  color: var(--text);
+  opacity: 0.3;
+  margin-left: 8px;
+  vertical-align: middle;
+}
+
+.form-submit-wrap {
+  text-align: center;
+  margin-top: 52px;
+}
+
+.form-submit-note {
+  font-size: 0.78rem;
+  color: var(--text);
+  opacity: 0.35;
+  margin-bottom: 20px;
+  font-style: italic;
+  line-height: 1.6;
+}
+
+.form-submit-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  background: transparent;
+  border: 1px solid var(--gold);
+  border-radius: 2px;
+  color: var(--gold);
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1rem;
+  letter-spacing: 0.3em;
+  padding: 16px 40px;
+  cursor: pointer;
+  transition: all 0.25s;
+  position: relative;
+  overflow: hidden;
+}
+
+.form-submit-btn::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(201,168,76,0.08);
+  transform: translateX(-100%);
+  transition: transform 0.3s ease;
+}
+
+.form-submit-btn:hover::before { transform: translateX(0); }
+.form-submit-btn:hover { box-shadow: 0 0 24px rgba(201,168,76,0.18); }
+
+.form-success {
+  display: none;
+  text-align: center;
+  padding: 48px 24px;
+  border: 1px solid rgba(201,168,76,0.2);
+  border-radius: 4px;
+  background: rgba(201,168,76,0.03);
+  margin-top: 32px;
+}
+
+.form-success.visible { display: block; }
+
+.form-success-icon { font-size: 2.5rem; margin-bottom: 16px; }
+
+.form-success-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.5rem;
+  color: var(--cream);
+  margin-bottom: 12px;
+}
+
+.form-success-body {
+  font-size: 0.9rem;
+  color: var(--text);
+  opacity: 0.6;
+  line-height: 1.7;
+  max-width: 440px;
+  margin: 0 auto;
+}
+
+.form-success-body strong { color: var(--gold-light); font-weight: 500; }
+
+@media (max-width: 600px) {
+  .ancla-inputs,
+  .form-grid-2 { grid-template-columns: 1fr; }
+  .form-block-header { flex-wrap: wrap; gap: 6px; }
+  .form-block-sub { margin-left: 0; }
+  .form-chips { gap: 6px; }
+  .form-chip { padding: 7px 11px; }
+}
 </style>
 </head>
 <body>
@@ -461,7 +788,7 @@ footer {
 <!-- ══ HERO ══ -->
 <section class="hero">
   <div class="hero-frame"></div>
-  <p class="hero-badge">◆ Activos Musicales Digitales · ◆</p>
+  <p class="hero-badge">◆ Activos Musicales Digitales · Edgar Romero ◆</p>
   <div class="hero-poster">
     <div class="corner corner-tl"></div>
     <div class="corner corner-tr"></div>
@@ -470,28 +797,9 @@ footer {
     <img src="pancarta_final.png" alt="Ambicionar las grandes glorias mientras se aman las pequeñas alegrías — Pascal Bruckner" />
   </div>
 
-  <!-- ── CONTACTO ── -->
-  <div class="hero-contact" style="
-    margin: 28px 0 8px;
-    text-align: center;
-    animation: fadeUp 1s 0.15s ease both;
-  ">
-    <p style="
-      font-family: 'Playfair Display', serif;
-      font-size: clamp(1.1rem, 3vw, 1.5rem);
-      color: var(--cream);
-      font-weight: 700;
-      letter-spacing: 0.05em;
-      margin-bottom: 6px;
-    ">EAMD ·Estratega de Activos Musicales Digitales·</p>
-    <a href="tel:+13343215254" style="
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 1rem;
-      letter-spacing: 0.3em;
-      color: var(--gold);
-      text-decoration: none;
-      opacity: 0.9;
-    ">📞 +1 (3343215254)</a>
+  <div class="hero-contact" style="margin:28px 0 8px;text-align:center;animation:fadeUp 1s 0.15s ease both;">
+    <p style="font-family:'Playfair Display',serif;font-size:clamp(1.1rem,3vw,1.5rem);color:var(--cream);font-weight:700;letter-spacing:0.05em;margin-bottom:6px;">Edgar Romero</p>
+    <a href="tel:+13343215254" style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.3em;color:var(--gold);text-decoration:none;opacity:0.9;">📞 +1 (3343215254)</a>
   </div>
 
   <h1 class="hero-title">IA <span>Music</span></h1>
@@ -616,16 +924,16 @@ footer {
       </div>
     </div>
 
-   <!-- 06 -->
+    <!-- 06 -->
     <div class="song-card">
       <div class="song-num">06</div>
       <div class="song-body">
-      <h3 class="song-title">Manual de Pureza</h3>
+        <h3 class="song-title">Manual de Pureza</h3>
         <p class="song-genre">Hard Rock · Metal Alternativo · Crítica Socio-política</p>
         <p class="song-desc">En un mundo de hipervigilancia digital, "Manual de Pureza" emerge como un manifiesto contra la pérdida del matiz. La letra denuncia la creación de una "nueva inquisición" donde el contexto es sacrificado en el altar del juicio superficial. La composición musical, impulsada por guitarras distorsionadas y una interpretación vocal visceral, subraya la urgencia de un mensaje que advierte sobre cómo la búsqueda de una pureza ideológica absoluta termina por asfixiar el diálogo racional y la libertad individual.</p>
         <p class="song-emotion">Indignación · Vigilancia · Intensidad · Reflexión Crítica</p>
       </div>
-        <div class="song-player">
+      <div class="song-player">
         <button class="player-btn" aria-label="Reproducir">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
         </button>
@@ -638,8 +946,8 @@ footer {
       <div class="song-body">
         <h3 class="song-title">Doctrina de Cristal</h3>
         <p class="song-genre">Hip-Hop clásico (Boombap), Conscious Rap y elementos de oratoria urbana</p>
-        <p class="song-desc">Es un manifiesto contra la hipocresía y el extremismo de la cultura WOKE también llamada "cultura de la cancelación", la "superioridad moral" y la polarización ideológica. El autor se posiciona como un observador que busca la "verdad cruda" frente a la "mentira cómoda", denunciando lo que percibe como una pérdida de la libertad de expresión en el entorno digital y social</p>
-        <p class="song-emotion">Directo, asertivo y confrontativo. La producción prioriza la claridad del mensaje (la palabra) sobre la complejidad melódica</p>
+        <p class="song-desc">Es un manifiesto contra la hipocresía y el extremismo de la cultura WOKE también llamada "cultura de la cancelación", la "superioridad moral" y la polarización ideológica. El autor se posiciona como un observador que busca la "verdad cruda" frente a la "mentira cómoda", denunciando lo que percibe como una pérdida de la libertad de expresión en el entorno digital y social.</p>
+        <p class="song-emotion">Directo, asertivo y confrontativo. La producción prioriza la claridad del mensaje (la palabra) sobre la complejidad melódica.</p>
       </div>
       <div class="song-player">
         <button class="player-btn" aria-label="Reproducir">
@@ -653,9 +961,9 @@ footer {
       <div class="song-num">08</div>
       <div class="song-body">
         <h3 class="song-title">Visto en Azul</h3>
-        <p class="song-genre">Urban Pop, Reggaetón melódico y destellos de R&B latino</p>
-        <p class="song-desc">La letra explora el impacto psicológico de la comunicación asincrónica (el "doble check azul", las fotos de perfil, el brillo del iPhone). Describe una relación donde la validación depende de la interfaz tecnológica, generando un ciclo de euforia (el audio que sana) y dolor (el visto)</p>
-        <p class="song-emotion">Sensible, introspectivo y comercial. Utiliza una base rítmica suave para no opacar la carga emocional de la voz</p>
+        <p class="song-genre">Urban Pop, Reggaetón melódico y destellos de R&amp;B latino</p>
+        <p class="song-desc">La letra explora el impacto psicológico de la comunicación asincrónica (el "doble check azul", las fotos de perfil, el brillo del iPhone). Describe una relación donde la validación depende de la interfaz tecnológica, generando un ciclo de euforia (el audio que sana) y dolor (el visto).</p>
+        <p class="song-emotion">Sensible, introspectivo y comercial. Utiliza una base rítmica suave para no opacar la carga emocional de la voz.</p>
       </div>
       <div class="song-player">
         <button class="player-btn" aria-label="Reproducir">
@@ -664,18 +972,14 @@ footer {
       </div>
     </div>
 
-       <!-- 09 -->
+    <!-- 09 -->
     <div class="song-card">
       <div class="song-num">09</div>
       <div class="song-body">
         <h3 class="song-title">Aunque me duela el alma</h3>
-        <p class="song-genre">Género Primario: Regional Mexicano / Balada Ranchera.
-                              Estilo: Mariachi Contemporáneo con Fusión Adulto Contemporáneo (AC)</p>
-        <p class="song-desc">El tema central es el proceso de desapego forzoso. A diferencia de las canciones de "despecho" tradicional que buscan la venganza o la autocompasión destructiva, esta obra se enfoca en:
-                             La Aceptación del Final: Reconoce que la relación ha terminado a pesar del deseo de continuar ("aunque me duela el alma").
-                             La Soledad Post-Ruptura: Describe el vacío cotidiano y el esfuerzo consciente por reconstruir la identidad propia sin la otra persona.
-                             El Sacrificio de la Voluntad: La frase del título actúa como un mantra de resistencia; es la lucha entre el sentimiento (el dolor) y la razón (la necesidad de soltar.</p>
-        <p class="song-emotion">Soledad, Nostalgia, Resiliencia Emocional, Duelo Amoroso y Despedida</p>
+        <p class="song-genre">Regional Mexicano / Balada Ranchera · Mariachi Contemporáneo con Fusión AC</p>
+        <p class="song-desc">El tema central es el proceso de desapego forzoso. A diferencia de las canciones de "despecho" tradicional, esta obra se enfoca en la aceptación del final, la soledad post-ruptura y el sacrificio de la voluntad. La frase del título actúa como un mantra de resistencia; es la lucha entre el sentimiento (el dolor) y la razón (la necesidad de soltar).</p>
+        <p class="song-emotion">Soledad · Nostalgia · Resiliencia Emocional · Duelo Amoroso · Despedida</p>
       </div>
       <div class="song-player">
         <button class="player-btn" aria-label="Reproducir">
@@ -684,14 +988,14 @@ footer {
       </div>
     </div>
 
-       <!-- 10 -->
+    <!-- 10 -->
     <div class="song-card">
       <div class="song-num">10</div>
       <div class="song-body">
         <h3 class="song-title">Cicatriz de Seda</h3>
-        <p class="song-genre">Pop-Rock / Balada Rock. Estilo: Power Ballad Contemporánea.</p>
-        <p class="song-desc">Esta obra analiza la marca imborrable de un amor complejo a través de una narrativa de madurez emocional. El eje central presenta al dolor como un proceso de "diseño" y aprendizaje, donde la protagonista se asume como alumna de una lección estéticamente profunda. Tras la ruptura, la identidad se reconstruye en una soledad necesaria para la sanación, declarando este aislamiento como el nuevo "dueño de su piel". La dualidad del título simboliza un recuerdo suave como la seda, pero permanente como una cicatriz, sustituyendo el odio por una aceptación melancólica. Además, la canción establece una soberanía emocional única al distanciarse de figuras culturales del desamor, rechazando la victimización convencional. En conjunto, es un himno a la fortaleza que honra la herida sin perder la dignidad. Es el equilibrio perfecto entre la vulnerabilidad del pasado y el empoderamiento del presente.</p>
-        <p class="song-emotion">Superación, Heridas Emocionales, Empoderamiento, Transformación, Despecho Elegante.</p>
+        <p class="song-genre">Pop-Rock / Balada Rock · Power Ballad Contemporánea</p>
+        <p class="song-desc">Esta obra analiza la marca imborrable de un amor complejo a través de una narrativa de madurez emocional. El eje central presenta al dolor como un proceso de "diseño" y aprendizaje, donde la protagonista se asume como alumna de una lección estéticamente profunda. La dualidad del título simboliza un recuerdo suave como la seda, pero permanente como una cicatriz, sustituyendo el odio por una aceptación melancólica. Es el equilibrio perfecto entre la vulnerabilidad del pasado y el empoderamiento del presente.</p>
+        <p class="song-emotion">Superación · Heridas Emocionales · Empoderamiento · Transformación · Despecho Elegante.</p>
       </div>
       <div class="song-player">
         <button class="player-btn" aria-label="Reproducir">
@@ -703,28 +1007,218 @@ footer {
   </div><!-- /songs-grid -->
 </section>
 
+<!-- ══ CUESTIONARIO ══ -->
+
+<div class="form-intro-bar">
+  <p class="form-intro-eyebrow">Servicio Personalizado</p>
+  <p class="form-intro-text">Cada respuesta que nos das se convierte en un verso. Entre más nos cuentes, más tuya será la canción.</p>
+</div>
+
+<section class="cuestionario" id="cuestionario">
+
+  <div class="section-header">
+    <p class="section-eyebrow">EAMD · Arquitectura Sonora</p>
+    <h2 class="section-title">Tu Canción Personalizada</h2>
+  </div>
+
+  <div class="form-progress-wrap" aria-hidden="true">
+    <p class="form-progress-label">Completado: <span id="progress-pct">0%</span></p>
+    <div class="form-progress-bar-bg">
+      <div class="form-progress-bar-fill" id="progress-fill"></div>
+    </div>
+  </div>
+
+  <form id="song-form" novalidate>
+
+    <!-- BLOQUE 1 -->
+    <div class="form-block" data-block="1">
+      <div class="form-block-header">
+        <span class="form-block-num">01</span>
+        <span class="form-block-title">El Corazón de la Historia</span>
+      </div>
+      <div class="form-field">
+        <label class="form-label">¿A quién va dedicada esta canción?</label>
+        <div class="form-chips" role="group">
+          <label class="form-chip"><input type="radio" name="dedicatoria" value="mi-mismo"><span>A mí mismo</span></label>
+          <label class="form-chip"><input type="radio" name="dedicatoria" value="mi-familia"><span>Mi familia</span></label>
+          <label class="form-chip"><input type="radio" name="dedicatoria" value="mi-pareja"><span>Mi pareja</span></label>
+          <label class="form-chip"><input type="radio" name="dedicatoria" value="mis-hijos"><span>Mis hijos</span></label>
+          <label class="form-chip"><input type="radio" name="dedicatoria" value="ser-querido"><span>Un ser querido que ya no está</span></label>
+          <label class="form-chip"><input type="radio" name="dedicatoria" value="otro"><span>Otro</span></label>
+        </div>
+      </div>
+      <div class="form-field">
+        <label class="form-label" for="historia">La historia detrás</label>
+        <span class="form-hint">Cuéntanos en tus propias palabras, sin filtro. Ej: "Es para mi papá que nunca se rindió trabajando en el campo."</span>
+        <textarea class="form-textarea" id="historia" name="historia" placeholder="Escribe aquí tu historia…" style="min-height:120px;"></textarea>
+      </div>
+    </div>
+
+    <div class="form-divider"></div>
+
+    <!-- BLOQUE 2 -->
+    <div class="form-block" data-block="2">
+      <div class="form-block-header">
+        <span class="form-block-num">02</span>
+        <span class="form-block-title">Los Personajes</span>
+        <span class="form-block-sub">Completa solo lo que aplique</span>
+      </div>
+      <div class="form-field">
+        <label class="form-label">La pareja <span class="form-optional-badge">OPCIONAL</span></label>
+        <span class="form-hint">¿Cómo se conocieron o qué momento define su historia juntos?</span>
+        <textarea class="form-textarea" name="pareja" placeholder="Ej: Nos conocimos en una fiesta en el rancho en 2008…" style="min-height:70px;"></textarea>
+      </div>
+      <div class="form-field">
+        <label class="form-label">Los hijos <span class="form-optional-badge">OPCIONAL</span></label>
+        <span class="form-hint">Nombres y una cualidad de cada uno que quieras que quede en la letra.</span>
+        <textarea class="form-textarea" name="hijos" placeholder="Ej: Alejandro — el valiente. Sofía — la que siempre sonríe." style="min-height:70px;"></textarea>
+      </div>
+      <div class="form-field">
+        <label class="form-label" for="raices">Las raíces</label>
+        <span class="form-hint">¿De dónde vienen? Pueblo, estado, país. El origen le da alma al género.</span>
+        <input class="form-input" type="text" id="raices" name="raices" placeholder="Ej: Jerez, Zacatecas · o bien: 'de venir de abajo'">
+      </div>
+    </div>
+
+    <div class="form-divider"></div>
+
+    <!-- BLOQUE 3 -->
+    <div class="form-block" data-block="3">
+      <div class="form-block-header">
+        <span class="form-block-num">03</span>
+        <span class="form-block-title">La Voz Narrativa</span>
+      </div>
+      <div class="form-field">
+        <label class="form-label">¿Cómo quieres que hable la canción?</label>
+        <div class="form-chips" role="group">
+          <label class="form-chip"><input type="radio" name="voz" value="primera"><span>Primera persona — "Yo le agradezco a la vida…"</span></label>
+          <label class="form-chip"><input type="radio" name="voz" value="tercera"><span>Homenaje narrado — "Él fue el hombre que…"</span></label>
+        </div>
+      </div>
+      <div class="form-field">
+        <label class="form-label" for="valor">Valor central de esta historia</label>
+        <span class="form-hint">¿Qué es lo más importante de esta familia o persona?</span>
+        <input class="form-input" type="text" id="valor" name="valor" placeholder="Ej: Fe · Trabajo duro · Lealtad · Unidad familiar · Superación">
+      </div>
+    </div>
+
+    <div class="form-divider"></div>
+
+    <!-- BLOQUE 4 -->
+    <div class="form-block" data-block="4">
+      <div class="form-block-header">
+        <span class="form-block-num">04</span>
+        <span class="form-block-title">El Estilo Musical</span>
+      </div>
+      <div class="form-field">
+        <label class="form-label">Género preferido</label>
+        <div class="form-chips" role="group">
+          <label class="form-chip"><input type="radio" name="genero" value="norteno"><span>Norteño romántico</span></label>
+          <label class="form-chip"><input type="radio" name="genero" value="ranchera"><span>Ranchera potente</span></label>
+          <label class="form-chip"><input type="radio" name="genero" value="bolero"><span>Bolero</span></label>
+          <label class="form-chip"><input type="radio" name="genero" value="romantica"><span>Romántica pop</span></label>
+          <label class="form-chip"><input type="radio" name="genero" value="punk-rock"><span>Punk Rock / Alternativo</span></label>
+          <label class="form-chip"><input type="radio" name="genero" value="otro-genero"><span>Otro</span></label>
+        </div>
+      </div>
+      <div class="form-field" id="otro-genero-field" style="display:none;">
+        <input class="form-input" type="text" name="genero_otro" placeholder="Escribe el género deseado…">
+      </div>
+      <div class="form-field">
+        <label class="form-label">Estado de ánimo de la música</label>
+        <div class="form-chips" role="group">
+          <label class="form-chip"><input type="radio" name="animo" value="melancolico"><span>Melancólico y nostálgico</span></label>
+          <label class="form-chip"><input type="radio" name="animo" value="alegre"><span>Alegre y celebratorio</span></label>
+          <label class="form-chip"><input type="radio" name="animo" value="mezcla"><span>Mezcla de ambos</span></label>
+        </div>
+      </div>
+      <div class="form-field">
+        <label class="form-label">¿Incluir Tololoche? <span class="form-optional-badge">Solo género norteño / similar</span></label>
+        <span class="form-hint">Instrumento de cuerda grave y profundo, típico del norte de México.</span>
+        <div class="form-chips" role="group">
+          <label class="form-chip"><input type="radio" name="tololoche" value="si"><span>Sí, incluirlo</span></label>
+          <label class="form-chip"><input type="radio" name="tololoche" value="no"><span>No</span></label>
+          <label class="form-chip"><input type="radio" name="tololoche" value="decision-tuya"><span>Lo dejo a tu criterio</span></label>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-divider"></div>
+
+    <!-- BLOQUE 5 -->
+    <div class="form-block" data-block="5">
+      <div class="form-block-header">
+        <span class="form-block-num">05</span>
+        <span class="form-block-title">Palabras Ancla</span>
+      </div>
+      <div class="form-field">
+        <span class="form-hint">Escribe 3 a 5 palabras, frases, apodos, fechas o lugares que <em>deben</em> aparecer en la canción.</span>
+        <span class="form-hint">Ej: "Mi viejo" · "Las Ánimas, Zacatecas" · "17 de marzo" · "El que madruga, Dios lo ayuda"</span>
+        <div class="ancla-inputs">
+          <input class="form-input" type="text" name="ancla_1" placeholder="Ancla 1">
+          <input class="form-input" type="text" name="ancla_2" placeholder="Ancla 2">
+          <input class="form-input" type="text" name="ancla_3" placeholder="Ancla 3">
+          <input class="form-input" type="text" name="ancla_4" placeholder="Ancla 4 (opcional)">
+          <input class="form-input" type="text" name="ancla_5" placeholder="Ancla 5 (opcional)" style="grid-column:span 2;">
+        </div>
+      </div>
+    </div>
+
+    <div class="form-divider"></div>
+
+    <!-- BLOQUE 6 -->
+    <div class="form-block" data-block="6">
+      <div class="form-block-header">
+        <span class="form-block-num">06</span>
+        <span class="form-block-title">Datos de Contacto</span>
+      </div>
+      <div class="form-grid-2">
+        <div class="form-field">
+          <label class="form-label" for="nombre">Nombre completo</label>
+          <input class="form-input" type="text" id="nombre" name="nombre" placeholder="Tu nombre">
+        </div>
+        <div class="form-field">
+          <label class="form-label" for="contacto">WhatsApp o correo</label>
+          <input class="form-input" type="text" id="contacto" name="contacto" placeholder="+52 · o tu email">
+        </div>
+      </div>
+      <div class="form-field">
+        <label class="form-label" for="fecha">¿Tienes fecha límite? <span class="form-optional-badge">OPCIONAL</span></label>
+        <input class="form-input" type="text" id="fecha" name="fecha" placeholder="Ej: Para el 15 de mayo · Sin urgencia">
+      </div>
+      <div class="form-field">
+        <label class="form-label" for="extra">¿Algo más que agregar?</label>
+        <textarea class="form-textarea" id="extra" name="extra" placeholder="Cualquier detalle que no haya cupido arriba…" style="min-height:70px;"></textarea>
+      </div>
+    </div>
+
+    <div class="form-submit-wrap">
+      <p class="form-submit-note">Una vez que recibamos tu cuestionario, revisaremos tus respuestas,<br>construiremos el prompt emocional y sonoro, y te contactaremos en breve.</p>
+      <button type="submit" class="form-submit-btn" id="submit-btn">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M2 21l21-9L2 3v7l15 2-15 2v7z"/></svg>
+        Enviar mi cuestionario
+      </button>
+    </div>
+
+  </form>
+
+  <div class="form-success" id="form-success" role="status" aria-live="polite">
+    <div class="form-success-icon">✦</div>
+    <h3 class="form-success-title">Recibido. Gracias.</h3>
+    <p class="form-success-body">Tu cuestionario ha llegado a manos de <strong>EAMD</strong>.<br>Revisaremos cada detalle y te contactaremos por el medio que indicaste.<br><br><strong>Tu historia merece una canción única.</strong></p>
+  </div>
+
+</section>
+
 <!-- ══ FOOTER ══ -->
 <footer>
   <p class="footer-logo">IA MUSIC</p>
-
   <div class="footer-clause">
-    <p class="footer-clause-title">CLAUSULA DE PROPIEDAD DE USO &ndash; Licencia de Acceso personal</p>
-    <p class="footer-clause-body">
-      El presente activo musical ha sido generado mediante modelos de inteligencia artificial
-      bajo una modalidad de acceso gratuito. En cumplimiento con los términos de servicio de
-      la plataforma proveedora, se informa que la titularidad de los derechos patrimoniales y
-      comerciales puede estar restringida o pertenecer a la entidad desarrolladora del software.
-    </p>
-    <p class="footer-clause-body">
-      El usuario recibe una licencia de uso estrictamente <strong>personal y no lucrativa</strong>.
-      Queda prohibida la reventa, distribución comercial o registro de esta obra en plataformas
-      de monetización (streaming comercial, radio o publicidad; Se reconoce que la labor de
-      <strong>EAMD</strong> se limita a la arquitectura sonora, curaduría técnica y
-      diseño del prompt emocional, sin garantizar la exclusividad legal de la obra.
-    </p>
+    <p class="footer-clause-title">CLAUSULA DE PROPIEDAD DE USO &ndash; Licencia de Acceso Público</p>
+    <p class="footer-clause-body">El presente activo musical ha sido generado mediante modelos de inteligencia artificial bajo una modalidad de acceso gratuito. En cumplimiento con los términos de servicio de la plataforma proveedora, se informa que la titularidad de los derechos patrimoniales y comerciales puede estar restringida o pertenecer a la entidad desarrolladora del software.</p>
+    <p class="footer-clause-body">El usuario recibe una licencia de uso estrictamente <strong>personal y no lucrativa</strong>. Queda prohibida la reventa, distribución comercial o registro de esta obra en plataformas de monetización (streaming comercial, radio o publicidad). Se reconoce que la labor de <strong>Edgar Romero</strong> se limita a la arquitectura sonora, curaduría técnica y diseño del prompt emocional, sin garantizar la exclusividad legal de la obra.</p>
   </div>
-
-  <p class="footer-copy">© · EAMD  · Contacto: hiperdrive8833@gmail.com</p>
+  <p class="footer-copy">© Edgar Romero · El usuario (cliente/oyente) escucha y recibe una licencia de uso estrictamente personal y no lucrativa</p>
 </footer>
 
 <script>
@@ -733,27 +1227,25 @@ footer {
   const observer = new IntersectionObserver((entries) => {
     entries.forEach((entry) => {
       if (entry.isIntersecting) {
-        setTimeout(() => {
-          entry.target.classList.add('visible');
-        }, 60);
+        setTimeout(() => { entry.target.classList.add('visible'); }, 60);
         observer.unobserve(entry.target);
       }
     });
   }, { threshold: 0.08 });
   cards.forEach(card => observer.observe(card));
 
-  // Reproductor de audio — 10 canciones en orden de aparición
+  // Reproductor de audio
   const songs = [
-    { src: 'caliz_del_viento.mp3' },          // 01
-    { src: 'fuego_en_la_niebla.mp3' },         // 02
-    { src: 'mal_del_puerco.mp3' },             // 03
-    { src: 'midnight_sanctuary.mp3' },          // 04
-    { src: 'prisionero_de_tu_amor.mp3' },       // 05
-    { src: 'pureza.mp3' },                      // 06 Manual de Pureza
-    { src: 'doctrina_de_cristal.mp3' },         // 07
-    { src: 'visto_en_azul.mp3' },               // 08
-    { src: 'aunque_me_duela_el_alma.mp3' },     // 09
-    { src: 'cicatriz_de_seda.mp3' },            // 10
+    { src: 'caliz_del_viento.mp3' },
+    { src: 'fuego_en_la_niebla.mp3' },
+    { src: 'mal_del_puerco.mp3' },
+    { src: 'midnight_sanctuary.mp3' },
+    { src: 'prisionero_de_tu_amor.mp3' },
+    { src: 'pureza.mp3' },
+    { src: 'doctrina_de_cristal.mp3' },
+    { src: 'visto_en_azul.mp3' },
+    { src: 'aunque_me_duela_el_alma.mp3' },
+    { src: 'cicatriz_de_seda.mp3' },
   ];
 
   let currentAudio = null;
@@ -761,46 +1253,105 @@ footer {
 
   document.querySelectorAll('.player-btn').forEach((btn, i) => {
     const audio = new Audio(songs[i].src);
-
     btn.addEventListener('click', () => {
       if (currentAudio && currentAudio !== audio) {
         currentAudio.pause();
         currentAudio.currentTime = 0;
-        if (currentBtn) {
-          currentBtn.classList.remove('playing');
-          currentBtn.innerHTML = playIcon();
-        }
+        if (currentBtn) { currentBtn.classList.remove('playing'); currentBtn.innerHTML = playIcon(); }
       }
       if (audio.paused) {
-        audio.play();
-        btn.innerHTML = pauseIcon();
-        btn.classList.add('playing');
-        currentAudio = audio;
-        currentBtn = btn;
+        audio.play(); btn.innerHTML = pauseIcon(); btn.classList.add('playing');
+        currentAudio = audio; currentBtn = btn;
       } else {
-        audio.pause();
-        btn.innerHTML = playIcon();
-        btn.classList.remove('playing');
-        currentAudio = null;
-        currentBtn = null;
+        audio.pause(); btn.innerHTML = playIcon(); btn.classList.remove('playing');
+        currentAudio = null; currentBtn = null;
       }
     });
-
     audio.addEventListener('ended', () => {
-      btn.innerHTML = playIcon();
-      btn.classList.remove('playing');
-      currentAudio = null;
-      currentBtn = null;
+      btn.innerHTML = playIcon(); btn.classList.remove('playing');
+      currentAudio = null; currentBtn = null;
     });
   });
 
-  function playIcon() {
-    return `<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>`;
+  function playIcon() { return `<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>`; }
+  function pauseIcon() { return `<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>`; }
+
+  // Cuestionario — chips
+  document.querySelectorAll('.form-chips').forEach(function(group) {
+    group.querySelectorAll('.form-chip').forEach(function(chip) {
+      var input = chip.querySelector('input');
+      chip.addEventListener('click', function() {
+        if (input && input.type === 'radio') {
+          group.querySelectorAll('.form-chip').forEach(function(c) { c.classList.remove('selected'); });
+        }
+        chip.classList.toggle('selected');
+        updateProgress();
+      });
+    });
+  });
+
+  // Mostrar campo "Otro género"
+  document.querySelectorAll('input[name="genero"]').forEach(function(input) {
+    input.addEventListener('change', function() {
+      var f = document.getElementById('otro-genero-field');
+      if (f) f.style.display = (input.value === 'otro-genero') ? 'block' : 'none';
+    });
+  });
+
+  // Progreso
+  var REQUIRED_FIELDS = ['historia', 'raices', 'valor', 'nombre', 'contacto'];
+  var REQUIRED_RADIOS = ['dedicatoria', 'voz', 'genero', 'animo'];
+  var totalChecks = REQUIRED_FIELDS.length + REQUIRED_RADIOS.length;
+
+  function updateProgress() {
+    var done = 0;
+    REQUIRED_FIELDS.forEach(function(id) {
+      var el = document.querySelector('[name="'+id+'"]') || document.getElementById(id);
+      if (el && el.value.trim().length > 0) done++;
+    });
+    REQUIRED_RADIOS.forEach(function(name) {
+      if (document.querySelector('input[name="'+name+'"]:checked')) done++;
+    });
+    var pct = Math.round((done / totalChecks) * 100);
+    var fill = document.getElementById('progress-fill');
+    var label = document.getElementById('progress-pct');
+    if (fill) fill.style.width = pct + '%';
+    if (label) label.textContent = pct + '%';
   }
 
-  function pauseIcon() {
-    return `<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>`;
+  document.querySelectorAll('#song-form input, #song-form textarea').forEach(function(el) {
+    el.addEventListener('input', updateProgress);
+    el.addEventListener('change', updateProgress);
+  });
+
+  // Reveal de bloques
+  var formBlocks = document.querySelectorAll('.form-block');
+  if ('IntersectionObserver' in window) {
+    var blockObserver = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          setTimeout(function() { entry.target.classList.add('visible'); }, 80);
+          blockObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.05 });
+    formBlocks.forEach(function(b) { blockObserver.observe(b); });
+  } else {
+    formBlocks.forEach(function(b) { b.classList.add('visible'); });
   }
+
+  // Submit
+  document.getElementById('song-form').addEventListener('submit', function(e) {
+    e.preventDefault();
+    var data = new FormData(this);
+    var lines = [];
+    data.forEach(function(value, key) {
+      if (value && value.toString().trim()) lines.push(key.toUpperCase() + ': ' + value);
+    });
+    var subject = encodeURIComponent('Cuestionario Canción Personalizada — EAMD');
+    var body = encodeURIComponent(lines.join('\n\n'));
+    window.location.href = 'mailto:hiperdrive8833@gmail.com?subject=' + subject + '&body=' + body;
+  });
 </script>
 
 </body>
