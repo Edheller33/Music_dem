@@ -2004,21 +2004,9 @@ footer {
 
       <div class="pdf-modal-body">
         <p class="pdf-modal-section-title">Cláusula de Propiedad y Uso</p>
-<!DOCTYPE html>
-<html lang="es">
-<head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>IA Music — Ingeniería de Arquitectura Sonora</title>
-<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Cinzel:wght@400;600;700&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400;0,700&family=Bebas+Neue&display=swap" rel="stylesheet" />
-<style>
-:root {
-  --gold:          #C9A84C;
-  --gold-bright:   #f0c040;
-  --gold-light:    #E8C97A;
-  --gold-pale:     #f5dfa0;
-  --gold-mid:      #c9960c;
-  --gold-d-modal-section-title">Restricciones</p>
+        <p>El presente activo musical ha sido generado mediante modelos de inteligencia artificial bajo una modalidad de acceso gratuito. En cumplimiento con los términos de servicio de la plataforma proveedora, se informa que la titularidad de los derechos patrimoniales y comerciales puede estar <strong>restringida o pertenecer a la entidad desarrolladora</strong> del software de inteligencia artificial utilizado.</p>
+
+        <p class="pdf-modal-section-title">Restricciones</p>
         <p>Queda prohibida la <strong>reventa, distribución comercial o registro</strong> de esta obra en plataformas de monetización (streaming comercial, radio o publicidad).</p>
 
         <p class="pdf-modal-section-title">Labor del Autor</p>
@@ -2102,49 +2090,74 @@ if ('IntersectionObserver' in window) {
   formBlocks.forEach(b => b.classList.add('visible'));
 }
 
-/* ── AUDIO PLAYER (canciones) ── */
+/* ── FALLBACK: mostrar tarjetas si IntersectionObserver no las revela ── */
+setTimeout(() => {
+  document.querySelectorAll('.song-card:not(.visible)').forEach(c => c.classList.add('visible'));
+  document.querySelectorAll('.rights-card:not(.visible)').forEach(c => c.classList.add('visible'));
+  document.querySelectorAll('.form-block:not(.visible)').forEach(b => b.classList.add('visible'));
+}, 800);
+
+/* ── AUDIO PLAYER (canciones) — carga lazy ── */
 const songs = [
-{ src: 'aunque_me_duela_el_alma.mp3' },
-{ src: 'caliz_del_viento.mp3' },
-{ src: 'cicatriz_de_seda.mp3' },
-{ src: 'doctrina_de_cristal.mp3' },
-{ src: 'eternamente_en_mi_piel.mp3' },
-{ src: 'fuego_en_la_niebla.mp3' },
-{ src: 'lopez_martirios.mp3' },
-{ src: 'mal_del_puerco.mp3' },
-{ src: 'midnight_sanctuary.mp3' },
-{ src: 'prisionero_de_tu_aliento.mp3' },
-{ src: 'manual_de_pureza.mp3' },
-{ src: 'visto_en_azul.mp3' },
+  'aunque_me_duela_el_alma.mp3',
+  'caliz_del_viento.mp3',
+  'cicatriz_de_seda.mp3',
+  'doctrina_de_cristal.mp3',
+  'eternamente_en_mi_piel.mp3',
+  'fuego_en_la_niebla.mp3',
+  'lopez_martirios.mp3',
+  'mal_del_puerco.mp3',
+  'midnight_sanctuary.mp3',
+  'prisionero_de_tu_aliento.mp3',
+  'manual_de_pureza.mp3',
+  'visto_en_azul.mp3',
 ];
 
 let currentAudio = null, currentBtn = null;
 
 document.querySelectorAll('.player-btn').forEach((btn, i) => {
   if (!songs[i]) return;
-  const audio = new Audio(songs[i].src);
+  let audio = null; // lazy: se crea solo al primer clic
+
   btn.addEventListener('click', () => {
+    // Crear el objeto Audio la primera vez que se toca el botón
+    if (!audio) {
+      audio = new Audio(songs[i]);
+      audio.addEventListener('ended', () => {
+        btn.innerHTML = playIcon();
+        btn.classList.remove('playing');
+        currentAudio = null; currentBtn = null;
+      });
+      audio.addEventListener('error', () => {
+        btn.innerHTML = playIcon();
+        btn.classList.remove('playing');
+        btn.title = 'Archivo no disponible aún';
+        if (currentAudio === audio) { currentAudio = null; currentBtn = null; }
+      });
+    }
+
+    // Detener el audio anterior si es diferente
     if (currentAudio && currentAudio !== audio) {
       currentAudio.pause();
       currentAudio.currentTime = 0;
       if (currentBtn) { currentBtn.classList.remove('playing'); currentBtn.innerHTML = playIcon(); }
     }
+
     if (audio.paused) {
-      audio.play();
-      btn.innerHTML = pauseIcon();
-      btn.classList.add('playing');
-      currentAudio = audio; currentBtn = btn;
+      audio.play().then(() => {
+        btn.innerHTML = pauseIcon();
+        btn.classList.add('playing');
+        currentAudio = audio; currentBtn = btn;
+      }).catch(() => {
+        btn.title = 'Archivo de audio no disponible';
+        btn.innerHTML = playIcon();
+      });
     } else {
       audio.pause();
       btn.innerHTML = playIcon();
       btn.classList.remove('playing');
       currentAudio = null; currentBtn = null;
     }
-  });
-  audio.addEventListener('ended', () => {
-    btn.innerHTML = playIcon();
-    btn.classList.remove('playing');
-    currentAudio = null; currentBtn = null;
   });
 });
 
