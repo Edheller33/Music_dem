@@ -1351,6 +1351,80 @@ footer {
   .pdf-modal { padding: 28px 20px; }
   .quick-btn { padding: 16px 18px; }
 }
+
+/* ── BADGE REINGENIERÍA ── */
+.song-player {
+  align-items: center;
+}
+
+.reingeneria-badge {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding-top: 2px;
+}
+
+.reingeneria-wave {
+  display: flex;
+  align-items: flex-end;
+  gap: 2.5px;
+  height: 22px;
+}
+
+.reingeneria-wave span {
+  display: block;
+  width: 3px;
+  border-radius: 2px;
+  background: linear-gradient(180deg, var(--gold-bright), var(--gold-dark));
+  opacity: 0.55;
+  animation: waveBar 1.4s ease-in-out infinite;
+  transform-origin: bottom;
+}
+
+.reingeneria-wave span:nth-child(1) { height: 6px;  animation-delay: 0s; }
+.reingeneria-wave span:nth-child(2) { height: 14px; animation-delay: 0.15s; }
+.reingeneria-wave span:nth-child(3) { height: 20px; animation-delay: 0.08s; }
+.reingeneria-wave span:nth-child(4) { height: 10px; animation-delay: 0.25s; }
+.reingeneria-wave span:nth-child(5) { height: 16px; animation-delay: 0.05s; }
+.reingeneria-wave span:nth-child(6) { height: 8px;  animation-delay: 0.2s; }
+.reingeneria-wave span:nth-child(7) { height: 18px; animation-delay: 0.12s; }
+
+@keyframes waveBar {
+  0%, 100% { transform: scaleY(0.35); opacity: 0.4; }
+  50%       { transform: scaleY(1);    opacity: 0.85; }
+}
+
+.reingeneria-label {
+  font-family: 'Cinzel', serif;
+  font-size: 0.52rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--gold-mid);
+  text-align: center;
+  line-height: 1.5;
+  opacity: 0.75;
+  max-width: 72px;
+  white-space: nowrap;
+}
+
+.reingeneria-sublabel {
+  font-family: 'Crimson Pro', serif;
+  font-size: 0.7rem;
+  font-style: italic;
+  color: var(--text-muted);
+  text-align: center;
+  line-height: 1.4;
+  max-width: 76px;
+  opacity: 0.6;
+  margin-top: -4px;
+}
+
+@media (max-width: 660px) {
+  .reingeneria-label  { font-size: 0.46rem; max-width: 60px; }
+  .reingeneria-sublabel { font-size: 0.65rem; max-width: 62px; }
+  .reingeneria-wave { height: 18px; }
+}
 </style>
 </head>
 <body>
@@ -1471,9 +1545,16 @@ footer {
           <p class="song-emotion">Soledad · Nostalgia · Resiliencia · Duelo Amoroso · Despedida</p>
         </div>
         <div class="song-player">
-          <button class="player-btn" aria-label="Reproducir">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-          </button>
+          <div class="reingeneria-badge">
+            <button class="player-btn" aria-label="Reproducir">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+            </button>
+            <div class="reingeneria-wave">
+              <span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+            </div>
+            <div class="reingeneria-label">Reingeniería<br>en curso</div>
+            <div class="reingeneria-sublabel">Refinamiento estructural y sonoro para versión comercial</div>
+          </div>
         </div>
       </div>
 
@@ -1487,9 +1568,16 @@ footer {
           <p class="song-emotion">Existencialismo · Misticismo · Nostalgia Oscura · Destino</p>
         </div>
         <div class="song-player">
-          <button class="player-btn" aria-label="Reproducir">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-          </button>
+          <div class="reingeneria-badge">
+            <button class="player-btn" aria-label="Reproducir">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+            </button>
+            <div class="reingeneria-wave">
+              <span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+            </div>
+            <div class="reingeneria-label">Reingeniería<br>en curso</div>
+            <div class="reingeneria-sublabel">Refinamiento estructural y sonoro para versión comercial</div>
+          </div>
         </div>
       </div>
       
@@ -1504,9 +1592,16 @@ footer {
           <p class="song-emotion">Superación · Empoderamiento · Transformación · Despecho Elegante</p>
         </div>
         <div class="song-player">
-          <button class="player-btn" aria-label="Reproducir">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-          </button>
+          <div class="reingeneria-badge">
+            <button class="player-btn" aria-label="Reproducir">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+            </button>
+            <div class="reingeneria-wave">
+              <span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+            </div>
+            <div class="reingeneria-label">Reingeniería<br>en curso</div>
+            <div class="reingeneria-sublabel">Refinamiento estructural y sonoro para versión comercial</div>
+          </div>
         </div>
       </div>
 
@@ -1521,9 +1616,16 @@ footer {
           <p class="song-emotion">Directo · Confrontativo · Asertivo · Urgente</p>
         </div>
         <div class="song-player">
-          <button class="player-btn" aria-label="Reproducir">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-          </button>
+          <div class="reingeneria-badge">
+            <button class="player-btn" aria-label="Reproducir">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+            </button>
+            <div class="reingeneria-wave">
+              <span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+            </div>
+            <div class="reingeneria-label">Reingeniería<br>en curso</div>
+            <div class="reingeneria-sublabel">Refinamiento estructural y sonoro para versión comercial</div>
+          </div>
         </div>
       </div>
       
@@ -1538,9 +1640,16 @@ footer {
           <p class="song-emotion">Serenidad · Reverencia · Alivio · Esperanza.</p>
         </div>
         <div class="song-player">
-          <button class="player-btn" aria-label="Reproducir">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-          </button>
+          <div class="reingeneria-badge">
+            <button class="player-btn" aria-label="Reproducir">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+            </button>
+            <div class="reingeneria-wave">
+              <span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+            </div>
+            <div class="reingeneria-label">Reingeniería<br>en curso</div>
+            <div class="reingeneria-sublabel">Refinamiento estructural y sonoro para versión comercial</div>
+          </div>
         </div>
       </div>
       
@@ -1555,9 +1664,16 @@ footer {
           <p class="song-emotion">Melancolía · Tensión Contenida · Anhelo · Pérdida</p>
         </div>
         <div class="song-player">
-          <button class="player-btn" aria-label="Reproducir">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-          </button>
+          <div class="reingeneria-badge">
+            <button class="player-btn" aria-label="Reproducir">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+            </button>
+            <div class="reingeneria-wave">
+              <span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+            </div>
+            <div class="reingeneria-label">Reingeniería<br>en curso</div>
+            <div class="reingeneria-sublabel">Refinamiento estructural y sonoro para versión comercial</div>
+          </div>
         </div>
       </div>
 
@@ -1572,9 +1688,16 @@ footer {
           <p class="song-emotion">Ironía · Crítica Social · Humor Filosófico · Identidad.</p>
         </div>
         <div class="song-player">
-          <button class="player-btn" aria-label="Reproducir">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-          </button>
+          <div class="reingeneria-badge">
+            <button class="player-btn" aria-label="Reproducir">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+            </button>
+            <div class="reingeneria-wave">
+              <span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+            </div>
+            <div class="reingeneria-label">Reingeniería<br>en curso</div>
+            <div class="reingeneria-sublabel">Refinamiento estructural y sonoro para versión comercial</div>
+          </div>
         </div>
       </div>
      
@@ -1589,9 +1712,16 @@ footer {
           <p class="song-emotion">Ironía · Crítica Social · Humor Filosófico · Tierra</p>
         </div>
         <div class="song-player">
-          <button class="player-btn" aria-label="Reproducir">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-          </button>
+          <div class="reingeneria-badge">
+            <button class="player-btn" aria-label="Reproducir">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+            </button>
+            <div class="reingeneria-wave">
+              <span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+            </div>
+            <div class="reingeneria-label">Reingeniería<br>en curso</div>
+            <div class="reingeneria-sublabel">Refinamiento estructural y sonoro para versión comercial</div>
+          </div>
         </div>
       </div>
 
@@ -1606,9 +1736,16 @@ footer {
           <p class="song-emotion">Serenidad · Reverencia · Alivio · Esperanza</p>
         </div>
         <div class="song-player">
-          <button class="player-btn" aria-label="Reproducir">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-          </button>
+          <div class="reingeneria-badge">
+            <button class="player-btn" aria-label="Reproducir">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+            </button>
+            <div class="reingeneria-wave">
+              <span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+            </div>
+            <div class="reingeneria-label">Reingeniería<br>en curso</div>
+            <div class="reingeneria-sublabel">Refinamiento estructural y sonoro para versión comercial</div>
+          </div>
         </div>
       </div>
 
@@ -1623,9 +1760,16 @@ footer {
           <p class="song-emotion">Entrega · Vulnerabilidad · Pasión · Ironía Romántica</p>
         </div>
         <div class="song-player">
-          <button class="player-btn" aria-label="Reproducir">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-          </button>
+          <div class="reingeneria-badge">
+            <button class="player-btn" aria-label="Reproducir">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+            </button>
+            <div class="reingeneria-wave">
+              <span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+            </div>
+            <div class="reingeneria-label">Reingeniería<br>en curso</div>
+            <div class="reingeneria-sublabel">Refinamiento estructural y sonoro para versión comercial</div>
+          </div>
         </div>
       </div>
 
@@ -1639,9 +1783,16 @@ footer {
           <p class="song-emotion">Indignación · Vigilancia · Intensidad · Reflexión Crítica</p>
         </div>
         <div class="song-player">
-          <button class="player-btn" aria-label="Reproducir">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-          </button>
+          <div class="reingeneria-badge">
+            <button class="player-btn" aria-label="Reproducir">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+            </button>
+            <div class="reingeneria-wave">
+              <span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+            </div>
+            <div class="reingeneria-label">Reingeniería<br>en curso</div>
+            <div class="reingeneria-sublabel">Refinamiento estructural y sonoro para versión comercial</div>
+          </div>
         </div>
       </div>
 
@@ -1656,9 +1807,16 @@ footer {
           <p class="song-emotion">Sensible · Introspectivo · Comercial · Melancolía Digital</p>
         </div>
         <div class="song-player">
-          <button class="player-btn" aria-label="Reproducir">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-          </button>
+          <div class="reingeneria-badge">
+            <button class="player-btn" aria-label="Reproducir">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+            </button>
+            <div class="reingeneria-wave">
+              <span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+            </div>
+            <div class="reingeneria-label">Reingeniería<br>en curso</div>
+            <div class="reingeneria-sublabel">Refinamiento estructural y sonoro para versión comercial</div>
+          </div>
         </div>
       </div> 
 
@@ -1675,9 +1833,16 @@ footer {
           <p class="song-emotion">Alienación · Vigilancia · Nihilismo Digital · Desconexión</p>
         </div>
         <div class="song-player">
-          <button class="player-btn" aria-label="Reproducir">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-          </button>
+          <div class="reingeneria-badge">
+            <button class="player-btn" aria-label="Reproducir">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+            </button>
+            <div class="reingeneria-wave">
+              <span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+            </div>
+            <div class="reingeneria-label">Reingeniería<br>en curso</div>
+            <div class="reingeneria-sublabel">Refinamiento estructural y sonoro para versión comercial</div>
+          </div>
         </div>
       </div> 
 
