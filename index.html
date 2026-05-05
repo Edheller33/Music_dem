@@ -1,2497 +1,1706 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>IA Music — Ingeniería de Arquitectura Sonora</title>
-<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Cinzel:wght@400;600;700&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400;0,700&family=Bebas+Neue&display=swap" rel="stylesheet" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EAMR — Estratega de Activos Musicales Registrables</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;600;700&family=Crimson+Pro:ital,wght@0,300;0,400;1,300;1,400&display=swap" rel="stylesheet">
 <style>
 :root {
-  --gold:          #C9A84C;
-  --gold-bright:   #f0c040;
-  --gold-light:    #E8C97A;
-  --gold-pale:     #f5dfa0;
-  --gold-mid:      #c9960c;
-  --gold-dark:     #8a6300;
-  --cream:         #F5EDD6;
-  --dark:          #0D0B08;
-  --dark2:         #1A1710;
-  --dark3:         #252218;
-  --dark4:         #161410;
-  --crimson:       #7a0a14;
-  --text:          #D6CCBA;
-  --text-muted:    #9a9282;
-  --shadow-gold:   0 0 28px rgba(192,144,12,0.35);
+  --gold: #D4AF37;
+  --gold-light: #F5D777;
+  --gold-dim: #8B7322;
+  --gold-glow: rgba(212,175,55,0.3);
+  --black: #050505;
+  --dark: #0A0A0A;
+  --panel: #111111;
+  --panel2: #161616;
+  --cyan: #00E5FF;
+  --cyan-dim: rgba(0,229,255,0.15);
+  --pink: #FF0080;
+  --pink-dim: rgba(255,0,128,0.15);
+  --white: #F0F0F0;
+  --grey: #888;
+  --border: rgba(212,175,55,0.18);
 }
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
 html { scroll-behavior: smooth; }
+
 body {
-  background-color: var(--dark);
-  color: var(--text);
-  font-family: 'Crimson Pro', serif;
-  font-size: 18px;
-  font-weight: 400;
-  line-height: 1.7;
+  background: var(--black);
+  color: var(--white);
+  font-family: 'Rajdhani', sans-serif;
   overflow-x: hidden;
+  cursor: none;
 }
 
-/* ── TEXTURE OVERLAY ── */
-body::before {
-  content: '';
-  position: fixed;
-  inset: 0;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4'%3E%3Crect width='4' height='4' fill='%230D0B08'/%3E%3Crect width='1' height='1' fill='%23ffffff06'/%3E%3C/svg%3E");
-  pointer-events: none;
-  z-index: 0;
+/* ── CURSOR ── */
+#cursor {
+  position: fixed; width: 12px; height: 12px;
+  background: var(--gold); border-radius: 50%;
+  pointer-events: none; z-index: 9999;
+  transform: translate(-50%,-50%);
+  transition: transform 0.1s, opacity 0.2s;
+  mix-blend-mode: screen;
 }
-
-/* ══ NAVIGATION BAR ══ */
-nav {
-  position: fixed;
-  top: 0; left: 0; right: 0;
-  z-index: 100;
-  background: rgba(13,11,8,0.92);
-  backdrop-filter: blur(12px);
-  border-bottom: 1px solid rgba(201,168,76,0.15);
-  padding: 0 24px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  height: 60px;
-}
-
-.nav-brand {
-  font-family: 'Cinzel Decorative', serif;
-  font-size: 1rem;
-  color: var(--gold-bright);
-  letter-spacing: 0.1em;
-  text-decoration: none;
-  filter: drop-shadow(0 0 8px rgba(192,144,12,0.4));
-}
-
-.nav-links {
-  display: flex;
-  gap: 6px;
-  align-items: center;
-  flex-wrap: wrap;
-}
-
-.nav-link {
-  font-family: 'Cinzel', serif;
-  font-size: 0.62rem;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  color: var(--text-muted);
-  text-decoration: none;
-  padding: 6px 10px;
-  border-radius: 2px;
-  transition: color 0.2s, background 0.2s;
-}
-
-.nav-link:hover {
-  color: var(--gold);
-  background: rgba(201,168,76,0.07);
-}
-
-/* ── HERO ── */
-.hero {
-  position: relative;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  padding: 80px 24px 80px;
-  background:
-    radial-gradient(ellipse 70% 55% at 50% 45%, rgba(122,10,20,0.18) 0%, transparent 70%),
-    radial-gradient(ellipse at 20% 20%, rgba(201,168,76,0.10) 0%, transparent 60%),
-    radial-gradient(ellipse at 80% 80%, rgba(42,107,110,0.07) 0%, transparent 60%),
-    var(--dark);
-  overflow: hidden;
-  z-index: 1;
-}
-
-.hero-frame {
-  position: absolute;
-  inset: 20px;
-  border: 1px solid rgba(201,168,76,0.12);
-  pointer-events: none;
-}
-
-.corner {
-  position: absolute;
-  width: 28px; height: 28px;
-  border-color: var(--gold-mid);
-  border-style: solid;
+#cursor-ring {
+  position: fixed; width: 36px; height: 36px;
+  border: 1px solid var(--gold); border-radius: 50%;
+  pointer-events: none; z-index: 9998;
+  transform: translate(-50%,-50%);
+  transition: transform 0.18s ease, width 0.2s, height 0.2s;
   opacity: 0.5;
 }
-.corner-tl { top: -1px; left: -1px; border-width: 2px 0 0 2px; }
-.corner-tr { top: -1px; right: -1px; border-width: 2px 2px 0 0; }
-.corner-bl { bottom: -1px; left: -1px; border-width: 0 0 2px 2px; }
-.corner-br { bottom: -1px; right: -1px; border-width: 0 2px 2px 0; }
 
-.hero-badge {
-  font-family: 'Cinzel', serif;
-  font-size: 0.72rem;
-  letter-spacing: 0.42em;
-  color: var(--gold-mid);
-  margin-bottom: 28px;
-  opacity: 0.8;
+/* ── SCANLINE OVERLAY ── */
+body::before {
+  content: '';
+  position: fixed; inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0,0,0,0.04) 2px,
+    rgba(0,0,0,0.04) 4px
+  );
+  pointer-events: none; z-index: 9990;
 }
 
-.hero-poster {
-  position: relative;
-  width: 100%;
-  max-width: 480px;
-  margin: 0 auto 36px;
+/* ── PARTICLE CANVAS ── */
+#particles { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
+
+/* ── NAVBAR ── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 40px; height: 64px;
+  background: rgba(5,5,5,0.85);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
 }
-
-.hero-poster img {
-  width: 100%;
-  border-radius: 4px;
-  box-shadow:
-    0 0 0 1px rgba(201,168,76,0.2),
-    0 0 60px rgba(201,168,76,0.07),
-    0 32px 80px rgba(0,0,0,0.8);
-  animation: fadeUp 1s ease both;
-}
-
-.hero-poster .corner { width: 24px; height: 24px; }
-.hero-poster .corner-tl { top: -6px; left: -6px; }
-.hero-poster .corner-tr { top: -6px; right: -6px; }
-.hero-poster .corner-bl { bottom: -6px; left: -6px; }
-.hero-poster .corner-br { bottom: -6px; right: -6px; }
-
-.hero-contact {
-  margin: 20px 0 8px;
-  animation: fadeUp 1s 0.15s ease both;
-}
-
-.hero-name {
-  font-family: 'Cinzel Decorative', serif;
-  font-size: clamp(1.1rem, 3vw, 1.5rem);
-  color: var(--cream);
-  letter-spacing: 0.1em;
-  margin-bottom: 6px;
-}
-
-.hero-phone {
-  font-family: 'Cinzel', serif;
-  font-size: 0.9rem;
-  letter-spacing: 0.25em;
+.nav-logo {
+  font-family: 'Orbitron', monospace;
+  font-size: 1.4rem; font-weight: 900;
   color: var(--gold);
-  text-decoration: none;
-  opacity: 0.9;
+  text-shadow: 0 0 20px var(--gold-glow);
+  letter-spacing: 0.15em;
+}
+.nav-logo span { color: var(--cyan); }
+.nav-links { display: flex; gap: 28px; list-style: none; }
+.nav-links a {
+  color: var(--grey); font-size: 0.85rem; font-weight: 600;
+  text-decoration: none; letter-spacing: 0.12em; text-transform: uppercase;
+  transition: color 0.2s;
+}
+.nav-links a:hover { color: var(--gold); }
+.nav-cta {
+  background: transparent;
+  border: 1px solid var(--gold); color: var(--gold);
+  font-family: 'Orbitron', monospace; font-size: 0.7rem; font-weight: 700;
+  letter-spacing: 0.15em; padding: 8px 20px; cursor: none;
+  transition: all 0.25s;
+}
+.nav-cta:hover { background: var(--gold); color: var(--black); }
+
+/* ── HERO ── */
+#hero {
+  position: relative; min-height: 100vh;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  overflow: hidden; z-index: 1;
+  padding-top: 64px;
 }
 
+.hero-bg-grid {
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(rgba(212,175,55,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(212,175,55,0.04) 1px, transparent 1px);
+  background-size: 60px 60px;
+  animation: gridMove 20s linear infinite;
+}
+@keyframes gridMove {
+  from { background-position: 0 0; }
+  to   { background-position: 60px 60px; }
+}
+
+.hero-glow {
+  position: absolute; top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 600px; height: 600px;
+  background: radial-gradient(circle, rgba(212,175,55,0.08) 0%, transparent 70%);
+  pointer-events: none;
+  animation: pulse-glow 4s ease-in-out infinite;
+}
+@keyframes pulse-glow {
+  0%,100% { opacity: 0.6; transform: translate(-50%,-50%) scale(1); }
+  50%      { opacity: 1;   transform: translate(-50%,-50%) scale(1.1); }
+}
+
+/* ── ANIMATED HERO TEXT ── */
+.hero-eyebrow {
+  font-family: 'Orbitron', monospace;
+  font-size: 0.7rem; letter-spacing: 0.4em; color: var(--cyan);
+  text-transform: uppercase; margin-bottom: 16px;
+  animation: fadeSlideDown 1s 0.2s both;
+  position: relative; z-index: 2;
+}
 .hero-title {
-  font-family: 'Cinzel Decorative', serif;
-  font-size: clamp(2.4rem, 8vw, 4.5rem);
-  font-weight: 900;
-  background: linear-gradient(135deg, var(--gold-pale) 0%, var(--gold-bright) 40%, var(--gold-mid) 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  filter: drop-shadow(0 2px 12px rgba(192,144,12,0.4));
-  line-height: 1.05;
-  margin-bottom: 12px;
-  animation: fadeUp 1s 0.2s ease both;
+  font-family: 'Orbitron', monospace;
+  font-size: clamp(2.8rem, 7vw, 6rem);
+  font-weight: 900; line-height: 1;
+  text-align: center; position: relative; z-index: 2;
+  animation: fadeSlideDown 1s 0.4s both;
+}
+.hero-title .line1 { display: block; color: var(--gold); text-shadow: 0 0 60px var(--gold-glow); }
+.hero-title .line2 { display: block; color: var(--white); }
+.hero-title .line3 {
+  display: block; color: transparent;
+  -webkit-text-stroke: 1px var(--gold-dim);
+  letter-spacing: 0.05em;
 }
 
 .hero-sub {
-  font-family: 'Cinzel', serif;
-  font-size: 0.75rem;
-  letter-spacing: 0.45em;
-  text-transform: uppercase;
-  color: var(--gold-dark);
-  margin-bottom: 16px;
-  animation: fadeUp 1s 0.35s ease both;
-}
-
-.hero-tagline {
   font-family: 'Crimson Pro', serif;
-  font-style: italic;
-  font-size: clamp(1.05rem, 2.5vw, 1.3rem);
-  color: var(--text);
-  opacity: 0.75;
-  max-width: 480px;
-  line-height: 1.7;
-  animation: fadeUp 1s 0.5s ease both;
-}
-
-.hero-divider {
-  width: 100px;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, var(--gold-mid), transparent);
-  margin: 24px auto;
-  animation: fadeUp 1s 0.6s ease both;
-}
-
-/* ── CTA BUTTONS IN HERO ── */
-.hero-cta-grid {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  width: 100%;
-  max-width: 480px;
-  margin: 8px auto 0;
-  animation: fadeUp 1s 0.75s ease both;
-}
-
-.btn-cta {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 12px;
-  padding: 16px 28px;
-  border-radius: 3px;
-  font-family: 'Cinzel', serif;
-  font-size: 0.78rem;
-  letter-spacing: 0.3em;
-  text-transform: uppercase;
-  text-decoration: none;
-  cursor: pointer;
-  border: none;
-  transition: all 0.28s ease;
-  position: relative;
-  overflow: hidden;
-}
-
-.btn-cta::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  opacity: 0;
-  transition: opacity 0.28s;
-}
-
-.btn-cta:hover::before { opacity: 1; }
-
-.btn-gold {
-  background: linear-gradient(135deg, var(--gold-mid), var(--gold-dark));
-  color: var(--dark);
-  font-weight: 700;
-  box-shadow: 0 4px 20px rgba(192,144,12,0.3);
-}
-
-.btn-gold::before { background: rgba(255,255,255,0.1); }
-.btn-gold:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(192,144,12,0.4); }
-
-.btn-outline {
-  background: transparent;
-  color: var(--gold-light);
-  border: 1px solid rgba(201,168,76,0.4);
-}
-
-.btn-outline::before { background: rgba(201,168,76,0.07); }
-.btn-outline:hover { border-color: var(--gold); color: var(--gold); transform: translateY(-1px); }
-
-.btn-ghost {
-  background: rgba(201,168,76,0.05);
-  color: var(--text);
-  border: 1px solid rgba(201,168,76,0.15);
-}
-
-.btn-ghost::before { background: rgba(201,168,76,0.06); }
-.btn-ghost:hover { border-color: rgba(201,168,76,0.35); color: var(--gold-light); }
-
-.btn-cta .btn-icon {
-  font-size: 1.1rem;
-  flex-shrink: 0;
-}
-
-.scroll-hint {
-  position: absolute;
-  bottom: 28px;
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 6px;
-  opacity: 0.3;
-  animation: bounce 2s infinite;
-}
-
-.scroll-hint span {
-  font-family: 'Cinzel', serif;
-  font-size: 0.6rem;
-  letter-spacing: 0.25em;
-  text-transform: uppercase;
-}
-
-.scroll-hint svg { width: 16px; height: 16px; }
-
-/* ── QUOTE BAR ── */
-.quote-bar {
-  background: linear-gradient(90deg, transparent, rgba(201,168,76,0.06), transparent);
-  border-top: 1px solid rgba(201,168,76,0.1);
-  border-bottom: 1px solid rgba(201,168,76,0.1);
-  padding: 40px 24px;
-  text-align: center;
-  position: relative;
-  z-index: 1;
-}
-
-.quote-text {
-  font-family: 'Crimson Pro', serif;
-  font-style: italic;
-  font-size: clamp(1.1rem, 2.5vw, 1.4rem);
-  color: var(--cream);
-  opacity: 0.8;
-  max-width: 600px;
-  margin: 0 auto 10px;
-  line-height: 1.7;
-}
-
-.quote-author {
-  font-family: 'Cinzel', serif;
-  font-size: 0.72rem;
-  letter-spacing: 0.3em;
-  color: var(--gold);
-  opacity: 0.65;
-}
-
-/* ── SECTION SHARED ── */
-.section-wrap {
-  position: relative;
-  z-index: 1;
-}
-
-.section-inner {
-  max-width: 900px;
-  margin: 0 auto;
-  padding: 80px 24px 100px;
-}
-
-.section-header {
-  text-align: center;
-  margin-bottom: 60px;
-}
-
-.section-eyebrow {
-  font-family: 'Cinzel', serif;
-  font-size: 0.72rem;
-  letter-spacing: 0.42em;
-  color: var(--gold-mid);
-  margin-bottom: 14px;
-  opacity: 0.75;
-  text-transform: uppercase;
-}
-
-.section-title {
-  font-family: 'Cinzel Decorative', serif;
-  font-size: clamp(1.5rem, 4vw, 2.4rem);
-  color: var(--gold-bright);
-  text-shadow: 0 0 24px rgba(192,144,12,0.3);
-  margin-bottom: 16px;
-}
-
-.gold-line {
-  width: 100px;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, var(--gold-mid), transparent);
-  margin: 0 auto 20px;
-}
-
-.section-desc {
-  font-size: 1.05rem;
-  color: var(--text-muted);
-  font-style: italic;
-  max-width: 560px;
-  margin: 0 auto;
-  line-height: 1.75;
-}
-
-/* ── QUICK ACTION BUTTONS ── */
-.quick-actions {
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-  max-width: 540px;
-  margin: 48px auto 0;
-}
-
-.quick-btn {
-  display: flex;
-  align-items: center;
-  gap: 18px;
-  padding: 20px 28px;
-  border-radius: 4px;
-  text-decoration: none;
-  cursor: pointer;
-  border: none;
-  transition: all 0.28s ease;
-  position: relative;
-  overflow: hidden;
-}
-
-.quick-btn::after {
-  content: '→';
-  position: absolute;
-  right: 24px;
-  font-family: 'Crimson Pro', serif;
-  font-size: 1.2rem;
-  opacity: 0;
-  transform: translateX(-8px);
-  transition: all 0.25s;
-}
-
-.quick-btn:hover::after {
-  opacity: 0.6;
-  transform: translateX(0);
-}
-
-.quick-btn-icon {
-  font-size: 1.6rem;
-  flex-shrink: 0;
-  width: 44px;
-  text-align: center;
-}
-
-.quick-btn-text { flex: 1; text-align: left; }
-
-.quick-btn-label {
-  font-family: 'Cinzel', serif;
-  font-size: 0.78rem;
-  letter-spacing: 0.28em;
-  text-transform: uppercase;
-  display: block;
-  margin-bottom: 3px;
-}
-
-.quick-btn-sub {
-  font-family: 'Crimson Pro', serif;
-  font-size: 0.88rem;
-  opacity: 0.55;
-  font-style: italic;
-}
-
-.qbtn-catalog {
-  background: linear-gradient(135deg, rgba(201,168,76,0.18), rgba(201,168,76,0.08));
-  border: 1px solid rgba(201,168,76,0.35);
-  color: var(--gold-bright);
-}
-
-.qbtn-catalog:hover {
-  background: linear-gradient(135deg, rgba(201,168,76,0.25), rgba(201,168,76,0.12));
-  border-color: var(--gold);
-  transform: translateX(4px);
-  box-shadow: var(--shadow-gold);
-}
-
-.qbtn-clausula {
-  background: rgba(122,10,20,0.15);
-  border: 1px solid rgba(122,10,20,0.4);
-  color: var(--text);
-}
-
-.qbtn-clausula:hover {
-  background: rgba(122,10,20,0.22);
-  border-color: rgba(200,50,60,0.5);
-  transform: translateX(4px);
-  color: #f5a0a8;
-}
-
-.qbtn-podcast {
-  background: rgba(42,107,110,0.1);
-  border: 1px solid rgba(42,107,110,0.3);
-  color: var(--text);
-}
-
-.qbtn-podcast:hover {
-  background: rgba(42,107,110,0.17);
-  border-color: rgba(42,150,155,0.45);
-  transform: translateX(4px);
-  color: #7dd6d9;
-}
-
-/* ── CATALOG / SONG CARDS ── */
-.songs-grid { display: grid; gap: 2px; }
-
-.song-card {
-  position: relative;
-  background: var(--dark2);
-  border: 1px solid rgba(201,168,76,0.07);
-  border-left: 3px solid rgba(201,168,76,0.0);
-  border-radius: 3px;
-  padding: 28px 28px 28px 32px;
-  display: grid;
-  grid-template-columns: 52px 1fr auto;
-  gap: 0 20px;
-  align-items: start;
-  transition: background 0.3s, border-color 0.3s, border-left-color 0.3s;
-  opacity: 0;
-  transform: translateY(16px);
-  transition: opacity 0.5s ease, transform 0.5s ease, background 0.3s, border-color 0.3s;
-}
-
-.song-card.visible { opacity: 1; transform: translateY(0); }
-
-.song-card:hover {
-  background: var(--dark3);
-  border-color: rgba(201,168,76,0.18);
-  border-left-color: var(--gold-mid);
-}
-
-.song-num {
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: 2.2rem;
-  color: rgba(201,168,76,0.18);
-  line-height: 1;
-  transition: color 0.3s;
-  padding-top: 4px;
-}
-
-.song-card:hover .song-num { color: var(--gold); }
-
-.song-body { min-width: 0; }
-
-.song-title {
-  font-family: 'Cinzel', serif;
-  font-size: 1.1rem;
-  color: var(--cream);
-  font-weight: 700;
-  margin-bottom: 5px;
-  line-height: 1.3;
-}
-
-.song-genre {
-  font-family: 'Cinzel', serif;
-  font-size: 0.65rem;
-  letter-spacing: 0.22em;
-  color: var(--gold);
-  margin-bottom: 14px;
-  opacity: 0.8;
-  text-transform: uppercase;
-}
-
-.song-desc {
-  font-family: 'Crimson Pro', serif;
-  font-size: 1rem;
-  line-height: 1.75;
-  color: var(--text);
-  max-width: 600px;
-}
-
-.song-emotion {
-  font-family: 'Crimson Pro', serif;
-  font-size: 0.85rem;
-  letter-spacing: 0.03em;
-  color: var(--gold-light);
-  opacity: 0.5;
-  margin-top: 12px;
-  font-style: italic;
-}
-
-.song-player {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: 8px;
-  padding-top: 4px;
-  min-width: 56px;
-}
-
-.player-btn {
-  width: 52px; height: 52px;
-  border-radius: 50%;
-  border: 1px solid rgba(201,168,76,0.28);
-  background: rgba(201,168,76,0.04);
-  color: var(--gold);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: all 0.2s;
-  flex-shrink: 0;
-}
-
-.player-btn:hover {
-  background: rgba(201,168,76,0.14);
-  border-color: var(--gold);
-  transform: scale(1.08);
-}
-
-.player-btn.playing {
-  background: rgba(201,168,76,0.18);
-  border-color: var(--gold);
-  box-shadow: 0 0 20px rgba(201,168,76,0.25);
-}
-
-/* ── DERECHOS / LICENCIAS ── */
-.rights-section { background: var(--dark4); }
-
-.rights-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 20px;
-  margin-top: 40px;
-}
-
-.rights-card {
-  background: var(--dark2);
-  border-radius: 4px;
-  padding: 32px 28px;
-  border: 1px solid rgba(201,168,76,0.1);
-  transition: border-color 0.3s, transform 0.3s;
-  opacity: 0;
-  transform: translateY(16px);
-  transition: opacity 0.5s ease, transform 0.5s ease, border-color 0.3s;
-}
-
-.rights-card.visible { opacity: 1; transform: translateY(0); }
-.rights-card:hover { border-color: rgba(201,168,76,0.25); transform: translateY(-3px); }
-
-.rights-card-badge {
-  display: inline-block;
-  font-family: 'Cinzel', serif;
-  font-size: 0.62rem;
-  letter-spacing: 0.3em;
-  padding: 4px 12px;
-  border-radius: 2px;
-  margin-bottom: 18px;
-  text-transform: uppercase;
-}
-
-.badge-free { background: rgba(42,107,110,0.2); color: #7dd6d9; border: 1px solid rgba(42,107,110,0.3); }
-.badge-pro  { background: rgba(201,168,76,0.15); color: var(--gold-bright); border: 1px solid rgba(201,168,76,0.3); }
-
-.rights-card-title {
-  font-family: 'Cinzel', serif;
-  font-size: 1rem;
-  color: var(--cream);
-  font-weight: 700;
-  margin-bottom: 12px;
-}
-
-.rights-card-body {
-  font-family: 'Crimson Pro', serif;
-  font-size: 0.95rem;
-  color: var(--text-muted);
-  line-height: 1.75;
-}
-
-.rights-download-row {
-  display: flex;
-  gap: 12px;
-  margin-top: 20px;
-  flex-wrap: wrap;
-}
-
-.btn-dl {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 10px 20px;
-  border-radius: 3px;
-  font-family: 'Cinzel', serif;
-  font-size: 0.65rem;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  text-decoration: none;
-  transition: all 0.25s;
-  cursor: pointer;
-  border: none;
-}
-
-.btn-dl-gold {
-  background: linear-gradient(135deg, var(--gold-mid), var(--gold-dark));
-  color: var(--dark);
-  font-weight: 700;
-}
-
-.btn-dl-gold:hover { filter: brightness(1.1); transform: translateY(-1px); }
-
-.btn-dl-ghost {
-  background: transparent;
-  border: 1px solid rgba(201,168,76,0.3);
-  color: var(--gold-light);
-}
-
-.btn-dl-ghost:hover { border-color: var(--gold); background: rgba(201,168,76,0.07); }
-
-/* ── PODCAST PLAYER ── */
-.podcast-wrap { background: var(--dark2); border-radius: 6px; border: 1px solid rgba(201,168,76,0.12); overflow: hidden; max-width: 680px; margin: 0 auto; }
-
-.podcast-head {
-  display: flex;
-  align-items: center;
-  gap: 20px;
-  padding: 28px 28px 20px;
-  border-bottom: 1px solid rgba(201,168,76,0.08);
-}
-
-.podcast-thumb {
-  width: 72px; height: 72px;
-  border-radius: 4px;
-  background: linear-gradient(135deg, var(--crimson), var(--dark));
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 2rem;
-  flex-shrink: 0;
-  border: 1px solid rgba(201,168,76,0.15);
-}
-
-.podcast-meta { flex: 1; }
-
-.podcast-ep {
-  font-family: 'Cinzel', serif;
-  font-size: 0.65rem;
-  letter-spacing: 0.3em;
-  color: var(--gold-mid);
-  margin-bottom: 4px;
-  text-transform: uppercase;
-}
-
-.podcast-title {
-  font-family: 'Cinzel', serif;
-  font-size: 1rem;
-  color: var(--cream);
-  font-weight: 700;
-  line-height: 1.3;
-  margin-bottom: 4px;
-}
-
-.podcast-host {
-  font-family: 'Crimson Pro', serif;
-  font-size: 0.88rem;
-  color: var(--text-muted);
-  font-style: italic;
-}
-
-.audio-controls { padding: 20px 28px 28px; }
-
-.audio-progress-wrap {
-  cursor: pointer;
-  padding: 8px 0;
-  margin-bottom: 6px;
-}
-
-.audio-progress-bg {
-  height: 3px;
-  background: rgba(201,168,76,0.12);
-  border-radius: 2px;
-  position: relative;
-  overflow: hidden;
-}
-
-.audio-progress-fill {
-  height: 100%;
-  background: linear-gradient(90deg, var(--gold-mid), var(--gold-bright));
-  width: 0%;
-  border-radius: 2px;
-  transition: width 0.2s linear;
-}
-
-.audio-time-row {
-  display: flex;
-  justify-content: space-between;
-  font-family: 'Cinzel', serif;
-  font-size: 0.68rem;
-  letter-spacing: 0.08em;
-  color: var(--text-muted);
-  margin-bottom: 16px;
-}
-
-.audio-btns {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 16px;
-  margin-bottom: 16px;
-}
-
-.audio-btn {
-  background: transparent;
-  border: 1px solid rgba(201,168,76,0.2);
-  color: var(--text-muted);
-  font-family: 'Cinzel', serif;
-  font-size: 0.65rem;
-  letter-spacing: 0.12em;
-  padding: 8px 14px;
-  border-radius: 3px;
-  cursor: pointer;
-  transition: all 0.2s;
-}
-
-.audio-btn:hover { border-color: var(--gold); color: var(--gold-light); }
-
-.audio-btn-play {
-  width: 60px; height: 60px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, var(--gold-mid), var(--gold-dark));
-  border: none;
-  color: var(--dark);
-  font-size: 1.4rem;
-  cursor: pointer;
-  transition: all 0.2s;
-  box-shadow: 0 4px 18px rgba(192,144,12,0.3);
-}
-
-.audio-btn-play:hover { transform: scale(1.08); box-shadow: 0 6px 24px rgba(192,144,12,0.4); }
-
-.audio-volume-row {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  color: var(--text-muted);
-  font-size: 0.9rem;
-}
-
-.volume-slider {
-  flex: 1;
-  -webkit-appearance: none;
-  height: 3px;
-  border-radius: 2px;
-  background: rgba(201,168,76,0.15);
-  outline: none;
-  cursor: pointer;
-}
-
-.volume-slider::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  width: 14px; height: 14px;
-  border-radius: 50%;
-  background: var(--gold-mid);
-  cursor: pointer;
-}
-
-/* ── CUESTIONARIO ── */
-.form-section { background: var(--dark4); }
-
-.form-intro-bar {
-  background: linear-gradient(90deg, transparent, rgba(201,168,76,0.05), transparent);
-  border-top: 1px solid rgba(201,168,76,0.1);
-  border-bottom: 1px solid rgba(201,168,76,0.1);
-  padding: 40px 24px;
-  text-align: center;
-  position: relative;
-  z-index: 1;
-}
-
-.form-intro-eyebrow {
-  font-family: 'Cinzel', serif;
-  font-size: 0.72rem;
-  letter-spacing: 0.4em;
-  color: var(--gold-mid);
-  opacity: 0.75;
-  margin-bottom: 14px;
-  text-transform: uppercase;
-}
-
-.form-intro-text {
-  font-family: 'Crimson Pro', serif;
-  font-style: italic;
-  font-size: clamp(1.05rem, 2.5vw, 1.35rem);
-  color: var(--cream);
-  opacity: 0.75;
-  max-width: 560px;
-  margin: 0 auto;
-  line-height: 1.7;
-}
-
-.cuestionario-inner {
-  max-width: 780px;
-  margin: 0 auto;
-  padding: 72px 24px 100px;
-}
-
-.form-progress-wrap { margin-bottom: 52px; }
-
-.form-progress-label {
-  font-family: 'Cinzel', serif;
-  font-size: 0.65rem;
-  letter-spacing: 0.25em;
-  color: var(--text-muted);
-  text-transform: uppercase;
-  margin-bottom: 8px;
-}
-
-.form-progress-bar-bg {
-  height: 2px;
-  background: rgba(201,168,76,0.1);
-  border-radius: 1px;
-  overflow: hidden;
-}
-
-.form-progress-bar-fill {
-  height: 100%;
-  background: linear-gradient(90deg, var(--gold-mid), var(--gold-bright));
-  width: 0%;
-  transition: width 0.4s ease;
-  border-radius: 1px;
-}
-
-.form-block {
-  margin-bottom: 44px;
-  opacity: 0;
-  transform: translateY(16px);
-  transition: opacity 0.5s ease, transform 0.5s ease;
-}
-
-.form-block.visible { opacity: 1; transform: translateY(0); }
-
-.form-block-header {
-  display: flex;
-  align-items: baseline;
-  gap: 14px;
-  margin-bottom: 20px;
-  border-bottom: 1px solid rgba(201,168,76,0.1);
-  padding-bottom: 10px;
-}
-
-.form-block-num {
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: 1.6rem;
-  color: rgba(201,168,76,0.22);
-  line-height: 1;
-  flex-shrink: 0;
-}
-
-.form-block-title {
-  font-family: 'Cinzel', serif;
-  font-size: 0.88rem;
-  letter-spacing: 0.22em;
-  color: var(--gold-light);
-  text-transform: uppercase;
-}
-
-.form-block-sub {
-  font-family: 'Crimson Pro', serif;
-  font-size: 0.85rem;
-  color: var(--text-muted);
-  font-style: italic;
-  margin-left: auto;
-}
-
-.form-field { margin-bottom: 24px; }
-
-.form-label {
-  display: block;
-  font-family: 'Cinzel', serif;
-  font-size: 0.7rem;
-  letter-spacing: 0.25em;
-  color: var(--gold-light);
-  opacity: 0.8;
-  margin-bottom: 8px;
-  text-transform: uppercase;
-}
-
-.form-hint {
-  font-family: 'Crimson Pro', serif;
-  font-size: 0.88rem;
-  color: var(--text-muted);
-  font-style: italic;
-  margin-bottom: 8px;
-  line-height: 1.6;
-  display: block;
-  opacity: 0.75;
-}
-
-.form-input, .form-textarea {
-  width: 100%;
-  background: rgba(201,168,76,0.03);
-  border: 1px solid rgba(201,168,76,0.15);
-  border-radius: 3px;
-  color: var(--cream);
-  font-family: 'Crimson Pro', serif;
-  font-size: 1rem;
-  padding: 12px 16px;
-  outline: none;
-  transition: border-color 0.25s, background 0.25s;
-  line-height: 1.6;
-}
-
-.form-input:focus, .form-textarea:focus {
-  border-color: rgba(201,168,76,0.5);
-  background: rgba(201,168,76,0.06);
-}
-
-.form-input::placeholder, .form-textarea::placeholder {
-  color: var(--text-muted);
-  opacity: 0.45;
-  font-style: italic;
-}
-
-.form-textarea { resize: vertical; min-height: 100px; }
-
-.form-chips { display: flex; flex-wrap: wrap; gap: 8px; }
-
-.form-chip {
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
-  padding: 8px 14px;
-  border: 1px solid rgba(201,168,76,0.18);
-  border-radius: 3px;
-  background: rgba(201,168,76,0.03);
-  cursor: pointer;
-  transition: all 0.2s;
-  font-family: 'Crimson Pro', serif;
-  font-size: 0.9rem;
-  color: var(--text);
-}
-
-.form-chip input { position: absolute; opacity: 0; pointer-events: none; }
-
-.form-chip:hover { border-color: rgba(201,168,76,0.38); background: rgba(201,168,76,0.07); color: var(--cream); }
-
-.form-chip.selected { border-color: var(--gold); background: rgba(201,168,76,0.12); color: var(--gold-light); }
-
-.form-divider { height: 1px; background: linear-gradient(90deg, transparent, rgba(201,168,76,0.1), transparent); margin: 44px 0; }
-
-.form-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-
-.ancla-inputs { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-
-.form-optional-badge {
-  font-family: 'Cinzel', serif;
-  font-size: 0.6rem;
-  letter-spacing: 0.2em;
-  padding: 2px 6px;
-  background: rgba(201,168,76,0.1);
-  border: 1px solid rgba(201,168,76,0.18);
-  border-radius: 2px;
-  color: var(--gold);
-  margin-left: 8px;
-  vertical-align: middle;
-}
-
-.form-submit-wrap { text-align: center; margin-top: 56px; }
-
-.form-submit-note {
-  font-family: 'Crimson Pro', serif;
-  font-size: 0.95rem;
-  color: var(--text-muted);
-  opacity: 0.7;
-  margin-bottom: 24px;
-  font-style: italic;
-  line-height: 1.7;
-}
-
-.form-submit-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 12px;
-  background: transparent;
-  border: 1px solid var(--gold);
-  border-radius: 2px;
-  color: var(--gold);
-  font-family: 'Cinzel', serif;
-  font-size: 0.82rem;
-  letter-spacing: 0.3em;
-  text-transform: uppercase;
-  padding: 16px 44px;
-  cursor: pointer;
-  transition: all 0.25s;
-  position: relative;
-  overflow: hidden;
-}
-
-.form-submit-btn::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: rgba(201,168,76,0.08);
-  transform: translateX(-100%);
-  transition: transform 0.3s ease;
-}
-
-.form-submit-btn:hover::before { transform: translateX(0); }
-.form-submit-btn:hover { box-shadow: 0 0 24px rgba(201,168,76,0.18); }
-
-.form-success {
-  display: none;
-  text-align: center;
-  padding: 48px 24px;
-  border: 1px solid rgba(201,168,76,0.2);
-  border-radius: 4px;
-  background: rgba(201,168,76,0.03);
-  margin-top: 32px;
-}
-
-.form-success.visible { display: block; }
-
-.form-success-icon { font-size: 2.5rem; margin-bottom: 16px; }
-
-.form-success-title {
-  font-family: 'Cinzel Decorative', serif;
-  font-size: 1.4rem;
-  color: var(--gold-bright);
-  margin-bottom: 12px;
-}
-
-.form-success-body {
-  font-family: 'Crimson Pro', serif;
-  font-size: 1rem;
-  color: var(--text);
-  opacity: 0.7;
-  line-height: 1.8;
-  max-width: 440px;
-  margin: 0 auto;
-}
-
-.form-success-body strong { color: var(--gold-light); font-weight: 600; }
-
-/* ── FOOTER ── */
-footer {
-  border-top: 1px solid rgba(201,168,76,0.12);
-  padding: 48px 24px;
-  text-align: center;
-  position: relative;
-  z-index: 1;
-}
-
-.footer-logo {
-  font-family: 'Cinzel Decorative', serif;
-  font-size: 1.4rem;
-  letter-spacing: 0.15em;
-  color: var(--gold-bright);
-  margin-bottom: 8px;
-  text-shadow: 0 0 16px rgba(192,144,12,0.3);
-}
-
-.footer-clause {
-  max-width: 700px;
-  margin: 28px auto;
-  padding: 28px 32px;
-  border: 1px solid rgba(201,168,76,0.12);
-  border-radius: 4px;
-  background: rgba(201,168,76,0.02);
-  text-align: left;
-}
-
-.footer-clause-title {
-  font-family: 'Cinzel', serif;
-  font-size: 0.7rem;
-  letter-spacing: 0.2em;
-  color: var(--gold-mid);
-  margin-bottom: 16px;
-  text-align: center;
-  text-transform: uppercase;
-}
-
-.footer-clause-body {
-  font-family: 'Crimson Pro', serif;
-  font-size: 0.9rem;
-  line-height: 1.8;
-  color: var(--text-muted);
-  margin-bottom: 12px;
-}
-
-.footer-clause-body:last-child { margin-bottom: 0; }
-
-.footer-clause-body strong { color: var(--gold-light); font-weight: 600; }
-
-.footer-copy {
-  font-family: 'Cinzel', serif;
-  font-size: 0.68rem;
-  color: var(--text-muted);
-  opacity: 0.45;
-  letter-spacing: 0.1em;
-  margin-top: 16px;
-}
-
-.footer-links {
-  display: flex;
-  gap: 20px;
-  justify-content: center;
-  margin: 12px 0;
-}
-
-.footer-link {
-  font-family: 'Cinzel', serif;
-  font-size: 0.68rem;
-  letter-spacing: 0.18em;
-  color: var(--gold-mid);
-  text-decoration: none;
-  opacity: 0.6;
-  transition: opacity 0.2s;
-}
-
-.footer-link:hover { opacity: 1; }
-
-/* ── PDF MODAL ── */
-.pdf-modal-overlay {
-  display: none;
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.85);
-  z-index: 200;
-  align-items: center;
-  justify-content: center;
-  padding: 20px;
-}
-
-.pdf-modal-overlay.open { display: flex; }
-
-.pdf-modal {
-  background: var(--dark2);
-  border: 1px solid rgba(201,168,76,0.25);
-  border-radius: 6px;
-  max-width: 720px;
-  width: 100%;
-  max-height: 90vh;
-  overflow-y: auto;
-  padding: 40px 36px;
-  position: relative;
-  animation: fadeUp 0.35s ease;
-}
-
-.pdf-modal-close {
-  position: absolute;
-  top: 16px; right: 16px;
-  background: transparent;
-  border: 1px solid rgba(201,168,76,0.2);
-  color: var(--text-muted);
-  width: 34px; height: 34px;
-  border-radius: 50%;
-  cursor: pointer;
-  font-size: 1rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.2s;
-}
-
-.pdf-modal-close:hover { border-color: var(--gold); color: var(--gold); }
-
-.pdf-modal-title {
-  font-family: 'Cinzel Decorative', serif;
-  font-size: 1.2rem;
-  color: var(--gold-bright);
-  margin-bottom: 8px;
-  padding-right: 40px;
-}
-
-.pdf-modal-badge {
-  display: inline-block;
-  font-family: 'Cinzel', serif;
-  font-size: 0.6rem;
-  letter-spacing: 0.28em;
-  padding: 3px 10px;
-  border-radius: 2px;
-  margin-bottom: 24px;
-  text-transform: uppercase;
-}
-
-.pdf-modal-body {
-  font-family: 'Crimson Pro', serif;
-  font-size: 1rem;
-  color: var(--text);
-  line-height: 1.85;
-}
-
-.pdf-modal-section-title {
-  font-family: 'Cinzel', serif;
-  font-size: 0.78rem;
-  letter-spacing: 0.22em;
-  color: var(--gold-mid);
-  text-transform: uppercase;
-  margin: 24px 0 10px;
-}
-
-.pdf-modal-body p {
-  margin-bottom: 14px;
-  color: var(--text);
-}
-
-.pdf-modal-body strong { color: var(--gold-light); font-weight: 600; }
-
-.pdf-tabs {
-  display: flex;
-  gap: 4px;
-  margin-bottom: 32px;
-  border-bottom: 1px solid rgba(201,168,76,0.1);
-}
-
-.pdf-tab {
-  font-family: 'Cinzel', serif;
-  font-size: 0.68rem;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  padding: 10px 18px;
-  cursor: pointer;
-  background: transparent;
-  border: none;
-  color: var(--text-muted);
-  border-bottom: 2px solid transparent;
-  transition: all 0.2s;
-  margin-bottom: -1px;
-}
-
-.pdf-tab:hover { color: var(--gold-light); }
-.pdf-tab.active { color: var(--gold-bright); border-bottom-color: var(--gold-mid); }
-
-.pdf-content { display: none; }
-.pdf-content.active { display: block; }
-
-/* ── ANIMATIONS ── */
-@keyframes fadeUp {
-  from { opacity: 0; transform: translateY(24px); }
+  font-style: italic; font-size: 1.25rem;
+  color: var(--grey); text-align: center;
+  margin-top: 20px; max-width: 520px;
+  animation: fadeSlideDown 1s 0.6s both;
+  position: relative; z-index: 2;
+}
+.hero-sub em { color: var(--gold-light); font-style: normal; }
+
+@keyframes fadeSlideDown {
+  from { opacity: 0; transform: translateY(-24px); }
   to   { opacity: 1; transform: translateY(0); }
 }
 
-@keyframes bounce {
-  0%, 100% { transform: translateX(-50%) translateY(0); }
-  50%       { transform: translateX(-50%) translateY(8px); }
+/* ── FINGERPRINT VISUALIZER ── */
+#fp-container {
+  position: relative; margin: 40px 0 30px;
+  width: 260px; height: 260px;
+  animation: fadeSlideDown 1.2s 0.8s both;
+  z-index: 2; cursor: none;
+}
+#fp-canvas {
+  position: absolute; inset: 0;
+  border-radius: 50%;
+}
+.fp-ring {
+  position: absolute; inset: -8px;
+  border-radius: 50%;
+  border: 1px solid var(--gold-dim);
+  animation: spin 12s linear infinite;
+}
+.fp-ring::before {
+  content: '';
+  position: absolute; top: -3px; left: 50%; transform: translateX(-50%);
+  width: 6px; height: 6px; background: var(--gold);
+  border-radius: 50%;
+  box-shadow: 0 0 10px var(--gold);
+}
+.fp-ring2 {
+  position: absolute; inset: -18px;
+  border-radius: 50%;
+  border: 1px solid rgba(0,229,255,0.2);
+  animation: spin 20s linear infinite reverse;
+}
+@keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+/* ── HERO BUTTONS ── */
+.hero-btns {
+  display: flex; gap: 16px; flex-wrap: wrap; justify-content: center;
+  margin-top: 10px; z-index: 2; position: relative;
+  animation: fadeSlideDown 1s 1s both;
+}
+.btn-libre {
+  position: relative; overflow: hidden;
+  padding: 14px 28px;
+  background: linear-gradient(135deg, var(--cyan) 0%, #0080FF 100%);
+  color: #000; font-family: 'Orbitron', monospace;
+  font-size: 0.7rem; font-weight: 700; letter-spacing: 0.12em;
+  border: none; cursor: none;
+  clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);
+  transition: all 0.25s; text-transform: uppercase;
+}
+.btn-libre:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(0,229,255,0.4); }
+.btn-comercial {
+  position: relative; overflow: hidden;
+  padding: 14px 28px;
+  background: linear-gradient(135deg, var(--gold) 0%, #FF8C00 100%);
+  color: #000; font-family: 'Orbitron', monospace;
+  font-size: 0.7rem; font-weight: 700; letter-spacing: 0.12em;
+  border: none; cursor: none;
+  clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);
+  transition: all 0.25s; text-transform: uppercase;
+}
+.btn-comercial:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(212,175,55,0.5); }
+.btn-icon { margin-right: 8px; font-size: 1rem; }
+
+/* ── WAVEFORM DIVIDER ── */
+.wave-divider {
+  width: 100%; height: 80px;
+  position: relative; overflow: hidden;
+  z-index: 2;
+}
+.wave-divider canvas { width: 100%; height: 100%; }
+
+/* ── SECTION BASE ── */
+section { position: relative; z-index: 2; }
+
+.section-header {
+  text-align: center; padding: 80px 20px 48px;
+}
+.section-eyebrow {
+  font-family: 'Orbitron', monospace;
+  font-size: 0.65rem; letter-spacing: 0.5em; color: var(--cyan);
+  text-transform: uppercase; margin-bottom: 12px;
+}
+.section-title {
+  font-family: 'Orbitron', monospace;
+  font-size: clamp(1.6rem, 4vw, 2.8rem);
+  font-weight: 900; color: var(--gold);
+  text-shadow: 0 0 40px var(--gold-glow);
+  margin-bottom: 14px;
+}
+.section-sub {
+  font-family: 'Crimson Pro', serif;
+  font-style: italic; font-size: 1.1rem; color: var(--grey);
+  max-width: 600px; margin: 0 auto;
+}
+
+/* ── PLAYER SECTION ── */
+#player-section {
+  background: var(--dark);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  padding: 0 0 60px;
+}
+
+.player-tabs {
+  display: flex; justify-content: center; gap: 0;
+  margin-bottom: 40px;
+  border-bottom: 1px solid var(--border);
+}
+.player-tab {
+  padding: 16px 36px;
+  font-family: 'Orbitron', monospace;
+  font-size: 0.7rem; letter-spacing: 0.15em;
+  color: var(--grey); background: transparent;
+  border: none; border-bottom: 2px solid transparent;
+  cursor: none; transition: all 0.25s;
+  text-transform: uppercase;
+}
+.player-tab.active { color: var(--gold); border-bottom-color: var(--gold); }
+.player-tab:hover { color: var(--white); }
+
+.tracks-container { display: none; padding: 0 clamp(20px, 5vw, 80px); }
+.tracks-container.active { display: block; }
+
+/* SPOTIFY-STYLE TRACK LIST */
+.track-list { display: flex; flex-direction: column; gap: 4px; }
+.track-item {
+  display: grid;
+  grid-template-columns: 32px 48px 1fr auto auto;
+  align-items: center; gap: 16px;
+  padding: 10px 16px;
+  border-radius: 4px;
+  transition: background 0.2s; cursor: none;
+  border: 1px solid transparent;
+}
+.track-item:hover { background: var(--panel2); border-color: var(--border); }
+.track-item.playing { background: var(--panel2); border-color: rgba(212,175,55,0.3); }
+.track-num {
+  font-family: 'Orbitron', monospace;
+  font-size: 0.75rem; color: var(--grey); text-align: center;
+}
+.track-item.playing .track-num { color: var(--gold); }
+.track-thumb {
+  width: 48px; height: 48px; border-radius: 4px;
+  background: var(--panel);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.3rem; flex-shrink: 0;
+  border: 1px solid var(--border);
+  overflow: hidden;
+}
+.track-thumb img { width: 100%; height: 100%; object-fit: cover; }
+.track-info { min-width: 0; }
+.track-name {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 1rem; font-weight: 600; color: var(--white);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.track-item.playing .track-name { color: var(--gold); }
+.track-genre {
+  font-size: 0.78rem; color: var(--grey); margin-top: 2px;
+}
+.track-badge {
+  padding: 3px 10px;
+  font-family: 'Orbitron', monospace;
+  font-size: 0.55rem; letter-spacing: 0.1em;
+  border-radius: 2px; text-transform: uppercase;
+}
+.badge-free { background: rgba(0,229,255,0.1); color: var(--cyan); border: 1px solid rgba(0,229,255,0.3); }
+.badge-commercial { background: rgba(212,175,55,0.1); color: var(--gold); border: 1px solid rgba(212,175,55,0.3); }
+.badge-unicorn { background: rgba(255,0,128,0.1); color: var(--pink); border: 1px solid rgba(255,0,128,0.3); }
+.badge-hit { background: rgba(118,255,3,0.1); color: #76FF03; border: 1px solid rgba(118,255,3,0.3); }
+.track-tema {
+  font-size: 0.72rem; color: var(--grey); margin-top: 3px;
+  line-height: 1.4; max-width: 520px;
+  font-family: 'Crimson Pro', serif; font-style: italic;
+}
+.track-estilo {
+  font-size: 0.65rem; color: var(--gold-dim); margin-top: 2px;
+  letter-spacing: 0.06em; text-transform: uppercase;
+}
+/* Commercial green column */
+#tracks-commercial .track-item {
+  border-left: 2px solid rgba(39,174,96,0.4);
+}
+#tracks-commercial .track-item:hover {
+  background: rgba(39,174,96,0.06);
+  border-color: rgba(39,174,96,0.7);
+}
+#tracks-commercial .track-item.playing {
+  background: rgba(39,174,96,0.1);
+  border-color: rgba(39,174,96,0.9);
+}
+#tracks-commercial .track-name { color: #5dde8a; }
+#tracks-commercial .track-item.playing .track-name { color: #76FF03; }
+#tracks-commercial .section-eyebrow { color: #5dde8a; }
+.badge-commercial { background: rgba(39,174,96,0.15); color: #5dde8a; border: 1px solid rgba(39,174,96,0.4); }
+.badge-hit { background: rgba(118,255,3,0.12); color: #76FF03; border: 1px solid rgba(118,255,3,0.4); }
+.track-duration {
+  font-family: 'Orbitron', monospace;
+  font-size: 0.75rem; color: var(--grey);
+}
+
+/* Two-column layout for catalog */
+@media (min-width: 900px) {
+  .dual-catalog {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+  }
+  .dual-catalog .tracks-container { display: block !important; }
+  .dual-catalog .tracks-container:first-child {
+    border-right: 1px solid var(--border);
+  }
+  .player-tabs { display: none; }
+  .dual-col-header {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 0; margin-bottom: 0;
+  }
+  .dual-col-header .col-label {
+    text-align: center; padding: 14px 20px;
+    font-family: 'Orbitron', monospace; font-size: 0.7rem;
+    letter-spacing: 0.15em; font-weight: 700; text-transform: uppercase;
+  }
+  .col-label.libre { background: rgba(0,229,255,0.07); color: var(--cyan); border-bottom: 2px solid var(--cyan); }
+  .col-label.comercial { background: rgba(39,174,96,0.07); color: #5dde8a; border-bottom: 2px solid #5dde8a; }
+}
+
+
+/* ── NOW PLAYING BAR ── */
+#now-playing {
+  position: fixed; bottom: 0; left: 0; right: 0; z-index: 1000;
+  background: rgba(10,10,10,0.97);
+  backdrop-filter: blur(30px);
+  border-top: 1px solid var(--border);
+  padding: 0 24px;
+  height: 80px;
+  display: grid;
+  grid-template-columns: 1fr 2fr 1fr;
+  align-items: center;
+  transform: translateY(100%);
+  transition: transform 0.4s cubic-bezier(0.4,0,0.2,1);
+}
+#now-playing.visible { transform: translateY(0); }
+
+.np-info { display: flex; align-items: center; gap: 14px; }
+.np-thumb {
+  width: 48px; height: 48px; border-radius: 4px;
+  background: var(--panel); border: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.2rem; flex-shrink: 0; overflow: hidden;
+}
+.np-thumb img { width: 100%; height: 100%; object-fit: cover; }
+.np-title { font-family: 'Rajdhani', sans-serif; font-size: 0.95rem; font-weight: 600; color: var(--white); }
+.np-artist { font-size: 0.78rem; color: var(--grey); margin-top: 2px; }
+.np-heart { font-size: 1rem; color: var(--grey); cursor: none; transition: color 0.2s; }
+.np-heart.active { color: var(--pink); }
+
+.np-controls { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+.np-buttons { display: flex; align-items: center; gap: 18px; }
+.np-btn {
+  background: none; border: none; color: var(--grey);
+  font-size: 1rem; cursor: none; transition: color 0.2s; padding: 4px;
+}
+.np-btn:hover { color: var(--white); }
+.np-play-btn {
+  width: 36px; height: 36px; border-radius: 50%;
+  background: var(--gold); border: none;
+  color: var(--black); font-size: 1rem;
+  display: flex; align-items: center; justify-content: center;
+  cursor: none; transition: transform 0.2s, background 0.2s;
+}
+.np-play-btn:hover { transform: scale(1.08); background: var(--gold-light); }
+.np-progress { display: flex; align-items: center; gap: 10px; width: 100%; max-width: 420px; }
+.np-time { font-family: 'Orbitron', monospace; font-size: 0.62rem; color: var(--grey); width: 36px; }
+.np-bar {
+  flex: 1; height: 4px; background: rgba(255,255,255,0.1);
+  border-radius: 2px; cursor: none; position: relative;
+}
+.np-bar-fill {
+  height: 100%; background: var(--gold);
+  border-radius: 2px; width: 0%;
+  transition: width 0.5s linear;
+  position: relative;
+}
+.np-bar-fill::after {
+  content: ''; position: absolute; right: -6px; top: 50%;
+  transform: translateY(-50%);
+  width: 12px; height: 12px; background: var(--white);
+  border-radius: 50%; opacity: 0; transition: opacity 0.2s;
+}
+.np-bar:hover .np-bar-fill::after { opacity: 1; }
+
+/* VISUALIZER BAR in player */
+#np-visualizer {
+  display: flex; align-items: flex-end; gap: 2px; height: 30px;
+}
+#np-visualizer .bar {
+  width: 3px; background: var(--gold); border-radius: 2px;
+  animation: barPulse 0.8s ease-in-out infinite;
+  min-height: 4px;
+}
+@keyframes barPulse {
+  0%,100% { opacity: 0.4; transform: scaleY(0.3); }
+  50%      { opacity: 1;   transform: scaleY(1); }
+}
+
+.np-volume { display: flex; align-items: center; justify-content: flex-end; gap: 10px; }
+.np-vol-icon { font-size: 1rem; color: var(--grey); }
+.np-vol-bar {
+  width: 80px; height: 4px; background: rgba(255,255,255,0.1);
+  border-radius: 2px; position: relative; cursor: none;
+}
+.np-vol-fill {
+  height: 100%; background: var(--grey);
+  border-radius: 2px; width: 70%;
+  transition: background 0.2s;
+}
+.np-vol-bar:hover .np-vol-fill { background: var(--gold); }
+
+/* ── PRECIO SECTION ── */
+#precio {
+  background: linear-gradient(180deg, var(--dark) 0%, #0D0A00 100%);
+  padding-bottom: 80px;
+}
+.precio-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 24px;
+  padding: 0 clamp(20px, 5vw, 80px);
+}
+.precio-card {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  padding: 32px 28px;
+  position: relative; overflow: hidden;
+  transition: transform 0.3s, border-color 0.3s;
+}
+.precio-card::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 2px;
+  background: linear-gradient(90deg, var(--gold), var(--cyan));
+}
+.precio-card:hover { transform: translateY(-4px); border-color: rgba(212,175,55,0.4); }
+.precio-card-icon { font-size: 2rem; margin-bottom: 16px; }
+.precio-card-title {
+  font-family: 'Orbitron', monospace;
+  font-size: 0.85rem; letter-spacing: 0.15em;
+  color: var(--gold); margin-bottom: 12px; text-transform: uppercase;
+}
+.precio-card-body {
+  font-family: 'Crimson Pro', serif;
+  font-size: 1rem; line-height: 1.7; color: rgba(240,240,240,0.85);
+}
+.precio-highlight {
+  color: var(--gold-light); font-weight: 600; font-style: italic;
+}
+.precio-table {
+  width: 100%; border-collapse: collapse;
+  margin: 40px clamp(20px, 5vw, 80px);
+  width: calc(100% - 2*clamp(20px, 5vw, 80px));
+}
+.precio-table th {
+  font-family: 'Orbitron', monospace;
+  font-size: 0.7rem; letter-spacing: 0.15em;
+  color: var(--black); background: var(--gold);
+  padding: 12px 20px; text-align: left; text-transform: uppercase;
+}
+.precio-table td {
+  padding: 14px 20px;
+  border-bottom: 1px solid var(--border);
+  font-size: 0.95rem;
+  font-family: 'Crimson Pro', serif;
+}
+.precio-table tr:nth-child(even) td { background: var(--panel); }
+.precio-table tr:nth-child(odd) td { background: rgba(16,16,16,0.8); }
+.precio-table td:first-child { color: var(--gold-light); font-weight: 600; }
+
+/* ── UNICORNIO vs HIT ── */
+#unicornio-vs-hit {
+  background: var(--black);
+  padding-bottom: 80px;
+}
+.vs-container {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: 0;
+  padding: 0 clamp(20px, 5vw, 80px);
+  align-items: start;
+}
+.vs-card {
+  padding: 40px 32px;
+  border: 1px solid var(--border);
+  position: relative; overflow: hidden;
+}
+.vs-card.unicorn {
+  background: linear-gradient(135deg, rgba(255,0,128,0.05) 0%, var(--panel) 100%);
+  border-color: rgba(255,0,128,0.25);
+}
+.vs-card.hit {
+  background: linear-gradient(135deg, var(--panel) 0%, rgba(118,255,3,0.05) 100%);
+  border-color: rgba(118,255,3,0.25);
+}
+.vs-header {
+  display: flex; align-items: center; gap: 14px; margin-bottom: 24px;
+}
+.vs-icon { font-size: 2.5rem; }
+.vs-type {
+  font-family: 'Orbitron', monospace;
+  font-size: 0.75rem; letter-spacing: 0.15em; text-transform: uppercase;
+}
+.vs-card.unicorn .vs-type { color: var(--pink); }
+.vs-card.hit .vs-type { color: #76FF03; }
+.vs-card-title {
+  font-family: 'Orbitron', monospace;
+  font-size: 1.1rem; font-weight: 900; color: var(--white);
+  margin-bottom: 4px;
+}
+.vs-score-bar {
+  height: 6px; border-radius: 3px; margin: 20px 0; position: relative;
+  background: rgba(255,255,255,0.08);
+}
+.vs-score-fill {
+  height: 100%; border-radius: 3px;
+  animation: fillBar 2s 0.5s both;
+}
+.vs-card.unicorn .vs-score-fill { background: linear-gradient(90deg, var(--pink), #FF6EC7); width: 92%; }
+.vs-card.hit     .vs-score-fill { background: linear-gradient(90deg, #76FF03, #C6FF00); width: 88%; }
+@keyframes fillBar {
+  from { width: 0%; }
+}
+.vs-traits { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+.vs-traits li {
+  display: flex; gap: 10px; align-items: flex-start;
+  font-family: 'Crimson Pro', serif; font-size: 1rem; line-height: 1.5;
+  color: rgba(240,240,240,0.85);
+}
+.vs-traits li::before { flex-shrink: 0; margin-top: 2px; }
+.vs-card.unicorn .vs-traits li::before { content: '◆'; color: var(--pink); font-size: 0.6rem; }
+.vs-card.hit     .vs-traits li::before { content: '◆'; color: #76FF03; font-size: 0.6rem; }
+
+.vs-divider {
+  display: flex; flex-direction: column; align-items: center;
+  justify-content: center; padding: 40px 20px;
+}
+.vs-vs {
+  font-family: 'Orbitron', monospace;
+  font-size: 2rem; font-weight: 900; color: var(--gold);
+  text-shadow: 0 0 30px var(--gold-glow);
+  writing-mode: vertical-rl;
+  letter-spacing: 0.3em;
+}
+.vs-line { width: 1px; flex: 1; background: var(--border); }
+
+.vs-table-wrap { padding: 40px clamp(20px, 5vw, 80px) 0; }
+.vs-table {
+  width: 100%; border-collapse: collapse;
+}
+.vs-table th {
+  font-family: 'Orbitron', monospace;
+  font-size: 0.7rem; letter-spacing: 0.12em; padding: 14px 20px;
+  text-transform: uppercase;
+}
+.vs-table th:first-child { background: var(--panel); color: var(--grey); }
+.vs-table th:nth-child(2) { background: rgba(255,0,128,0.15); color: var(--pink); text-align: center; }
+.vs-table th:nth-child(3) { background: rgba(118,255,3,0.1); color: #76FF03; text-align: center; }
+.vs-table td {
+  padding: 14px 20px;
+  border-bottom: 1px solid var(--border);
+  font-family: 'Crimson Pro', serif; font-size: 1rem;
+}
+.vs-table tr:nth-child(even) td { background: rgba(16,16,16,0.5); }
+.vs-table td:first-child { color: var(--gold-light); font-weight: 600; }
+.vs-table td:nth-child(2) { text-align: center; }
+.vs-table td:nth-child(3) { text-align: center; }
+
+/* ── FOOTER ── */
+footer {
+  background: var(--dark);
+  border-top: 1px solid var(--border);
+  padding: 40px clamp(20px, 5vw, 80px);
+  display: flex; flex-direction: column; align-items: center; gap: 16px;
+  margin-bottom: 80px;
+}
+.footer-logo {
+  font-family: 'Orbitron', monospace;
+  font-size: 1.8rem; font-weight: 900; color: var(--gold);
+  text-shadow: 0 0 30px var(--gold-glow);
+  letter-spacing: 0.2em;
+}
+.footer-tagline {
+  font-family: 'Crimson Pro', serif;
+  font-style: italic; color: var(--grey); font-size: 1rem;
+  text-align: center;
+}
+.footer-links { display: flex; gap: 24px; }
+.footer-links a {
+  color: var(--grey); font-size: 0.8rem; letter-spacing: 0.1em;
+  text-decoration: none; text-transform: uppercase;
+  transition: color 0.2s;
+}
+.footer-links a:hover { color: var(--gold); }
+.footer-copy { font-size: 0.75rem; color: rgba(136,136,136,0.5); text-align: center; }
+
+/* ── GLITCH ANIMATION ── */
+.glitch {
+  position: relative;
+}
+.glitch::before, .glitch::after {
+  content: attr(data-text);
+  position: absolute; inset: 0;
+  font-family: inherit; font-size: inherit;
+  font-weight: inherit; color: var(--gold);
+}
+.glitch::before {
+  color: var(--cyan); clip-path: polygon(0 0, 100% 0, 100% 45%, 0 45%);
+  transform: translateX(-2px);
+  animation: glitch1 4s infinite;
+}
+.glitch::after {
+  color: var(--pink); clip-path: polygon(0 55%, 100% 55%, 100% 100%, 0 100%);
+  transform: translateX(2px);
+  animation: glitch2 4s infinite;
+}
+@keyframes glitch1 {
+  0%,90%,100% { opacity: 0; }
+  91%,93% { opacity: 1; transform: translateX(-4px); }
+  92%,94% { opacity: 0; }
+}
+@keyframes glitch2 {
+  0%,88%,100% { opacity: 0; }
+  89%,91% { opacity: 1; transform: translateX(4px); }
+  90%,92% { opacity: 0; }
+}
+
+/* ── DATA COUNTER ── */
+.stats-row {
+  display: flex; justify-content: center; gap: 60px;
+  padding: 20px; z-index: 2; position: relative;
+  animation: fadeSlideDown 1s 1.2s both;
+}
+.stat-item { text-align: center; }
+.stat-num {
+  font-family: 'Orbitron', monospace;
+  font-size: 2rem; font-weight: 900; color: var(--gold);
+  display: block;
+}
+.stat-label {
+  font-size: 0.7rem; letter-spacing: 0.2em; color: var(--grey);
+  text-transform: uppercase;
 }
 
 /* ── RESPONSIVE ── */
-@media (max-width: 660px) {
-  .rights-grid { grid-template-columns: 1fr; }
-  .song-card { grid-template-columns: 40px 1fr auto; padding: 20px 16px; gap: 0 14px; }
-  .form-grid-2, .ancla-inputs { grid-template-columns: 1fr; }
-  .nav-links { gap: 2px; }
-  .nav-link { padding: 5px 7px; font-size: 0.56rem; }
-  .pdf-modal { padding: 28px 20px; }
-  .quick-btn { padding: 16px 18px; }
-}
-
-/* ── BADGE REINGENIERÍA ── */
-.song-player {
-  align-items: center;
-}
-
-.reingeneria-badge {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px;
-  padding-top: 2px;
-}
-
-.reingeneria-wave {
-  display: flex;
-  align-items: flex-end;
-  gap: 2.5px;
-  height: 22px;
-}
-
-.reingeneria-wave span {
-  display: block;
-  width: 3px;
-  border-radius: 2px;
-  background: linear-gradient(180deg, var(--gold-bright), var(--gold-dark));
-  opacity: 0.55;
-  animation: waveBar 1.4s ease-in-out infinite;
-  transform-origin: bottom;
-}
-
-.reingeneria-wave span:nth-child(1) { height: 6px;  animation-delay: 0s; }
-.reingeneria-wave span:nth-child(2) { height: 14px; animation-delay: 0.15s; }
-.reingeneria-wave span:nth-child(3) { height: 20px; animation-delay: 0.08s; }
-.reingeneria-wave span:nth-child(4) { height: 10px; animation-delay: 0.25s; }
-.reingeneria-wave span:nth-child(5) { height: 16px; animation-delay: 0.05s; }
-.reingeneria-wave span:nth-child(6) { height: 8px;  animation-delay: 0.2s; }
-.reingeneria-wave span:nth-child(7) { height: 18px; animation-delay: 0.12s; }
-
-@keyframes waveBar {
-  0%, 100% { transform: scaleY(0.35); opacity: 0.4; }
-  50%       { transform: scaleY(1);    opacity: 0.85; }
-}
-
-.reingeneria-label {
-  font-family: 'Cinzel', serif;
-  font-size: 0.52rem;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: var(--gold-mid);
-  text-align: center;
-  line-height: 1.5;
-  opacity: 0.75;
-  max-width: 72px;
-  white-space: nowrap;
-}
-
-.reingeneria-sublabel {
-  font-family: 'Crimson Pro', serif;
-  font-size: 0.7rem;
-  font-style: italic;
-  color: var(--text-muted);
-  text-align: center;
-  line-height: 1.4;
-  max-width: 76px;
-  opacity: 0.6;
-  margin-top: -4px;
-}
-
-@media (max-width: 660px) {
-  .reingeneria-label  { font-size: 0.46rem; max-width: 60px; }
-  .reingeneria-sublabel { font-size: 0.65rem; max-width: 62px; }
-  .reingeneria-wave { height: 18px; }
+@media (max-width: 768px) {
+  nav { padding: 0 16px; }
+  .nav-links { display: none; }
+  .vs-container { grid-template-columns: 1fr; }
+  .vs-divider { flex-direction: row; padding: 20px 0; }
+  .vs-vs { writing-mode: horizontal-tb; letter-spacing: 0.2em; }
+  .vs-line { width: 40px; height: 1px; flex: unset; }
+  .stats-row { gap: 24px; }
+  #now-playing { grid-template-columns: 1fr auto; }
+  .np-volume { display: none; }
+  .track-item { grid-template-columns: 28px 40px 1fr; gap: 10px; }
+  .track-badge { display: none; }
+  .track-duration { display: none; }
+  .track-tema { display: none; }
+  .dual-col-header { display: none; }
 }
 </style>
 </head>
 <body>
 
-<!-- ══ NAVEGACIÓN ══ -->
+<div id="cursor"></div>
+<div id="cursor-ring"></div>
+<canvas id="particles"></canvas>
+
+<!-- ── NAVBAR ── -->
 <nav>
-  <a href="#" class="nav-brand">IA MUSIC</a>
-  <div class="nav-links">
-    <a href="#catalogo" class="nav-link">Catálogo</a>
-    <a href="#derechos" class="nav-link">Derechos</a>
-    <a href="#podcast" class="nav-link">Podcast</a>
-    <a href="#cuestionario" class="nav-link">Mi Canción</a>
-  </div>
+  <div class="nav-logo">E<span>A</span>MR</div>
+  <ul class="nav-links">
+    <li><a href="#player-section">Música</a></li>
+    <li><a href="#precio">Precios</a></li>
+    <li><a href="#unicornio-vs-hit">Unicornio vs Hit</a></li>
+    <li><a href="mailto:contacto@eamr.mx">Contacto</a></li>
+  </ul>
+  <button class="nav-cta">🎧 Escuchar</button>
 </nav>
 
-<!-- ══ HERO ══ -->
-<section class="hero">
-  <div class="hero-frame">
-    <div class="corner corner-tl"></div>
-    <div class="corner corner-tr"></div>
-    <div class="corner corner-bl"></div>
-    <div class="corner corner-br"></div>
+<!-- ── HERO ── -->
+<section id="hero">
+  <div class="hero-bg-grid"></div>
+  <div class="hero-glow"></div>
+
+  <p class="hero-eyebrow">◈ Estratega de Activos Musicales Registrables ◈</p>
+
+  <h1 class="hero-title">
+    <span class="line1 glitch" data-text="MÚSICA">MÚSICA</span>
+    <span class="line2">CON IDENTIDAD</span>
+    <span class="line3">PROPIA</span>
+  </h1>
+
+  <p class="hero-sub">
+    Cada sonido deja una <em>huella</em>.<br>
+    Creatividad humana. Inteligencia artificial.
+  </p>
+
+  <!-- FINGERPRINT AUDIO VISUALIZER -->
+  <div id="fp-container">
+    <div class="fp-ring2"></div>
+    <div class="fp-ring"></div>
+    <canvas id="fp-canvas" width="260" height="260"></canvas>
   </div>
 
-  <p class="hero-badge">◆ Activos Musicales Digitales ◆</p>
-
-  <div class="hero-poster">
-    <div class="corner corner-tl"></div>
-    <div class="corner corner-tr"></div>
-    <div class="corner corner-bl"></div>
-    <div class="corner corner-br"></div>
-    <img src="pancarta_final.png" alt="IA Music — Ingeniería de Arquitectura Sonora y Minería Emocional" />
+  <div class="stats-row">
+    <div class="stat-item">
+      <span class="stat-num" id="cnt-tracks">14</span>
+      <span class="stat-label">Canciones</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-num">8</span>
+      <span class="stat-label">Géneros</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-num">100%</span>
+      <span class="stat-label">Original</span>
+    </div>
   </div>
 
-  <div class="hero-contact">
-    <p class="hero-name">EDG-ROM</p>
-    <a href="tel:+13343215254" class="hero-phone">📞 +1 (334) 321-5254</a>
-  </div>
-
-  <h1 class="hero-title">IA Music</h1>
-  <p class="hero-sub">Ingeniería de Arquitectura Sonora y Minería Emocional</p>
-  <div class="hero-divider"></div>
-  <p class="hero-tagline">La música generada con IA en este proyecto no se basa en un único prompt ni en una ejecución automática. Es un proceso iterativo donde cada pieza se construye y refina a partir de múltiples etapas de análisis y ajuste.
-                          A partir de inputs humanos —emociones, recuerdos, referencias sonoras o estilos— se realiza una traducción a variables musicales concretas como tempo, progresiones armónicas, densidad, estructura y timbre. Estos parámetros se utilizan como base para generar versiones iniciales que posteriormente son evaluadas y ajustadas.
-                          El flujo incluye análisis de resultados previos, comparación estructural y refinamiento progresivo mediante prompts más precisos y controlados. En algunos casos, se trabaja con material generado previamente para extraer características útiles y reutilizarlas como punto de partida, optimizando coherencia y calidad.
-                          El objetivo no es producir música genérica, sino desarrollar composiciones personalizadas que mantengan consistencia musical y transmitan una intención emocional clara. Cada pieza es el resultado de varias iteraciones, decisiones y ajustes, no de una única ejecución.</p>
- <div class="hero-divider"></div>
-
-  <!-- BOTONES PRINCIPALES -->
-  <div class="hero-cta-grid">
-    <a href="#catalogo" class="btn-cta btn-gold">
-      <span class="btn-icon">🎵</span>
-      Ver Catálogo Musical
-    </a>
-    <button class="btn-cta btn-outline" onclick="openPDFModal()">
-      <span class="btn-icon">📄</span>
-      Ver Cláusulas de Derechos
+  <div class="hero-btns">
+    <button class="btn-libre" onclick="switchTab('free')">
+      <span class="btn-icon">🎵</span>Ver y Escuchar Versiones Libres (NO Comerciales)
     </button>
-    <a href="#podcast" class="btn-cta btn-ghost">
-      <span class="btn-icon">🎙️</span>
-      Escuchar Podcast
-    </a>
+    <button class="btn-comercial" onclick="switchTab('commercial')">
+      <span class="btn-icon">💎</span>Ver y Escuchar (1 min) Versiones Comerciales
+    </button>
   </div>
 
-  <div class="scroll-hint">
-    <span>Explorar</span>
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-      <path d="M12 5v14M5 12l7 7 7-7"/>
-    </svg>
-  </div>
+  <div class="wave-divider"><canvas id="wave-static"></canvas></div>
 </section>
 
-<!-- ── QUOTE BAR ── -->
-<div class="quote-bar">
-  <p class="quote-text">"Uno puede amar las pequeñas alegrías mientras se ambicionan las grandes glorias."</p>
-  <p class="quote-author">— Pascal Bruckner</p>
-</div>
-
-<!-- ══ CATÁLOGO ══ -->
-<section class="section-wrap" id="catalogo">
-  <div class="section-inner">
-    <div class="section-header">
-      <p class="section-eyebrow">◆ Catálogo ◆</p>
-      <h2 class="section-title">Muestras Musicales</h2>
-      <div class="gold-line"></div>
-      <p class="section-desc">Composiciones originales generadas con inteligencia artificial. Demos para uso personal — licencia comercial disponible bajo solicitud.</p>
-    </div>
-
-    <!-- ACCESO RÁPIDO -->
-    <div class="quick-actions">
-      <a href="#derechos" class="quick-btn qbtn-clausula">
-        <span class="quick-btn-icon">📋</span>
-        <span class="quick-btn-text">
-          <span class="quick-btn-label">Cláusulas de Derechos</span>
-          <span class="quick-btn-sub">Licencia gratuita · Licencia profesional</span>
-        </span>
-      </a>
-      <a href="#podcast" class="quick-btn qbtn-podcast">
-        <span class="quick-btn-icon">🎙️</span>
-        <span class="quick-btn-text">
-          <span class="quick-btn-label">Podcast EAMR</span>
-          <span class="quick-btn-sub">La Factura Oculta de la Música IA</span>
-        </span>
-      </a>
-    </div>
-
-    <div style="height: 52px;"></div>
-
-    <div class="songs-grid" id="songs">
-
-            <!-- 01-->
-      <div class="song-card">
-        <div class="song-num">01</div>
-        <div class="song-body">
-          <h3 class="song-title">Aunque Me Duela el Alma</h3>
-          <p class="song-genre">Regional Mexicano · Balada Ranchera · Mariachi Contemporáneo</p>
-          <p class="song-desc">El proceso de desapego forzoso. A diferencia del despecho tradicional, esta obra se enfoca en la aceptación del final, la soledad post-ruptura y el sacrificio de la voluntad. La frase actúa como mantra de resistencia: la lucha entre el sentimiento (el dolor) y la razón (la necesidad de soltar).</p>
-          <p class="song-emotion">Soledad · Nostalgia · Resiliencia · Duelo Amoroso · Despedida</p>
-        </div>
-        <div class="song-player">
-          <div class="reingeneria-badge">
-            <button class="player-btn" aria-label="Reproducir">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-            </button>
-            <div class="reingeneria-wave">
-              <span></span><span></span><span></span><span></span><span></span><span></span><span></span>
-            </div>
-            <div class="reingeneria-label">Reingeniería<br>en curso</div>
-            <div class="reingeneria-sublabel">Refinamiento estructural y sonoro para versión comercial</div>
-          </div>
-        </div>
-      </div>
-
-     <!-- 02-->
-      <div class="song-card">
-        <div class="song-num">02</div>
-        <div class="song-body">
-          <h3 class="song-title">Cáliz del Viento</h3>
-          <p class="song-genre">Indie Rock · Synth-Rock · Psicodelia Moderna</p>
-          <p class="song-desc">Un viaje introspectivo a través de la metáfora del desierto y el aire. El narrador se enfrenta a la fragilidad del "cáliz" (la vida o el alma) frente a la fuerza invisible del "viento" (el tiempo o el cambio). Un himno a la resistencia del espíritu en un paisaje desolado, con arpegios oscuros y atmósfera densa.</p>
-          <p class="song-emotion">Existencialismo · Misticismo · Nostalgia Oscura · Destino</p>
-        </div>
-        <div class="song-player">
-          <div class="reingeneria-badge">
-            <button class="player-btn" aria-label="Reproducir">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-            </button>
-            <div class="reingeneria-wave">
-              <span></span><span></span><span></span><span></span><span></span><span></span><span></span>
-            </div>
-            <div class="reingeneria-label">Reingeniería<br>en curso</div>
-            <div class="reingeneria-sublabel">Refinamiento estructural y sonoro para versión comercial</div>
-          </div>
-        </div>
-      </div>
-      
- 
-      <!-- 03-->
-      <div class="song-card">
-        <div class="song-num">03</div>
-        <div class="song-body">
-          <h3 class="song-title">Cicatriz de Seda</h3>
-          <p class="song-genre">Pop-Rock · Balada Rock · Power Ballad Contemporánea</p>
-          <p class="song-desc">La marca imborrable de un amor complejo narrada con madurez emocional. El dolor como proceso de diseño y aprendizaje, donde la protagonista se asume alumna de una lección profunda. La dualidad del título: suave como seda, permanente como cicatriz. El equilibrio perfecto entre vulnerabilidad del pasado y empoderamiento del presente.</p>
-          <p class="song-emotion">Superación · Empoderamiento · Transformación · Despecho Elegante</p>
-        </div>
-        <div class="song-player">
-          <div class="reingeneria-badge">
-            <button class="player-btn" aria-label="Reproducir">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-            </button>
-            <div class="reingeneria-wave">
-              <span></span><span></span><span></span><span></span><span></span><span></span><span></span>
-            </div>
-            <div class="reingeneria-label">Reingeniería<br>en curso</div>
-            <div class="reingeneria-sublabel">Refinamiento estructural y sonoro para versión comercial</div>
-          </div>
-        </div>
-      </div>
-
-
-     <!-- 04 -->
-      <div class="song-card">
-        <div class="song-num">04</div>
-        <div class="song-body">
-          <h3 class="song-title">Doctrina de Cristal</h3>
-          <p class="song-genre">Hip-Hop Clásico (Boom Bap) · Conscious Rap · Oratoria Urbana</p>
-          <p class="song-desc">Manifiesto contra la hipocresía y el extremismo ideológico. El autor se posiciona como observador que busca la "verdad cruda" frente a la "mentira cómoda", denunciando lo que percibe como pérdida de la libertad de expresión en el entorno digital. La producción prioriza la claridad del mensaje sobre la complejidad melódica.</p>
-          <p class="song-emotion">Directo · Confrontativo · Asertivo · Urgente</p>
-        </div>
-        <div class="song-player">
-          <div class="reingeneria-badge">
-            <button class="player-btn" aria-label="Reproducir">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-            </button>
-            <div class="reingeneria-wave">
-              <span></span><span></span><span></span><span></span><span></span><span></span><span></span>
-            </div>
-            <div class="reingeneria-label">Reingeniería<br>en curso</div>
-            <div class="reingeneria-sublabel">Refinamiento estructural y sonoro para versión comercial</div>
-          </div>
-        </div>
-      </div>
-      
-      
-      <!-- 05 -->
-      <div class="song-card">
-        <div class="song-num">05</div>
-        <div class="song-body">
-          <h3 class="song-title">Eternamente  en mi piel.</h3>
-          <p class="song-genre">Balada pop · rock · power ballad · lírica de duelo.</p>
-          <p class="song-desc">Explora el sentimiento de ausencia y la persistencia del recuerdo de un ser querido tras su partida. Utiliza metáforas sobre la soledad cotidiana, como el café frío, la lluvia y el silencio, para ilustrar el vacío emocional. Aborda la fidelidad emocional y la promesa de mantener a la persona presente en la memoria ("grabada bajo mi piel") a pesar del paso del tiempo.</p>
-          <p class="song-emotion">Serenidad · Reverencia · Alivio · Esperanza.</p>
-        </div>
-        <div class="song-player">
-          <div class="reingeneria-badge">
-            <button class="player-btn" aria-label="Reproducir">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-            </button>
-            <div class="reingeneria-wave">
-              <span></span><span></span><span></span><span></span><span></span><span></span><span></span>
-            </div>
-            <div class="reingeneria-label">Reingeniería<br>en curso</div>
-            <div class="reingeneria-sublabel">Refinamiento estructural y sonoro para versión comercial</div>
-          </div>
-        </div>
-      </div>
-      
-      
-      <!-- 06-->
-      <div class="song-card">
-        <div class="song-num">06</div>
-        <div class="song-body">
-          <h3 class="song-title">Fuego en la Niebla</h3>
-          <p class="song-genre">Post-Rock · Ambient · Neo-Folk Oscuro</p>
-          <p class="song-desc">Una composición instrumental que dialoga con el silencio. El fuego como símbolo de pasión y destrucción simultáneas, la niebla como barrera entre lo real y lo deseado. Capas de guitarra que construyen y se desvanecen como recuerdos que no terminan de irse.</p>
-          <p class="song-emotion">Melancolía · Tensión Contenida · Anhelo · Pérdida</p>
-        </div>
-        <div class="song-player">
-          <div class="reingeneria-badge">
-            <button class="player-btn" aria-label="Reproducir">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-            </button>
-            <div class="reingeneria-wave">
-              <span></span><span></span><span></span><span></span><span></span><span></span><span></span>
-            </div>
-            <div class="reingeneria-label">Reingeniería<br>en curso</div>
-            <div class="reingeneria-sublabel">Refinamiento estructural y sonoro para versión comercial</div>
-          </div>
-        </div>
-      </div>
-
-      
-      <!-- 07 -->
-      <div class="song-card">
-        <div class="song-num">07</div>
-        <div class="song-body">
-          <h3 class="song-title">Lopez Martirios.</h3>
-          <p class="song-genre">Cumbia sonidera · Sátira urbana · Crónica de barrio.</p>
-          <p class="song-desc">Narra de forma irónica los problemas de inundaciones recurrentes en avenidas principales como López Mateos y puntos emblemáticos de la ciudad. Realiza una crítica directa a la falta de planeación urbana y al manejo de los recursos destinados a la infraestructura hidráulica. Describe la experiencia caótica del ciudadano común durante el temporal, utilizando el humor para procesar la frustración social.</p>
-          <p class="song-emotion">Ironía · Crítica Social · Humor Filosófico · Identidad.</p>
-        </div>
-        <div class="song-player">
-          <div class="reingeneria-badge">
-            <button class="player-btn" aria-label="Reproducir">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-            </button>
-            <div class="reingeneria-wave">
-              <span></span><span></span><span></span><span></span><span></span><span></span><span></span>
-            </div>
-            <div class="reingeneria-label">Reingeniería<br>en curso</div>
-            <div class="reingeneria-sublabel">Refinamiento estructural y sonoro para versión comercial</div>
-          </div>
-        </div>
-      </div>
-     
- 
-      <!-- 08-->
-      <div class="song-card">
-        <div class="song-num">08</div>
-        <div class="song-body">
-          <h3 class="song-title">Mal del Puerco</h3>
-          <p class="song-genre">Norteño Alternativo · Corrido Poético · Folk Rural</p>
-          <p class="song-desc">Crónica irónica de la comodidad que adormece. "Mal del puerco" como metáfora de ese estado de semi-consciencia en que nos instala la satisfacción fácil. Instrumentación acústica de raíz con letras que punzan con humor y verdad al mismo tiempo.</p>
-          <p class="song-emotion">Ironía · Crítica Social · Humor Filosófico · Tierra</p>
-        </div>
-        <div class="song-player">
-          <div class="reingeneria-badge">
-            <button class="player-btn" aria-label="Reproducir">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-            </button>
-            <div class="reingeneria-wave">
-              <span></span><span></span><span></span><span></span><span></span><span></span><span></span>
-            </div>
-            <div class="reingeneria-label">Reingeniería<br>en curso</div>
-            <div class="reingeneria-sublabel">Refinamiento estructural y sonoro para versión comercial</div>
-          </div>
-        </div>
-      </div>
-
-
-      <!-- 09 -->
-      <div class="song-card">
-        <div class="song-num">09</div>
-        <div class="song-body">
-          <h3 class="song-title">Midnight Sanctuary</h3>
-          <p class="song-genre">Alternative Rock · Shoegaze · Post-Grunge</p>
-          <p class="song-desc">Devoción existencial. Búsqueda de refugio en la figura de la pareja frente a un mundo percibido como caótico y artificial. Una oda al amor no como sentimiento romántico idealizado, sino como mecanismo de supervivencia y ancla de realidad. Con guitarras etéreas y voz envolvente.</p>
-          <p class="song-emotion">Serenidad · Reverencia · Alivio · Esperanza</p>
-        </div>
-        <div class="song-player">
-          <div class="reingeneria-badge">
-            <button class="player-btn" aria-label="Reproducir">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-            </button>
-            <div class="reingeneria-wave">
-              <span></span><span></span><span></span><span></span><span></span><span></span><span></span>
-            </div>
-            <div class="reingeneria-label">Reingeniería<br>en curso</div>
-            <div class="reingeneria-sublabel">Refinamiento estructural y sonoro para versión comercial</div>
-          </div>
-        </div>
-      </div>
-
-
-      <!-- 10 -->
-      <div class="song-card">
-        <div class="song-num">10</div>
-        <div class="song-body">
-          <h3 class="song-title">Prisionero de tu aliento</h3>
-          <p class="song-genre">Pop Romántico · Balada Latina · Lírica de Claudicación</p>
-          <p class="song-desc">Donde antes había rosas ahora hay cenizas. La canción habita honestamente el duelo, camina entre los árboles esqueléticos y las fuentes rotas, y espera que algún día llueva sobre las cenizas. La guitarra de acero fría y el reverb vacío son el sonido exacto de lo que queda después de la destrucción emocional.</p>
-          <p class="song-emotion">Entrega · Vulnerabilidad · Pasión · Ironía Romántica</p>
-        </div>
-        <div class="song-player">
-          <div class="reingeneria-badge">
-            <button class="player-btn" aria-label="Reproducir">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-            </button>
-            <div class="reingeneria-wave">
-              <span></span><span></span><span></span><span></span><span></span><span></span><span></span>
-            </div>
-            <div class="reingeneria-label">Reingeniería<br>en curso</div>
-            <div class="reingeneria-sublabel">Refinamiento estructural y sonoro para versión comercial</div>
-          </div>
-        </div>
-      </div>
-
-      <!--11-->
-      <div class="song-card">
-        <div class="song-num">11</div>
-        <div class="song-body">
-          <h3 class="song-title">Manual de Pureza</h3>
-          <p class="song-genre">Hard Rock · Metal Alternativo · Crítica Sociopolítica</p>
-          <p class="song-desc">En un mundo de hipervigilancia digital, emerge como manifiesto contra la pérdida del matiz. Denuncia la creación de una "nueva inquisición" donde el contexto es sacrificado en el altar del juicio superficial. Guitarras distorsionadas e interpretación vocal visceral subrayan la urgencia del mensaje.</p>
-          <p class="song-emotion">Indignación · Vigilancia · Intensidad · Reflexión Crítica</p>
-        </div>
-        <div class="song-player">
-          <div class="reingeneria-badge">
-            <button class="player-btn" aria-label="Reproducir">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-            </button>
-            <div class="reingeneria-wave">
-              <span></span><span></span><span></span><span></span><span></span><span></span><span></span>
-            </div>
-            <div class="reingeneria-label">Reingeniería<br>en curso</div>
-            <div class="reingeneria-sublabel">Refinamiento estructural y sonoro para versión comercial</div>
-          </div>
-        </div>
-      </div>
-
- 
-      <!-- 12-->
-      <div class="song-card">
-        <div class="song-num">12</div>
-        <div class="song-body">
-          <h3 class="song-title">Visto en Azul</h3>
-          <p class="song-genre">Urban Pop · Reggaetón Melódico · R&B Latino</p>
-          <p class="song-desc">Explora el impacto psicológico de la comunicación asincrónica: el doble check azul, las fotos de perfil, el brillo de la pantalla. Describe una relación donde la validación depende de la interfaz tecnológica, generando un ciclo de euforia (el audio que sana) y dolor (el visto ignorado).</p>
-          <p class="song-emotion">Sensible · Introspectivo · Comercial · Melancolía Digital</p>
-        </div>
-        <div class="song-player">
-          <div class="reingeneria-badge">
-            <button class="player-btn" aria-label="Reproducir">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-            </button>
-            <div class="reingeneria-wave">
-              <span></span><span></span><span></span><span></span><span></span><span></span><span></span>
-            </div>
-            <div class="reingeneria-label">Reingeniería<br>en curso</div>
-            <div class="reingeneria-sublabel">Refinamiento estructural y sonoro para versión comercial</div>
-          </div>
-        </div>
-      </div> 
-
-      <!-- 13-->
-      <div class="song-card">
-        <div class="song-num">13</div>
-        <div class="song-body">
-          <h3 class="song-title">fade to static</h3>
-          <p class="song-genre">Rock Alternativo con matices de Indie Rock y neo-psychedelia · crítica digital</p>
-          <p class="song-desc">La pieza emerge como un grito contra la deshumanización. La canción transita por la desensibilización de la violencia transmitida en pantallas 4K y el asedio invisible de los drones, buscando refugio en el vacío de la estática final. Se complementa con una base rítmica 
-                               de batería sólida y guitarras eléctricas con distorsión moderada. El uso predominante del sitar aporta una atmósfera exótica y tensa, común en el rock de finales de los 60.  Y la distorsión tensa construyen un puente sonoro entre la rebeldía del siglo XX y el colapso 
-                               tecnológico del presente.
-                               Intertextualidad:La letra  "I see my red door and I want to paint it with dirt"  - "veo mi puerta roja y quiero pintarla con mugre" y las referencias a que los colores se vuelvan negros son una clara alusión/homenaje a la estructura temática de "Paint It Black", pero adaptada al contexto de la obsolescencia digital.</p>
-          <p class="song-emotion">Alienación · Vigilancia · Nihilismo Digital · Desconexión</p>
-        </div>
-        <div class="song-player">
-          <div class="reingeneria-badge">
-            <button class="player-btn" aria-label="Reproducir">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-            </button>
-            <div class="reingeneria-wave">
-              <span></span><span></span><span></span><span></span><span></span><span></span><span></span>
-            </div>
-            <div class="reingeneria-label">Reingeniería<br>en curso</div>
-            <div class="reingeneria-sublabel">Refinamiento estructural y sonoro para versión comercial</div>
-          </div>
-        </div>
-      </div> 
-
-    </div><!-- /songs-grid -->
+<!-- ── PLAYER SECTION ── -->
+<section id="player-section">
+  <div class="section-header">
+    <p class="section-eyebrow">◈ Catálogo EAMR ◈</p>
+    <h2 class="section-title">EXPERIENCIA SONORA</h2>
+    <p class="section-sub">Selecciona una canción. La huella reacciona al audio en tiempo real.</p>
   </div>
-</section>
 
-<!-- ══ LICENCIA & DERECHOS ══ -->
-<section class="section-wrap rights-section" id="derechos">
-  <div class="section-inner">
-    <div class="section-header">
-      <p class="section-eyebrow">◆ Legal ◆</p>
-      <h2 class="section-title">Licencia & Derechos</h2>
-      <div class="gold-line"></div>
-      <p class="section-desc">Demo gratuita — licencia comercial disponible bajo solicitud y contratación.</p>
+  <div class="player-tabs">
+    <button class="player-tab active" id="tab-free" onclick="switchTab('free')">
+      🎵 Versiones Libres (No Comerciales)
+    </button>
+    <button class="player-tab" id="tab-commercial" onclick="switchTab('commercial')">
+      💚 Versiones Comerciales (1 min preview)
+    </button>
+  </div>
+
+  <!-- DUAL COLUMN HEADER (desktop) -->
+  <div class="dual-col-header">
+    <div class="col-label libre">🎵 Canciones Libres — Uso Personal · Demo</div>
+    <div class="col-label comercial">💚 Canciones Comerciales — Licencia Profesional</div>
+  </div>
+
+  <div class="dual-catalog">
+    <!-- FREE TRACKS -->
+    <div class="tracks-container active" id="tracks-free">
+      <div class="track-list" id="list-free"></div>
     </div>
 
-    <div class="rights-grid">
-
-      <div class="rights-card">
-        <span class="rights-card-badge badge-free">Acceso Gratuito</span>
-        <h3 class="rights-card-title">Uso de Demo — Licencia Personal</h3>
-        <p class="rights-card-body">Las canciones disponibles son demos destinadas exclusivamente para uso personal. No incluyen derechos de uso comercial, distribución, monetización ni registro legal. La titularidad de los derechos patrimoniales puede estar restringida o pertenecer a la entidad desarrolladora del software de inteligencia artificial utilizado.</p>
-        <div class="rights-download-row">
-          <button class="btn-dl btn-dl-ghost" onclick="openPDFModal('free')">
-            📄 Ver Cláusula Gratuita
-          </button>
-        </div>
-      </div>
-
-      <div class="rights-card">
-        <span class="rights-card-badge badge-pro">Licencia Profesional</span>
-        <h3 class="rights-card-title">Licencia Comercial — Uso Total</h3>
-        <p class="rights-card-body">Puedes solicitar una versión profesional de la obra mediante contratación. La licencia puede incluir derechos de uso comercial, reproducción, distribución y explotación. Utiliza licencias de suscripción comercial activa. Bajo este marco, Edgar Romero posee la facultad de cesión total de los activos digitales generados.</p>
-        <div class="rights-download-row">
-          <button class="btn-dl btn-dl-gold" onclick="openPDFModal('pro')">
-            📄 Ver Cláusula Profesional
-          </button>
-        </div>
-      </div>
-
-    </div>
-
-    <div style="text-align:center; margin-top: 40px;">
-      <p style="font-family:'Crimson Pro',serif; font-size:0.95rem; color:var(--text-muted); font-style:italic; margin-bottom:20px;">
-        ⚠️ Algunas composiciones pueden haber sido generadas o asistidas por inteligencia artificial.<br>
-        Las versiones finales pueden variar. No se garantiza la replicación exacta de la demo.
-      </p>
-      <button class="btn-cta btn-outline" onclick="openPDFModal()" style="margin:0 auto; display:inline-flex;">
-        <span class="btn-icon">📋</span>
-        Ver Ambas Cláusulas Completas
-      </button>
+    <!-- COMMERCIAL TRACKS -->
+    <div class="tracks-container" id="tracks-commercial">
+      <div class="track-list" id="list-commercial"></div>
     </div>
   </div>
 </section>
 
-<!-- ══ PODCAST ══ -->
-<section class="section-wrap" id="podcast">
-  <div class="section-inner">
-    <div class="section-header">
-      <p class="section-eyebrow">◆ Contenido de Valor ◆</p>
-      <h2 class="section-title">Podcast EAMR</h2>
-      <div class="gold-line"></div>
-      <p class="section-desc">¿Puede una máquina hackear tu nostalgia? -Análisis de "Fade to Static" como caso de ingeniería emocional.</p>
-    </div>
+<!-- ── PRECIO DE LA MÚSICA CON IA ── -->
+<section id="precio">
+  <div class="section-header">
+    <p class="section-eyebrow">◈ Transparencia ◈</p>
+    <h2 class="section-title">EL PRECIO DE LA MÚSICA CON IA</h2>
+    <p class="section-sub">¿Por qué una canción generada con IA tiene valor económico real?</p>
+  </div>
 
-    <div class="podcast-wrap">
-      <div class="podcast-head">
-        <div class="podcast-thumb">🎙️</div>
-        <div class="podcast-meta">
-          <div class="podcast-ep">Episodio 01</div>
-          <div class="podcast-title">La IA que hackea nuestra nostalgia analisis de la cancion -Fade to static.</div>
-          <div class="podcast-host">por Edgar Romero · EAMR</div>
-        </div>
+  <div class="precio-grid">
+    <div class="precio-card">
+      <div class="precio-card-icon">🧠</div>
+      <div class="precio-card-title">Inversión Intelectual</div>
+      <div class="precio-card-body">
+        Detrás de cada canción existe un proceso estratégico profundo: investigación de mercado, 
+        desarrollo de identidad sonora, ingeniería de prompts de precisión y múltiples iteraciones creativas. 
+        <span class="precio-highlight">La IA es el instrumento; el estratega es el artista.</span>
       </div>
+    </div>
 
-      <div class="audio-controls">
-        <div class="audio-progress-wrap" id="progressWrap">
-          <div class="audio-progress-bg">
-            <div class="audio-progress-fill" id="progressFill"></div>
-          </div>
-        </div>
-        <div class="audio-time-row">
-          <span id="timeElapsed">0:00</span>
-          <span id="timeDuration">--:--</span>
-        </div>
-        <div class="audio-btns">
-          <button class="audio-btn" id="btnRewind">⏮ 15s</button>
-          <button class="audio-btn-play" id="btnPlay">▶</button>
-          <button class="audio-btn" id="btnForward">15s ⏭</button>
-        </div>
-        <div class="audio-volume-row">
-          <span>🔈</span>
-          <input type="range" class="volume-slider" id="volumeSlider" min="0" max="1" step="0.05" value="0.8" />
-          <span>🔊</span>
-        </div>
+    <div class="precio-card">
+      <div class="precio-card-icon">📜</div>
+      <div class="precio-card-title">Licencia Comercial SUNO</div>
+      <div class="precio-card-body">
+        Las canciones son generadas con <span class="precio-highlight">licencia de pago de SUNO AI</span>, 
+        que transfiere los derechos de uso comercial al creador. Esto no es música gratuita 
+        ni de dominio público — tiene un costo de producción real y derechos asociados.
       </div>
-
-      <audio id="podcastAudio" preload="metadata">
-        <source src="la_ia_que_hackea_nuestra_nostalgia_analisis_de_la_cancion_fade_to_static.ogg" type="audio/ogg" />
-      </audio>
     </div>
 
-    <div style="text-align:center; margin-top:24px;">
-      <a href="la_ia_que_hackea_nuestra_nostalgia_analisis_de_la_cancion_fade_to_static.ogg"
-         download class="btn-cta btn-ghost" style="display:inline-flex; margin:0 auto;">
-        <span class="btn-icon">⬇</span>
-        Descargar Episodio
-      </a>
+    <div class="precio-card">
+      <div class="precio-card-icon">⏱️</div>
+      <div class="precio-card-title">Tiempo de Producción</div>
+      <div class="precio-card-body">
+        Una canción con identidad sónica definida requiere entre 4 y 20 horas de trabajo: 
+        conceptualización, diseño de prompt, selección entre docenas de versiones, 
+        edición y verificación de calidad. 
+        <span class="precio-highlight">El tiempo del estratega tiene valor profesional.</span>
+      </div>
     </div>
+
+    <div class="precio-card">
+      <div class="precio-card-icon">🎯</div>
+      <div class="precio-card-title">Unicidad y Rareza</div>
+      <div class="precio-card-body">
+        No todas las canciones generadas con IA poseen identidad sónica propia. 
+        Las que alcanzan el nivel de <span class="precio-highlight">Unicornio Sónico</span> — 
+        piezas irrepetibles, emocionalmente disruptivas — son significativamente más escasas 
+        y por ello más valiosas.
+      </div>
+    </div>
+
+    <div class="precio-card">
+      <div class="precio-card-icon">🌐</div>
+      <div class="precio-card-title">Mercado Emergente</div>
+      <div class="precio-card-body">
+        El mercado de música generada con IA está en formación. Quienes adquieren 
+        <span class="precio-highlight">activos musicales registrables hoy</span> 
+        están posicionándose en un ecosistema que en los próximos años tendrá 
+        regulación, derechos y valor de catálogo equivalente al mercado tradicional.
+      </div>
+    </div>
+
+    <div class="precio-card">
+      <div class="precio-card-icon">🔐</div>
+      <div class="precio-card-title">Exclusividad y Registro</div>
+      <div class="precio-card-body">
+        Cada canción comercial viene con la posibilidad de registro ante el INDAUTOR 
+        o IMPI según corresponda. Una vez adquirida en modalidad exclusiva, 
+        <span class="precio-highlight">ningún otro cliente puede adquirir la misma obra</span>, 
+        garantizando unicidad total.
+      </div>
+    </div>
+  </div>
+
+  <div style="overflow-x:auto; padding: 0 clamp(20px,5vw,80px);">
+    <table class="precio-table">
+      <thead>
+        <tr>
+          <th>Modalidad</th>
+          <th>Descripción</th>
+          <th>Uso permitido</th>
+          <th>Rango de precio</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Versión Libre</td>
+          <td>Canción completa para uso personal, educativo o no comercial</td>
+          <td>Personal, no monetizable</td>
+          <td>Gratuita / Donación</td>
+        </tr>
+        <tr>
+          <td>Licencia Básica</td>
+          <td>Preview de 1 minuto con opción de adquirir versión completa</td>
+          <td>Proyectos pequeños, uso limitado</td>
+          <td>$500 – $1,500 MXN</td>
+        </tr>
+        <tr>
+          <td>Licencia Estándar</td>
+          <td>Canción completa con derechos de uso comercial no exclusivo</td>
+          <td>Redes sociales, publicidad, podcasts</td>
+          <td>$1,500 – $5,000 MXN</td>
+        </tr>
+        <tr>
+          <td>Licencia Premium</td>
+          <td>Hit de Radio — estructura comercial optimizada</td>
+          <td>Distribución digital, radio, sync</td>
+          <td>$5,000 – $15,000 MXN</td>
+        </tr>
+        <tr>
+          <td>Unicornio Sónico</td>
+          <td>Obra única, irrepetible, identidad sónica total + exclusividad</td>
+          <td>Exclusivo, registrable, full commercial</td>
+          <td>$15,000 – $50,000+ MXN</td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 </section>
 
-<!-- ══ CUESTIONARIO ══ -->
-<div class="form-intro-bar">
-  <p class="form-intro-eyebrow">Servicio Personalizado</p>
-  <p class="form-intro-text">Cada respuesta que nos das se convierte en un verso. Entre más nos cuentes, más tuya será la canción.</p>
-</div>
+<!-- ── UNICORNIO VS HIT DE RADIO ── -->
+<section id="unicornio-vs-hit">
+  <div class="section-header">
+    <p class="section-eyebrow">◈ Taxonomía EAMR ◈</p>
+    <h2 class="section-title">UNICORNIO SÓNICO vs HIT DE RADIO</h2>
+    <p class="section-sub">Dos arquetipos. Dos tipos de impacto. Ambos tienen valor — pero no son lo mismo.</p>
+  </div>
 
-<section class="section-wrap form-section" id="cuestionario">
-  <div class="cuestionario-inner">
-
-    <div class="section-header">
-      <p class="section-eyebrow">EAMR · Arquitectura Sonora</p>
-      <h2 class="section-title">Tu Canción Personalizada</h2>
-      <div class="gold-line"></div>
+  <div class="vs-container">
+    <div class="vs-card unicorn">
+      <div class="vs-header">
+        <span class="vs-icon">🦄</span>
+        <div>
+          <div class="vs-type">Arquetipo A</div>
+          <div class="vs-card-title">UNICORNIO SÓNICO</div>
+        </div>
+      </div>
+      <div class="vs-score-bar"><div class="vs-score-fill"></div></div>
+      <ul class="vs-traits">
+        <li>Originalidad absoluta: no existe nada igual en el mercado actual</li>
+        <li>Impacto emocional profundo, inesperado y transformador</li>
+        <li>Identidad sónica reconocible en los primeros 5 segundos</li>
+        <li>Riesgo artístico elevado: viola convenciones de género</li>
+        <li>Profundidad de escucha: mejora con cada repetición</li>
+        <li>Coherencia total entre letra, producción y voz</li>
+        <li>Potencial de culto: audiencias nicho muy leales</li>
+        <li>Valor de catálogo a largo plazo, tiende a ser atemporal</li>
+        <li>Difícil de imitar o replicar por su singularidad</li>
+        <li>Puede fracasar comercialmente en el corto plazo y volverse icónica décadas después</li>
+      </ul>
     </div>
 
-    <div class="form-progress-wrap" aria-hidden="true">
-      <p class="form-progress-label">Completado: <span id="progress-pct">0%</span></p>
-      <div class="form-progress-bar-bg">
-        <div class="form-progress-bar-fill" id="progress-fill"></div>
-      </div>
+    <div class="vs-divider">
+      <div class="vs-line"></div>
+      <div class="vs-vs">VS</div>
+      <div class="vs-line"></div>
     </div>
 
-    <form id="song-form" action="https://formsubmit.co/eamr_33@proton.me" method="POST">
-      <input type="hidden" name="_subject" value="✦ Nuevo Cuestionario — Canción Personalizada EAMR">
-      <input type="hidden" name="_template" value="table">
-      <input type="hidden" name="_captcha" value="false">
-      <input type="hidden" name="_next" value="https://edheller33.github.io/Music_dem/gracias.html">
-
-      <!-- BLOQUE 1 -->
-      <div class="form-block" data-block="1">
-        <div class="form-block-header">
-          <span class="form-block-num">01</span>
-          <span class="form-block-title">El Corazón de la Historia</span>
-        </div>
-        <div class="form-field">
-          <label class="form-label">¿A quién va dedicada esta canción?</label>
-          <div class="form-chips" role="group">
-            <label class="form-chip"><input type="radio" name="dedicatoria" value="mi-mismo"><span>A mí mismo</span></label>
-            <label class="form-chip"><input type="radio" name="dedicatoria" value="mi-familia"><span>Mi familia</span></label>
-            <label class="form-chip"><input type="radio" name="dedicatoria" value="mi-pareja"><span>Mi pareja</span></label>
-            <label class="form-chip"><input type="radio" name="dedicatoria" value="mis-hijos"><span>Mis hijos</span></label>
-            <label class="form-chip"><input type="radio" name="dedicatoria" value="ser-querido"><span>Un ser querido que ya no está</span></label>
-            <label class="form-chip"><input type="radio" name="dedicatoria" value="mi-negocio"><span>Mi negocio o marca</span></label>
-          </div>
-        </div>
-        <div class="form-field">
-          <label class="form-label" for="historia">La historia detrás</label>
-          <span class="form-hint">Cuéntanos qué sucedió, qué quieres expresar o qué momento quieres inmortalizar. No hay límite — escribe todo lo que sientas.</span>
-          <textarea class="form-input form-textarea" id="historia" name="historia" placeholder="Escribe aquí tu historia, el momento especial o el mensaje que quieres que viva en la canción…" style="min-height:140px;"></textarea>
+    <div class="vs-card hit">
+      <div class="vs-header">
+        <span class="vs-icon">📻</span>
+        <div>
+          <div class="vs-type">Arquetipo B</div>
+          <div class="vs-card-title">HIT DE RADIO</div>
         </div>
       </div>
-
-      <div class="form-divider"></div>
-
-      <!-- BLOQUE 2 -->
-      <div class="form-block" data-block="2">
-        <div class="form-block-header">
-          <span class="form-block-num">02</span>
-          <span class="form-block-title">Raíces e Identidad</span>
-          <span class="form-block-sub">Opcional pero valioso</span>
-        </div>
-        <div class="form-field">
-          <label class="form-label" for="raices">Origen, región o cultura que representa</label>
-          <span class="form-hint">Ej: "De Jalisco, México" · "Descendiente cubano en Miami" · "Criado en el campo"</span>
-          <input class="form-input" type="text" id="raices" name="raices" placeholder="¿De dónde vienes? ¿Qué tierra o cultura llevas dentro?">
-        </div>
-        <div class="form-field">
-          <label class="form-label" for="valor">Un valor o principio que te define</label>
-          <span class="form-hint">Ej: "La familia primero" · "El trabajo honesto" · "La fe que todo lo puede"</span>
-          <input class="form-input" type="text" id="valor" name="valor" placeholder="¿Qué principio guía tu vida?">
-        </div>
-      </div>
-
-      <div class="form-divider"></div>
-
-      <!-- BLOQUE 3 -->
-      <div class="form-block" data-block="3">
-        <div class="form-block-header">
-          <span class="form-block-num">03</span>
-          <span class="form-block-title">Género Musical</span>
-        </div>
-        <div class="form-field">
-          <label class="form-label">¿Qué género prefieres para tu canción?</label>
-          <div class="form-chips" role="group">
-            <label class="form-chip"><input type="radio" name="genero" value="regional-mexicano"><span>Regional Mexicano</span></label>
-            <label class="form-chip"><input type="radio" name="genero" value="balada-pop"><span>Balada Pop</span></label>
-            <label class="form-chip"><input type="radio" name="genero" value="rock"><span>Rock</span></label>
-            <label class="form-chip"><input type="radio" name="genero" value="cumbia"><span>Cumbia</span></label>
-            <label class="form-chip"><input type="radio" name="genero" value="trap-urbano"><span>Trap / Urbano</span></label>
-            <label class="form-chip"><input type="radio" name="genero" value="gospel-espiritual"><span>Gospel / Espiritual</span></label>
-            <label class="form-chip"><input type="radio" name="genero" value="banda"><span>Banda</span></label>
-            <label class="form-chip"><input type="radio" name="genero" value="corrido"><span>Corrido</span></label>
-            <label class="form-chip"><input type="radio" name="genero" value="otro-genero"><span>Otro…</span></label>
-          </div>
-          <div id="otro-genero-field" style="display:none; margin-top:12px;">
-            <input class="form-input" type="text" name="genero_otro" placeholder="Describe el género o estilo que tienes en mente">
-          </div>
-        </div>
-      </div>
-
-      <div class="form-divider"></div>
-
-      <!-- BLOQUE 4 -->
-      <div class="form-block" data-block="4">
-        <div class="form-block-header">
-          <span class="form-block-num">04</span>
-          <span class="form-block-title">Voz y Ánimo</span>
-        </div>
-        <div class="form-grid-2">
-          <div class="form-field">
-            <label class="form-label">Tipo de voz preferida</label>
-            <div class="form-chips" role="group" style="flex-direction:column;">
-              <label class="form-chip"><input type="radio" name="voz" value="masculina"><span>Masculina</span></label>
-              <label class="form-chip"><input type="radio" name="voz" value="femenina"><span>Femenina</span></label>
-              <label class="form-chip"><input type="radio" name="voz" value="duo"><span>Dúo</span></label>
-              <label class="form-chip"><input type="radio" name="voz" value="coral"><span>Coral</span></label>
-            </div>
-          </div>
-          <div class="form-field">
-            <label class="form-label">Estado de ánimo de la música</label>
-            <div class="form-chips" role="group" style="flex-direction:column;">
-              <label class="form-chip"><input type="radio" name="animo" value="alegre"><span>Alegre y optimista</span></label>
-              <label class="form-chip"><input type="radio" name="animo" value="melancolico"><span>Melancólico y profundo</span></label>
-              <label class="form-chip"><input type="radio" name="animo" value="romantico"><span>Romántico y suave</span></label>
-              <label class="form-chip"><input type="radio" name="animo" value="epico"><span>Épico y poderoso</span></label>
-              <label class="form-chip"><input type="radio" name="animo" value="nostalgico"><span>Nostálgico y emotivo</span></label>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="form-divider"></div>
-
-      <!-- BLOQUE 5 -->
-      <div class="form-block" data-block="5">
-        <div class="form-block-header">
-          <span class="form-block-num">05</span>
-          <span class="form-block-title">Palabras Ancla</span>
-        </div>
-        <div class="form-field">
-          <span class="form-hint">Escribe 3 a 5 palabras, frases, apodos, fechas o lugares que <em>deben</em> aparecer en la canción.</span>
-          <span class="form-hint">Ej: "Mi viejo" · "Las Ánimas, Zacatecas" · "17 de marzo" · "El que madruga, Dios lo ayuda"</span>
-          <div class="ancla-inputs">
-            <input class="form-input" type="text" name="ancla_1" placeholder="Ancla 1">
-            <input class="form-input" type="text" name="ancla_2" placeholder="Ancla 2">
-            <input class="form-input" type="text" name="ancla_3" placeholder="Ancla 3">
-            <input class="form-input" type="text" name="ancla_4" placeholder="Ancla 4 (opcional)">
-            <input class="form-input" type="text" name="ancla_5" placeholder="Ancla 5 (opcional)" style="grid-column:span 2;">
-          </div>
-        </div>
-      </div>
-
-      <div class="form-divider"></div>
-
-      <!-- BLOQUE 6 -->
-      <div class="form-block" data-block="6">
-        <div class="form-block-header">
-          <span class="form-block-num">06</span>
-          <span class="form-block-title">Datos de Contacto</span>
-        </div>
-        <div class="form-grid-2">
-          <div class="form-field">
-            <label class="form-label" for="nombre">Nombre completo</label>
-            <input class="form-input" type="text" id="nombre" name="nombre" placeholder="Tu nombre">
-          </div>
-          <div class="form-field">
-            <label class="form-label" for="contacto">WhatsApp o correo</label>
-            <input class="form-input" type="text" id="contacto" name="contacto" placeholder="+52 · o tu email">
-          </div>
-        </div>
-        <div class="form-field">
-          <label class="form-label" for="fecha">¿Tienes fecha límite? <span class="form-optional-badge">OPCIONAL</span></label>
-          <input class="form-input" type="text" id="fecha" name="fecha" placeholder="Ej: Para el 15 de mayo · Sin urgencia">
-        </div>
-        <div class="form-field">
-          <label class="form-label" for="extra">¿Algo más que agregar?</label>
-          <textarea class="form-input form-textarea" id="extra" name="extra" placeholder="Cualquier detalle que no haya cupido arriba…" style="min-height:80px;"></textarea>
-        </div>
-      </div>
-
-      <div class="form-submit-wrap">
-        <p class="form-submit-note">Una vez que recibamos tu cuestionario, revisaremos tus respuestas,<br>construiremos el prompt emocional y sonoro, y te contactaremos en breve.</p>
-        <button type="submit" class="form-submit-btn" id="submit-btn">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M2 21l21-9L2 3v7l15 2-15 2v7z"/></svg>
-          Enviar mi Cuestionario
-        </button>
-      </div>
-
-    </form>
-
-    <div class="form-success" id="form-success" role="status" aria-live="polite">
-      <div class="form-success-icon">✦</div>
-      <h3 class="form-success-title">Recibido. Gracias.</h3>
-      <p class="form-success-body">Tu cuestionario ha llegado a manos de <strong>EAMR</strong>.<br>Revisaremos cada detalle y te contactaremos por el medio que indicaste.<br><br><strong>Tu historia merece una canción única.</strong></p>
+      <div class="vs-score-bar"><div class="vs-score-fill"></div></div>
+      <ul class="vs-traits">
+        <li>Hook instantáneo: se queda en la cabeza tras 30 segundos</li>
+        <li>Estructura comercial estándar: verso–pre-coro–coro–bridge–outro</li>
+        <li>Accesible para audiencias masivas y cross-demographic</li>
+        <li>Optimizado para playlists algorítmicas y radio mainstream</li>
+        <li>Memorabilidad inmediata: cantable desde la primera escucha</li>
+        <li>Bajo riesgo artístico: sigue fórmulas probadas del mercado</li>
+        <li>Alto potencial viral en TikTok y contenido de formato corto</li>
+        <li>Ciclo de vida más corto pero impacto masivo inmediato</li>
+        <li>Ideal para sincronización (publicidad, film, trailers)</li>
+        <li>Rentabilidad rápida y predecible</li>
+      </ul>
     </div>
+  </div>
 
+  <div class="vs-table-wrap">
+    <table class="vs-table">
+      <thead>
+        <tr>
+          <th>Dimensión</th>
+          <th>🦄 Unicornio Sónico</th>
+          <th>📻 Hit de Radio</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Originalidad</td><td>Máxima — irrepetible</td><td>Moderada — fórmula conocida</td></tr>
+        <tr><td>Accesibilidad</td><td>Media-baja (nicho apasionado)</td><td>Máxima (audiencias masivas)</td></tr>
+        <tr><td>Impacto emocional</td><td>Profundo y duradero</td><td>Inmediato y efímero</td></tr>
+        <tr><td>Longevidad</td><td>Alta — puede ser atemporal</td><td>Media — ciclo de tendencia</td></tr>
+        <tr><td>Potencial viral</td><td>Bajo a medio</td><td>Muy alto</td></tr>
+        <tr><td>Valor de licencia</td><td>Premium — mayor precio</td><td>Estándar–Premium</td></tr>
+        <tr><td>Riesgo artístico</td><td>Alto</td><td>Bajo</td></tr>
+        <tr><td>¿Puede ser ambas?</td><td colspan="2" style="text-align:center; color:var(--gold-light); font-style:italic">Sí — cuando un Unicornio tiene un hook accesible. Es la combinación más valiosa y más rara.</td></tr>
+      </tbody>
+    </table>
   </div>
 </section>
 
-<!-- ══ FOOTER ══ -->
+<!-- ── FOOTER ── -->
 <footer>
-  <p class="footer-logo">IA MUSIC</p>
-
+  <div class="footer-logo">EAMR</div>
+  <p class="footer-tagline">"La tecnología crea. La emoción conecta. La música permanece."</p>
   <div class="footer-links">
-    <a href="https://github.com/Edheller33/eamr" target="_blank" class="footer-link">GitHub</a>
-    <a href="https://edheller33.github.io/Music_dem/" target="_blank" class="footer-link">Catálogo Web</a>
-    <a href="mailto:eamr_33@proton.me" class="footer-link">eamr_33@proton.me</a>
+    <a href="https://open.spotify.com" target="_blank">Spotify</a>
+    <a href="https://youtube.com" target="_blank">YouTube</a>
+    <a href="https://instagram.com" target="_blank">Instagram</a>
+    <a href="https://soundcloud.com" target="_blank">SoundCloud</a>
   </div>
-
-  <div class="footer-clause">
-    <p class="footer-clause-title">Cláusula de Propiedad de Uso — Licencia de Acceso Personal</p>
-    <p class="footer-clause-body">El presente activo musical ha sido generado mediante modelos de inteligencia artificial bajo una modalidad de acceso gratuito. En cumplimiento con los términos de servicio de la plataforma proveedora, se informa que la titularidad de los derechos patrimoniales y comerciales puede estar restringida o pertenecer a la entidad desarrolladora del software.</p>
-    <p class="footer-clause-body">El usuario recibe una licencia de uso estrictamente <strong>personal y no lucrativa</strong>. Queda prohibida la reventa, distribución comercial o registro de esta obra en plataformas de monetización. Se reconoce que la labor de <strong>Edgar Romero</strong> se limita a la arquitectura sonora, curaduría técnica y diseño del prompt emocional.</p>
-  </div>
-
-  <p class="footer-copy">© EAMR · Edgar Romero · Ingeniería de Arquitectura Sonora y Minería Emocional</p>
+  <p class="footer-copy">© 2025 EAMR — Edgardo Romero. Todos los derechos reservados. Licencia SUNO AI Comercial.</p>
 </footer>
 
-<!-- ══ MODAL CLÁUSULAS PDF ══ -->
-<div class="pdf-modal-overlay" id="pdfModal">
-  <div class="pdf-modal">
-    <button class="pdf-modal-close" onclick="closePDFModal()">✕</button>
-
-    <div class="pdf-tabs">
-      <button class="pdf-tab active" onclick="switchTab('free', this)">Licencia Gratuita</button>
-      <button class="pdf-tab" onclick="switchTab('pro', this)">Licencia Profesional</button>
+<!-- ── NOW PLAYING BAR ── -->
+<div id="now-playing">
+  <div class="np-info">
+    <div class="np-thumb" id="np-thumb">🎵</div>
+    <div>
+      <div class="np-title" id="np-title">Selecciona una canción</div>
+      <div class="np-artist" id="np-artist">EAMR — Ed Heller</div>
     </div>
-
-    <!-- TAB: GRATUITA -->
-    <div class="pdf-content active" id="tab-free">
-      <h2 class="pdf-modal-title">Cláusula para Canciones con IA</h2>
-      <span class="pdf-modal-badge badge-free">Versión Gratuita · Licencia de Acceso Público</span>
-
-      <div class="pdf-modal-body">
-        <p class="pdf-modal-section-title">Cláusula de Propiedad y Uso</p>
-        <p>El presente activo musical ha sido generado mediante modelos de inteligencia artificial bajo una modalidad de acceso gratuito. En cumplimiento con los términos de servicio de la plataforma proveedora, se informa que la titularidad de los derechos patrimoniales y comerciales puede estar <strong>restringida o pertenecer a la entidad desarrolladora</strong> del software de inteligencia artificial utilizado.</p>
-
-        <p class="pdf-modal-section-title">Restricciones</p>
-        <p>Queda prohibida la <strong>reventa, distribución comercial o registro</strong> de esta obra en plataformas de monetización (streaming comercial, radio o publicidad).</p>
-
-        <p class="pdf-modal-section-title">Labor del Autor</p>
-        <p>Se reconoce que la labor de <strong>Edgar Romero</strong> se limita a la arquitectura sonora, curaduría técnica y diseño del prompt emocional, sin garantizar la exclusividad legal de la obra.</p>
-      </div>
-
-      <div class="rights-download-row" style="margin-top:28px;">
-        <a href="https://raw.githubusercontent.com/Edheller33/eamr/main/Clausula_Unificada_Propiedad_Uso_EAMR.pdf"
-           target="_blank" class="btn-dl btn-dl-ghost">⬇ Descargar PDF</a>
-      </div>
+    <span class="np-heart" id="np-heart" onclick="toggleHeart()">♡</span>
+  </div>
+  <div class="np-controls">
+    <div class="np-buttons">
+      <button class="np-btn" onclick="prevTrack()">⏮</button>
+      <button class="np-btn" onclick="seekBack()">⏪</button>
+      <button class="np-play-btn" id="np-play-btn" onclick="togglePlay()">▶</button>
+      <button class="np-btn" onclick="seekFwd()">⏩</button>
+      <button class="np-btn" onclick="nextTrack()">⏭</button>
     </div>
-
-    <!-- TAB: PROFESIONAL -->
-    <div class="pdf-content" id="tab-pro">
-      <h2 class="pdf-modal-title">Cláusula de Cesión de Derechos</h2>
-      <span class="pdf-modal-badge badge-pro">Suscripción Profesional · Licencia Comercial</span>
-
-      <div class="pdf-modal-body">
-        <p class="pdf-modal-section-title">Cláusula de Cesión de Derechos — Licencia Profesional</p>
-        <p>Esta obra ha sido producida utilizando <strong>licencias de suscripción comercial activa</strong>. Bajo este marco legal, el autor <strong>Edgar Romero</strong> posee la facultad de explotación y cesión de los activos digitales generados.</p>
-
-        <p class="pdf-modal-section-title">Derechos Otorgados al Cliente</p>
-        <p>Se otorga al cliente el <strong>derecho de uso comercial total/exclusivo</strong> (según se acuerde) sobre la pieza final. El cliente es libre de utilizar la obra en proyectos lucrativos, redes sociales monetizadas o campañas publicitarias.</p>
-
-        <p class="pdf-modal-section-title">Derechos del Autor</p>
-        <p>El autor conserva el derecho de reconocimiento por la <strong>"Ingeniería de Arquitectura Sonora y Minería Emocional"</strong> aplicada en la producción.</p>
-
-        <p class="pdf-modal-section-title">Exención de Responsabilidad</p>
-        <p>El autor no se hace responsable por cambios futuros en las políticas de copyright de las plataformas de inteligencia artificial. Al momento de la entrega, la obra <strong>cumple con todos los requisitos de legalidad comercial vigentes</strong>.</p>
+    <div class="np-progress">
+      <span class="np-time" id="np-current">0:00</span>
+      <div class="np-bar" id="np-bar" onclick="seekTo(event)">
+        <div class="np-bar-fill" id="np-bar-fill"></div>
       </div>
-
-      <div class="rights-download-row" style="margin-top:28px;">
-        <a href="https://raw.githubusercontent.com/Edheller33/eamr/main/Contrato_Cesion_Derechos_Licencia_Profesional_EAMR.pdf"
-           target="_blank" class="btn-dl btn-dl-gold">⬇ Descargar PDF Profesional</a>
-        <a href="https://raw.githubusercontent.com/Edheller33/eamr/main/Clausula_Unificada_Propiedad_Uso_EAMR.pdf"
-           target="_blank" class="btn-dl btn-dl-ghost">⬇ Cláusula Unificada</a>
-      </div>
+      <span class="np-time" id="np-duration">0:00</span>
     </div>
-
+  </div>
+  <div class="np-volume">
+    <div id="np-visualizer"></div>
+    <span class="np-vol-icon">🔊</span>
+    <div class="np-vol-bar" onclick="setVolume(event)">
+      <div class="np-vol-fill" id="np-vol-fill"></div>
+    </div>
   </div>
 </div>
 
+<audio id="audio-player" crossorigin="anonymous"></audio>
+
 <script>
-/* ── SONG CARDS REVEAL ── */
-const cards = document.querySelectorAll('.song-card');
-const cardObserver = new IntersectionObserver((entries) => {
-  entries.forEach((entry) => {
-    if (entry.isIntersecting) {
-      setTimeout(() => entry.target.classList.add('visible'), 60);
-      cardObserver.unobserve(entry.target);
-    }
+// ── CURSOR ──────────────────────────────────────────────────────────────────
+const cursor = document.getElementById('cursor');
+const ring = document.getElementById('cursor-ring');
+document.addEventListener('mousemove', e => {
+  cursor.style.left = e.clientX + 'px';
+  cursor.style.top = e.clientY + 'px';
+  ring.style.left = e.clientX + 'px';
+  ring.style.top = e.clientY + 'px';
+});
+document.querySelectorAll('button, a, .track-item').forEach(el => {
+  el.addEventListener('mouseenter', () => {
+    cursor.style.transform = 'translate(-50%,-50%) scale(2)';
+    ring.style.width = '60px'; ring.style.height = '60px';
   });
-}, { threshold: 0.06 });
-cards.forEach(card => cardObserver.observe(card));
-
-/* ── RIGHTS CARDS REVEAL ── */
-const rightCards = document.querySelectorAll('.rights-card');
-const rObserver = new IntersectionObserver((entries) => {
-  entries.forEach((entry, i) => {
-    if (entry.isIntersecting) {
-      setTimeout(() => entry.target.classList.add('visible'), i * 100);
-      rObserver.unobserve(entry.target);
-    }
+  el.addEventListener('mouseleave', () => {
+    cursor.style.transform = 'translate(-50%,-50%) scale(1)';
+    ring.style.width = '36px'; ring.style.height = '36px';
   });
-}, { threshold: 0.06 });
-rightCards.forEach(c => rObserver.observe(c));
+});
 
-/* ── FORM BLOCKS REVEAL ── */
-const formBlocks = document.querySelectorAll('.form-block');
-if ('IntersectionObserver' in window) {
-  const blockObserver = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        setTimeout(() => entry.target.classList.add('visible'), 80);
-        blockObserver.unobserve(entry.target);
-      }
-    });
-  }, { threshold: 0.04 });
-  formBlocks.forEach(b => blockObserver.observe(b));
-} else {
-  formBlocks.forEach(b => b.classList.add('visible'));
+// ── PARTICLES ──────────────────────────────────────────────────────────────
+const pc = document.getElementById('particles');
+const pctx = pc.getContext('2d');
+let particles = [];
+function resizeParticles() {
+  pc.width = window.innerWidth; pc.height = window.innerHeight;
 }
+resizeParticles();
+window.addEventListener('resize', resizeParticles);
+for (let i = 0; i < 80; i++) {
+  particles.push({
+    x: Math.random() * window.innerWidth,
+    y: Math.random() * window.innerHeight,
+    r: Math.random() * 1.5 + 0.3,
+    dx: (Math.random() - 0.5) * 0.3,
+    dy: (Math.random() - 0.5) * 0.3,
+    alpha: Math.random() * 0.5 + 0.1,
+  });
+}
+function animParticles() {
+  pctx.clearRect(0, 0, pc.width, pc.height);
+  particles.forEach(p => {
+    p.x += p.dx; p.y += p.dy;
+    if (p.x < 0) p.x = pc.width;
+    if (p.x > pc.width) p.x = 0;
+    if (p.y < 0) p.y = pc.height;
+    if (p.y > pc.height) p.y = 0;
+    pctx.beginPath();
+    pctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+    pctx.fillStyle = `rgba(212,175,55,${p.alpha})`;
+    pctx.fill();
+  });
+  requestAnimationFrame(animParticles);
+}
+animParticles();
 
-/* ── FALLBACK: mostrar tarjetas si IntersectionObserver no las revela ── */
-setTimeout(() => {
-  document.querySelectorAll('.song-card:not(.visible)').forEach(c => c.classList.add('visible'));
-  document.querySelectorAll('.rights-card:not(.visible)').forEach(c => c.classList.add('visible'));
-  document.querySelectorAll('.form-block:not(.visible)').forEach(b => b.classList.add('visible'));
-}, 800);
-
-/* ── AUDIO PLAYER (canciones) — carga lazy ── */
-const songs = [
-  'aunque_me_duela_el_alma.mp3',
-  'caliz_del_viento.mp3',
-  'cicatriz_de_seda.mp3',
-  'doctrina_de_cristal.mp3',
-  'eternamente_en_mi_piel.mp3',
-  'fuego_en_la_niebla.mp3',
-  'lopez_martirios.mp3',
-  'mal_del_puerco.mp3',
-  'midnight_sanctuary.mp3',
-  'prisionero_de_tu_aliento.mp3',
-  'manual_de_pureza.mp3',
-  'visto_en_azul.mp3',
-  'fade_to_static.mp3',
+// ── TRACK DATA ──────────────────────────────────────────────────────────────
+// Catálogo real EAMR — 14 canciones
+const freeTracks = [
+  {
+    id:1, name:"Aunque Me Duela el Alma",
+    genre:"Regional Mexicano · Balada Ranchera · Mariachi Contemporáneo",
+    tema:"El proceso de desapego forzoso. Enfocada en la aceptación del final, la soledad post-ruptura y el sacrificio de la voluntad. La lucha entre el sentimiento y la razón.",
+    estilo:"Soledad · Nostalgia · Resiliencia · Duelo Amoroso",
+    duration:"3:42", badge:"unicorn", emoji:"🌹", src:""
+  },
+  {
+    id:2, name:"Cáliz del Viento",
+    genre:"Indie Rock · Balada Rock · Psicodelia Moderna",
+    tema:"Un viaje introspectivo a través de la metáfora del desierto y el aire. Himno a la resistencia del espíritu en un paisaje desolado, con arpegios oscuros y atmósfera densa.",
+    estilo:"Existencialismo · Misticismo · Nostalgia Oscura · Destino",
+    duration:"4:15", badge:"unicorn", emoji:"🌬️", src:""
+  },
+  {
+    id:3, name:"Cicatriz de Seda",
+    genre:"Pop-Rock · Balada Rock · Power Ballad Contemporánea",
+    tema:"La marca imborrable de un amor complejo narrada con madurez emocional. Dualidad del título: suave como seda, permanente como cicatriz. Vulnerabilidad del pasado y empoderamiento.",
+    estilo:"Superación · Empoderamiento · Transformación · Despecho Elegante",
+    duration:"3:58", badge:"free", emoji:"🌸", src:""
+  },
+  {
+    id:4, name:"Doctrina de Cristal",
+    genre:"Hip-Hop Clásico (Boom Bap) · Conscious Rap · Oratoria Urbana",
+    tema:"Manifiesto contra la hipocresía y el extremismo ideológico. La producción prioriza la claridad del mensaje sobre la complejidad melódica.",
+    estilo:"Directo · Confrontacional · Asertivo · Urgente",
+    duration:"3:28", badge:"free", emoji:"💠", src:""
+  },
+  {
+    id:5, name:"Eternamente en mi Piel",
+    genre:"Balada Pop · Rock · Power Ballad · Lírica de Duelo",
+    tema:"Explora la persistencia del recuerdo de un ser querido tras su partida. Metáforas sobre la soledad cotidiana — el café frío, la lluvia, el silencio — para ilustrar el vacío emocional.",
+    estilo:"Serenidad · Reverencia · Alivio · Esperanza",
+    duration:"4:02", badge:"unicorn", emoji:"💫", src:""
+  },
+  {
+    id:6, name:"Fuego en la Niebla",
+    genre:"Post-Rock · Ambient · Neo-Folk Oscuro",
+    tema:"Una composición instrumental que dialoga con el silencio. El fuego como símbolo de pasión y destrucción simultáneas, la niebla como barrera entre lo real y lo deseado.",
+    estilo:"Melancolía · Tensión Contenida · Anhelo · Pérdida",
+    duration:"5:18", badge:"unicorn", emoji:"🔥", src:""
+  },
+  {
+    id:7, name:"Lopez Martirios",
+    genre:"Cumbia Sonidera · Sátira Urbana · Crónica de Barrio",
+    tema:"Narra de forma irónica los problemas de inundaciones recurrentes en avenidas de la ciudad. Crítica directa a la falta de planeación urbana, usando el humor para procesar la frustración colectiva.",
+    estilo:"Ironía · Crítica Social · Humor Filosófico · Identidad",
+    duration:"3:35", badge:"free", emoji:"🌧️", src:""
+  },
+  {
+    id:8, name:"Mal del Puerco",
+    genre:"Norteño Alternativo · Corrido Poético · Folk Rural",
+    tema:"Crónica irónica de la comodidad que adormece. Metáfora de ese estado de semi-consciencia en que nos instala la satisfacción fácil. Letras que punzan con humor y verdad.",
+    estilo:"Ironía · Crítica Social · Humor Filosófico · Tierra",
+    duration:"3:12", badge:"free", emoji:"🐷", src:""
+  },
+  {
+    id:9, name:"Morir de Sed Junto al Río",
+    genre:"Balada Pop Contemporánea · Canción de Autor",
+    tema:"Metáfora poderosa sobre la incapacidad de aprovechar lo que se tiene al alcance. La tragedia de la autoboicotización emocional.",
+    estilo:"Reflexión · Pérdida · Autoconocimiento · Melancolía",
+    duration:"3:50", badge:"unicorn", emoji:"🌊", src:""
+  },
+  {
+    id:10, name:"Neon de Zapopan",
+    genre:"Cumbia Sonidera Electrónica · Synthwave Tropical",
+    tema:"Postal sonora de Zapopan nocturno. Calles, luces de neón, referencias hiperlocales del Área Metropolitana de Guadalajara. Identidad urbana jalisciense reimaginada.",
+    estilo:"Orgullo Local · Nostalgia Urbana · Identidad · Alegría",
+    duration:"3:22", badge:"free", emoji:"🌆", src:""
+  },
+  {
+    id:11, name:"Plegaria del Asfalto",
+    genre:"Dark Ambient · Spoken Word · Electrónica Experimental",
+    tema:"Oración laica desde la ciudad. El asfalto como altar y como prisión. Reflexión sobre la espiritualidad en contextos urbanos hostiles.",
+    estilo:"Contemplación · Misticismo Urbano · Angustia Existencial",
+    duration:"4:44", badge:"unicorn", emoji:"🏙️", src:""
+  },
+  {
+    id:12, name:"Reminiscencia Dorada",
+    genre:"Bolero Moderno · Jazz Latino · Canción Nostálgica",
+    tema:"Evocación elegante de momentos irrecuperables. El oro como metáfora del tiempo que no regresa. Sofisticación emocional con raíces en la tradición latinoamericana.",
+    estilo:"Nostalgia · Elegancia · Atemporalidad · Amor Adulto",
+    duration:"3:48", badge:"unicorn", emoji:"✨", src:""
+  },
+  {
+    id:13, name:"Sombra Propia",
+    genre:"Alternative Rock · Post-Punk · Dark Pop",
+    tema:"Exploración del desdoblamiento psicológico. La sombra de Jung como personaje antagónico interior. Tensión entre el yo social y el yo auténtico.",
+    estilo:"Introspección · Dualidad · Confrontación Interior · Oscuridad",
+    duration:"3:37", badge:"unicorn", emoji:"👤", src:""
+  },
+  {
+    id:14, name:"Voz del Mercado",
+    genre:"Funk Urbano · R&B Contemporáneo · Sátira Comercial",
+    tema:"Crítica al consumismo y al marketing emocional. La voz del mercado que te dice quién eres. Ironía sobre la identidad construida por el algoritmo.",
+    estilo:"Ironía · Crítica Cultural · Ritmo · Empoderamiento",
+    duration:"3:15", badge:"free", emoji:"📢", src:""
+  },
+];
+const commercialTracks = [
+  {
+    id:15, name:"Aunque Me Duela el Alma",
+    genre:"Regional Mexicano · Mariachi Contemporáneo",
+    tema:"Versión maestra certificada — uso comercial, sincronización y distribución.",
+    estilo:"Duelo Amoroso · Soledad · Resiliencia",
+    duration:"1:00 (preview)", badge:"commercial", emoji:"🌹", src:""
+  },
+  {
+    id:16, name:"Cicatriz de Seda",
+    genre:"Power Ballad · Pop-Rock Comercial",
+    tema:"Versión maestra certificada — optimizada para distribución digital y radio.",
+    estilo:"Transformación · Empoderamiento · Despecho Elegante",
+    duration:"1:00 (preview)", badge:"hit", emoji:"🌸", src:""
+  },
+  {
+    id:17, name:"Eternamente en mi Piel",
+    genre:"Balada Pop · Power Ballad",
+    tema:"Versión maestra certificada — ideal para sincronización en publicidad y film.",
+    estilo:"Duelo · Reverencia · Esperanza",
+    duration:"1:00 (preview)", badge:"commercial", emoji:"💫", src:""
+  },
+  {
+    id:18, name:"Neon de Zapopan",
+    genre:"Cumbia Sonidera Electrónica · Comercial",
+    tema:"Versión maestra certificada — identidad regional con potencial viral.",
+    estilo:"Orgullo Local · Identidad · Alegría",
+    duration:"1:00 (preview)", badge:"hit", emoji:"🌆", src:""
+  },
+  {
+    id:19, name:"Reminiscencia Dorada",
+    genre:"Bolero Moderno · Jazz Latino",
+    tema:"Versión maestra certificada — sofisticación comercial máxima para marcas premium.",
+    estilo:"Nostalgia · Elegancia · Atemporalidad",
+    duration:"1:00 (preview)", badge:"commercial", emoji:"✨", src:""
+  },
+  {
+    id:20, name:"Unicornio Sónico (Signature)",
+    genre:"Dark Ambient · Electrónica · Identidad Sónica",
+    tema:"La pieza insignia del catálogo. Irrepetible, emocionalmente disruptiva. Licencia exclusiva disponible.",
+    estilo:"Unicornio Puro · Identidad Total · Alta Rareza",
+    duration:"1:00 (preview)", badge:"unicorn", emoji:"🦄", src:""
+  },
 ];
 
-let currentAudio = null, currentBtn = null;
+let currentTrack = null;
+let currentList = 'free';
+let isPlaying = false;
+let audioCtx = null;
+let analyser = null;
+let source = null;
 
-document.querySelectorAll('.player-btn').forEach((btn, i) => {
-  if (!songs[i]) return;
-  let audio = null; // lazy: se crea solo al primer clic
+const audio = document.getElementById('audio-player');
 
-  btn.addEventListener('click', () => {
-    // Crear el objeto Audio la primera vez que se toca el botón
-    if (!audio) {
-      audio = new Audio(songs[i]);
-      audio.addEventListener('ended', () => {
-        btn.innerHTML = playIcon();
-        btn.classList.remove('playing');
-        currentAudio = null; currentBtn = null;
-      });
-      audio.addEventListener('error', () => {
-        btn.innerHTML = playIcon();
-        btn.classList.remove('playing');
-        btn.title = 'Archivo no disponible aún';
-        if (currentAudio === audio) { currentAudio = null; currentBtn = null; }
-      });
+// ── BUILD TRACK LISTS ────────────────────────────────────────────────────────
+function buildList(tracks, containerId) {
+  const el = document.getElementById(containerId);
+  el.innerHTML = '';
+  tracks.forEach((t, i) => {
+    const row = document.createElement('div');
+    row.className = 'track-item';
+    row.id = `track-${t.id}`;
+    row.onclick = () => playTrack(t, tracks);
+    row.innerHTML = `
+      <span class="track-num">${i + 1}</span>
+      <div class="track-thumb">${t.emoji}</div>
+      <div class="track-info">
+        <div class="track-name">${t.name}</div>
+        <div class="track-genre">${t.genre}</div>
+        <div class="track-tema">${t.tema}</div>
+        <div class="track-estilo">${t.estilo}</div>
+      </div>
+      <span class="track-badge badge-${t.badge}">${t.badge.toUpperCase()}</span>
+      <span class="track-duration">${t.duration}</span>
+    `;
+    el.appendChild(row);
+  });
+}
+buildList(freeTracks, 'list-free');
+buildList(commercialTracks, 'list-commercial');
+
+// ── TAB SWITCHING ────────────────────────────────────────────────────────────
+function switchTab(tab) {
+  currentList = tab;
+  document.querySelectorAll('.tracks-container').forEach(c => c.classList.remove('active'));
+  document.querySelectorAll('.player-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById(`tracks-${tab}`).classList.add('active');
+  document.getElementById(`tab-${tab}`).classList.add('active');
+  document.getElementById('player-section').scrollIntoView({ behavior: 'smooth' });
+}
+
+// ── AUDIO CONTEXT SETUP ───────────────────────────────────────────────────────
+function setupAudioContext() {
+  if (audioCtx) return;
+  audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  analyser = audioCtx.createAnalyser();
+  analyser.fftSize = 256;
+  source = audioCtx.createMediaElementSource(audio);
+  source.connect(analyser);
+  analyser.connect(audioCtx.destination);
+}
+
+// ── PLAY TRACK ───────────────────────────────────────────────────────────────
+let allTracks = [...freeTracks, ...commercialTracks];
+function playTrack(track, list) {
+  setupAudioContext();
+  if (audioCtx.state === 'suspended') audioCtx.resume();
+
+  document.querySelectorAll('.track-item').forEach(el => el.classList.remove('playing'));
+  document.getElementById(`track-${track.id}`)?.classList.add('playing');
+
+  currentTrack = { ...track, list };
+  document.getElementById('now-playing').classList.add('visible');
+  document.getElementById('np-title').textContent = track.name;
+  document.getElementById('np-artist').textContent = `EAMR — ${track.genre}`;
+  document.getElementById('np-thumb').textContent = track.emoji;
+
+  if (track.src) {
+    audio.src = track.src;
+    audio.play();
+    isPlaying = true;
+    document.getElementById('np-play-btn').textContent = '⏸';
+  } else {
+    // Demo mode: simulate with tone
+    simulateTone(track);
+  }
+}
+
+// ── TONE SIMULATION (when no src) ────────────────────────────────────────────
+let toneOsc = null;
+function simulateTone(track) {
+  if (toneOsc) { try { toneOsc.stop(); } catch(e){} }
+  const freqs = [220, 261, 293, 349, 392, 440, 523, 587];
+  const freq = freqs[track.id % freqs.length];
+  try {
+    setupAudioContext();
+    if (audioCtx.state === 'suspended') audioCtx.resume();
+    toneOsc = audioCtx.createOscillator();
+    const gain = audioCtx.createGain();
+    toneOsc.connect(gain);
+    gain.connect(analyser);
+    toneOsc.frequency.value = freq;
+    toneOsc.type = 'sawtooth';
+    gain.gain.setValueAtTime(0, audioCtx.currentTime);
+    gain.gain.linearRampToValueAtTime(0.08, audioCtx.currentTime + 0.1);
+    toneOsc.start();
+    isPlaying = true;
+    document.getElementById('np-play-btn').textContent = '⏸';
+    // Simulate progress
+    startFakeProgress();
+  } catch(e) {}
+}
+
+let fakeProgress = 0;
+let fakeTimer = null;
+function startFakeProgress() {
+  clearInterval(fakeTimer);
+  fakeProgress = 0;
+  const totalSecs = 222;
+  fakeTimer = setInterval(() => {
+    fakeProgress += 1;
+    const pct = (fakeProgress / totalSecs) * 100;
+    document.getElementById('np-bar-fill').style.width = Math.min(pct, 100) + '%';
+    document.getElementById('np-current').textContent = formatTime(fakeProgress);
+    document.getElementById('np-duration').textContent = formatTime(totalSecs);
+    if (fakeProgress >= totalSecs) {
+      clearInterval(fakeTimer);
+      nextTrack();
     }
-
-    // Detener el audio anterior si es diferente
-    if (currentAudio && currentAudio !== audio) {
-      currentAudio.pause();
-      currentAudio.currentTime = 0;
-      if (currentBtn) { currentBtn.classList.remove('playing'); currentBtn.innerHTML = playIcon(); }
-    }
-
-    if (audio.paused) {
-      audio.play().then(() => {
-        btn.innerHTML = pauseIcon();
-        btn.classList.add('playing');
-        currentAudio = audio; currentBtn = btn;
-      }).catch(() => {
-        btn.title = 'Archivo de audio no disponible';
-        btn.innerHTML = playIcon();
-      });
-    } else {
-      audio.pause();
-      btn.innerHTML = playIcon();
-      btn.classList.remove('playing');
-      currentAudio = null; currentBtn = null;
-    }
-  });
-});
-
-function playIcon()  { return `<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>`; }
-function pauseIcon() { return `<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>`; }
-
-/* ── PODCAST PLAYER ── */
-const podAudio      = document.getElementById('podcastAudio');
-const btnPlay       = document.getElementById('btnPlay');
-const btnRewind     = document.getElementById('btnRewind');
-const btnForward    = document.getElementById('btnForward');
-const progressFill  = document.getElementById('progressFill');
-const progressWrap  = document.getElementById('progressWrap');
-const timeElapsed   = document.getElementById('timeElapsed');
-const timeDuration  = document.getElementById('timeDuration');
-const volumeSlider  = document.getElementById('volumeSlider');
-
-const fmt = s => { const m = Math.floor(s/60), sec = Math.floor(s%60); return `${m}:${sec.toString().padStart(2,'0')}`; };
-
-podAudio.volume = 0.8;
-
-podAudio.addEventListener('loadedmetadata', () => { timeDuration.textContent = fmt(podAudio.duration); });
-podAudio.addEventListener('timeupdate', () => {
-  if (!podAudio.duration) return;
-  progressFill.style.width = (podAudio.currentTime / podAudio.duration * 100) + '%';
-  timeElapsed.textContent = fmt(podAudio.currentTime);
-});
-podAudio.addEventListener('ended', () => { btnPlay.textContent = '▶'; });
-
-btnPlay.addEventListener('click', () => {
-  if (podAudio.paused) { podAudio.play(); btnPlay.textContent = '⏸'; }
-  else                  { podAudio.pause(); btnPlay.textContent = '▶'; }
-});
-btnRewind.addEventListener('click',  () => { podAudio.currentTime = Math.max(0, podAudio.currentTime - 15); });
-btnForward.addEventListener('click', () => { podAudio.currentTime = Math.min(podAudio.duration, podAudio.currentTime + 15); });
-progressWrap.addEventListener('click', e => {
-  const rect = progressWrap.getBoundingClientRect();
-  podAudio.currentTime = ((e.clientX - rect.left) / rect.width) * podAudio.duration;
-});
-volumeSlider.addEventListener('input', () => { podAudio.volume = volumeSlider.value; });
-
-/* ── PDF MODAL ── */
-function openPDFModal(tab) {
-  document.getElementById('pdfModal').classList.add('open');
-  document.body.style.overflow = 'hidden';
-  if (tab) switchTabByName(tab);
+  }, 1000);
 }
 
-function closePDFModal() {
-  document.getElementById('pdfModal').classList.remove('open');
-  document.body.style.overflow = '';
+function formatTime(s) {
+  const m = Math.floor(s / 60);
+  const sec = s % 60;
+  return `${m}:${sec.toString().padStart(2,'0')}`;
 }
 
-document.getElementById('pdfModal').addEventListener('click', e => {
-  if (e.target === document.getElementById('pdfModal')) closePDFModal();
-});
-
-document.addEventListener('keydown', e => { if (e.key === 'Escape') closePDFModal(); });
-
-function switchTab(name, btn) {
-  document.querySelectorAll('.pdf-content').forEach(c => c.classList.remove('active'));
-  document.querySelectorAll('.pdf-tab').forEach(t => t.classList.remove('active'));
-  document.getElementById('tab-' + name).classList.add('active');
-  btn.classList.add('active');
+// ── PLAYER CONTROLS ───────────────────────────────────────────────────────────
+function togglePlay() {
+  if (!currentTrack) return;
+  if (isPlaying) {
+    if (toneOsc) { try { toneOsc.stop(); toneOsc = null; } catch(e){} }
+    clearInterval(fakeTimer);
+    audio.pause();
+    isPlaying = false;
+    document.getElementById('np-play-btn').textContent = '▶';
+  } else {
+    if (audio.src) audio.play();
+    else simulateTone(currentTrack);
+    isPlaying = true;
+    document.getElementById('np-play-btn').textContent = '⏸';
+  }
+}
+function seekBack() { audio.currentTime = Math.max(0, audio.currentTime - 10); }
+function seekFwd()  { audio.currentTime = Math.min(audio.duration||0, audio.currentTime + 10); }
+function seekTo(e) {
+  const rect = document.getElementById('np-bar').getBoundingClientRect();
+  const pct = (e.clientX - rect.left) / rect.width;
+  if (audio.duration) { audio.currentTime = pct * audio.duration; }
+  else { fakeProgress = Math.floor(pct * 222); }
+}
+function prevTrack() {
+  if (!currentTrack) return;
+  const list = allTracks;
+  const idx = list.findIndex(t => t.id === currentTrack.id);
+  if (idx > 0) playTrack(list[idx - 1], list);
+}
+function nextTrack() {
+  if (!currentTrack) return;
+  const list = allTracks;
+  const idx = list.findIndex(t => t.id === currentTrack.id);
+  if (idx < list.length - 1) playTrack(list[idx + 1], list);
+}
+function toggleHeart() {
+  const h = document.getElementById('np-heart');
+  h.classList.toggle('active');
+  h.textContent = h.classList.contains('active') ? '♥' : '♡';
+}
+function setVolume(e) {
+  const rect = document.getElementById('np-vol-bar').getBoundingClientRect();
+  const pct = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
+  audio.volume = pct;
+  document.getElementById('np-vol-fill').style.width = (pct * 100) + '%';
 }
 
-function switchTabByName(name) {
-  document.querySelectorAll('.pdf-content').forEach(c => c.classList.remove('active'));
-  document.querySelectorAll('.pdf-tab').forEach(t => t.classList.remove('active'));
-  const content = document.getElementById('tab-' + name);
-  if (content) content.classList.add('active');
-  const tabs = document.querySelectorAll('.pdf-tab');
-  const idx = name === 'pro' ? 1 : 0;
-  if (tabs[idx]) tabs[idx].classList.add('active');
-}
-
-/* ── FORMULARIO: CHIPS ── */
-document.querySelectorAll('.form-chips').forEach(group => {
-  group.querySelectorAll('.form-chip').forEach(chip => {
-    const input = chip.querySelector('input');
-    chip.addEventListener('click', () => {
-      if (input && input.type === 'radio') {
-        group.querySelectorAll('.form-chip').forEach(c => c.classList.remove('selected'));
-      }
-      chip.classList.toggle('selected');
-      updateProgress();
-    });
-  });
-});
-
-document.querySelectorAll('input[name="genero"]').forEach(input => {
-  input.addEventListener('change', () => {
-    const f = document.getElementById('otro-genero-field');
-    if (f) f.style.display = (input.value === 'otro-genero') ? 'block' : 'none';
-  });
-});
-
-/* ── PROGRESO FORMULARIO ── */
-const REQUIRED_FIELDS = ['historia', 'raices', 'valor', 'nombre', 'contacto'];
-const REQUIRED_RADIOS = ['dedicatoria', 'voz', 'genero', 'animo'];
-const totalChecks = REQUIRED_FIELDS.length + REQUIRED_RADIOS.length;
-
-function updateProgress() {
-  let done = 0;
-  REQUIRED_FIELDS.forEach(id => {
-    const el = document.querySelector('[name="'+id+'"]') || document.getElementById(id);
-    if (el && el.value.trim().length > 0) done++;
-  });
-  REQUIRED_RADIOS.forEach(name => {
-    if (document.querySelector('input[name="'+name+'"]:checked')) done++;
-  });
-  const pct = Math.round((done / totalChecks) * 100);
-  const fill = document.getElementById('progress-fill');
-  const label = document.getElementById('progress-pct');
-  if (fill) fill.style.width = pct + '%';
-  if (label) label.textContent = pct + '%';
-}
-
-document.querySelectorAll('#song-form input, #song-form textarea').forEach(el => {
-  el.addEventListener('input', updateProgress);
-  el.addEventListener('change', updateProgress);
-});
-
-/* ── SUBMIT VALIDACIÓN ── */
-document.getElementById('song-form').addEventListener('submit', e => {
-  const historia   = document.getElementById('historia');
-  const nombre     = document.getElementById('nombre');
-  const contacto   = document.getElementById('contacto');
-  const dedicatoria= document.querySelector('input[name="dedicatoria"]:checked');
-  const genero     = document.querySelector('input[name="genero"]:checked');
-  const animo      = document.querySelector('input[name="animo"]:checked');
-
-  const faltantes = [];
-  if (!dedicatoria)                        faltantes.push('¿A quién va dedicada la canción?');
-  if (!historia || !historia.value.trim()) faltantes.push('La historia detrás');
-  if (!genero)                             faltantes.push('Género musical preferido');
-  if (!animo)                              faltantes.push('Estado de ánimo de la música');
-  if (!nombre   || !nombre.value.trim())   faltantes.push('Tu nombre completo');
-  if (!contacto || !contacto.value.trim()) faltantes.push('WhatsApp o correo de contacto');
-
-  if (faltantes.length > 0) {
-    e.preventDefault();
-    alert('Por favor completa los siguientes campos antes de enviar:\n\n• ' + faltantes.join('\n• '));
+audio.addEventListener('timeupdate', () => {
+  if (audio.duration) {
+    const pct = (audio.currentTime / audio.duration) * 100;
+    document.getElementById('np-bar-fill').style.width = pct + '%';
+    document.getElementById('np-current').textContent = formatTime(Math.floor(audio.currentTime));
+    document.getElementById('np-duration').textContent = formatTime(Math.floor(audio.duration));
   }
 });
-</script>
 
+// ── FINGERPRINT VISUALIZER ────────────────────────────────────────────────────
+const fpCanvas = document.getElementById('fp-canvas');
+const fpCtx = fpCanvas.getContext('2d');
+const FP_W = 260, FP_H = 260, FP_CX = 130, FP_CY = 130;
+
+function drawFingerprint(freqData) {
+  fpCtx.clearRect(0, 0, FP_W, FP_H);
+
+  // Background
+  const bgGrad = fpCtx.createRadialGradient(FP_CX, FP_CY, 0, FP_CX, FP_CY, 130);
+  bgGrad.addColorStop(0, 'rgba(20,16,0,0.9)');
+  bgGrad.addColorStop(1, 'rgba(0,0,0,0.95)');
+  fpCtx.fillStyle = bgGrad;
+  fpCtx.beginPath();
+  fpCtx.arc(FP_CX, FP_CY, 128, 0, Math.PI * 2);
+  fpCtx.fill();
+
+  // Fingerprint lines with audio reactivity
+  const numLines = 22;
+  for (let i = 0; i < numLines; i++) {
+    const t = i / numLines;
+    const baseRadius = 16 + i * 5;
+    const amp = freqData ? (freqData[Math.floor(i * freqData.length / numLines)] / 255) : 0;
+    const wave = amp * 14;
+    const color = amp > 0.5
+      ? `rgba(245,215,119,${0.4 + amp * 0.6})`
+      : `rgba(212,175,55,${0.2 + t * 0.5})`;
+
+    fpCtx.beginPath();
+    fpCtx.strokeStyle = color;
+    fpCtx.lineWidth = 0.8 + amp * 1.5;
+
+    // Create fingerprint arch shape
+    const startAngle = -Math.PI * 0.7;
+    const endAngle = Math.PI * 0.7;
+    const segments = 120;
+
+    for (let s = 0; s <= segments; s++) {
+      const angle = startAngle + (endAngle - startAngle) * (s / segments);
+      const noise = Math.sin(s * 0.3 + i * 0.8) * wave * 0.3;
+      const r = baseRadius + noise;
+      const x = FP_CX + Math.cos(angle) * r;
+      const y = FP_CY + Math.sin(angle) * r * 1.35;
+      s === 0 ? fpCtx.moveTo(x, y) : fpCtx.lineTo(x, y);
+    }
+    fpCtx.stroke();
+
+    // Circuit board nodes
+    if (i % 4 === 0) {
+      const nodeAngle = Math.PI * 0.7 + Math.random() * 0.2;
+      const nx = FP_CX + Math.cos(nodeAngle) * (baseRadius + 2);
+      const ny = FP_CY + Math.sin(nodeAngle) * (baseRadius + 2) * 1.35;
+      fpCtx.beginPath();
+      fpCtx.arc(nx, ny, 2 + amp * 3, 0, Math.PI * 2);
+      fpCtx.fillStyle = `rgba(0,229,255,${0.3 + amp * 0.7})`;
+      fpCtx.fill();
+    }
+  }
+
+  // Center glow
+  const glowGrad = fpCtx.createRadialGradient(FP_CX, FP_CY, 0, FP_CX, FP_CY, 40);
+  const avgAmp = freqData
+    ? Array.from(freqData.slice(0, 20)).reduce((a, b) => a + b, 0) / 20 / 255
+    : 0.1;
+  glowGrad.addColorStop(0, `rgba(212,175,55,${0.15 + avgAmp * 0.4})`);
+  glowGrad.addColorStop(1, 'transparent');
+  fpCtx.fillStyle = glowGrad;
+  fpCtx.beginPath();
+  fpCtx.arc(FP_CX, FP_CY, 40, 0, Math.PI * 2);
+  fpCtx.fill();
+
+  // Outer glow ring when loud
+  if (avgAmp > 0.3) {
+    fpCtx.beginPath();
+    fpCtx.arc(FP_CX, FP_CY, 120, 0, Math.PI * 2);
+    fpCtx.strokeStyle = `rgba(212,175,55,${avgAmp * 0.4})`;
+    fpCtx.lineWidth = 2;
+    fpCtx.stroke();
+  }
+
+  // Clip to circle
+  fpCtx.beginPath();
+  fpCtx.arc(FP_CX, FP_CY, 128, 0, Math.PI * 2);
+  fpCtx.strokeStyle = 'rgba(212,175,55,0.3)';
+  fpCtx.lineWidth = 1;
+  fpCtx.stroke();
+}
+
+// Idle animation
+let idleT = 0;
+function animFP() {
+  let freqData = null;
+  if (analyser && isPlaying) {
+    const buf = new Uint8Array(analyser.frequencyBinCount);
+    analyser.getByteFrequencyData(buf);
+    freqData = buf;
+  } else {
+    idleT += 0.02;
+    freqData = new Uint8Array(128);
+    for (let i = 0; i < 128; i++) {
+      freqData[i] = (Math.sin(idleT + i * 0.15) * 0.5 + 0.5) * 40;
+    }
+  }
+  drawFingerprint(freqData);
+  requestAnimationFrame(animFP);
+}
+animFP();
+
+// ── WAVEFORM STATIC DIVIDER ───────────────────────────────────────────────────
+const wc = document.getElementById('wave-static');
+wc.width = window.innerWidth; wc.height = 80;
+const wctx = wc.getContext('2d');
+function drawWaveDivider() {
+  wc.width = window.innerWidth;
+  wctx.clearRect(0, 0, wc.width, 80);
+  let freqData = null;
+  if (analyser && isPlaying) {
+    const buf = new Uint8Array(analyser.frequencyBinCount);
+    analyser.getByteFrequencyData(buf);
+    freqData = buf;
+  }
+  const grad = wctx.createLinearGradient(0, 0, wc.width, 0);
+  grad.addColorStop(0, 'rgba(212,175,55,0)');
+  grad.addColorStop(0.2, 'rgba(212,175,55,0.8)');
+  grad.addColorStop(0.5, 'rgba(0,229,255,0.9)');
+  grad.addColorStop(0.8, 'rgba(212,175,55,0.8)');
+  grad.addColorStop(1, 'rgba(212,175,55,0)');
+  wctx.beginPath();
+  wctx.strokeStyle = grad;
+  wctx.lineWidth = 2;
+  const bars = 140;
+  for (let i = 0; i <= bars; i++) {
+    const x = (i / bars) * wc.width;
+    const freq = freqData ? freqData[Math.floor(i * freqData.length / bars)] / 255 : 0;
+    const base = Math.sin(i * 0.18 + Date.now() * 0.002) * 12;
+    const h = base + freq * 30;
+    const y = 40 + h;
+    i === 0 ? wctx.moveTo(x, y) : wctx.lineTo(x, y);
+  }
+  wctx.stroke();
+
+  // Mirror
+  wctx.beginPath();
+  wctx.strokeStyle = 'rgba(212,175,55,0.2)';
+  wctx.lineWidth = 1;
+  for (let i = 0; i <= bars; i++) {
+    const x = (i / bars) * wc.width;
+    const freq = freqData ? freqData[Math.floor(i * freqData.length / bars)] / 255 : 0;
+    const base = Math.sin(i * 0.18 + Date.now() * 0.002) * 12;
+    const h = base + freq * 30;
+    const y = 40 - h;
+    i === 0 ? wctx.moveTo(x, y) : wctx.lineTo(x, y);
+  }
+  wctx.stroke();
+  requestAnimationFrame(drawWaveDivider);
+}
+drawWaveDivider();
+window.addEventListener('resize', () => { wc.width = window.innerWidth; });
+
+// ── NP VISUALIZER BARS ────────────────────────────────────────────────────────
+const npViz = document.getElementById('np-visualizer');
+for (let i = 0; i < 16; i++) {
+  const b = document.createElement('div');
+  b.className = 'bar';
+  b.style.animationDelay = (i * 0.05) + 's';
+  b.style.height = '4px';
+  npViz.appendChild(b);
+}
+function animNpViz() {
+  if (analyser && isPlaying) {
+    const buf = new Uint8Array(analyser.frequencyBinCount);
+    analyser.getByteFrequencyData(buf);
+    const bars = npViz.querySelectorAll('.bar');
+    bars.forEach((b, i) => {
+      const val = buf[Math.floor(i * buf.length / bars.length)] / 255;
+      const h = 4 + val * 26;
+      b.style.height = h + 'px';
+      b.style.opacity = 0.4 + val * 0.6;
+    });
+  }
+  requestAnimationFrame(animNpViz);
+}
+animNpViz();
+
+// ── INTERSECTION OBSERVER for scroll animations ────────────────────────────────
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.style.opacity = '1';
+      entry.target.style.transform = 'translateY(0)';
+    }
+  });
+}, { threshold: 0.1 });
+
+document.querySelectorAll('.precio-card, .vs-card, .track-item').forEach(el => {
+  el.style.opacity = '0';
+  el.style.transform = 'translateY(20px)';
+  el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+  observer.observe(el);
+});
+</script>
 </body>
 </html>
