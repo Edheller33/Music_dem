@@ -1,1706 +1,1059 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>EAMR — Estratega de Activos Musicales Registrables</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;600;700&family=Crimson+Pro:ital,wght@0,300;0,400;1,300;1,400&display=swap" rel="stylesheet">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>IA Music — Catálogo Dual</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Cinzel:wght@400;600;700&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400;0,700&family=Bebas+Neue&display=swap" rel="stylesheet" />
 <style>
 :root {
-  --gold: #D4AF37;
-  --gold-light: #F5D777;
-  --gold-dim: #8B7322;
-  --gold-glow: rgba(212,175,55,0.3);
-  --black: #050505;
-  --dark: #0A0A0A;
-  --panel: #111111;
-  --panel2: #161616;
-  --cyan: #00E5FF;
-  --cyan-dim: rgba(0,229,255,0.15);
-  --pink: #FF0080;
-  --pink-dim: rgba(255,0,128,0.15);
-  --white: #F0F0F0;
-  --grey: #888;
-  --border: rgba(212,175,55,0.18);
+  --gold:          #C9A84C;
+  --gold-bright:   #f0c040;
+  --gold-light:    #E8C97A;
+  --gold-pale:     #f5dfa0;
+  --gold-mid:      #c9960c;
+  --gold-dark:     #8a6300;
+  --green:         #2ECC71;
+  --green-bright:  #39D977;
+  --green-light:   #6EE4A0;
+  --green-mid:     #1aab58;
+  --green-dark:    #0d6635;
+  --green-glow:    rgba(46,204,113,0.25);
+  --cream:         #F5EDD6;
+  --dark:          #0D0B08;
+  --dark2:         #1A1710;
+  --dark3:         #252218;
+  --dark4:         #161410;
+  --dark-green:    #0a1a10;
+  --dark-green2:   #111e15;
+  --text:          #D6CCBA;
+  --text-muted:    #9a9282;
+  --shadow-gold:   0 0 28px rgba(192,144,12,0.35);
+  --shadow-green:  0 0 28px rgba(46,204,113,0.30);
 }
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
 html { scroll-behavior: smooth; }
 
 body {
-  background: var(--black);
-  color: var(--white);
-  font-family: 'Rajdhani', sans-serif;
+  background-color: var(--dark);
+  color: var(--text);
+  font-family: 'Crimson Pro', serif;
+  font-size: 16px;
+  line-height: 1.7;
   overflow-x: hidden;
-  cursor: none;
 }
 
-/* ── CURSOR ── */
-#cursor {
-  position: fixed; width: 12px; height: 12px;
-  background: var(--gold); border-radius: 50%;
-  pointer-events: none; z-index: 9999;
-  transform: translate(-50%,-50%);
-  transition: transform 0.1s, opacity 0.2s;
-  mix-blend-mode: screen;
-}
-#cursor-ring {
-  position: fixed; width: 36px; height: 36px;
-  border: 1px solid var(--gold); border-radius: 50%;
-  pointer-events: none; z-index: 9998;
-  transform: translate(-50%,-50%);
-  transition: transform 0.18s ease, width 0.2s, height 0.2s;
-  opacity: 0.5;
-}
-
-/* ── SCANLINE OVERLAY ── */
 body::before {
   content: '';
-  position: fixed; inset: 0;
-  background: repeating-linear-gradient(
-    0deg,
-    transparent,
-    transparent 2px,
-    rgba(0,0,0,0.04) 2px,
-    rgba(0,0,0,0.04) 4px
-  );
-  pointer-events: none; z-index: 9990;
-}
-
-/* ── PARTICLE CANVAS ── */
-#particles { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
-
-/* ── NAVBAR ── */
-nav {
-  position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 0 40px; height: 64px;
-  background: rgba(5,5,5,0.85);
-  backdrop-filter: blur(20px);
-  border-bottom: 1px solid var(--border);
-}
-.nav-logo {
-  font-family: 'Orbitron', monospace;
-  font-size: 1.4rem; font-weight: 900;
-  color: var(--gold);
-  text-shadow: 0 0 20px var(--gold-glow);
-  letter-spacing: 0.15em;
-}
-.nav-logo span { color: var(--cyan); }
-.nav-links { display: flex; gap: 28px; list-style: none; }
-.nav-links a {
-  color: var(--grey); font-size: 0.85rem; font-weight: 600;
-  text-decoration: none; letter-spacing: 0.12em; text-transform: uppercase;
-  transition: color 0.2s;
-}
-.nav-links a:hover { color: var(--gold); }
-.nav-cta {
-  background: transparent;
-  border: 1px solid var(--gold); color: var(--gold);
-  font-family: 'Orbitron', monospace; font-size: 0.7rem; font-weight: 700;
-  letter-spacing: 0.15em; padding: 8px 20px; cursor: none;
-  transition: all 0.25s;
-}
-.nav-cta:hover { background: var(--gold); color: var(--black); }
-
-/* ── HERO ── */
-#hero {
-  position: relative; min-height: 100vh;
-  display: flex; flex-direction: column;
-  align-items: center; justify-content: center;
-  overflow: hidden; z-index: 1;
-  padding-top: 64px;
-}
-
-.hero-bg-grid {
-  position: absolute; inset: 0;
-  background-image:
-    linear-gradient(rgba(212,175,55,0.04) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(212,175,55,0.04) 1px, transparent 1px);
-  background-size: 60px 60px;
-  animation: gridMove 20s linear infinite;
-}
-@keyframes gridMove {
-  from { background-position: 0 0; }
-  to   { background-position: 60px 60px; }
-}
-
-.hero-glow {
-  position: absolute; top: 50%; left: 50%;
-  transform: translate(-50%, -50%);
-  width: 600px; height: 600px;
-  background: radial-gradient(circle, rgba(212,175,55,0.08) 0%, transparent 70%);
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4'%3E%3Crect width='4' height='4' fill='%230D0B08'/%3E%3Crect width='1' height='1' fill='%23ffffff06'/%3E%3C/svg%3E");
   pointer-events: none;
-  animation: pulse-glow 4s ease-in-out infinite;
-}
-@keyframes pulse-glow {
-  0%,100% { opacity: 0.6; transform: translate(-50%,-50%) scale(1); }
-  50%      { opacity: 1;   transform: translate(-50%,-50%) scale(1.1); }
+  z-index: 0;
 }
 
-/* ── ANIMATED HERO TEXT ── */
-.hero-eyebrow {
-  font-family: 'Orbitron', monospace;
-  font-size: 0.7rem; letter-spacing: 0.4em; color: var(--cyan);
-  text-transform: uppercase; margin-bottom: 16px;
-  animation: fadeSlideDown 1s 0.2s both;
-  position: relative; z-index: 2;
-}
-.hero-title {
-  font-family: 'Orbitron', monospace;
-  font-size: clamp(2.8rem, 7vw, 6rem);
-  font-weight: 900; line-height: 1;
-  text-align: center; position: relative; z-index: 2;
-  animation: fadeSlideDown 1s 0.4s both;
-}
-.hero-title .line1 { display: block; color: var(--gold); text-shadow: 0 0 60px var(--gold-glow); }
-.hero-title .line2 { display: block; color: var(--white); }
-.hero-title .line3 {
-  display: block; color: transparent;
-  -webkit-text-stroke: 1px var(--gold-dim);
-  letter-spacing: 0.05em;
-}
-
-.hero-sub {
-  font-family: 'Crimson Pro', serif;
-  font-style: italic; font-size: 1.25rem;
-  color: var(--grey); text-align: center;
-  margin-top: 20px; max-width: 520px;
-  animation: fadeSlideDown 1s 0.6s both;
-  position: relative; z-index: 2;
-}
-.hero-sub em { color: var(--gold-light); font-style: normal; }
-
-@keyframes fadeSlideDown {
-  from { opacity: 0; transform: translateY(-24px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-
-/* ── FINGERPRINT VISUALIZER ── */
-#fp-container {
-  position: relative; margin: 40px 0 30px;
-  width: 260px; height: 260px;
-  animation: fadeSlideDown 1.2s 0.8s both;
-  z-index: 2; cursor: none;
-}
-#fp-canvas {
-  position: absolute; inset: 0;
-  border-radius: 50%;
-}
-.fp-ring {
-  position: absolute; inset: -8px;
-  border-radius: 50%;
-  border: 1px solid var(--gold-dim);
-  animation: spin 12s linear infinite;
-}
-.fp-ring::before {
-  content: '';
-  position: absolute; top: -3px; left: 50%; transform: translateX(-50%);
-  width: 6px; height: 6px; background: var(--gold);
-  border-radius: 50%;
-  box-shadow: 0 0 10px var(--gold);
-}
-.fp-ring2 {
-  position: absolute; inset: -18px;
-  border-radius: 50%;
-  border: 1px solid rgba(0,229,255,0.2);
-  animation: spin 20s linear infinite reverse;
-}
-@keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-
-/* ── HERO BUTTONS ── */
-.hero-btns {
-  display: flex; gap: 16px; flex-wrap: wrap; justify-content: center;
-  margin-top: 10px; z-index: 2; position: relative;
-  animation: fadeSlideDown 1s 1s both;
-}
-.btn-libre {
-  position: relative; overflow: hidden;
-  padding: 14px 28px;
-  background: linear-gradient(135deg, var(--cyan) 0%, #0080FF 100%);
-  color: #000; font-family: 'Orbitron', monospace;
-  font-size: 0.7rem; font-weight: 700; letter-spacing: 0.12em;
-  border: none; cursor: none;
-  clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);
-  transition: all 0.25s; text-transform: uppercase;
-}
-.btn-libre:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(0,229,255,0.4); }
-.btn-comercial {
-  position: relative; overflow: hidden;
-  padding: 14px 28px;
-  background: linear-gradient(135deg, var(--gold) 0%, #FF8C00 100%);
-  color: #000; font-family: 'Orbitron', monospace;
-  font-size: 0.7rem; font-weight: 700; letter-spacing: 0.12em;
-  border: none; cursor: none;
-  clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);
-  transition: all 0.25s; text-transform: uppercase;
-}
-.btn-comercial:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(212,175,55,0.5); }
-.btn-icon { margin-right: 8px; font-size: 1rem; }
-
-/* ── WAVEFORM DIVIDER ── */
-.wave-divider {
-  width: 100%; height: 80px;
-  position: relative; overflow: hidden;
-  z-index: 2;
-}
-.wave-divider canvas { width: 100%; height: 100%; }
-
-/* ── SECTION BASE ── */
-section { position: relative; z-index: 2; }
-
-.section-header {
-  text-align: center; padding: 80px 20px 48px;
-}
-.section-eyebrow {
-  font-family: 'Orbitron', monospace;
-  font-size: 0.65rem; letter-spacing: 0.5em; color: var(--cyan);
-  text-transform: uppercase; margin-bottom: 12px;
-}
-.section-title {
-  font-family: 'Orbitron', monospace;
-  font-size: clamp(1.6rem, 4vw, 2.8rem);
-  font-weight: 900; color: var(--gold);
-  text-shadow: 0 0 40px var(--gold-glow);
-  margin-bottom: 14px;
-}
-.section-sub {
-  font-family: 'Crimson Pro', serif;
-  font-style: italic; font-size: 1.1rem; color: var(--grey);
-  max-width: 600px; margin: 0 auto;
-}
-
-/* ── PLAYER SECTION ── */
-#player-section {
-  background: var(--dark);
-  border-top: 1px solid var(--border);
-  border-bottom: 1px solid var(--border);
-  padding: 0 0 60px;
-}
-
-.player-tabs {
-  display: flex; justify-content: center; gap: 0;
-  margin-bottom: 40px;
-  border-bottom: 1px solid var(--border);
-}
-.player-tab {
-  padding: 16px 36px;
-  font-family: 'Orbitron', monospace;
-  font-size: 0.7rem; letter-spacing: 0.15em;
-  color: var(--grey); background: transparent;
-  border: none; border-bottom: 2px solid transparent;
-  cursor: none; transition: all 0.25s;
-  text-transform: uppercase;
-}
-.player-tab.active { color: var(--gold); border-bottom-color: var(--gold); }
-.player-tab:hover { color: var(--white); }
-
-.tracks-container { display: none; padding: 0 clamp(20px, 5vw, 80px); }
-.tracks-container.active { display: block; }
-
-/* SPOTIFY-STYLE TRACK LIST */
-.track-list { display: flex; flex-direction: column; gap: 4px; }
-.track-item {
-  display: grid;
-  grid-template-columns: 32px 48px 1fr auto auto;
-  align-items: center; gap: 16px;
-  padding: 10px 16px;
-  border-radius: 4px;
-  transition: background 0.2s; cursor: none;
-  border: 1px solid transparent;
-}
-.track-item:hover { background: var(--panel2); border-color: var(--border); }
-.track-item.playing { background: var(--panel2); border-color: rgba(212,175,55,0.3); }
-.track-num {
-  font-family: 'Orbitron', monospace;
-  font-size: 0.75rem; color: var(--grey); text-align: center;
-}
-.track-item.playing .track-num { color: var(--gold); }
-.track-thumb {
-  width: 48px; height: 48px; border-radius: 4px;
-  background: var(--panel);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 1.3rem; flex-shrink: 0;
-  border: 1px solid var(--border);
-  overflow: hidden;
-}
-.track-thumb img { width: 100%; height: 100%; object-fit: cover; }
-.track-info { min-width: 0; }
-.track-name {
-  font-family: 'Rajdhani', sans-serif;
-  font-size: 1rem; font-weight: 600; color: var(--white);
-  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-}
-.track-item.playing .track-name { color: var(--gold); }
-.track-genre {
-  font-size: 0.78rem; color: var(--grey); margin-top: 2px;
-}
-.track-badge {
-  padding: 3px 10px;
-  font-family: 'Orbitron', monospace;
-  font-size: 0.55rem; letter-spacing: 0.1em;
-  border-radius: 2px; text-transform: uppercase;
-}
-.badge-free { background: rgba(0,229,255,0.1); color: var(--cyan); border: 1px solid rgba(0,229,255,0.3); }
-.badge-commercial { background: rgba(212,175,55,0.1); color: var(--gold); border: 1px solid rgba(212,175,55,0.3); }
-.badge-unicorn { background: rgba(255,0,128,0.1); color: var(--pink); border: 1px solid rgba(255,0,128,0.3); }
-.badge-hit { background: rgba(118,255,3,0.1); color: #76FF03; border: 1px solid rgba(118,255,3,0.3); }
-.track-tema {
-  font-size: 0.72rem; color: var(--grey); margin-top: 3px;
-  line-height: 1.4; max-width: 520px;
-  font-family: 'Crimson Pro', serif; font-style: italic;
-}
-.track-estilo {
-  font-size: 0.65rem; color: var(--gold-dim); margin-top: 2px;
-  letter-spacing: 0.06em; text-transform: uppercase;
-}
-/* Commercial green column */
-#tracks-commercial .track-item {
-  border-left: 2px solid rgba(39,174,96,0.4);
-}
-#tracks-commercial .track-item:hover {
-  background: rgba(39,174,96,0.06);
-  border-color: rgba(39,174,96,0.7);
-}
-#tracks-commercial .track-item.playing {
-  background: rgba(39,174,96,0.1);
-  border-color: rgba(39,174,96,0.9);
-}
-#tracks-commercial .track-name { color: #5dde8a; }
-#tracks-commercial .track-item.playing .track-name { color: #76FF03; }
-#tracks-commercial .section-eyebrow { color: #5dde8a; }
-.badge-commercial { background: rgba(39,174,96,0.15); color: #5dde8a; border: 1px solid rgba(39,174,96,0.4); }
-.badge-hit { background: rgba(118,255,3,0.12); color: #76FF03; border: 1px solid rgba(118,255,3,0.4); }
-.track-duration {
-  font-family: 'Orbitron', monospace;
-  font-size: 0.75rem; color: var(--grey);
-}
-
-/* Two-column layout for catalog */
-@media (min-width: 900px) {
-  .dual-catalog {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 0;
-  }
-  .dual-catalog .tracks-container { display: block !important; }
-  .dual-catalog .tracks-container:first-child {
-    border-right: 1px solid var(--border);
-  }
-  .player-tabs { display: none; }
-  .dual-col-header {
-    display: grid; grid-template-columns: 1fr 1fr;
-    gap: 0; margin-bottom: 0;
-  }
-  .dual-col-header .col-label {
-    text-align: center; padding: 14px 20px;
-    font-family: 'Orbitron', monospace; font-size: 0.7rem;
-    letter-spacing: 0.15em; font-weight: 700; text-transform: uppercase;
-  }
-  .col-label.libre { background: rgba(0,229,255,0.07); color: var(--cyan); border-bottom: 2px solid var(--cyan); }
-  .col-label.comercial { background: rgba(39,174,96,0.07); color: #5dde8a; border-bottom: 2px solid #5dde8a; }
-}
-
-
-/* ── NOW PLAYING BAR ── */
-#now-playing {
-  position: fixed; bottom: 0; left: 0; right: 0; z-index: 1000;
-  background: rgba(10,10,10,0.97);
-  backdrop-filter: blur(30px);
-  border-top: 1px solid var(--border);
+/* ── NAV ── */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  background: rgba(13,11,8,0.94);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(201,168,76,0.15);
   padding: 0 24px;
-  height: 80px;
-  display: grid;
-  grid-template-columns: 1fr 2fr 1fr;
+  display: flex;
   align-items: center;
-  transform: translateY(100%);
-  transition: transform 0.4s cubic-bezier(0.4,0,0.2,1);
+  justify-content: space-between;
+  height: 56px;
 }
-#now-playing.visible { transform: translateY(0); }
+.nav-brand {
+  font-family: 'Cinzel Decorative', serif;
+  font-size: 0.95rem;
+  color: var(--gold-bright);
+  letter-spacing: 0.1em;
+  text-decoration: none;
+}
+.nav-links { display: flex; gap: 4px; align-items: center; }
+.nav-link {
+  font-family: 'Cinzel', serif;
+  font-size: 0.58rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  text-decoration: none;
+  padding: 5px 9px;
+  border-radius: 2px;
+  transition: color 0.2s, background 0.2s;
+}
+.nav-link:hover { color: var(--gold); background: rgba(201,168,76,0.07); }
 
-.np-info { display: flex; align-items: center; gap: 14px; }
-.np-thumb {
-  width: 48px; height: 48px; border-radius: 4px;
-  background: var(--panel); border: 1px solid var(--border);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 1.2rem; flex-shrink: 0; overflow: hidden;
+/* ── PAGE WRAPPER ── */
+.page-wrap {
+  position: relative;
+  z-index: 1;
+  padding-top: 56px;
 }
-.np-thumb img { width: 100%; height: 100%; object-fit: cover; }
-.np-title { font-family: 'Rajdhani', sans-serif; font-size: 0.95rem; font-weight: 600; color: var(--white); }
-.np-artist { font-size: 0.78rem; color: var(--grey); margin-top: 2px; }
-.np-heart { font-size: 1rem; color: var(--grey); cursor: none; transition: color 0.2s; }
-.np-heart.active { color: var(--pink); }
 
-.np-controls { display: flex; flex-direction: column; align-items: center; gap: 8px; }
-.np-buttons { display: flex; align-items: center; gap: 18px; }
-.np-btn {
-  background: none; border: none; color: var(--grey);
-  font-size: 1rem; cursor: none; transition: color 0.2s; padding: 4px;
+/* ── DUAL HEADER ── */
+.dual-header {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  min-height: 0;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
 }
-.np-btn:hover { color: var(--white); }
-.np-play-btn {
-  width: 36px; height: 36px; border-radius: 50%;
-  background: var(--gold); border: none;
-  color: var(--black); font-size: 1rem;
-  display: flex; align-items: center; justify-content: center;
-  cursor: none; transition: transform 0.2s, background 0.2s;
-}
-.np-play-btn:hover { transform: scale(1.08); background: var(--gold-light); }
-.np-progress { display: flex; align-items: center; gap: 10px; width: 100%; max-width: 420px; }
-.np-time { font-family: 'Orbitron', monospace; font-size: 0.62rem; color: var(--grey); width: 36px; }
-.np-bar {
-  flex: 1; height: 4px; background: rgba(255,255,255,0.1);
-  border-radius: 2px; cursor: none; position: relative;
-}
-.np-bar-fill {
-  height: 100%; background: var(--gold);
-  border-radius: 2px; width: 0%;
-  transition: width 0.5s linear;
+
+.col-header {
+  padding: 52px 32px 36px;
+  text-align: center;
   position: relative;
 }
-.np-bar-fill::after {
-  content: ''; position: absolute; right: -6px; top: 50%;
-  transform: translateY(-50%);
-  width: 12px; height: 12px; background: var(--white);
-  border-radius: 50%; opacity: 0; transition: opacity 0.2s;
-}
-.np-bar:hover .np-bar-fill::after { opacity: 1; }
 
-/* VISUALIZER BAR in player */
-#np-visualizer {
-  display: flex; align-items: flex-end; gap: 2px; height: 30px;
-}
-#np-visualizer .bar {
-  width: 3px; background: var(--gold); border-radius: 2px;
-  animation: barPulse 0.8s ease-in-out infinite;
-  min-height: 4px;
-}
-@keyframes barPulse {
-  0%,100% { opacity: 0.4; transform: scaleY(0.3); }
-  50%      { opacity: 1;   transform: scaleY(1); }
+.col-header-free {
+  background: linear-gradient(160deg, rgba(201,168,76,0.06) 0%, transparent 60%);
+  border-right: 1px solid rgba(255,255,255,0.05);
 }
 
-.np-volume { display: flex; align-items: center; justify-content: flex-end; gap: 10px; }
-.np-vol-icon { font-size: 1rem; color: var(--grey); }
-.np-vol-bar {
-  width: 80px; height: 4px; background: rgba(255,255,255,0.1);
-  border-radius: 2px; position: relative; cursor: none;
+.col-header-commercial {
+  background: linear-gradient(160deg, rgba(46,204,113,0.06) 0%, transparent 60%);
 }
-.np-vol-fill {
-  height: 100%; background: var(--grey);
-  border-radius: 2px; width: 70%;
-  transition: background 0.2s;
-}
-.np-vol-bar:hover .np-vol-fill { background: var(--gold); }
 
-/* ── PRECIO SECTION ── */
-#precio {
-  background: linear-gradient(180deg, var(--dark) 0%, #0D0A00 100%);
-  padding-bottom: 80px;
+.col-eyebrow {
+  font-family: 'Cinzel', serif;
+  font-size: 0.58rem;
+  letter-spacing: 0.42em;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+  opacity: 0.7;
 }
-.precio-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 24px;
-  padding: 0 clamp(20px, 5vw, 80px);
+.eyebrow-free  { color: var(--gold-mid); }
+.eyebrow-com   { color: var(--green-mid); }
+
+.col-title {
+  font-family: 'Cinzel Decorative', serif;
+  font-size: clamp(1rem, 2.5vw, 1.6rem);
+  margin-bottom: 8px;
+  line-height: 1.2;
 }
-.precio-card {
-  background: var(--panel);
-  border: 1px solid var(--border);
-  padding: 32px 28px;
-  position: relative; overflow: hidden;
-  transition: transform 0.3s, border-color 0.3s;
+.title-free { color: var(--gold-bright); text-shadow: 0 0 20px rgba(192,144,12,0.25); }
+.title-com  { color: var(--green-bright); text-shadow: 0 0 20px rgba(46,204,113,0.25); }
+
+.col-divider {
+  width: 80px; height: 1px;
+  margin: 10px auto 14px;
+  border-radius: 1px;
 }
-.precio-card::before {
-  content: '';
-  position: absolute; top: 0; left: 0; right: 0; height: 2px;
-  background: linear-gradient(90deg, var(--gold), var(--cyan));
-}
-.precio-card:hover { transform: translateY(-4px); border-color: rgba(212,175,55,0.4); }
-.precio-card-icon { font-size: 2rem; margin-bottom: 16px; }
-.precio-card-title {
-  font-family: 'Orbitron', monospace;
-  font-size: 0.85rem; letter-spacing: 0.15em;
-  color: var(--gold); margin-bottom: 12px; text-transform: uppercase;
-}
-.precio-card-body {
+.divider-free { background: linear-gradient(90deg, transparent, var(--gold-mid), transparent); }
+.divider-com  { background: linear-gradient(90deg, transparent, var(--green-mid), transparent); }
+
+.col-desc {
   font-family: 'Crimson Pro', serif;
-  font-size: 1rem; line-height: 1.7; color: rgba(240,240,240,0.85);
+  font-style: italic;
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  max-width: 340px;
+  margin: 0 auto;
+  line-height: 1.65;
 }
-.precio-highlight {
-  color: var(--gold-light); font-weight: 600; font-style: italic;
-}
-.precio-table {
-  width: 100%; border-collapse: collapse;
-  margin: 40px clamp(20px, 5vw, 80px);
-  width: calc(100% - 2*clamp(20px, 5vw, 80px));
-}
-.precio-table th {
-  font-family: 'Orbitron', monospace;
-  font-size: 0.7rem; letter-spacing: 0.15em;
-  color: var(--black); background: var(--gold);
-  padding: 12px 20px; text-align: left; text-transform: uppercase;
-}
-.precio-table td {
-  padding: 14px 20px;
-  border-bottom: 1px solid var(--border);
-  font-size: 0.95rem;
-  font-family: 'Crimson Pro', serif;
-}
-.precio-table tr:nth-child(even) td { background: var(--panel); }
-.precio-table tr:nth-child(odd) td { background: rgba(16,16,16,0.8); }
-.precio-table td:first-child { color: var(--gold-light); font-weight: 600; }
 
-/* ── UNICORNIO vs HIT ── */
-#unicornio-vs-hit {
-  background: var(--black);
-  padding-bottom: 80px;
+.col-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: 'Cinzel', serif;
+  font-size: 0.56rem;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  padding: 5px 14px;
+  border-radius: 20px;
+  margin-top: 16px;
 }
-.vs-container {
+.badge-free-pill {
+  background: rgba(201,168,76,0.12);
+  border: 1px solid rgba(201,168,76,0.3);
+  color: var(--gold-bright);
+}
+.badge-com-pill {
+  background: rgba(46,204,113,0.12);
+  border: 1px solid rgba(46,204,113,0.3);
+  color: var(--green-bright);
+}
+
+/* ── MAIN DUAL COLUMNS ── */
+.dual-columns {
   display: grid;
-  grid-template-columns: 1fr auto 1fr;
-  gap: 0;
-  padding: 0 clamp(20px, 5vw, 80px);
+  grid-template-columns: 1fr 1fr;
   align-items: start;
+  min-height: 100vh;
 }
-.vs-card {
-  padding: 40px 32px;
-  border: 1px solid var(--border);
-  position: relative; overflow: hidden;
+
+.col-free  { border-right: 1px solid rgba(255,255,255,0.04); }
+.col-com   { background: linear-gradient(180deg, rgba(46,204,113,0.02) 0%, transparent 30%); }
+
+/* ── SONG CARD BASE ── */
+.song-card {
+  position: relative;
+  padding: 22px 20px 22px 24px;
+  display: grid;
+  grid-template-columns: 38px 1fr auto;
+  gap: 0 14px;
+  align-items: start;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity 0.5s ease, transform 0.5s ease, background 0.3s, border-left-color 0.3s;
+  border-left: 3px solid transparent;
 }
-.vs-card.unicorn {
-  background: linear-gradient(135deg, rgba(255,0,128,0.05) 0%, var(--panel) 100%);
-  border-color: rgba(255,0,128,0.25);
+.song-card.visible { opacity: 1; transform: translateY(0); }
+
+/* FREE CARD */
+.song-card-free {
+  background: var(--dark2);
 }
-.vs-card.hit {
-  background: linear-gradient(135deg, var(--panel) 0%, rgba(118,255,3,0.05) 100%);
-  border-color: rgba(118,255,3,0.25);
+.song-card-free:hover {
+  background: var(--dark3);
+  border-left-color: var(--gold-mid);
 }
-.vs-header {
-  display: flex; align-items: center; gap: 14px; margin-bottom: 24px;
+.song-card-free:hover .song-num { color: var(--gold); }
+
+/* COMMERCIAL CARD */
+.song-card-com {
+  background: var(--dark-green2);
 }
-.vs-icon { font-size: 2.5rem; }
-.vs-type {
-  font-family: 'Orbitron', monospace;
-  font-size: 0.75rem; letter-spacing: 0.15em; text-transform: uppercase;
+.song-card-com:hover {
+  background: #141f18;
+  border-left-color: var(--green-mid);
 }
-.vs-card.unicorn .vs-type { color: var(--pink); }
-.vs-card.hit .vs-type { color: #76FF03; }
-.vs-card-title {
-  font-family: 'Orbitron', monospace;
-  font-size: 1.1rem; font-weight: 900; color: var(--white);
+.song-card-com:hover .song-num-com { color: var(--green); }
+
+/* ── NUMBERS ── */
+.song-num {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.9rem;
+  color: rgba(201,168,76,0.16);
+  line-height: 1;
+  transition: color 0.3s;
+  padding-top: 3px;
+}
+.song-num-com {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.9rem;
+  color: rgba(46,204,113,0.16);
+  line-height: 1;
+  transition: color 0.3s;
+  padding-top: 3px;
+}
+
+/* ── SONG BODY ── */
+.song-body { min-width: 0; }
+
+.song-title {
+  font-family: 'Cinzel', serif;
+  font-size: 0.9rem;
+  color: var(--cream);
+  font-weight: 700;
   margin-bottom: 4px;
+  line-height: 1.3;
 }
-.vs-score-bar {
-  height: 6px; border-radius: 3px; margin: 20px 0; position: relative;
-  background: rgba(255,255,255,0.08);
-}
-.vs-score-fill {
-  height: 100%; border-radius: 3px;
-  animation: fillBar 2s 0.5s both;
-}
-.vs-card.unicorn .vs-score-fill { background: linear-gradient(90deg, var(--pink), #FF6EC7); width: 92%; }
-.vs-card.hit     .vs-score-fill { background: linear-gradient(90deg, #76FF03, #C6FF00); width: 88%; }
-@keyframes fillBar {
-  from { width: 0%; }
-}
-.vs-traits { list-style: none; display: flex; flex-direction: column; gap: 10px; }
-.vs-traits li {
-  display: flex; gap: 10px; align-items: flex-start;
-  font-family: 'Crimson Pro', serif; font-size: 1rem; line-height: 1.5;
-  color: rgba(240,240,240,0.85);
-}
-.vs-traits li::before { flex-shrink: 0; margin-top: 2px; }
-.vs-card.unicorn .vs-traits li::before { content: '◆'; color: var(--pink); font-size: 0.6rem; }
-.vs-card.hit     .vs-traits li::before { content: '◆'; color: #76FF03; font-size: 0.6rem; }
+.song-title-com { color: #e0f5e9; }
 
-.vs-divider {
-  display: flex; flex-direction: column; align-items: center;
-  justify-content: center; padding: 40px 20px;
-}
-.vs-vs {
-  font-family: 'Orbitron', monospace;
-  font-size: 2rem; font-weight: 900; color: var(--gold);
-  text-shadow: 0 0 30px var(--gold-glow);
-  writing-mode: vertical-rl;
-  letter-spacing: 0.3em;
-}
-.vs-line { width: 1px; flex: 1; background: var(--border); }
-
-.vs-table-wrap { padding: 40px clamp(20px, 5vw, 80px) 0; }
-.vs-table {
-  width: 100%; border-collapse: collapse;
-}
-.vs-table th {
-  font-family: 'Orbitron', monospace;
-  font-size: 0.7rem; letter-spacing: 0.12em; padding: 14px 20px;
+.song-genre {
+  font-family: 'Cinzel', serif;
+  font-size: 0.58rem;
+  letter-spacing: 0.18em;
+  color: var(--gold);
+  margin-bottom: 10px;
+  opacity: 0.8;
   text-transform: uppercase;
 }
-.vs-table th:first-child { background: var(--panel); color: var(--grey); }
-.vs-table th:nth-child(2) { background: rgba(255,0,128,0.15); color: var(--pink); text-align: center; }
-.vs-table th:nth-child(3) { background: rgba(118,255,3,0.1); color: #76FF03; text-align: center; }
-.vs-table td {
-  padding: 14px 20px;
-  border-bottom: 1px solid var(--border);
-  font-family: 'Crimson Pro', serif; font-size: 1rem;
+.song-genre-com { color: var(--green-light); }
+
+.song-desc {
+  font-family: 'Crimson Pro', serif;
+  font-size: 0.88rem;
+  line-height: 1.7;
+  color: var(--text);
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
-.vs-table tr:nth-child(even) td { background: rgba(16,16,16,0.5); }
-.vs-table td:first-child { color: var(--gold-light); font-weight: 600; }
-.vs-table td:nth-child(2) { text-align: center; }
-.vs-table td:nth-child(3) { text-align: center; }
+
+.song-emotion {
+  font-family: 'Crimson Pro', serif;
+  font-size: 0.78rem;
+  color: var(--gold-light);
+  opacity: 0.45;
+  margin-top: 8px;
+  font-style: italic;
+}
+.song-emotion-com { color: var(--green-light); }
+
+/* ── PLAYER AREA ── */
+.song-player {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding-top: 2px;
+  min-width: 64px;
+}
+
+/* ── PLAY BUTTON ── */
+.player-btn {
+  width: 44px; height: 44px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s;
+  flex-shrink: 0;
+}
+
+.player-btn-free {
+  border: 1px solid rgba(201,168,76,0.28);
+  background: rgba(201,168,76,0.04);
+  color: var(--gold);
+}
+.player-btn-free:hover {
+  background: rgba(201,168,76,0.14);
+  border-color: var(--gold);
+  transform: scale(1.08);
+}
+.player-btn-free.playing {
+  background: rgba(201,168,76,0.18);
+  border-color: var(--gold);
+  box-shadow: 0 0 16px rgba(201,168,76,0.28);
+}
+
+.player-btn-com {
+  border: 1px solid rgba(46,204,113,0.32);
+  background: rgba(46,204,113,0.06);
+  color: var(--green);
+}
+.player-btn-com:hover {
+  background: rgba(46,204,113,0.16);
+  border-color: var(--green);
+  transform: scale(1.08);
+  box-shadow: 0 0 14px rgba(46,204,113,0.2);
+}
+.player-btn-com.playing {
+  background: rgba(46,204,113,0.22);
+  border-color: var(--green);
+  box-shadow: 0 0 20px rgba(46,204,113,0.35);
+}
+
+/* ── WAVE BARS ── */
+.wave-bars {
+  display: flex;
+  align-items: flex-end;
+  gap: 2px;
+  height: 18px;
+}
+.wave-bars span {
+  display: block;
+  width: 2.5px;
+  border-radius: 2px;
+  animation: waveBar 1.4s ease-in-out infinite;
+  transform-origin: bottom;
+}
+
+/* FREE WAVE - gold */
+.wave-free span {
+  background: linear-gradient(180deg, var(--gold-bright), var(--gold-dark));
+  opacity: 0.55;
+}
+/* COM WAVE - green */
+.wave-com span {
+  background: linear-gradient(180deg, var(--green-bright), var(--green-dark));
+  opacity: 0.6;
+}
+
+.wave-bars span:nth-child(1) { height: 5px;  animation-delay: 0s; }
+.wave-bars span:nth-child(2) { height: 12px; animation-delay: 0.15s; }
+.wave-bars span:nth-child(3) { height: 17px; animation-delay: 0.08s; }
+.wave-bars span:nth-child(4) { height: 9px;  animation-delay: 0.25s; }
+.wave-bars span:nth-child(5) { height: 14px; animation-delay: 0.05s; }
+.wave-bars span:nth-child(6) { height: 7px;  animation-delay: 0.20s; }
+.wave-bars span:nth-child(7) { height: 16px; animation-delay: 0.12s; }
+
+@keyframes waveBar {
+  0%, 100% { transform: scaleY(0.3); opacity: 0.35; }
+  50%       { transform: scaleY(1);   opacity: 0.9; }
+}
+
+/* ── STATUS LABEL ── */
+.status-label {
+  font-family: 'Cinzel', serif;
+  font-size: 0.46rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  text-align: center;
+  line-height: 1.4;
+  max-width: 68px;
+}
+.status-label-free {
+  color: var(--gold-mid);
+  opacity: 0.75;
+}
+.status-label-com {
+  color: var(--green-mid);
+  opacity: 0.85;
+}
+
+.status-sublabel {
+  font-family: 'Crimson Pro', serif;
+  font-size: 0.65rem;
+  font-style: italic;
+  text-align: center;
+  line-height: 1.35;
+  max-width: 72px;
+  margin-top: -2px;
+}
+.status-sublabel-free { color: var(--text-muted); opacity: 0.55; }
+.status-sublabel-com  { color: #7dd6a0; opacity: 0.7; }
+
+/* ── COM AVAILABLE DOT ── */
+.avail-dot {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: var(--green);
+  box-shadow: 0 0 8px rgba(46,204,113,0.7);
+  animation: pulse-dot 2s ease-in-out infinite;
+  flex-shrink: 0;
+}
+@keyframes pulse-dot {
+  0%, 100% { opacity: 0.8; transform: scale(1); }
+  50%       { opacity: 1; transform: scale(1.25); box-shadow: 0 0 14px rgba(46,204,113,0.9); }
+}
 
 /* ── FOOTER ── */
 footer {
-  background: var(--dark);
-  border-top: 1px solid var(--border);
-  padding: 40px clamp(20px, 5vw, 80px);
-  display: flex; flex-direction: column; align-items: center; gap: 16px;
-  margin-bottom: 80px;
+  border-top: 1px solid rgba(201,168,76,0.1);
+  padding: 40px 24px;
+  text-align: center;
+  position: relative;
+  z-index: 1;
+  background: var(--dark4);
 }
 .footer-logo {
-  font-family: 'Orbitron', monospace;
-  font-size: 1.8rem; font-weight: 900; color: var(--gold);
-  text-shadow: 0 0 30px var(--gold-glow);
-  letter-spacing: 0.2em;
+  font-family: 'Cinzel Decorative', serif;
+  font-size: 1.2rem;
+  color: var(--gold-bright);
+  margin-bottom: 8px;
 }
-.footer-tagline {
-  font-family: 'Crimson Pro', serif;
-  font-style: italic; color: var(--grey); font-size: 1rem;
-  text-align: center;
-}
-.footer-links { display: flex; gap: 24px; }
-.footer-links a {
-  color: var(--grey); font-size: 0.8rem; letter-spacing: 0.1em;
-  text-decoration: none; text-transform: uppercase;
-  transition: color 0.2s;
-}
-.footer-links a:hover { color: var(--gold); }
-.footer-copy { font-size: 0.75rem; color: rgba(136,136,136,0.5); text-align: center; }
-
-/* ── GLITCH ANIMATION ── */
-.glitch {
-  position: relative;
-}
-.glitch::before, .glitch::after {
-  content: attr(data-text);
-  position: absolute; inset: 0;
-  font-family: inherit; font-size: inherit;
-  font-weight: inherit; color: var(--gold);
-}
-.glitch::before {
-  color: var(--cyan); clip-path: polygon(0 0, 100% 0, 100% 45%, 0 45%);
-  transform: translateX(-2px);
-  animation: glitch1 4s infinite;
-}
-.glitch::after {
-  color: var(--pink); clip-path: polygon(0 55%, 100% 55%, 100% 100%, 0 100%);
-  transform: translateX(2px);
-  animation: glitch2 4s infinite;
-}
-@keyframes glitch1 {
-  0%,90%,100% { opacity: 0; }
-  91%,93% { opacity: 1; transform: translateX(-4px); }
-  92%,94% { opacity: 0; }
-}
-@keyframes glitch2 {
-  0%,88%,100% { opacity: 0; }
-  89%,91% { opacity: 1; transform: translateX(4px); }
-  90%,92% { opacity: 0; }
+.footer-copy {
+  font-family: 'Cinzel', serif;
+  font-size: 0.6rem;
+  color: var(--text-muted);
+  opacity: 0.4;
+  letter-spacing: 0.1em;
+  margin-top: 12px;
 }
 
-/* ── DATA COUNTER ── */
-.stats-row {
-  display: flex; justify-content: center; gap: 60px;
-  padding: 20px; z-index: 2; position: relative;
-  animation: fadeSlideDown 1s 1.2s both;
-}
-.stat-item { text-align: center; }
-.stat-num {
-  font-family: 'Orbitron', monospace;
-  font-size: 2rem; font-weight: 900; color: var(--gold);
-  display: block;
-}
-.stat-label {
-  font-size: 0.7rem; letter-spacing: 0.2em; color: var(--grey);
+/* ── STICKY COLUMN LABELS (desktop) ── */
+.col-sticky-label {
+  position: sticky;
+  top: 56px;
+  z-index: 10;
+  padding: 10px 20px;
+  font-family: 'Cinzel', serif;
+  font-size: 0.58rem;
+  letter-spacing: 0.3em;
   text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+}
+.col-sticky-free {
+  background: rgba(13,11,8,0.96);
+  color: var(--gold-mid);
+  border-right: 1px solid rgba(255,255,255,0.04);
+}
+.col-sticky-com {
+  background: rgba(10,26,16,0.96);
+  color: var(--green-mid);
+}
+.sticky-dot-free {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--gold-mid); opacity: 0.7;
+}
+.sticky-dot-com {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--green); opacity: 0.8;
+  box-shadow: 0 0 6px rgba(46,204,113,0.5);
+}
+
+/* ── ANIMATIONS ── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
 /* ── RESPONSIVE ── */
-@media (max-width: 768px) {
-  nav { padding: 0 16px; }
-  .nav-links { display: none; }
-  .vs-container { grid-template-columns: 1fr; }
-  .vs-divider { flex-direction: row; padding: 20px 0; }
-  .vs-vs { writing-mode: horizontal-tb; letter-spacing: 0.2em; }
-  .vs-line { width: 40px; height: 1px; flex: unset; }
-  .stats-row { gap: 24px; }
-  #now-playing { grid-template-columns: 1fr auto; }
-  .np-volume { display: none; }
-  .track-item { grid-template-columns: 28px 40px 1fr; gap: 10px; }
-  .track-badge { display: none; }
-  .track-duration { display: none; }
-  .track-tema { display: none; }
-  .dual-col-header { display: none; }
+@media (max-width: 780px) {
+  .dual-header { grid-template-columns: 1fr; }
+  .col-header-free { border-right: none; border-bottom: 1px solid rgba(255,255,255,0.05); }
+  .dual-columns { grid-template-columns: 1fr; }
+  .col-free { border-right: none; border-bottom: 2px solid rgba(201,168,76,0.15); }
+  .col-sticky-free { border-right: none; }
+  .song-card { padding: 18px 14px; gap: 0 10px; }
+  .song-num, .song-num-com { font-size: 1.5rem; }
+  .song-title { font-size: 0.82rem; }
+  .song-desc { -webkit-line-clamp: 2; }
+  .player-btn { width: 38px; height: 38px; }
+  .song-player { min-width: 54px; }
 }
 </style>
 </head>
 <body>
 
-<div id="cursor"></div>
-<div id="cursor-ring"></div>
-<canvas id="particles"></canvas>
-
-<!-- ── NAVBAR ── -->
+<!-- NAV -->
 <nav>
-  <div class="nav-logo">E<span>A</span>MR</div>
-  <ul class="nav-links">
-    <li><a href="#player-section">Música</a></li>
-    <li><a href="#precio">Precios</a></li>
-    <li><a href="#unicornio-vs-hit">Unicornio vs Hit</a></li>
-    <li><a href="mailto:contacto@eamr.mx">Contacto</a></li>
-  </ul>
-  <button class="nav-cta">🎧 Escuchar</button>
+  <a href="https://edheller33.github.io/Music_dem/" class="nav-brand">IA MUSIC</a>
+  <div class="nav-links">
+    <a href="https://edheller33.github.io/Music_dem/" class="nav-link">← Inicio</a>
+    <a href="#catalogo" class="nav-link">Catálogo</a>
+    <a href="#derechos" class="nav-link">Derechos</a>
+  </div>
 </nav>
 
-<!-- ── HERO ── -->
-<section id="hero">
-  <div class="hero-bg-grid"></div>
-  <div class="hero-glow"></div>
+<div class="page-wrap">
 
-  <p class="hero-eyebrow">◈ Estratega de Activos Musicales Registrables ◈</p>
-
-  <h1 class="hero-title">
-    <span class="line1 glitch" data-text="MÚSICA">MÚSICA</span>
-    <span class="line2">CON IDENTIDAD</span>
-    <span class="line3">PROPIA</span>
-  </h1>
-
-  <p class="hero-sub">
-    Cada sonido deja una <em>huella</em>.<br>
-    Creatividad humana. Inteligencia artificial.
-  </p>
-
-  <!-- FINGERPRINT AUDIO VISUALIZER -->
-  <div id="fp-container">
-    <div class="fp-ring2"></div>
-    <div class="fp-ring"></div>
-    <canvas id="fp-canvas" width="260" height="260"></canvas>
-  </div>
-
-  <div class="stats-row">
-    <div class="stat-item">
-      <span class="stat-num" id="cnt-tracks">14</span>
-      <span class="stat-label">Canciones</span>
+  <!-- DUAL HEADER -->
+  <div class="dual-header" id="catalogo">
+    <div class="col-header col-header-free">
+      <p class="col-eyebrow eyebrow-free">◆ Acceso Gratuito ◆</p>
+      <h2 class="col-title title-free">Canciones Libres</h2>
+      <div class="col-divider divider-free"></div>
+      <p class="col-desc">Demos originales de uso personal. Explora el universo sonoro sin costo — NO incluyen licencia comercial.</p>
+      <span class="col-badge badge-free-pill">🎵 USO PERSONAL · DEMO</span>
     </div>
-    <div class="stat-item">
-      <span class="stat-num">8</span>
-      <span class="stat-label">Géneros</span>
-    </div>
-    <div class="stat-item">
-      <span class="stat-num">100%</span>
-      <span class="stat-label">Original</span>
+    <div class="col-header col-header-commercial">
+      <p class="col-eyebrow eyebrow-com">◆ Licencia Profesional ◆</p>
+      <h2 class="col-title title-com">Canciones Comerciales</h2>
+      <div class="col-divider divider-com"></div>
+      <p class="col-desc">Versiones maestras certificadas. Listas para monetización, sincronización, distribución y explotación comercial.</p>
+      <span class="col-badge badge-com-pill">✅ USO COMERCIAL · LICENCIADO</span>
     </div>
   </div>
 
-  <div class="hero-btns">
-    <button class="btn-libre" onclick="switchTab('free')">
-      <span class="btn-icon">🎵</span>Ver y Escuchar Versiones Libres (NO Comerciales)
-    </button>
-    <button class="btn-comercial" onclick="switchTab('commercial')">
-      <span class="btn-icon">💎</span>Ver y Escuchar (1 min) Versiones Comerciales
-    </button>
-  </div>
+  <!-- DUAL COLUMNS -->
+  <div class="dual-columns">
 
-  <div class="wave-divider"><canvas id="wave-static"></canvas></div>
-</section>
-
-<!-- ── PLAYER SECTION ── -->
-<section id="player-section">
-  <div class="section-header">
-    <p class="section-eyebrow">◈ Catálogo EAMR ◈</p>
-    <h2 class="section-title">EXPERIENCIA SONORA</h2>
-    <p class="section-sub">Selecciona una canción. La huella reacciona al audio en tiempo real.</p>
-  </div>
-
-  <div class="player-tabs">
-    <button class="player-tab active" id="tab-free" onclick="switchTab('free')">
-      🎵 Versiones Libres (No Comerciales)
-    </button>
-    <button class="player-tab" id="tab-commercial" onclick="switchTab('commercial')">
-      💚 Versiones Comerciales (1 min preview)
-    </button>
-  </div>
-
-  <!-- DUAL COLUMN HEADER (desktop) -->
-  <div class="dual-col-header">
-    <div class="col-label libre">🎵 Canciones Libres — Uso Personal · Demo</div>
-    <div class="col-label comercial">💚 Canciones Comerciales — Licencia Profesional</div>
-  </div>
-
-  <div class="dual-catalog">
-    <!-- FREE TRACKS -->
-    <div class="tracks-container active" id="tracks-free">
-      <div class="track-list" id="list-free"></div>
-    </div>
-
-    <!-- COMMERCIAL TRACKS -->
-    <div class="tracks-container" id="tracks-commercial">
-      <div class="track-list" id="list-commercial"></div>
-    </div>
-  </div>
-</section>
-
-<!-- ── PRECIO DE LA MÚSICA CON IA ── -->
-<section id="precio">
-  <div class="section-header">
-    <p class="section-eyebrow">◈ Transparencia ◈</p>
-    <h2 class="section-title">EL PRECIO DE LA MÚSICA CON IA</h2>
-    <p class="section-sub">¿Por qué una canción generada con IA tiene valor económico real?</p>
-  </div>
-
-  <div class="precio-grid">
-    <div class="precio-card">
-      <div class="precio-card-icon">🧠</div>
-      <div class="precio-card-title">Inversión Intelectual</div>
-      <div class="precio-card-body">
-        Detrás de cada canción existe un proceso estratégico profundo: investigación de mercado, 
-        desarrollo de identidad sonora, ingeniería de prompts de precisión y múltiples iteraciones creativas. 
-        <span class="precio-highlight">La IA es el instrumento; el estratega es el artista.</span>
+    <!-- ═══════ COLUMNA IZQUIERDA: GRATUITAS ═══════ -->
+    <div class="col-free">
+      <div class="col-sticky-label col-sticky-free">
+        <span class="sticky-dot-free"></span>
+        14 Canciones · Solo Uso Personal
       </div>
+
+      <!-- 01 -->
+      <div class="song-card song-card-free">
+        <div class="song-num">01</div>
+        <div class="song-body">
+          <h3 class="song-title">Aunque Me Duela el Alma</h3>
+          <p class="song-genre">Regional Mexicano · Balada Ranchera · Mariachi Contemporáneo</p>
+          <p class="song-desc">El proceso de desapego forzoso. Enfocada en la aceptación del final, la soledad post-ruptura y el sacrificio de la voluntad. La lucha entre el sentimiento y la razón.</p>
+          <p class="song-emotion">Soledad · Nostalgia · Resiliencia · Duelo Amoroso</p>
+        </div>
+        <div class="song-player">
+          <button class="player-btn player-btn-free" aria-label="Reproducir">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+          </button>
+          <div class="wave-bars wave-free">
+            <span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+         </div>
+         
+       </div>
     </div>
 
-    <div class="precio-card">
-      <div class="precio-card-icon">📜</div>
-      <div class="precio-card-title">Licencia Comercial SUNO</div>
-      <div class="precio-card-body">
-        Las canciones son generadas con <span class="precio-highlight">licencia de pago de SUNO AI</span>, 
-        que transfiere los derechos de uso comercial al creador. Esto no es música gratuita 
-        ni de dominio público — tiene un costo de producción real y derechos asociados.
-      </div>
-    </div>
-
-    <div class="precio-card">
-      <div class="precio-card-icon">⏱️</div>
-      <div class="precio-card-title">Tiempo de Producción</div>
-      <div class="precio-card-body">
-        Una canción con identidad sónica definida requiere entre 4 y 20 horas de trabajo: 
-        conceptualización, diseño de prompt, selección entre docenas de versiones, 
-        edición y verificación de calidad. 
-        <span class="precio-highlight">El tiempo del estratega tiene valor profesional.</span>
-      </div>
-    </div>
-
-    <div class="precio-card">
-      <div class="precio-card-icon">🎯</div>
-      <div class="precio-card-title">Unicidad y Rareza</div>
-      <div class="precio-card-body">
-        No todas las canciones generadas con IA poseen identidad sónica propia. 
-        Las que alcanzan el nivel de <span class="precio-highlight">Unicornio Sónico</span> — 
-        piezas irrepetibles, emocionalmente disruptivas — son significativamente más escasas 
-        y por ello más valiosas.
-      </div>
-    </div>
-
-    <div class="precio-card">
-      <div class="precio-card-icon">🌐</div>
-      <div class="precio-card-title">Mercado Emergente</div>
-      <div class="precio-card-body">
-        El mercado de música generada con IA está en formación. Quienes adquieren 
-        <span class="precio-highlight">activos musicales registrables hoy</span> 
-        están posicionándose en un ecosistema que en los próximos años tendrá 
-        regulación, derechos y valor de catálogo equivalente al mercado tradicional.
-      </div>
-    </div>
-
-    <div class="precio-card">
-      <div class="precio-card-icon">🔐</div>
-      <div class="precio-card-title">Exclusividad y Registro</div>
-      <div class="precio-card-body">
-        Cada canción comercial viene con la posibilidad de registro ante el INDAUTOR 
-        o IMPI según corresponda. Una vez adquirida en modalidad exclusiva, 
-        <span class="precio-highlight">ningún otro cliente puede adquirir la misma obra</span>, 
-        garantizando unicidad total.
-      </div>
-    </div>
-  </div>
-
-  <div style="overflow-x:auto; padding: 0 clamp(20px,5vw,80px);">
-    <table class="precio-table">
-      <thead>
-        <tr>
-          <th>Modalidad</th>
-          <th>Descripción</th>
-          <th>Uso permitido</th>
-          <th>Rango de precio</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>Versión Libre</td>
-          <td>Canción completa para uso personal, educativo o no comercial</td>
-          <td>Personal, no monetizable</td>
-          <td>Gratuita / Donación</td>
-        </tr>
-        <tr>
-          <td>Licencia Básica</td>
-          <td>Preview de 1 minuto con opción de adquirir versión completa</td>
-          <td>Proyectos pequeños, uso limitado</td>
-          <td>$500 – $1,500 MXN</td>
-        </tr>
-        <tr>
-          <td>Licencia Estándar</td>
-          <td>Canción completa con derechos de uso comercial no exclusivo</td>
-          <td>Redes sociales, publicidad, podcasts</td>
-          <td>$1,500 – $5,000 MXN</td>
-        </tr>
-        <tr>
-          <td>Licencia Premium</td>
-          <td>Hit de Radio — estructura comercial optimizada</td>
-          <td>Distribución digital, radio, sync</td>
-          <td>$5,000 – $15,000 MXN</td>
-        </tr>
-        <tr>
-          <td>Unicornio Sónico</td>
-          <td>Obra única, irrepetible, identidad sónica total + exclusividad</td>
-          <td>Exclusivo, registrable, full commercial</td>
-          <td>$15,000 – $50,000+ MXN</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-</section>
-
-<!-- ── UNICORNIO VS HIT DE RADIO ── -->
-<section id="unicornio-vs-hit">
-  <div class="section-header">
-    <p class="section-eyebrow">◈ Taxonomía EAMR ◈</p>
-    <h2 class="section-title">UNICORNIO SÓNICO vs HIT DE RADIO</h2>
-    <p class="section-sub">Dos arquetipos. Dos tipos de impacto. Ambos tienen valor — pero no son lo mismo.</p>
-  </div>
-
-  <div class="vs-container">
-    <div class="vs-card unicorn">
-      <div class="vs-header">
-        <span class="vs-icon">🦄</span>
-        <div>
-          <div class="vs-type">Arquetipo A</div>
-          <div class="vs-card-title">UNICORNIO SÓNICO</div>
+      <!-- 02 -->
+      <div class="song-card song-card-free">
+        <div class="song-num">02</div>
+        <div class="song-body">
+          <h3 class="song-title">Cáliz del Viento</h3>
+          <p class="song-genre">Indie Rock · Synth-Rock · Psicodelia Moderna</p>
+          <p class="song-desc">Un viaje introspectivo a través de la metáfora del desierto y el aire. Himno a la resistencia del espíritu en un paisaje desolado, con arpegios oscuros y atmósfera densa.</p>
+          <p class="song-emotion">Existencialismo · Misticismo · Nostalgia Oscura · Destino</p>
+        </div>
+        <div class="song-player">
+          <button class="player-btn player-btn-free" aria-label="Reproducir">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+          </button>
+          <div class="wave-bars wave-free">
+            <span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+          </div>
+          
         </div>
       </div>
-      <div class="vs-score-bar"><div class="vs-score-fill"></div></div>
-      <ul class="vs-traits">
-        <li>Originalidad absoluta: no existe nada igual en el mercado actual</li>
-        <li>Impacto emocional profundo, inesperado y transformador</li>
-        <li>Identidad sónica reconocible en los primeros 5 segundos</li>
-        <li>Riesgo artístico elevado: viola convenciones de género</li>
-        <li>Profundidad de escucha: mejora con cada repetición</li>
-        <li>Coherencia total entre letra, producción y voz</li>
-        <li>Potencial de culto: audiencias nicho muy leales</li>
-        <li>Valor de catálogo a largo plazo, tiende a ser atemporal</li>
-        <li>Difícil de imitar o replicar por su singularidad</li>
-        <li>Puede fracasar comercialmente en el corto plazo y volverse icónica décadas después</li>
-      </ul>
-    </div>
-
-    <div class="vs-divider">
-      <div class="vs-line"></div>
-      <div class="vs-vs">VS</div>
-      <div class="vs-line"></div>
-    </div>
-
-    <div class="vs-card hit">
-      <div class="vs-header">
-        <span class="vs-icon">📻</span>
-        <div>
-          <div class="vs-type">Arquetipo B</div>
-          <div class="vs-card-title">HIT DE RADIO</div>
+      
+      <!-- 03 -->
+      <div class="song-card song-card-free">
+        <div class="song-num">03</div>
+        <div class="song-body">
+          <h3 class="song-title">Cicatriz de Seda</h3>
+          <p class="song-genre">Pop-Rock · Balada Rock · Power Ballad Contemporánea</p>
+          <p class="song-desc">La marca imborrable de un amor complejo narrada con madurez emocional. Dualidad del título: suave como seda, permanente como cicatriz. Vulnerabilidad del pasado y empoderamiento del presente.</p>
+          <p class="song-emotion">Superación · Empoderamiento · Transformación · Despecho Elegante</p>
+        </div>
+        <div class="song-player">
+          <button class="player-btn player-btn-free" aria-label="Reproducir">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+          </button>
+          <div class="wave-bars wave-free">
+            <span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+          </div>
+          
         </div>
       </div>
-      <div class="vs-score-bar"><div class="vs-score-fill"></div></div>
-      <ul class="vs-traits">
-        <li>Hook instantáneo: se queda en la cabeza tras 30 segundos</li>
-        <li>Estructura comercial estándar: verso–pre-coro–coro–bridge–outro</li>
-        <li>Accesible para audiencias masivas y cross-demographic</li>
-        <li>Optimizado para playlists algorítmicas y radio mainstream</li>
-        <li>Memorabilidad inmediata: cantable desde la primera escucha</li>
-        <li>Bajo riesgo artístico: sigue fórmulas probadas del mercado</li>
-        <li>Alto potencial viral en TikTok y contenido de formato corto</li>
-        <li>Ciclo de vida más corto pero impacto masivo inmediato</li>
-        <li>Ideal para sincronización (publicidad, film, trailers)</li>
-        <li>Rentabilidad rápida y predecible</li>
-      </ul>
-    </div>
-  </div>
 
-  <div class="vs-table-wrap">
-    <table class="vs-table">
-      <thead>
-        <tr>
-          <th>Dimensión</th>
-          <th>🦄 Unicornio Sónico</th>
-          <th>📻 Hit de Radio</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr><td>Originalidad</td><td>Máxima — irrepetible</td><td>Moderada — fórmula conocida</td></tr>
-        <tr><td>Accesibilidad</td><td>Media-baja (nicho apasionado)</td><td>Máxima (audiencias masivas)</td></tr>
-        <tr><td>Impacto emocional</td><td>Profundo y duradero</td><td>Inmediato y efímero</td></tr>
-        <tr><td>Longevidad</td><td>Alta — puede ser atemporal</td><td>Media — ciclo de tendencia</td></tr>
-        <tr><td>Potencial viral</td><td>Bajo a medio</td><td>Muy alto</td></tr>
-        <tr><td>Valor de licencia</td><td>Premium — mayor precio</td><td>Estándar–Premium</td></tr>
-        <tr><td>Riesgo artístico</td><td>Alto</td><td>Bajo</td></tr>
-        <tr><td>¿Puede ser ambas?</td><td colspan="2" style="text-align:center; color:var(--gold-light); font-style:italic">Sí — cuando un Unicornio tiene un hook accesible. Es la combinación más valiosa y más rara.</td></tr>
-      </tbody>
-    </table>
-  </div>
-</section>
-
-<!-- ── FOOTER ── -->
-<footer>
-  <div class="footer-logo">EAMR</div>
-  <p class="footer-tagline">"La tecnología crea. La emoción conecta. La música permanece."</p>
-  <div class="footer-links">
-    <a href="https://open.spotify.com" target="_blank">Spotify</a>
-    <a href="https://youtube.com" target="_blank">YouTube</a>
-    <a href="https://instagram.com" target="_blank">Instagram</a>
-    <a href="https://soundcloud.com" target="_blank">SoundCloud</a>
-  </div>
-  <p class="footer-copy">© 2025 EAMR — Edgardo Romero. Todos los derechos reservados. Licencia SUNO AI Comercial.</p>
-</footer>
-
-<!-- ── NOW PLAYING BAR ── -->
-<div id="now-playing">
-  <div class="np-info">
-    <div class="np-thumb" id="np-thumb">🎵</div>
-    <div>
-      <div class="np-title" id="np-title">Selecciona una canción</div>
-      <div class="np-artist" id="np-artist">EAMR — Ed Heller</div>
-    </div>
-    <span class="np-heart" id="np-heart" onclick="toggleHeart()">♡</span>
-  </div>
-  <div class="np-controls">
-    <div class="np-buttons">
-      <button class="np-btn" onclick="prevTrack()">⏮</button>
-      <button class="np-btn" onclick="seekBack()">⏪</button>
-      <button class="np-play-btn" id="np-play-btn" onclick="togglePlay()">▶</button>
-      <button class="np-btn" onclick="seekFwd()">⏩</button>
-      <button class="np-btn" onclick="nextTrack()">⏭</button>
-    </div>
-    <div class="np-progress">
-      <span class="np-time" id="np-current">0:00</span>
-      <div class="np-bar" id="np-bar" onclick="seekTo(event)">
-        <div class="np-bar-fill" id="np-bar-fill"></div>
+      <!-- 04 -->
+      <div class="song-card song-card-free">
+        <div class="song-num">04</div>
+        <div class="song-body">
+          <h3 class="song-title">Doctrina de Cristal</h3>
+          <p class="song-genre">Hip-Hop Clásico (Boom Bap) · Conscious Rap · Oratoria Urbana</p>
+          <p class="song-desc">Manifiesto contra la hipocresía y el extremismo ideológico. La producción prioriza la claridad del mensaje sobre la complejidad melódica.</p>
+          <p class="song-emotion">Directo · Confrontativo · Asertivo · Urgente</p>
+        </div>
+        <div class="song-player">
+          <button class="player-btn player-btn-free" aria-label="Reproducir">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+          </button>
+          <div class="wave-bars wave-free">
+            <span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+          </div>
+          
+        </div>
       </div>
-      <span class="np-time" id="np-duration">0:00</span>
-    </div>
-  </div>
-  <div class="np-volume">
-    <div id="np-visualizer"></div>
-    <span class="np-vol-icon">🔊</span>
-    <div class="np-vol-bar" onclick="setVolume(event)">
-      <div class="np-vol-fill" id="np-vol-fill"></div>
-    </div>
-  </div>
-</div>
 
-<audio id="audio-player" crossorigin="anonymous"></audio>
+      <!-- 05 -->
+      <div class="song-card song-card-free">
+        <div class="song-num">05</div>
+        <div class="song-body">
+          <h3 class="song-title">Eternamente en mi Piel</h3>
+          <p class="song-genre">Balada Pop · Rock · Power Ballad · Lírica de Duelo</p>
+          <p class="song-desc">Explora la persistencia del recuerdo de un ser querido tras su partida. Metáforas sobre la soledad cotidiana — el café frío, la lluvia, el silencio — para ilustrar el vacío emocional.</p>
+          <p class="song-emotion">Serenidad · Reverencia · Alivio · Esperanza</p>
+        </div>
+        <div class="song-player">
+          <button class="player-btn player-btn-free" aria-label="Reproducir">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+          </button>
+          <div class="wave-bars wave-free">
+            <span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+          </div>
+          
+        </div>
+      </div>
+
+      <!-- 06 -->
+      <div class="song-card song-card-free">
+        <div class="song-num">06</div>
+        <div class="song-body">
+          <h3 class="song-title">Fuego en la Niebla</h3>
+          <p class="song-genre">Post-Rock · Ambient · Neo-Folk Oscuro</p>
+          <p class="song-desc">Una composición instrumental que dialoga con el silencio. El fuego como símbolo de pasión y destrucción simultáneas, la niebla como barrera entre lo real y lo deseado.</p>
+          <p class="song-emotion">Melancolía · Tensión Contenida · Anhelo · Pérdida</p>
+        </div>
+        <div class="song-player">
+          <button class="player-btn player-btn-free" aria-label="Reproducir">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+          </button>
+          <div class="wave-bars wave-free">
+            <span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+          </div>
+          
+        </div>
+      </div>
+
+      <!-- 07 -->
+      <div class="song-card song-card-free">
+        <div class="song-num">07</div>
+        <div class="song-body">
+          <h3 class="song-title">Lopez Martirios</h3>
+          <p class="song-genre">Cumbia Sonidera · Sátira Urbana · Crónica de Barrio</p>
+          <p class="song-desc">Narra de forma irónica los problemas de inundaciones recurrentes en avenidas de la ciudad. Crítica directa a la falta de planeación urbana, usando el humor para procesar la frustración social.</p>
+          <p class="song-emotion">Ironía · Crítica Social · Humor Filosófico · Identidad</p>
+        </div>
+        <div class="song-player">
+          <button class="player-btn player-btn-free" aria-label="Reproducir">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+          </button>
+          <div class="wave-bars wave-free">
+            <span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+          </div>
+          
+        </div>
+      </div>
+
+      <!-- 08 -->
+      <div class="song-card song-card-free">
+        <div class="song-num">08</div>
+        <div class="song-body">
+          <h3 class="song-title">Mal del Puerco</h3>
+          <p class="song-genre">Norteño Alternativo · Corrido Poético · Folk Rural</p>
+          <p class="song-desc">Crónica irónica de la comodidad que adormece. Metáfora de ese estado de semi-consciencia en que nos instala la satisfacción fácil. Letras que punzan con humor y verdad.</p>
+          <p class="song-emotion">Ironía · Crítica Social · Humor Filosófico · Tierra</p>
+        </div>
+        <div class="song-player">
+          <button class="player-btn player-btn-free" aria-label="Reproducir">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+          </button>
+          <div class="wave-bars wave-free">
+            <span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+          </div>
+          
+        </div>
+      </div>
+
+      <!-- 09 -->
+      <div class="song-card song-card-free">
+        <div class="song-num">09</div>
+        <div class="song-body">
+          <h3 class="song-title">Midnight Sanctuary</h3>
+          <p class="song-genre">Alternative Rock · Shoegaze · Post-Grunge</p>
+          <p class="song-desc">Devoción existencial. Búsqueda de refugio en la pareja frente a un mundo percibido como caótico. Amor no como sentimiento romántico idealizado, sino como mecanismo de supervivencia.</p>
+          <p class="song-emotion">Serenidad · Reverencia · Alivio · Esperanza</p>
+        </div>
+        <div class="song-player">
+          <button class="player-btn player-btn-free" aria-label="Reproducir">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+          </button>
+          <div class="wave-bars wave-free">
+            <span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+          </div>
+          
+        </div>
+      </div>
+
+      <!-- 10 -->
+      <div class="song-card song-card-free">
+        <div class="song-num">10</div>
+        <div class="song-body">
+          <h3 class="song-title">Prisionero de tu Aliento</h3>
+          <p class="song-genre">Pop Romántico · Balada Latina · Lírica de Claudicación</p>
+          <p class="song-desc">Habita honestamente el duelo, camina entre árboles esqueléticos y fuentes rotas, esperando que llueva sobre las cenizas. Guitarra de acero fría y reverb vacío como sonido del derrumbe emocional.</p>
+          <p class="song-emotion">Entrega · Vulnerabilidad · Pasión · Ironía Romántica</p>
+        </div>
+        <div class="song-player">
+          <button class="player-btn player-btn-free" aria-label="Reproducir">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+          </button>
+          <div class="wave-bars wave-free">
+            <span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+          </div>
+          
+        </div>
+      </div>
+
+      <!-- 11 -->
+      <div class="song-card song-card-free">
+        <div class="song-num">11</div>
+        <div class="song-body">
+          <h3 class="song-title">Manual de Pureza</h3>
+          <p class="song-genre">Hard Rock · Metal Alternativo · Crítica Sociopolítica</p>
+          <p class="song-desc">Manifiesto contra la pérdida del matiz en la hipervigilancia digital. Denuncia la creación de una "nueva inquisición" donde el contexto es sacrificado en el altar del juicio superficial.</p>
+          <p class="song-emotion">Indignación · Vigilancia · Intensidad · Reflexión Crítica</p>
+        </div>
+        <div class="song-player">
+          <button class="player-btn player-btn-free" aria-label="Reproducir">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+          </button>
+          <div class="wave-bars wave-free">
+            <span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+          </div>
+        
+        </div>
+      </div>
+
+      <!-- 12 -->
+      <div class="song-card song-card-free">
+        <div class="song-num">12</div>
+        <div class="song-body">
+          <h3 class="song-title">Visto en Azul</h3>
+          <p class="song-genre">Urban Pop · Reggaetón Melódico · R&B Latino</p>
+          <p class="song-desc">Explora el impacto psicológico de la comunicación asincrónica: el doble check azul, fotos de perfil, brillo de pantalla. Un ciclo de euforia y dolor mediado por la interfaz tecnológica.</p>
+          <p class="song-emotion">Sensible · Introspectivo · Comercial · Melancolía Digital</p>
+        </div>
+        <div class="song-player">
+          <button class="player-btn player-btn-free" aria-label="Reproducir">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+          </button>
+          <div class="wave-bars wave-free">
+            <span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+          </div>  
+  
+        </div>
+      </div>
+
+      <!-- 13 -->
+      <div class="song-card song-card-free">
+        <div class="song-num">13</div>
+        <div class="song-body">
+          <h3 class="song-title">Fade to Static</h3>
+          <p class="song-genre">Rock Alternativo · Indie Rock · Neo-Psicodelia · Crítica Digital</p>
+          <p class="song-desc">Grito contra la deshumanización. Transita por la desensibilización de la violencia en pantallas 4K y el asedio invisible de los drones. Sitar, distorsión tensa y homenaje a la estructura temática de "Paint It Black".</p>
+          <p class="song-emotion">Alienación · Vigilancia · Nihilismo Digital · Desconexión</p>
+        </div>
+        <div class="song-player">
+          <button class="player-btn player-btn-free" aria-label="Reproducir">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+          </button>
+          <div class="wave-bars wave-free">
+            <span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+          </div>
+          
+        </div>
+      </div>
+
+      <!-- 14 -->
+      <div class="song-card song-card-free">
+        <div class="song-num">14</div>
+        <div class="song-body">
+          <h3 class="song-title">Fuego y Verdad</h3>
+          <p class="song-genre">Reggae</p>
+          <p class="song-desc">Explora el impacto psicológico de la comunicación asincrónica: el doble check azul, las fotos de perfil, el brillo de la pantalla. Ciclo de euforia y dolor dependiente de la interfaz tecnológica.</p>
+          <p class="song-emotion">Sensible · Introspectivo · Comercial · Melancolía Digital</p>
+        </div>
+        <div class="song-player">
+          <button class="player-btn player-btn-free" aria-label="Reproducir">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+          </button>
+          <div class="wave-bars wave-free">
+            <span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+          </div>
+         
+        </div>
+      </div>
+
+    <!-- ═══════ COLUMNA DERECHA: COMERCIALES ═══════ -->
+    <div class="col-com">
+      <div class="col-sticky-label col-sticky-com">
+        <span class="sticky-dot-com"></span>
+        14 Canciones · Licencia Comercial
+      </div>
+
+    </div> <!-- /col-free -->
+    
+        <!-- 01 -->
+<div class="song-card song-card-com">
+          <div class="song-num-com">01</div>
+          <div class="song-body">
+            <h3 class="song-title song-title-com">version premium</h3>
+            <p class="song-genre song-genre-com">class="song-genre">Rock Alternativo · Indie Rock · Neo-Psicodelia · Crítica Digital</p>
+            <p class="song-desc">Grito contra la deshumanización. Transita por la desensibilización de la violencia en pantallas 4K y el asedio invisible de los drones. Sitar, distorsión tensa y homenaje a la estructura temática de "Paint It Black"</p>
+            <p class="song-emotion song-emotion-com"> class="song-emotion">Alienación · Vigilancia · Nihilismo Digital · Desconexión</p>
+          </div>
+          <div class="song-player">
+            <div class="avail-dot"></div>
+            <button class="player-btn player-btn-com" aria-label="Reproducir">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+            </button>
+            <div class="wave-bars wave-com">
+              <span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+            </div>
+            <div class="status-label status-label-com">Lista para<br>uso comercial</div>
+            <div class="status-sublabel status-sublabel-com">Versión maestra certificada</div>
+          </div>
+        </div>
+      
+
+      <!-- 02 -->
+<div class="song-card song-card-com">
+          <div class="song-num-com">02</div>
+          <div class="song-body">
+            <h3 class="song-title song-title-com">version premium</h3>
+            <p class="song-genre song-genre-com">class="song-genre">Rock Alternativo · Indie Rock · Neo-Psicodelia · Crítica Digital</p>
+            <p class="song-desc">Grito contra la deshumanización. Transita por la desensibilización de la violencia en pantallas 4K y el asedio invisible de los drones. Sitar, distorsión tensa y homenaje a la estructura temática de "Paint It Black"</p>
+            <p class="song-emotion song-emotion-com"> class="song-emotion">Alienación · Vigilancia · Nihilismo Digital · Desconexión</p>
+          </div>
+          <div class="song-player">
+            <div class="avail-dot"></div>
+            <button class="player-btn player-btn-com" aria-label="Reproducir">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+            </button>
+            <div class="wave-bars wave-com">
+              <span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+            </div>
+            <div class="status-label status-label-com">Lista para<br>uso comercial</div>
+            <div class="status-sublabel status-sublabel-com">Versión maestra certificada</div>
+          </div>
+        </div>
+
+      <!-- 03-->
+<div class="song-card song-card-com">
+          <div class="song-num-com">03</div>
+          <div class="song-body">
+            <h3 class="song-title song-title-com">version premium</h3>
+            <p class="song-genre song-genre-com">class="song-genre">Rock Alternativo · Indie Rock · Neo-Psicodelia · Crítica Digital</p>
+            <p class="song-desc">Grito contra la deshumanización. Transita por la desensibilización de la violencia en pantallas 4K y el asedio invisible de los drones. Sitar, distorsión tensa y homenaje a la estructura temática de "Paint It Black"</p>
+            <p class="song-emotion song-emotion-com"> class="song-emotion">Alienación · Vigilancia · Nihilismo Digital · Desconexión</p>
+          </div>
+          <div class="song-player">
+            <div class="avail-dot"></div>
+            <button class="player-btn player-btn-com" aria-label="Reproducir">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+            </button>
+            <div class="wave-bars wave-com">
+              <span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+            </div>
+            <div class="status-label status-label-com">Lista para<br>uso comercial</div>
+            <div class="status-sublabel status-sublabel-com">Versión maestra certificada</div>
+          </div>
+        </div>
+
+      <!-- 04 -->
+<div class="song-card song-card-com">
+          <div class="song-num-com">04</div>
+          <div class="song-body">
+            <h3 class="song-title song-title-com">version premium</h3>
+            <p class="song-genre song-genre-com">class="song-genre">Rock Alternativo · Indie Rock · Neo-Psicodelia · Crítica Digital</p>
+            <p class="song-desc">Grito contra la deshumanización. Transita por la desensibilización de la violencia en pantallas 4K y el asedio invisible de los drones. Sitar, distorsión tensa y homenaje a la estructura temática de "Paint It Black"</p>
+            <p class="song-emotion song-emotion-com"> class="song-emotion">Alienación · Vigilancia · Nihilismo Digital · Desconexión</p>
+          </div>
+          <div class="song-player">
+            <div class="avail-dot"></div>
+            <button class="player-btn player-btn-com" aria-label="Reproducir">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+            </button>
+            <div class="wave-bars wave-com">
+              <span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+            </div>
+            <div class="status-label status-label-com">Lista para<br>uso comercial</div>
+            <div class="status-sublabel status-sublabel-com">Versión maestra certificada</div>
+          </div>
+        </div>
+
+    </div><!-- /col-com -->
+  </div><!-- /dual-columns -->
+
+  <!-- DERECHOS SUMMARY -->
+  <section style="position:relative;z-index:1;background:var(--dark4);border-top:1px solid rgba(255,255,255,0.05);" id="derechos">
+    <div style="max-width:900px;margin:0 auto;padding:60px 24px;display:grid;grid-template-columns:1fr 1fr;gap:20px;">
+      <div style="background:var(--dark2);border-radius:4px;padding:28px 24px;border:1px solid rgba(201,168,76,0.12);">
+        <span style="font-family:'Cinzel',serif;font-size:0.58rem;letter-spacing:0.28em;padding:4px 12px;border-radius:20px;background:rgba(201,168,76,0.1);border:1px solid rgba(201,168,76,0.25);color:var(--gold-bright);text-transform:uppercase;display:inline-block;margin-bottom:16px;">Acceso Gratuito</span>
+        <h3 style="font-family:'Cinzel',serif;font-size:0.95rem;color:var(--cream);margin-bottom:10px;font-weight:700;">Uso Personal — Demo</h3>
+        <p style="font-family:'Crimson Pro',serif;font-size:0.9rem;color:var(--text-muted);line-height:1.75;">Las canciones de la columna izquierda son demos exclusivamente para uso personal. No incluyen derechos de distribución, monetización ni registro comercial.</p>
+      </div>
+      <div style="background:var(--dark-green2);border-radius:4px;padding:28px 24px;border:1px solid rgba(46,204,113,0.15);">
+        <span style="font-family:'Cinzel',serif;font-size:0.58rem;letter-spacing:0.28em;padding:4px 12px;border-radius:20px;background:rgba(46,204,113,0.1);border:1px solid rgba(46,204,113,0.3);color:var(--green-bright);text-transform:uppercase;display:inline-block;margin-bottom:16px;">Licencia Profesional</span>
+        <h3 style="font-family:'Cinzel',serif;font-size:0.95rem;color:#e0f5e9;margin-bottom:10px;font-weight:700;">Uso Comercial — Licencia Total</h3>
+        <p style="font-family:'Crimson Pro',serif;font-size:0.9rem;color:var(--text-muted);line-height:1.75;">Las canciones de la columna derecha incluyen derechos de uso comercial, reproducción, distribución y explotación. Bajo licencia de suscripción comercial activa de Edgar Romero.</p>
+      </div>
+    </div>
+    <p style="text-align:center;padding-bottom:40px;font-family:'Crimson Pro',serif;font-size:0.88rem;color:var(--text-muted);font-style:italic;opacity:0.65;">
+      ⚠️ Algunas composiciones pueden haber sido generadas o asistidas por inteligencia artificial. Las versiones finales pueden variar.
+    </p>
+  </section>
+
+  <footer>
+    <div class="footer-logo">IA MUSIC</div>
+    <p style="font-family:'Cinzel',serif;font-size:0.65rem;color:var(--text-muted);opacity:0.55;letter-spacing:0.15em;margin-top:6px;">EDG-ROM · Edgar Romero · +1 (334) 321-5254</p>
+    <p class="footer-copy">© 2025 IA Music — Ingeniería de Arquitectura Sonora y Minería Emocional</p>
+  </footer>
+
+</div><!-- /page-wrap -->
 
 <script>
-// ── CURSOR ──────────────────────────────────────────────────────────────────
-const cursor = document.getElementById('cursor');
-const ring = document.getElementById('cursor-ring');
-document.addEventListener('mousemove', e => {
-  cursor.style.left = e.clientX + 'px';
-  cursor.style.top = e.clientY + 'px';
-  ring.style.left = e.clientX + 'px';
-  ring.style.top = e.clientY + 'px';
-});
-document.querySelectorAll('button, a, .track-item').forEach(el => {
-  el.addEventListener('mouseenter', () => {
-    cursor.style.transform = 'translate(-50%,-50%) scale(2)';
-    ring.style.width = '60px'; ring.style.height = '60px';
-  });
-  el.addEventListener('mouseleave', () => {
-    cursor.style.transform = 'translate(-50%,-50%) scale(1)';
-    ring.style.width = '36px'; ring.style.height = '36px';
-  });
-});
-
-// ── PARTICLES ──────────────────────────────────────────────────────────────
-const pc = document.getElementById('particles');
-const pctx = pc.getContext('2d');
-let particles = [];
-function resizeParticles() {
-  pc.width = window.innerWidth; pc.height = window.innerHeight;
-}
-resizeParticles();
-window.addEventListener('resize', resizeParticles);
-for (let i = 0; i < 80; i++) {
-  particles.push({
-    x: Math.random() * window.innerWidth,
-    y: Math.random() * window.innerHeight,
-    r: Math.random() * 1.5 + 0.3,
-    dx: (Math.random() - 0.5) * 0.3,
-    dy: (Math.random() - 0.5) * 0.3,
-    alpha: Math.random() * 0.5 + 0.1,
-  });
-}
-function animParticles() {
-  pctx.clearRect(0, 0, pc.width, pc.height);
-  particles.forEach(p => {
-    p.x += p.dx; p.y += p.dy;
-    if (p.x < 0) p.x = pc.width;
-    if (p.x > pc.width) p.x = 0;
-    if (p.y < 0) p.y = pc.height;
-    if (p.y > pc.height) p.y = 0;
-    pctx.beginPath();
-    pctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-    pctx.fillStyle = `rgba(212,175,55,${p.alpha})`;
-    pctx.fill();
-  });
-  requestAnimationFrame(animParticles);
-}
-animParticles();
-
-// ── TRACK DATA ──────────────────────────────────────────────────────────────
-// Catálogo real EAMR — 14 canciones
-const freeTracks = [
-  {
-    id:1, name:"Aunque Me Duela el Alma",
-    genre:"Regional Mexicano · Balada Ranchera · Mariachi Contemporáneo",
-    tema:"El proceso de desapego forzoso. Enfocada en la aceptación del final, la soledad post-ruptura y el sacrificio de la voluntad. La lucha entre el sentimiento y la razón.",
-    estilo:"Soledad · Nostalgia · Resiliencia · Duelo Amoroso",
-    duration:"3:42", badge:"unicorn", emoji:"🌹", src:""
-  },
-  {
-    id:2, name:"Cáliz del Viento",
-    genre:"Indie Rock · Balada Rock · Psicodelia Moderna",
-    tema:"Un viaje introspectivo a través de la metáfora del desierto y el aire. Himno a la resistencia del espíritu en un paisaje desolado, con arpegios oscuros y atmósfera densa.",
-    estilo:"Existencialismo · Misticismo · Nostalgia Oscura · Destino",
-    duration:"4:15", badge:"unicorn", emoji:"🌬️", src:""
-  },
-  {
-    id:3, name:"Cicatriz de Seda",
-    genre:"Pop-Rock · Balada Rock · Power Ballad Contemporánea",
-    tema:"La marca imborrable de un amor complejo narrada con madurez emocional. Dualidad del título: suave como seda, permanente como cicatriz. Vulnerabilidad del pasado y empoderamiento.",
-    estilo:"Superación · Empoderamiento · Transformación · Despecho Elegante",
-    duration:"3:58", badge:"free", emoji:"🌸", src:""
-  },
-  {
-    id:4, name:"Doctrina de Cristal",
-    genre:"Hip-Hop Clásico (Boom Bap) · Conscious Rap · Oratoria Urbana",
-    tema:"Manifiesto contra la hipocresía y el extremismo ideológico. La producción prioriza la claridad del mensaje sobre la complejidad melódica.",
-    estilo:"Directo · Confrontacional · Asertivo · Urgente",
-    duration:"3:28", badge:"free", emoji:"💠", src:""
-  },
-  {
-    id:5, name:"Eternamente en mi Piel",
-    genre:"Balada Pop · Rock · Power Ballad · Lírica de Duelo",
-    tema:"Explora la persistencia del recuerdo de un ser querido tras su partida. Metáforas sobre la soledad cotidiana — el café frío, la lluvia, el silencio — para ilustrar el vacío emocional.",
-    estilo:"Serenidad · Reverencia · Alivio · Esperanza",
-    duration:"4:02", badge:"unicorn", emoji:"💫", src:""
-  },
-  {
-    id:6, name:"Fuego en la Niebla",
-    genre:"Post-Rock · Ambient · Neo-Folk Oscuro",
-    tema:"Una composición instrumental que dialoga con el silencio. El fuego como símbolo de pasión y destrucción simultáneas, la niebla como barrera entre lo real y lo deseado.",
-    estilo:"Melancolía · Tensión Contenida · Anhelo · Pérdida",
-    duration:"5:18", badge:"unicorn", emoji:"🔥", src:""
-  },
-  {
-    id:7, name:"Lopez Martirios",
-    genre:"Cumbia Sonidera · Sátira Urbana · Crónica de Barrio",
-    tema:"Narra de forma irónica los problemas de inundaciones recurrentes en avenidas de la ciudad. Crítica directa a la falta de planeación urbana, usando el humor para procesar la frustración colectiva.",
-    estilo:"Ironía · Crítica Social · Humor Filosófico · Identidad",
-    duration:"3:35", badge:"free", emoji:"🌧️", src:""
-  },
-  {
-    id:8, name:"Mal del Puerco",
-    genre:"Norteño Alternativo · Corrido Poético · Folk Rural",
-    tema:"Crónica irónica de la comodidad que adormece. Metáfora de ese estado de semi-consciencia en que nos instala la satisfacción fácil. Letras que punzan con humor y verdad.",
-    estilo:"Ironía · Crítica Social · Humor Filosófico · Tierra",
-    duration:"3:12", badge:"free", emoji:"🐷", src:""
-  },
-  {
-    id:9, name:"Morir de Sed Junto al Río",
-    genre:"Balada Pop Contemporánea · Canción de Autor",
-    tema:"Metáfora poderosa sobre la incapacidad de aprovechar lo que se tiene al alcance. La tragedia de la autoboicotización emocional.",
-    estilo:"Reflexión · Pérdida · Autoconocimiento · Melancolía",
-    duration:"3:50", badge:"unicorn", emoji:"🌊", src:""
-  },
-  {
-    id:10, name:"Neon de Zapopan",
-    genre:"Cumbia Sonidera Electrónica · Synthwave Tropical",
-    tema:"Postal sonora de Zapopan nocturno. Calles, luces de neón, referencias hiperlocales del Área Metropolitana de Guadalajara. Identidad urbana jalisciense reimaginada.",
-    estilo:"Orgullo Local · Nostalgia Urbana · Identidad · Alegría",
-    duration:"3:22", badge:"free", emoji:"🌆", src:""
-  },
-  {
-    id:11, name:"Plegaria del Asfalto",
-    genre:"Dark Ambient · Spoken Word · Electrónica Experimental",
-    tema:"Oración laica desde la ciudad. El asfalto como altar y como prisión. Reflexión sobre la espiritualidad en contextos urbanos hostiles.",
-    estilo:"Contemplación · Misticismo Urbano · Angustia Existencial",
-    duration:"4:44", badge:"unicorn", emoji:"🏙️", src:""
-  },
-  {
-    id:12, name:"Reminiscencia Dorada",
-    genre:"Bolero Moderno · Jazz Latino · Canción Nostálgica",
-    tema:"Evocación elegante de momentos irrecuperables. El oro como metáfora del tiempo que no regresa. Sofisticación emocional con raíces en la tradición latinoamericana.",
-    estilo:"Nostalgia · Elegancia · Atemporalidad · Amor Adulto",
-    duration:"3:48", badge:"unicorn", emoji:"✨", src:""
-  },
-  {
-    id:13, name:"Sombra Propia",
-    genre:"Alternative Rock · Post-Punk · Dark Pop",
-    tema:"Exploración del desdoblamiento psicológico. La sombra de Jung como personaje antagónico interior. Tensión entre el yo social y el yo auténtico.",
-    estilo:"Introspección · Dualidad · Confrontación Interior · Oscuridad",
-    duration:"3:37", badge:"unicorn", emoji:"👤", src:""
-  },
-  {
-    id:14, name:"Voz del Mercado",
-    genre:"Funk Urbano · R&B Contemporáneo · Sátira Comercial",
-    tema:"Crítica al consumismo y al marketing emocional. La voz del mercado que te dice quién eres. Ironía sobre la identidad construida por el algoritmo.",
-    estilo:"Ironía · Crítica Cultural · Ritmo · Empoderamiento",
-    duration:"3:15", badge:"free", emoji:"📢", src:""
-  },
-];
-const commercialTracks = [
-  {
-    id:15, name:"Aunque Me Duela el Alma",
-    genre:"Regional Mexicano · Mariachi Contemporáneo",
-    tema:"Versión maestra certificada — uso comercial, sincronización y distribución.",
-    estilo:"Duelo Amoroso · Soledad · Resiliencia",
-    duration:"1:00 (preview)", badge:"commercial", emoji:"🌹", src:""
-  },
-  {
-    id:16, name:"Cicatriz de Seda",
-    genre:"Power Ballad · Pop-Rock Comercial",
-    tema:"Versión maestra certificada — optimizada para distribución digital y radio.",
-    estilo:"Transformación · Empoderamiento · Despecho Elegante",
-    duration:"1:00 (preview)", badge:"hit", emoji:"🌸", src:""
-  },
-  {
-    id:17, name:"Eternamente en mi Piel",
-    genre:"Balada Pop · Power Ballad",
-    tema:"Versión maestra certificada — ideal para sincronización en publicidad y film.",
-    estilo:"Duelo · Reverencia · Esperanza",
-    duration:"1:00 (preview)", badge:"commercial", emoji:"💫", src:""
-  },
-  {
-    id:18, name:"Neon de Zapopan",
-    genre:"Cumbia Sonidera Electrónica · Comercial",
-    tema:"Versión maestra certificada — identidad regional con potencial viral.",
-    estilo:"Orgullo Local · Identidad · Alegría",
-    duration:"1:00 (preview)", badge:"hit", emoji:"🌆", src:""
-  },
-  {
-    id:19, name:"Reminiscencia Dorada",
-    genre:"Bolero Moderno · Jazz Latino",
-    tema:"Versión maestra certificada — sofisticación comercial máxima para marcas premium.",
-    estilo:"Nostalgia · Elegancia · Atemporalidad",
-    duration:"1:00 (preview)", badge:"commercial", emoji:"✨", src:""
-  },
-  {
-    id:20, name:"Unicornio Sónico (Signature)",
-    genre:"Dark Ambient · Electrónica · Identidad Sónica",
-    tema:"La pieza insignia del catálogo. Irrepetible, emocionalmente disruptiva. Licencia exclusiva disponible.",
-    estilo:"Unicornio Puro · Identidad Total · Alta Rareza",
-    duration:"1:00 (preview)", badge:"unicorn", emoji:"🦄", src:""
-  },
-];
-
-let currentTrack = null;
-let currentList = 'free';
-let isPlaying = false;
-let audioCtx = null;
-let analyser = null;
-let source = null;
-
-const audio = document.getElementById('audio-player');
-
-// ── BUILD TRACK LISTS ────────────────────────────────────────────────────────
-function buildList(tracks, containerId) {
-  const el = document.getElementById(containerId);
-  el.innerHTML = '';
-  tracks.forEach((t, i) => {
-    const row = document.createElement('div');
-    row.className = 'track-item';
-    row.id = `track-${t.id}`;
-    row.onclick = () => playTrack(t, tracks);
-    row.innerHTML = `
-      <span class="track-num">${i + 1}</span>
-      <div class="track-thumb">${t.emoji}</div>
-      <div class="track-info">
-        <div class="track-name">${t.name}</div>
-        <div class="track-genre">${t.genre}</div>
-        <div class="track-tema">${t.tema}</div>
-        <div class="track-estilo">${t.estilo}</div>
-      </div>
-      <span class="track-badge badge-${t.badge}">${t.badge.toUpperCase()}</span>
-      <span class="track-duration">${t.duration}</span>
-    `;
-    el.appendChild(row);
-  });
-}
-buildList(freeTracks, 'list-free');
-buildList(commercialTracks, 'list-commercial');
-
-// ── TAB SWITCHING ────────────────────────────────────────────────────────────
-function switchTab(tab) {
-  currentList = tab;
-  document.querySelectorAll('.tracks-container').forEach(c => c.classList.remove('active'));
-  document.querySelectorAll('.player-tab').forEach(t => t.classList.remove('active'));
-  document.getElementById(`tracks-${tab}`).classList.add('active');
-  document.getElementById(`tab-${tab}`).classList.add('active');
-  document.getElementById('player-section').scrollIntoView({ behavior: 'smooth' });
-}
-
-// ── AUDIO CONTEXT SETUP ───────────────────────────────────────────────────────
-function setupAudioContext() {
-  if (audioCtx) return;
-  audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-  analyser = audioCtx.createAnalyser();
-  analyser.fftSize = 256;
-  source = audioCtx.createMediaElementSource(audio);
-  source.connect(analyser);
-  analyser.connect(audioCtx.destination);
-}
-
-// ── PLAY TRACK ───────────────────────────────────────────────────────────────
-let allTracks = [...freeTracks, ...commercialTracks];
-function playTrack(track, list) {
-  setupAudioContext();
-  if (audioCtx.state === 'suspended') audioCtx.resume();
-
-  document.querySelectorAll('.track-item').forEach(el => el.classList.remove('playing'));
-  document.getElementById(`track-${track.id}`)?.classList.add('playing');
-
-  currentTrack = { ...track, list };
-  document.getElementById('now-playing').classList.add('visible');
-  document.getElementById('np-title').textContent = track.name;
-  document.getElementById('np-artist').textContent = `EAMR — ${track.genre}`;
-  document.getElementById('np-thumb').textContent = track.emoji;
-
-  if (track.src) {
-    audio.src = track.src;
-    audio.play();
-    isPlaying = true;
-    document.getElementById('np-play-btn').textContent = '⏸';
-  } else {
-    // Demo mode: simulate with tone
-    simulateTone(track);
-  }
-}
-
-// ── TONE SIMULATION (when no src) ────────────────────────────────────────────
-let toneOsc = null;
-function simulateTone(track) {
-  if (toneOsc) { try { toneOsc.stop(); } catch(e){} }
-  const freqs = [220, 261, 293, 349, 392, 440, 523, 587];
-  const freq = freqs[track.id % freqs.length];
-  try {
-    setupAudioContext();
-    if (audioCtx.state === 'suspended') audioCtx.resume();
-    toneOsc = audioCtx.createOscillator();
-    const gain = audioCtx.createGain();
-    toneOsc.connect(gain);
-    gain.connect(analyser);
-    toneOsc.frequency.value = freq;
-    toneOsc.type = 'sawtooth';
-    gain.gain.setValueAtTime(0, audioCtx.currentTime);
-    gain.gain.linearRampToValueAtTime(0.08, audioCtx.currentTime + 0.1);
-    toneOsc.start();
-    isPlaying = true;
-    document.getElementById('np-play-btn').textContent = '⏸';
-    // Simulate progress
-    startFakeProgress();
-  } catch(e) {}
-}
-
-let fakeProgress = 0;
-let fakeTimer = null;
-function startFakeProgress() {
-  clearInterval(fakeTimer);
-  fakeProgress = 0;
-  const totalSecs = 222;
-  fakeTimer = setInterval(() => {
-    fakeProgress += 1;
-    const pct = (fakeProgress / totalSecs) * 100;
-    document.getElementById('np-bar-fill').style.width = Math.min(pct, 100) + '%';
-    document.getElementById('np-current').textContent = formatTime(fakeProgress);
-    document.getElementById('np-duration').textContent = formatTime(totalSecs);
-    if (fakeProgress >= totalSecs) {
-      clearInterval(fakeTimer);
-      nextTrack();
-    }
-  }, 1000);
-}
-
-function formatTime(s) {
-  const m = Math.floor(s / 60);
-  const sec = s % 60;
-  return `${m}:${sec.toString().padStart(2,'0')}`;
-}
-
-// ── PLAYER CONTROLS ───────────────────────────────────────────────────────────
-function togglePlay() {
-  if (!currentTrack) return;
-  if (isPlaying) {
-    if (toneOsc) { try { toneOsc.stop(); toneOsc = null; } catch(e){} }
-    clearInterval(fakeTimer);
-    audio.pause();
-    isPlaying = false;
-    document.getElementById('np-play-btn').textContent = '▶';
-  } else {
-    if (audio.src) audio.play();
-    else simulateTone(currentTrack);
-    isPlaying = true;
-    document.getElementById('np-play-btn').textContent = '⏸';
-  }
-}
-function seekBack() { audio.currentTime = Math.max(0, audio.currentTime - 10); }
-function seekFwd()  { audio.currentTime = Math.min(audio.duration||0, audio.currentTime + 10); }
-function seekTo(e) {
-  const rect = document.getElementById('np-bar').getBoundingClientRect();
-  const pct = (e.clientX - rect.left) / rect.width;
-  if (audio.duration) { audio.currentTime = pct * audio.duration; }
-  else { fakeProgress = Math.floor(pct * 222); }
-}
-function prevTrack() {
-  if (!currentTrack) return;
-  const list = allTracks;
-  const idx = list.findIndex(t => t.id === currentTrack.id);
-  if (idx > 0) playTrack(list[idx - 1], list);
-}
-function nextTrack() {
-  if (!currentTrack) return;
-  const list = allTracks;
-  const idx = list.findIndex(t => t.id === currentTrack.id);
-  if (idx < list.length - 1) playTrack(list[idx + 1], list);
-}
-function toggleHeart() {
-  const h = document.getElementById('np-heart');
-  h.classList.toggle('active');
-  h.textContent = h.classList.contains('active') ? '♥' : '♡';
-}
-function setVolume(e) {
-  const rect = document.getElementById('np-vol-bar').getBoundingClientRect();
-  const pct = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
-  audio.volume = pct;
-  document.getElementById('np-vol-fill').style.width = (pct * 100) + '%';
-}
-
-audio.addEventListener('timeupdate', () => {
-  if (audio.duration) {
-    const pct = (audio.currentTime / audio.duration) * 100;
-    document.getElementById('np-bar-fill').style.width = pct + '%';
-    document.getElementById('np-current').textContent = formatTime(Math.floor(audio.currentTime));
-    document.getElementById('np-duration').textContent = formatTime(Math.floor(audio.duration));
-  }
-});
-
-// ── FINGERPRINT VISUALIZER ────────────────────────────────────────────────────
-const fpCanvas = document.getElementById('fp-canvas');
-const fpCtx = fpCanvas.getContext('2d');
-const FP_W = 260, FP_H = 260, FP_CX = 130, FP_CY = 130;
-
-function drawFingerprint(freqData) {
-  fpCtx.clearRect(0, 0, FP_W, FP_H);
-
-  // Background
-  const bgGrad = fpCtx.createRadialGradient(FP_CX, FP_CY, 0, FP_CX, FP_CY, 130);
-  bgGrad.addColorStop(0, 'rgba(20,16,0,0.9)');
-  bgGrad.addColorStop(1, 'rgba(0,0,0,0.95)');
-  fpCtx.fillStyle = bgGrad;
-  fpCtx.beginPath();
-  fpCtx.arc(FP_CX, FP_CY, 128, 0, Math.PI * 2);
-  fpCtx.fill();
-
-  // Fingerprint lines with audio reactivity
-  const numLines = 22;
-  for (let i = 0; i < numLines; i++) {
-    const t = i / numLines;
-    const baseRadius = 16 + i * 5;
-    const amp = freqData ? (freqData[Math.floor(i * freqData.length / numLines)] / 255) : 0;
-    const wave = amp * 14;
-    const color = amp > 0.5
-      ? `rgba(245,215,119,${0.4 + amp * 0.6})`
-      : `rgba(212,175,55,${0.2 + t * 0.5})`;
-
-    fpCtx.beginPath();
-    fpCtx.strokeStyle = color;
-    fpCtx.lineWidth = 0.8 + amp * 1.5;
-
-    // Create fingerprint arch shape
-    const startAngle = -Math.PI * 0.7;
-    const endAngle = Math.PI * 0.7;
-    const segments = 120;
-
-    for (let s = 0; s <= segments; s++) {
-      const angle = startAngle + (endAngle - startAngle) * (s / segments);
-      const noise = Math.sin(s * 0.3 + i * 0.8) * wave * 0.3;
-      const r = baseRadius + noise;
-      const x = FP_CX + Math.cos(angle) * r;
-      const y = FP_CY + Math.sin(angle) * r * 1.35;
-      s === 0 ? fpCtx.moveTo(x, y) : fpCtx.lineTo(x, y);
-    }
-    fpCtx.stroke();
-
-    // Circuit board nodes
-    if (i % 4 === 0) {
-      const nodeAngle = Math.PI * 0.7 + Math.random() * 0.2;
-      const nx = FP_CX + Math.cos(nodeAngle) * (baseRadius + 2);
-      const ny = FP_CY + Math.sin(nodeAngle) * (baseRadius + 2) * 1.35;
-      fpCtx.beginPath();
-      fpCtx.arc(nx, ny, 2 + amp * 3, 0, Math.PI * 2);
-      fpCtx.fillStyle = `rgba(0,229,255,${0.3 + amp * 0.7})`;
-      fpCtx.fill();
-    }
-  }
-
-  // Center glow
-  const glowGrad = fpCtx.createRadialGradient(FP_CX, FP_CY, 0, FP_CX, FP_CY, 40);
-  const avgAmp = freqData
-    ? Array.from(freqData.slice(0, 20)).reduce((a, b) => a + b, 0) / 20 / 255
-    : 0.1;
-  glowGrad.addColorStop(0, `rgba(212,175,55,${0.15 + avgAmp * 0.4})`);
-  glowGrad.addColorStop(1, 'transparent');
-  fpCtx.fillStyle = glowGrad;
-  fpCtx.beginPath();
-  fpCtx.arc(FP_CX, FP_CY, 40, 0, Math.PI * 2);
-  fpCtx.fill();
-
-  // Outer glow ring when loud
-  if (avgAmp > 0.3) {
-    fpCtx.beginPath();
-    fpCtx.arc(FP_CX, FP_CY, 120, 0, Math.PI * 2);
-    fpCtx.strokeStyle = `rgba(212,175,55,${avgAmp * 0.4})`;
-    fpCtx.lineWidth = 2;
-    fpCtx.stroke();
-  }
-
-  // Clip to circle
-  fpCtx.beginPath();
-  fpCtx.arc(FP_CX, FP_CY, 128, 0, Math.PI * 2);
-  fpCtx.strokeStyle = 'rgba(212,175,55,0.3)';
-  fpCtx.lineWidth = 1;
-  fpCtx.stroke();
-}
-
-// Idle animation
-let idleT = 0;
-function animFP() {
-  let freqData = null;
-  if (analyser && isPlaying) {
-    const buf = new Uint8Array(analyser.frequencyBinCount);
-    analyser.getByteFrequencyData(buf);
-    freqData = buf;
-  } else {
-    idleT += 0.02;
-    freqData = new Uint8Array(128);
-    for (let i = 0; i < 128; i++) {
-      freqData[i] = (Math.sin(idleT + i * 0.15) * 0.5 + 0.5) * 40;
-    }
-  }
-  drawFingerprint(freqData);
-  requestAnimationFrame(animFP);
-}
-animFP();
-
-// ── WAVEFORM STATIC DIVIDER ───────────────────────────────────────────────────
-const wc = document.getElementById('wave-static');
-wc.width = window.innerWidth; wc.height = 80;
-const wctx = wc.getContext('2d');
-function drawWaveDivider() {
-  wc.width = window.innerWidth;
-  wctx.clearRect(0, 0, wc.width, 80);
-  let freqData = null;
-  if (analyser && isPlaying) {
-    const buf = new Uint8Array(analyser.frequencyBinCount);
-    analyser.getByteFrequencyData(buf);
-    freqData = buf;
-  }
-  const grad = wctx.createLinearGradient(0, 0, wc.width, 0);
-  grad.addColorStop(0, 'rgba(212,175,55,0)');
-  grad.addColorStop(0.2, 'rgba(212,175,55,0.8)');
-  grad.addColorStop(0.5, 'rgba(0,229,255,0.9)');
-  grad.addColorStop(0.8, 'rgba(212,175,55,0.8)');
-  grad.addColorStop(1, 'rgba(212,175,55,0)');
-  wctx.beginPath();
-  wctx.strokeStyle = grad;
-  wctx.lineWidth = 2;
-  const bars = 140;
-  for (let i = 0; i <= bars; i++) {
-    const x = (i / bars) * wc.width;
-    const freq = freqData ? freqData[Math.floor(i * freqData.length / bars)] / 255 : 0;
-    const base = Math.sin(i * 0.18 + Date.now() * 0.002) * 12;
-    const h = base + freq * 30;
-    const y = 40 + h;
-    i === 0 ? wctx.moveTo(x, y) : wctx.lineTo(x, y);
-  }
-  wctx.stroke();
-
-  // Mirror
-  wctx.beginPath();
-  wctx.strokeStyle = 'rgba(212,175,55,0.2)';
-  wctx.lineWidth = 1;
-  for (let i = 0; i <= bars; i++) {
-    const x = (i / bars) * wc.width;
-    const freq = freqData ? freqData[Math.floor(i * freqData.length / bars)] / 255 : 0;
-    const base = Math.sin(i * 0.18 + Date.now() * 0.002) * 12;
-    const h = base + freq * 30;
-    const y = 40 - h;
-    i === 0 ? wctx.moveTo(x, y) : wctx.lineTo(x, y);
-  }
-  wctx.stroke();
-  requestAnimationFrame(drawWaveDivider);
-}
-drawWaveDivider();
-window.addEventListener('resize', () => { wc.width = window.innerWidth; });
-
-// ── NP VISUALIZER BARS ────────────────────────────────────────────────────────
-const npViz = document.getElementById('np-visualizer');
-for (let i = 0; i < 16; i++) {
-  const b = document.createElement('div');
-  b.className = 'bar';
-  b.style.animationDelay = (i * 0.05) + 's';
-  b.style.height = '4px';
-  npViz.appendChild(b);
-}
-function animNpViz() {
-  if (analyser && isPlaying) {
-    const buf = new Uint8Array(analyser.frequencyBinCount);
-    analyser.getByteFrequencyData(buf);
-    const bars = npViz.querySelectorAll('.bar');
-    bars.forEach((b, i) => {
-      const val = buf[Math.floor(i * buf.length / bars.length)] / 255;
-      const h = 4 + val * 26;
-      b.style.height = h + 'px';
-      b.style.opacity = 0.4 + val * 0.6;
+/* ── REVEAL ANIMATION ── */
+const cards = document.querySelectorAll('.song-card');
+if ('IntersectionObserver' in window) {
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), 60);
+        obs.unobserve(entry.target);
+      }
     });
-  }
-  requestAnimationFrame(animNpViz);
+  }, { threshold: 0.05 });
+  cards.forEach(c => obs.observe(c));
+} else {
+  cards.forEach(c => c.classList.add('visible'));
 }
-animNpViz();
+setTimeout(() => {
+  document.querySelectorAll('.song-card:not(.visible)').forEach(c => c.classList.add('visible'));
+}, 800);
 
-// ── INTERSECTION OBSERVER for scroll animations ────────────────────────────────
-const observer = new IntersectionObserver((entries) => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      entry.target.style.opacity = '1';
-      entry.target.style.transform = 'translateY(0)';
+/* ── AUDIO PLAYER ── */
+const freeFiles = [
+  'aunque_me_duela_el_alma.mp3',
+  'caliz_del_viento.mp3',
+  'cicatriz_de_seda.mp3',
+  'doctrina_de_cristal.mp3',
+  'eternamente_en_mi_piel.mp3',
+  'fuego_en_la_niebla.mp3',
+  'lopez_martirios.mp3',
+  'mal_del_puerco.mp3',
+  'midnight_sanctuary.mp3',
+  'prisionero_de_tu_aliento.mp3',
+  'manual_de_pureza.mp3',
+  'visto_en_azul.mp3',
+  'fade_to_static.mp3',
+  'fuego_y_verdad.mp3',
+];
+
+/* 
+  CANCIONES COMERCIALES:
+  Agrega aquí los nombres de archivo .mp3 para las canciones comerciales.
+  Deben estar en el mismo directorio que el HTML o ajusta la ruta.
+  Ejemplo: 'cancion_comercial_01.mp3'
+*/
+const commercialFiles = [
+  '', // Canción 01 — reemplaza con nombre de archivo real
+  '', // Canción 02
+  '', // Canción 03
+];
+
+let currentAudio = null, currentBtn = null;
+
+function setupPlayer(btn, fileName) {
+  if (!fileName) return;
+  let audio = null;
+
+  btn.addEventListener('click', () => {
+    if (!audio) {
+      audio = new Audio(fileName);
+      audio.addEventListener('ended', () => {
+        btn.innerHTML = playIcon(); btn.classList.remove('playing');
+        currentAudio = null; currentBtn = null;
+      });
+      audio.addEventListener('error', () => {
+        btn.innerHTML = playIcon(); btn.classList.remove('playing');
+        btn.title = 'Archivo no disponible';
+        if (currentAudio === audio) { currentAudio = null; currentBtn = null; }
+      });
+    }
+
+    if (currentAudio && currentAudio !== audio) {
+      currentAudio.pause(); currentAudio.currentTime = 0;
+      if (currentBtn) { currentBtn.classList.remove('playing'); currentBtn.innerHTML = playIcon(); }
+    }
+
+    if (audio.paused) {
+      audio.play().then(() => {
+        btn.innerHTML = pauseIcon(); btn.classList.add('playing');
+        currentAudio = audio; currentBtn = btn;
+      }).catch(() => {
+        btn.title = 'Archivo de audio no disponible';
+        btn.innerHTML = playIcon();
+      });
+    } else {
+      audio.pause(); btn.innerHTML = playIcon(); btn.classList.remove('playing');
+      currentAudio = null; currentBtn = null;
     }
   });
-}, { threshold: 0.1 });
+}
 
-document.querySelectorAll('.precio-card, .vs-card, .track-item').forEach(el => {
-  el.style.opacity = '0';
-  el.style.transform = 'translateY(20px)';
-  el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
-  observer.observe(el);
-});
+function playIcon()  { return `<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>`; }
+function pauseIcon() { return `<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>`; }
+
+document.querySelectorAll('.player-btn-free').forEach((btn, i) => setupPlayer(btn, freeFiles[i]));
+document.querySelectorAll('.player-btn-com').forEach((btn, i) => setupPlayer(btn, commercialFiles[i]));
 </script>
+
 </body>
 </html>
