@@ -707,6 +707,539 @@ footer {
 .footer-contact { font-family: 'Cinzel', serif; font-size: 0.65rem; color: var(--text-muted); opacity: 0.55; letter-spacing: 0.15em; margin-top: 6px; }
 .footer-copy { font-family: 'Cinzel', serif; font-size: 0.58rem; color: var(--text-muted); opacity: 0.35; letter-spacing: 0.1em; margin-top: 12px; }
 
+/* ══════════════════════════════════════════════════════
+   ── MI CANCIÓN PERSONALIZADA SECTION ──
+══════════════════════════════════════════════════════ */
+#mi-cancion {
+  position: relative; z-index: 1;
+  background: linear-gradient(180deg, #060504 0%, #070806 40%, #060504 100%);
+  border-top: 1px solid rgba(212,175,55,0.18);
+  padding: 80px 24px 100px;
+  overflow: hidden;
+}
+#mi-cancion::before {
+  content: '';
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse 70% 40% at 50% 0%, rgba(212,175,55,0.05) 0%, transparent 70%),
+    radial-gradient(ellipse 40% 60% at 10% 80%, rgba(0,229,255,0.03) 0%, transparent 60%);
+  pointer-events: none;
+}
+.mc-eyebrow {
+  font-family: 'Orbitron', monospace; font-size: 0.62rem;
+  letter-spacing: 0.42em; color: var(--gold-mid); text-transform: uppercase;
+  text-align: center; margin-bottom: 14px; opacity: 0.85;
+}
+.mc-title {
+  font-family: 'Cinzel Decorative', serif;
+  font-size: clamp(1.4rem, 3.5vw, 2.6rem);
+  color: var(--gold-bright); text-align: center;
+  text-shadow: 0 0 40px var(--gold-glow);
+  margin-bottom: 10px; line-height: 1.2;
+}
+.mc-subtitle {
+  font-family: 'Crimson Pro', serif; font-style: italic;
+  font-size: 1.05rem; color: var(--text-muted); text-align: center;
+  margin-bottom: 60px; max-width: 560px; margin-left: auto; margin-right: auto;
+  line-height: 1.75;
+}
+.mc-subtitle em { color: var(--gold-light); font-style: normal; }
+
+/* PROGRESS BAR */
+.mc-progress-wrap {
+  max-width: 780px; margin: 0 auto 56px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--border-gold);
+  border-radius: 2px; padding: 14px 20px;
+}
+.mc-progress-label {
+  font-family: 'Orbitron', monospace; font-size: 0.54rem;
+  letter-spacing: 0.25em; color: var(--gold-mid); text-transform: uppercase;
+  margin-bottom: 8px; display: flex; justify-content: space-between;
+}
+.mc-progress-bar {
+  width: 100%; height: 3px; background: rgba(255,255,255,0.07);
+  border-radius: 2px; overflow: hidden;
+}
+.mc-progress-fill {
+  height: 100%; width: 0%;
+  background: linear-gradient(90deg, var(--gold-dark), var(--gold-bright), var(--cyan));
+  border-radius: 2px;
+  transition: width 0.5s cubic-bezier(0.4,0,0.2,1);
+}
+
+/* FORM SECTIONS */
+.mc-form { max-width: 780px; margin: 0 auto; }
+.mc-section {
+  margin-bottom: 56px; opacity: 0; transform: translateY(18px);
+  transition: opacity 0.55s ease, transform 0.55s ease;
+}
+.mc-section.visible { opacity: 1; transform: translateY(0); }
+
+.mc-section-header {
+  display: flex; align-items: baseline; gap: 14px;
+  margin-bottom: 24px; padding-bottom: 14px;
+  border-bottom: 1px solid rgba(212,175,55,0.1);
+}
+.mc-section-num {
+  font-family: 'Orbitron', monospace; font-size: 1.6rem; font-weight: 900;
+  color: var(--gold-dark); letter-spacing: -0.02em; line-height: 1;
+  flex-shrink: 0;
+}
+.mc-section-title {
+  font-family: 'Cinzel', serif; font-size: 0.75rem; font-weight: 700;
+  letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold);
+}
+.mc-section-tag {
+  font-family: 'Orbitron', monospace; font-size: 0.48rem;
+  letter-spacing: 0.18em; padding: 3px 10px; border-radius: 12px;
+  background: rgba(212,175,55,0.08); border: 1px solid rgba(212,175,55,0.2);
+  color: var(--text-muted); text-transform: uppercase; margin-left: auto;
+  flex-shrink: 0;
+}
+
+/* FIELD LABELS */
+.mc-field-label {
+  font-family: 'Cinzel', serif; font-size: 0.58rem;
+  letter-spacing: 0.22em; text-transform: uppercase;
+  color: var(--text-muted); margin-bottom: 8px; display: block;
+}
+.mc-hint {
+  font-family: 'Crimson Pro', serif; font-style: italic;
+  font-size: 0.8rem; color: var(--text-muted); opacity: 0.55;
+  margin-bottom: 12px; line-height: 1.5;
+  display: block;
+}
+
+/* INPUTS */
+.mc-input, .mc-textarea, .mc-select {
+  width: 100%; background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(212,175,55,0.14);
+  color: var(--cream); font-family: 'Crimson Pro', serif;
+  font-size: 0.97rem; border-radius: 2px;
+  padding: 14px 16px; outline: none;
+  transition: border-color 0.25s, background 0.25s, box-shadow 0.25s;
+  -webkit-appearance: none; appearance: none;
+}
+.mc-input::placeholder, .mc-textarea::placeholder { color: var(--text-muted); opacity: 0.45; font-style: italic; }
+.mc-input:focus, .mc-textarea:focus, .mc-select:focus {
+  border-color: rgba(212,175,55,0.45);
+  background: rgba(212,175,55,0.04);
+  box-shadow: 0 0 0 3px rgba(212,175,55,0.06), inset 0 0 20px rgba(212,175,55,0.02);
+}
+.mc-input.filled, .mc-textarea.filled { border-color: rgba(212,175,55,0.28); }
+.mc-textarea { resize: vertical; min-height: 120px; line-height: 1.65; }
+.mc-select { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23D4AF37' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 16px center; padding-right: 40px; cursor: pointer; }
+.mc-select option { background: #111; color: var(--cream); }
+
+/* GRID */
+.mc-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.mc-grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; }
+.mc-field { margin-bottom: 18px; }
+.mc-field:last-child { margin-bottom: 0; }
+
+/* PILL SELECTS (toggle chips) */
+.mc-pills { display: flex; flex-wrap: wrap; gap: 10px; }
+.mc-pill {
+  font-family: 'Cinzel', serif; font-size: 0.62rem; letter-spacing: 0.14em;
+  padding: 10px 18px; border-radius: 2px; cursor: pointer;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(212,175,55,0.15);
+  color: var(--text-muted); text-transform: uppercase;
+  transition: all 0.22s; user-select: none;
+  display: flex; align-items: center; gap: 7px;
+}
+.mc-pill:hover { border-color: rgba(212,175,55,0.35); color: var(--gold-light); background: rgba(212,175,55,0.05); }
+.mc-pill.selected {
+  background: rgba(212,175,55,0.12);
+  border-color: rgba(212,175,55,0.55);
+  color: var(--gold-bright);
+  box-shadow: 0 0 12px rgba(212,175,55,0.1);
+}
+.mc-pill-dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  border: 1px solid currentColor; flex-shrink: 0;
+  transition: background 0.2s;
+}
+.mc-pill.selected .mc-pill-dot { background: var(--gold-bright); }
+
+/* ANCHOR WORDS GRID */
+.mc-anchors { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.mc-anchor-item { position: relative; }
+.mc-anchor-label {
+  position: absolute; top: 12px; left: 14px;
+  font-family: 'Orbitron', monospace; font-size: 0.46rem;
+  letter-spacing: 0.18em; color: var(--gold-dark); text-transform: uppercase; pointer-events: none;
+}
+.mc-anchor-item .mc-input { padding-top: 26px; padding-bottom: 10px; }
+
+/* DEADLINE TOGGLE */
+.mc-toggle-row { display: flex; align-items: center; gap: 14px; margin-bottom: 16px; }
+.mc-toggle-label {
+  font-family: 'Cinzel', serif; font-size: 0.6rem; letter-spacing: 0.2em;
+  text-transform: uppercase; color: var(--text-muted);
+}
+.mc-badge-opt {
+  font-family: 'Orbitron', monospace; font-size: 0.48rem;
+  letter-spacing: 0.18em; padding: 2px 8px; border-radius: 10px;
+  background: rgba(0,229,255,0.08); border: 1px solid rgba(0,229,255,0.2);
+  color: var(--cyan); text-transform: uppercase;
+}
+
+/* SUBMIT BLOCK */
+.mc-submit-wrap {
+  max-width: 780px; margin: 0 auto;
+  text-align: center; padding-top: 10px;
+}
+.mc-submit-note {
+  font-family: 'Crimson Pro', serif; font-style: italic;
+  font-size: 0.92rem; color: var(--text-muted); opacity: 0.65;
+  margin-bottom: 28px; line-height: 1.75; max-width: 500px; margin-left: auto; margin-right: auto;
+}
+.mc-btn-submit {
+  position: relative; overflow: hidden;
+  display: inline-flex; align-items: center; gap: 12px;
+  padding: 18px 48px;
+  background: transparent;
+  border: 1px solid var(--gold);
+  color: var(--gold-bright);
+  font-family: 'Orbitron', monospace; font-size: 0.72rem; font-weight: 700;
+  letter-spacing: 0.2em; text-transform: uppercase;
+  cursor: pointer;
+  clip-path: polygon(10px 0%, 100% 0%, calc(100% - 10px) 100%, 0% 100%);
+  transition: all 0.3s ease;
+  min-width: 320px; justify-content: center;
+}
+.mc-btn-submit::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(135deg, rgba(212,175,55,0.15) 0%, rgba(212,175,55,0.05) 100%);
+  transform: translateX(-100%); transition: transform 0.3s ease;
+}
+.mc-btn-submit:hover::before { transform: translateX(0); }
+.mc-btn-submit:hover {
+  box-shadow: 0 0 40px rgba(212,175,55,0.25), 0 0 80px rgba(212,175,55,0.08);
+  color: var(--gold-light);
+}
+.mc-btn-submit:active { transform: scale(0.98); }
+.mc-btn-submit svg { flex-shrink: 0; }
+
+/* SUCCESS STATE */
+.mc-success {
+  display: none; text-align: center;
+  padding: 48px 32px; max-width: 500px; margin: 0 auto;
+  background: rgba(212,175,55,0.04); border: 1px solid rgba(212,175,55,0.2);
+  border-radius: 2px;
+}
+.mc-success.visible { display: block; }
+.mc-success-icon { font-size: 2.5rem; margin-bottom: 18px; }
+.mc-success-title {
+  font-family: 'Cinzel Decorative', serif; font-size: 1.2rem;
+  color: var(--gold-bright); margin-bottom: 12px;
+}
+.mc-success-text {
+  font-family: 'Crimson Pro', serif; font-style: italic;
+  color: var(--text-muted); font-size: 0.95rem; line-height: 1.75;
+}
+
+/* LEGAL CLAUSE */
+.mc-legal {
+  max-width: 780px; margin: 40px auto 0;
+  background: rgba(212,175,55,0.03);
+  border: 1px solid rgba(212,175,55,0.08);
+  border-top: 2px solid rgba(212,175,55,0.15);
+  padding: 20px 24px;
+}
+.mc-legal-title {
+  font-family: 'Cinzel', serif; font-size: 0.58rem; letter-spacing: 0.22em;
+  text-transform: uppercase; color: var(--gold-mid); opacity: 0.7;
+  margin-bottom: 10px; display: flex; align-items: center; gap: 8px;
+}
+.mc-legal-title::before {
+  content: ''; width: 28px; height: 1px;
+  background: rgba(212,175,55,0.3);
+}
+.mc-legal-text {
+  font-family: 'Crimson Pro', serif; font-size: 0.8rem;
+  color: var(--text-muted); opacity: 0.5; line-height: 1.75;
+}
+
+/* RESPONSIVE MI CANCION */
+@media (max-width: 780px) {
+  .mc-grid-2 { grid-template-columns: 1fr; }
+  .mc-grid-3 { grid-template-columns: 1fr 1fr; }
+  .mc-anchors { grid-template-columns: 1fr 1fr; }
+  .mc-btn-submit { min-width: unset; width: 100%; padding: 16px 24px; font-size: 0.65rem; }
+  .mc-pills { gap: 8px; }
+  .mc-pill { font-size: 0.58rem; padding: 9px 14px; }
+}
+@media (max-width: 480px) {
+  .mc-grid-3 { grid-template-columns: 1fr; }
+  .mc-anchors { grid-template-columns: 1fr; }
+}
+
+/* ══════════════════════════════════════════════════════
+   ── PODCAST EAMR SECTION ──
+══════════════════════════════════════════════════════ */
+#podcast {
+  position: relative; z-index: 1;
+  background: linear-gradient(180deg, #06050A 0%, #080610 50%, #060508 100%);
+  border-top: 1px solid rgba(212,175,55,0.18);
+  padding: 80px 24px 90px;
+  overflow: hidden;
+}
+#podcast::before {
+  content: '';
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse 60% 35% at 50% 0%, rgba(100,80,200,0.06) 0%, transparent 70%),
+    radial-gradient(ellipse 40% 50% at 90% 80%, rgba(212,175,55,0.04) 0%, transparent 60%);
+  pointer-events: none;
+}
+.pod-eyebrow {
+  font-family: 'Orbitron', monospace; font-size: 0.62rem;
+  letter-spacing: 0.42em; color: var(--gold-mid); text-transform: uppercase;
+  text-align: center; margin-bottom: 14px; opacity: 0.85;
+  position: relative; z-index: 1;
+}
+.pod-title {
+  font-family: 'Cinzel Decorative', serif;
+  font-size: clamp(1.4rem, 3.5vw, 2.6rem);
+  color: var(--gold-bright); text-align: center;
+  text-shadow: 0 0 40px var(--gold-glow);
+  margin-bottom: 10px; line-height: 1.2;
+  position: relative; z-index: 1;
+}
+.pod-subtitle {
+  font-family: 'Crimson Pro', serif; font-style: italic;
+  font-size: 1.05rem; color: var(--text-muted); text-align: center;
+  margin-bottom: 56px; max-width: 560px; margin-left: auto; margin-right: auto;
+  line-height: 1.75; position: relative; z-index: 1;
+}
+.pod-subtitle em { color: var(--gold-light); font-style: normal; }
+
+/* ── UPLOAD ZONE ── */
+.pod-upload-zone {
+  max-width: 780px; margin: 0 auto 48px;
+  border: 1px dashed rgba(212,175,55,0.3);
+  background: rgba(212,175,55,0.025);
+  border-radius: 4px; padding: 32px 24px;
+  text-align: center; cursor: pointer;
+  transition: border-color 0.3s, background 0.3s;
+  position: relative; z-index: 1;
+}
+.pod-upload-zone:hover, .pod-upload-zone.drag-over {
+  border-color: rgba(212,175,55,0.6);
+  background: rgba(212,175,55,0.06);
+}
+.pod-upload-zone input[type="file"] {
+  position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%;
+}
+.pod-upload-icon { font-size: 2rem; margin-bottom: 10px; display: block; }
+.pod-upload-label {
+  font-family: 'Cinzel', serif; font-size: 0.68rem;
+  letter-spacing: 0.22em; text-transform: uppercase;
+  color: var(--gold); display: block; margin-bottom: 6px;
+}
+.pod-upload-hint {
+  font-family: 'Crimson Pro', serif; font-style: italic;
+  font-size: 0.82rem; color: var(--text-muted); opacity: 0.55;
+}
+
+/* ── EPISODE LIST ── */
+.pod-list {
+  max-width: 780px; margin: 0 auto;
+  display: flex; flex-direction: column; gap: 16px;
+  position: relative; z-index: 1;
+}
+
+/* ── EPISODE CARD ── */
+.pod-card {
+  background: rgba(255,255,255,0.025);
+  border: 1px solid rgba(212,175,55,0.12);
+  border-left: 3px solid var(--gold-dark);
+  border-radius: 4px; overflow: hidden;
+  transition: border-color 0.3s, background 0.3s;
+}
+.pod-card.playing {
+  border-color: rgba(212,175,55,0.45);
+  border-left-color: var(--gold);
+  background: rgba(212,175,55,0.05);
+  box-shadow: 0 0 30px rgba(212,175,55,0.06);
+}
+.pod-card-top {
+  display: grid;
+  grid-template-columns: 64px 1fr auto;
+  align-items: center; gap: 16px;
+  padding: 18px 20px;
+}
+.pod-card-art {
+  width: 64px; height: 64px; border-radius: 3px; overflow: hidden; flex-shrink: 0;
+  background: linear-gradient(135deg, #1a1520, #0e0c14);
+  border: 1px solid rgba(212,175,55,0.15);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.6rem;
+}
+.pod-card-info { min-width: 0; }
+.pod-card-ep {
+  font-family: 'Orbitron', monospace; font-size: 0.5rem;
+  letter-spacing: 0.28em; text-transform: uppercase;
+  color: var(--gold-mid); margin-bottom: 4px; opacity: 0.8;
+}
+.pod-card-title {
+  font-family: 'Cinzel', serif; font-size: 0.9rem;
+  color: var(--cream); font-weight: 700; margin-bottom: 3px;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.pod-card-meta {
+  font-family: 'Crimson Pro', serif; font-size: 0.78rem;
+  font-style: italic; color: var(--text-muted); opacity: 0.7;
+}
+.pod-card-actions { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
+
+/* Play button */
+.pod-play-btn {
+  width: 48px; height: 48px; border-radius: 50%;
+  background: transparent;
+  border: 1px solid rgba(212,175,55,0.4);
+  color: var(--gold); cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.25s; flex-shrink: 0;
+}
+.pod-play-btn:hover {
+  background: rgba(212,175,55,0.12);
+  border-color: var(--gold);
+  box-shadow: 0 0 20px rgba(212,175,55,0.2);
+  transform: scale(1.06);
+}
+.pod-card.playing .pod-play-btn {
+  background: var(--gold);
+  color: #000; border-color: var(--gold);
+}
+
+/* Download button */
+.pod-dl-btn {
+  width: 36px; height: 36px; border-radius: 50%;
+  background: transparent; border: 1px solid rgba(255,255,255,0.1);
+  color: var(--text-muted); cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.22s; flex-shrink: 0; text-decoration: none;
+}
+.pod-dl-btn:hover {
+  border-color: rgba(212,175,55,0.35);
+  color: var(--gold);
+  background: rgba(212,175,55,0.07);
+}
+
+/* Delete button */
+.pod-del-btn {
+  width: 30px; height: 30px; border-radius: 50%;
+  background: transparent; border: 1px solid rgba(255,80,80,0.15);
+  color: rgba(255,80,80,0.4); cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.22s; flex-shrink: 0; font-size: 0.75rem;
+}
+.pod-del-btn:hover {
+  border-color: rgba(255,80,80,0.5);
+  color: rgba(255,100,100,0.9);
+  background: rgba(255,60,60,0.06);
+}
+
+/* ── INLINE AUDIO PLAYER ── */
+.pod-player {
+  border-top: 1px solid rgba(212,175,55,0.08);
+  padding: 14px 20px 16px;
+  display: none;
+}
+.pod-card.playing .pod-player { display: block; }
+
+.pod-waveform {
+  width: 100%; height: 40px; position: relative;
+  margin-bottom: 10px; cursor: pointer;
+  background: rgba(255,255,255,0.02);
+  border-radius: 2px; overflow: hidden;
+}
+.pod-waveform-bars {
+  position: absolute; inset: 0;
+  display: flex; align-items: center; gap: 2px;
+  padding: 4px 6px;
+}
+.pod-waveform-bar {
+  flex: 1; border-radius: 1px;
+  background: rgba(212,175,55,0.2);
+  transition: background 0.2s;
+  min-width: 2px;
+}
+.pod-waveform-bar.filled { background: rgba(212,175,55,0.75); }
+.pod-progress-track {
+  position: absolute; bottom: 0; left: 0; right: 0; height: 2px;
+  background: rgba(255,255,255,0.06);
+}
+.pod-progress-fill {
+  height: 100%; width: 0%;
+  background: linear-gradient(90deg, var(--gold-dark), var(--gold-bright));
+  transition: width 0.3s linear;
+  border-radius: 2px;
+}
+
+.pod-controls-row {
+  display: flex; align-items: center; gap: 12px;
+}
+.pod-skip-btn {
+  background: none; border: none; cursor: pointer;
+  color: var(--text-muted); font-family: 'Orbitron', monospace;
+  font-size: 0.5rem; letter-spacing: 0.08em; padding: 4px 8px;
+  transition: color 0.2s; display: flex; align-items: center; gap: 3px;
+}
+.pod-skip-btn:hover { color: var(--gold); }
+.pod-time {
+  font-family: 'Orbitron', monospace; font-size: 0.52rem;
+  color: var(--grey); margin-left: auto;
+  display: flex; gap: 4px; align-items: center;
+}
+.pod-time span { color: var(--text-muted); opacity: 0.5; }
+.pod-vol-wrap {
+  display: flex; align-items: center; gap: 6px;
+}
+.pod-vol-icon { color: var(--text-muted); font-size: 0.85rem; }
+.pod-vol-slider {
+  -webkit-appearance: none; appearance: none;
+  width: 70px; height: 3px;
+  background: rgba(255,255,255,0.1); border-radius: 2px; cursor: pointer;
+  outline: none;
+}
+.pod-vol-slider::-webkit-slider-thumb {
+  -webkit-appearance: none; appearance: none;
+  width: 10px; height: 10px; border-radius: 50%;
+  background: var(--gold); cursor: pointer;
+}
+
+/* ── EMPTY STATE ── */
+.pod-empty {
+  max-width: 780px; margin: 0 auto;
+  text-align: center; padding: 48px 24px;
+  border: 1px solid rgba(212,175,55,0.08);
+  border-radius: 4px;
+  background: rgba(212,175,55,0.015);
+  position: relative; z-index: 1;
+  display: block;
+}
+.pod-empty-icon { font-size: 2.5rem; margin-bottom: 14px; display: block; opacity: 0.5; }
+.pod-empty-text {
+  font-family: 'Crimson Pro', serif; font-style: italic;
+  font-size: 0.92rem; color: var(--text-muted); opacity: 0.5; line-height: 1.7;
+}
+
+/* ── RESPONSIVE PODCAST ── */
+@media (max-width: 600px) {
+  .pod-card-top { grid-template-columns: 52px 1fr auto; gap: 10px; padding: 14px 14px; }
+  .pod-card-art { width: 52px; height: 52px; font-size: 1.2rem; }
+  .pod-card-title { font-size: 0.8rem; }
+  .pod-play-btn { width: 40px; height: 40px; }
+  .pod-controls-row { flex-wrap: wrap; gap: 8px; }
+  .pod-vol-wrap { display: none; }
+}
+
 /* ── RESPONSIVE ── */
 @media (max-width: 780px) {
   .dual-header { grid-template-columns: 1fr; }
@@ -746,8 +1279,10 @@ footer {
   <div class="nav-links">
     <a href="https://edheller33.github.io/Music_dem/" class="nav-link"> Inicio</a>
     <a href="#catalogo" class="nav-link">Catálogo</a>
+    <a href="#podcast" class="nav-link">Podcast</a>
     <a href="#precio" class="nav-link">Precios</a>
     <a href="#derechos" class="nav-link">Derechos</a>
+    <a href="#mi-cancion" class="nav-link">Mi Canción</a>
   </div>
 </nav>
 
@@ -1083,9 +1618,9 @@ footer {
       <div class="song-num-com">01</div>
       <div class="song-body">
         <h3 class="song-title song-title-com">Agua de Alquimia — Master</h3>
-        <p class="song-genre song-genre-com">Pop Acústico con matices de Indie Folk y Balada Cinematográfica.</p>
-        <p class="song-desc">Explora la conexión espiritual y transformadora entre dos personas, hombre y mujer, utilizando metáforas de artesanía, cartografía musical y procesos alquímicos para describir un amor que trasciende lo físico.</p>
-        <p class="song-emotion song-emotion-com">Alquimia • Trascendencia • Misticismo • Conexión Espiritual.</p>
+        <p class="song-genre song-genre-com">Pop Alternativo · Electro-Folk · Psicodelia Suave</p>
+        <p class="song-desc">Versión maestra certificada. Producción expandida con layers electrónicos y orgánicos. Lista para distribución en plataformas, sincronización audiovisual y explotación comercial total.</p>
+        <p class="song-emotion song-emotion-com">Transformación · Misterio · Calma Intensa · Renacer</p>
       </div>
       <div class="song-player">
         <div class="avail-dot"></div>
@@ -1103,9 +1638,9 @@ footer {
       <div class="song-num-com">02</div>
       <div class="song-body">
         <h3 class="song-title song-title-com">Cáliz y Vientos — Master</h3>
-        <p class="song-genre song-genre-com">Modern Rock • Alternative Metal con tintes cinematográficos y arreglos de guitarra atmosféricos • Indie Rock • Synth-Rock.</p>
-        <p class="song-desc">Redención existencial, la lucha interna contra el olvido, la fragilidad humana ("náufragos de un cielo de papel") y la búsqueda de significado en la desolación.</p>
-        <p class="song-emotion song-emotion-com">Redención • Fragilidad • Desolación • Lucha Existencial • Nostalgia Oscura.</p>
+        <p class="song-genre song-genre-com">Indie Rock · Synth-Rock · Psicodelia Moderna</p>
+        <p class="song-desc">Versión maestra certificada con producción expandida. Incluye derechos de distribución, monetización en YouTube/Spotify, sincronización audiovisual y explotación comercial total.</p>
+        <p class="song-emotion song-emotion-com">Existencialismo · Misticismo · Nostalgia Oscura · Destino</p>
       </div>
       <div class="song-player">
         <div class="avail-dot"></div>
@@ -1123,9 +1658,9 @@ footer {
       <div class="song-num-com">03</div>
       <div class="song-body">
         <h3 class="song-title song-title-com">Ceniza y Terciopelo — Master</h3>
-        <p class="song-genre song-genre-com">Indie Folk Acústico • Intimate Singer-Songwriter • Balada Oscura • Neo-Soul • Indie Cinematográfico</p>
-        <p class="song-desc">Explora la dualidad de la memoria amorosa, el contraste entre la destrucción (ceniza) y la suavidad del recuerdo (terciopelo), y la fragilidad de los vínculos humanos.</p>
-        <p class="song-emotion song-emotion-com">Dualidad • Nostalgia • Claroscuro • Intimidad Agridulce</p>
+        <p class="song-genre song-genre-com">Balada Oscura · Neo-Soul · Indie Cinematográfico</p>
+        <p class="song-desc">Versión maestra certificada. Producción de nivel radiofónico con arreglos de cuerdas. Derechos de registro, distribución global y sincronización incluidos.</p>
+        <p class="song-emotion song-emotion-com">Duelo · Belleza Oscura · Resignación Elegante · Profundidad</p>
       </div>
       <div class="song-player">
         <div class="avail-dot"></div>
@@ -1143,9 +1678,9 @@ footer {
       <div class="song-num-com">04</div>
       <div class="song-body">
         <h3 class="song-title song-title-com">Creo Todavía — Master</h3>
-        <p class="song-genre song-genre-com">Pop Romántico • Balada Contemporánea • Indie Pop Atmosférico.</p>
-        <p class="song-desc">La persistencia de la fe y la esperanza a pesar de la adversidad; la capacidad de seguir creyendo en lo invisible, en la luz y en los sueños cuando el entorno sugiere lo contrario.</p>
-        <p class="song-emotion song-emotion-com">Resiliencia • Esperanza • Fe Inquebrantable • Luminosidad • Amor Persistente.</p>
+        <p class="song-genre song-genre-com">Pop Romántico · Balada Contemporánea · Lírica de Fe</p>
+        <p class="song-desc">Versión maestra certificada. Producción pop con arreglos orquestales. Lista para monetización, playlists editoriales y licencias de sincronización en medios masivos.</p>
+        <p class="song-emotion song-emotion-com">Fe · Esperanza · Amor Persistente · Vulnerabilidad</p>
       </div>
       <div class="song-player">
         <div class="avail-dot"></div>
@@ -1163,9 +1698,9 @@ footer {
       <div class="song-num-com">05</div>
       <div class="song-body">
         <h3 class="song-title song-title-com">Espejismos Digitales — Master</h3>
-        <p class="song-genre song-genre-com">Synth-wave Atmosférico • Rap • Art-Pop • Synth Wave • Crítica Digital</p>
-        <p class="song-desc">La alienación en la era de la hiperconectividad, la fragilidad de la identidad frente a las pantallas y la búsqueda de una verdad humana en un entorno de realidades distorsionadas por la tecnología.</p>
-        <p class="song-emotion song-emotion-com">Alienación Digital • Desconexión • Introspección • Crítica Digital • Melancolía Digital.</p>
+        <p class="song-genre song-genre-com">Electro-Pop · Synth Wave · Crítica Digital</p>
+        <p class="song-desc">Versión maestra certificada con producción electrónica de vanguardia. Registro ISRC incluido, derechos de autor documentados, lista para distribución en todas las plataformas.</p>
+        <p class="song-emotion song-emotion-com">Alienación Digital · Ironía · Desconexión · Lucidez</p>
       </div>
       <div class="song-player">
         <div class="avail-dot"></div>
@@ -1183,9 +1718,9 @@ footer {
       <div class="song-num-com">06</div>
       <div class="song-body">
         <h3 class="song-title song-title-com">Eternidad en tus Manos — Master</h3>
-        <p class="song-genre song-genre-com">Pop Rock • Power Ballad con elementos orquestales • Balada Pop • Lírica de Entrega</p>
-        <p class="song-desc">La canción aborda el refugio emocional y espiritual que se encuentra en un ser amado en momentos de crisis personal ("cuando el mundo se derrumba"). Explora la gratitud por la reconstrucción personal a través del amor incondicional y la sensación de plenitud que otorga esa conexión.</p>
-        <p class="song-emotion song-emotion-com">Refugio • Gratitud • Seguridad • Amor Incondicional • Amor Absoluto • Eternidad • Intensidad</p>
+        <p class="song-genre song-genre-com">Balada Pop · Rock · Power Ballad · Lírica de Entrega</p>
+        <p class="song-desc">Versión maestra instrumental expandida con cuerdas orquestales completas. Ideal para sincronización en cine, series y publicidad. Licencia total de uso audiovisual incluida.</p>
+        <p class="song-emotion song-emotion-com">Entrega · Amor Absoluto · Eternidad · Intensidad</p>
       </div>
       <div class="song-player">
         <div class="avail-dot"></div>
@@ -1203,9 +1738,9 @@ footer {
       <div class="song-num-com">07</div>
       <div class="song-body">
         <h3 class="song-title song-title-com">Paso de Cenizas — Master</h3>
-        <p class="song-genre song-genre-com">Rock Alternativo • Metal Atmosférico con matices progresivos • Post-Rock • Lírica de Duelo</p>
-        <p class="song-desc">Transformación a través del dolor, el renacimiento tras la pérdida y la resiliencia existencial ("volver a nacer de las cenizas").</p>
-        <p class="song-emotion song-emotion-com">Catarsis • Renacimiento • Fortaleza • Transformación • Renacer • Dignidad • Superación</p>
+        <p class="song-genre song-genre-com">Rock Alternativo · Post-Rock · Lírica de Duelo</p>
+        <p class="song-desc">Versión maestra certificada con producción de alta gama. Lista para registro en plataformas, distribución global, sincronización en cine y publicidad de alto impacto.</p>
+        <p class="song-emotion song-emotion-com">Duelo · Renacer · Dignidad · Superación</p>
       </div>
       <div class="song-player">
         <div class="avail-dot"></div>
@@ -1220,6 +1755,32 @@ footer {
 
   </div><!-- /col-com -->
 </div><!-- /dual-columns -->
+
+<!-- ═══════ PODCAST EAMR ═══════ -->
+<section id="podcast">
+  <p class="pod-eyebrow">◆ Contenido de Valor ◆</p>
+  <h2 class="pod-title">Podcast EAMR</h2>
+  <p class="pod-subtitle">
+    Análisis, ingeniería emocional y narrativa sonora. <em>Episodios sobre música, IA y el arte de crear activos.</em>
+  </p>
+
+  <!-- UPLOAD ZONE -->
+  <div class="pod-upload-zone" id="pod-drop-zone">
+    <input type="file" id="pod-file-input" accept=".mp3,audio/mpeg" multiple>
+    <span class="pod-upload-icon">🎙</span>
+    <span class="pod-upload-label">Agregar Episodio de Podcast</span>
+    <span class="pod-upload-hint">Arrastra archivos MP3 aquí · o haz clic para seleccionar · Puedes subir múltiples episodios</span>
+  </div>
+
+  <!-- EMPTY STATE -->
+  <div class="pod-empty" id="pod-empty">
+    <span class="pod-empty-icon">🎧</span>
+    <p class="pod-empty-text">No hay episodios cargados aún.<br>Sube tu primer archivo MP3 usando la zona de arriba.</p>
+  </div>
+
+  <!-- EPISODE LIST -->
+  <div class="pod-list" id="pod-list"></div>
+</section>
 
 <!-- ═══════ EL PRECIO DE LA MÚSICA CON IA ═══════ -->
 <section id="precio">
@@ -1254,7 +1815,7 @@ footer {
       <div class="precio-price-block">
         <p class="precio-price-label">Precio por licencia comercial</p>
         <p class="precio-price-value price-gold">$500 - $1,500MXN</p>
-        <p class="precio-price-note">POR CANCION. Incluye derechos totales, stems, ISRC y documentación legal.</p>
+        <p class="precio-price-note">Por canción. Incluye derechos totales, stems, ISRC y documentación legal.</p>
       </div>
     </div>
 
@@ -1283,8 +1844,8 @@ footer {
       <div class="precio-divider"></div>
       <div class="precio-price-block">
         <p class="precio-price-label">Precio por licencia comercial</p>
-        <p class="precio-price-value price-green">$250 - $750 MXN</p>
-        <p class="precio-price-note">POR CANCIÓN. Producción radio-ready, mezcla y master incluidos.</p>
+        <p class="precio-price-value price-green">$300 - $800 MXN</p>
+        <p class="precio-price-note">Por canción. Producción radio-ready, mezcla y master incluidos.</p>
       </div>
     </div>
   </div>
@@ -1370,6 +1931,245 @@ footer {
   <p style="text-align:center;padding:32px 24px 40px;font-family:'Crimson Pro',serif;font-size:0.86rem;color:var(--text-muted);font-style:italic;opacity:0.55;">
     ⚠️ Arquitectura sonora asistida por inteligencia artificial de última generación. Los derechos comerciales y de explotación son transferidos íntegramente al licenciatario bajo el respaldo de una suscripción profesional activa.
   </p>
+</section>
+
+<!-- ═══════ MI CANCIÓN PERSONALIZADA ═══════ -->
+<section id="mi-cancion">
+  <p class="mc-eyebrow">◆ Ingeniería Emocional a Tu Medida ◆</p>
+  <h2 class="mc-title">Tu Canción Personalizada</h2>
+  <p class="mc-subtitle">
+    Cuéntanos tu historia, tu emoción, tu raíz. <em>Construiremos el prompt</em>
+    emocional y sonoro exacto y te contactaremos con la propuesta.
+  </p>
+
+  <!-- PROGRESS -->
+  <div class="mc-progress-wrap">
+    <div class="mc-progress-label">
+      <span>COMPLETADO</span>
+      <span id="mc-pct">0%</span>
+    </div>
+    <div class="mc-progress-bar">
+      <div class="mc-progress-fill" id="mc-fill"></div>
+    </div>
+  </div>
+
+  <form class="mc-form" id="mc-form" autocomplete="off">
+
+    <!-- ── 01 EL CORAZÓN DE LA HISTORIA ── -->
+    <div class="mc-section" id="mcs-1">
+      <div class="mc-section-header">
+        <span class="mc-section-num">01</span>
+        <span class="mc-section-title">El Corazón de la Historia</span>
+      </div>
+
+      <div class="mc-field">
+        <label class="mc-field-label">¿A quién va dedicada esta canción?</label>
+        <div class="mc-pills" id="pill-dedicada">
+          <div class="mc-pill" data-group="dedicada" data-val="A mí mismo"><span class="mc-pill-dot"></span>A mí mismo</div>
+          <div class="mc-pill" data-group="dedicada" data-val="Mi familia"><span class="mc-pill-dot"></span>Mi familia</div>
+          <div class="mc-pill" data-group="dedicada" data-val="Mi pareja"><span class="mc-pill-dot"></span>Mi pareja</div>
+          <div class="mc-pill" data-group="dedicada" data-val="Mis hijos"><span class="mc-pill-dot"></span>Mis hijos</div>
+          <div class="mc-pill" data-group="dedicada" data-val="Un ser querido que ya no está"><span class="mc-pill-dot"></span>Un ser querido que ya no está</div>
+          <div class="mc-pill" data-group="dedicada" data-val="Mi negocio o marca"><span class="mc-pill-dot"></span>Mi negocio o marca</div>
+          <div class="mc-pill" data-group="dedicada" data-val="Otro"><span class="mc-pill-dot"></span>Otro</div>
+        </div>
+        <input type="hidden" id="val-dedicada" name="dedicada">
+      </div>
+
+      <div class="mc-field" style="margin-top:28px;">
+        <label class="mc-field-label">La Historia Detrás</label>
+        <span class="mc-hint">Cuéntanos qué sucedió, qué quieres expresar o qué momento quieres inmortalizar. No hay límite — escribe todo lo que sientes.</span>
+        <textarea class="mc-textarea" id="mc-historia" name="historia" placeholder="Escribe aquí tu historia, el momento especial o el mensaje que quieres que viva en la canción..." rows="6"></textarea>
+      </div>
+    </div>
+
+    <!-- ── 02 RAÍCES E IDENTIDAD ── -->
+    <div class="mc-section" id="mcs-2">
+      <div class="mc-section-header">
+        <span class="mc-section-num">02</span>
+        <span class="mc-section-title">Raíces e Identidad</span>
+        <span class="mc-section-tag">Opcional pero valioso</span>
+      </div>
+
+      <div class="mc-field">
+        <label class="mc-field-label">Origen, región o cultura que representa</label>
+        <span class="mc-hint">Ej: "De Jalisco, México" · "Descendiente cubano en Miami" · "Criado en el campo"</span>
+        <input type="text" class="mc-input" id="mc-origen" name="origen" placeholder="¿De dónde vienes? ¿Qué tierra o cultura llevas dentro?">
+      </div>
+
+      <div class="mc-field">
+        <label class="mc-field-label">Un valor o principio que te define</label>
+        <span class="mc-hint">Ej: "La familia primero" · "El trabajo honesto" · "La fe que todo lo puede"</span>
+        <input type="text" class="mc-input" id="mc-valor" name="valor" placeholder="¿Qué principio guía tu vida?">
+      </div>
+    </div>
+
+    <!-- ── 03 GÉNERO MUSICAL ── -->
+    <div class="mc-section" id="mcs-3">
+      <div class="mc-section-header">
+        <span class="mc-section-num">03</span>
+        <span class="mc-section-title">Género Musical</span>
+      </div>
+
+      <div class="mc-field">
+        <label class="mc-field-label">¿Qué género prefieres para tu canción?</label>
+        <div class="mc-pills" id="pill-genero">
+          <div class="mc-pill" data-group="genero" data-val="Regional Mexicano"><span class="mc-pill-dot"></span>Regional Mexicano</div>
+          <div class="mc-pill" data-group="genero" data-val="Balada Pop"><span class="mc-pill-dot"></span>Balada Pop</div>
+          <div class="mc-pill" data-group="genero" data-val="Rock"><span class="mc-pill-dot"></span>Rock</div>
+          <div class="mc-pill" data-group="genero" data-val="Cumbia"><span class="mc-pill-dot"></span>Cumbia</div>
+          <div class="mc-pill" data-group="genero" data-val="Trap / Urbano"><span class="mc-pill-dot"></span>Trap / Urbano</div>
+          <div class="mc-pill" data-group="genero" data-val="Gospel / Espiritual"><span class="mc-pill-dot"></span>Gospel / Espiritual</div>
+          <div class="mc-pill" data-group="genero" data-val="Banda"><span class="mc-pill-dot"></span>Banda</div>
+          <div class="mc-pill" data-group="genero" data-val="Corrido"><span class="mc-pill-dot"></span>Corrido</div>
+          <div class="mc-pill" data-group="genero" data-val="Indie / Alternativo"><span class="mc-pill-dot"></span>Indie / Alternativo</div>
+          <div class="mc-pill" data-group="genero" data-val="Otro"><span class="mc-pill-dot"></span>Otro</div>
+        </div>
+        <input type="hidden" id="val-genero" name="genero">
+      </div>
+
+      <div class="mc-field" style="margin-top:18px;">
+        <label class="mc-field-label">¿Algún artista o canción de referencia?</label>
+        <span class="mc-hint">Opcional. Ayuda a calibrar el sonido exacto que buscas.</span>
+        <input type="text" class="mc-input" id="mc-referencia" name="referencia" placeholder='Ej: "Que el ritmo no pare" de Banda MS · El estilo de Luis Miguel · Algo oscuro como Héroes del Silencio'>
+      </div>
+    </div>
+
+    <!-- ── 04 VOZ Y ÁNIMO ── -->
+    <div class="mc-section" id="mcs-4">
+      <div class="mc-section-header">
+        <span class="mc-section-num">04</span>
+        <span class="mc-section-title">Voz y Ánimo</span>
+      </div>
+
+      <div class="mc-grid-2">
+        <div class="mc-field">
+          <label class="mc-field-label">Tipo de voz preferida</label>
+          <div class="mc-pills" style="flex-direction:column;gap:9px;" id="pill-voz">
+            <div class="mc-pill" data-group="voz" data-val="Masculina"><span class="mc-pill-dot"></span>Masculina</div>
+            <div class="mc-pill" data-group="voz" data-val="Femenina"><span class="mc-pill-dot"></span>Femenina</div>
+            <div class="mc-pill" data-group="voz" data-val="Dúo"><span class="mc-pill-dot"></span>Dúo</div>
+            <div class="mc-pill" data-group="voz" data-val="Coral"><span class="mc-pill-dot"></span>Coral</div>
+          </div>
+          <input type="hidden" id="val-voz" name="voz">
+        </div>
+
+        <div class="mc-field">
+          <label class="mc-field-label">Estado de ánimo de la música</label>
+          <div class="mc-pills" style="flex-direction:column;gap:9px;" id="pill-animo">
+            <div class="mc-pill" data-group="animo" data-val="Alegre y optimista"><span class="mc-pill-dot"></span>Alegre y optimista</div>
+            <div class="mc-pill" data-group="animo" data-val="Melancólico y profundo"><span class="mc-pill-dot"></span>Melancólico y profundo</div>
+            <div class="mc-pill" data-group="animo" data-val="Romántico y suave"><span class="mc-pill-dot"></span>Romántico y suave</div>
+            <div class="mc-pill" data-group="animo" data-val="Épico y poderoso"><span class="mc-pill-dot"></span>Épico y poderoso</div>
+            <div class="mc-pill" data-group="animo" data-val="Nostálgico y emotivo"><span class="mc-pill-dot"></span>Nostálgico y emotivo</div>
+          </div>
+          <input type="hidden" id="val-animo" name="animo">
+        </div>
+      </div>
+    </div>
+
+    <!-- ── 05 PALABRAS ANCLA ── -->
+    <div class="mc-section" id="mcs-5">
+      <div class="mc-section-header">
+        <span class="mc-section-num">05</span>
+        <span class="mc-section-title">Palabras Ancla</span>
+      </div>
+
+      <div class="mc-field">
+        <label class="mc-field-label">Escribe 3 a 5 palabras, frases, apodos, fechas o lugares que deben aparecer en la canción.</label>
+        <span class="mc-hint">Ej: "Mi viejo" · "Las Ánimas, Zacatecas" · "17 de marzo" · "El que madruga, Dios lo ayuda"</span>
+        <div class="mc-anchors">
+          <div class="mc-anchor-item">
+            <span class="mc-anchor-label">Ancla 1 ★</span>
+            <input type="text" class="mc-input" id="mc-a1" name="ancla1" placeholder="">
+          </div>
+          <div class="mc-anchor-item">
+            <span class="mc-anchor-label">Ancla 2 ★</span>
+            <input type="text" class="mc-input" id="mc-a2" name="ancla2" placeholder="">
+          </div>
+          <div class="mc-anchor-item">
+            <span class="mc-anchor-label">Ancla 3 ★</span>
+            <input type="text" class="mc-input" id="mc-a3" name="ancla3" placeholder="">
+          </div>
+          <div class="mc-anchor-item">
+            <span class="mc-anchor-label">Ancla 4 (opcional)</span>
+            <input type="text" class="mc-input" id="mc-a4" name="ancla4" placeholder="">
+          </div>
+          <div class="mc-anchor-item" style="grid-column:1/-1;">
+            <span class="mc-anchor-label">Ancla 5 (opcional)</span>
+            <input type="text" class="mc-input" id="mc-a5" name="ancla5" placeholder="">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── 06 DATOS DE CONTACTO ── -->
+    <div class="mc-section" id="mcs-6">
+      <div class="mc-section-header">
+        <span class="mc-section-num">06</span>
+        <span class="mc-section-title">Datos de Contacto</span>
+      </div>
+
+      <div class="mc-grid-2">
+        <div class="mc-field">
+          <label class="mc-field-label">Nombre completo</label>
+          <input type="text" class="mc-input" id="mc-nombre" name="nombre" placeholder="Tu nombre" required>
+        </div>
+        <div class="mc-field">
+          <label class="mc-field-label">WhatsApp o Correo</label>
+          <input type="text" class="mc-input" id="mc-contacto" name="contacto" placeholder="+52 · o tu email" required>
+        </div>
+      </div>
+
+      <div class="mc-field">
+        <div class="mc-toggle-row">
+          <label class="mc-field-label" style="margin:0;">¿Tienes fecha límite?</label>
+          <span class="mc-badge-opt">Opcional</span>
+        </div>
+        <input type="text" class="mc-input" id="mc-fecha" name="fecha" placeholder="Ej: Para el 15 de mayo · Sin urgencia">
+      </div>
+
+      <div class="mc-field">
+        <label class="mc-field-label">¿Algo más que agregar?</label>
+        <textarea class="mc-textarea" id="mc-extra" name="extra" placeholder="Cualquier detalle que no haya cupido arriba..." rows="4"></textarea>
+      </div>
+    </div>
+
+  </form><!-- /mc-form -->
+
+  <!-- SUBMIT -->
+  <div class="mc-submit-wrap">
+    <p class="mc-submit-note">
+      Una vez que recibamos tu cuestionario, revisaremos tus respuestas,
+      construiremos el prompt emocional y sonoro, y te contactaremos en breve.
+    </p>
+    <button class="mc-btn-submit" id="mc-submit-btn" type="button">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+      Enviar Mi Cuestionario
+    </button>
+
+    <!-- SUCCESS STATE -->
+    <div class="mc-success" id="mc-success">
+      <div class="mc-success-icon">✦</div>
+      <h3 class="mc-success-title">Cuestionario Enviado</h3>
+      <p class="mc-success-text">
+        Tus datos han sido copiados al portapapeles y el formulario ha sido preparado.<br><br>
+        <strong style="color:var(--gold-light);">Pega el contenido en WhatsApp o Email</strong><br>
+        y lo recibiremos de inmediato.
+      </p>
+      <p style="font-family:'Orbitron',monospace;font-size:0.55rem;letter-spacing:0.15em;color:var(--gold-dark);margin-top:20px;opacity:0.7;">
+        eamr.11@proton.me · +1 (334) 321-5254
+      </p>
+    </div>
+  </div>
+
+  <!-- LEGAL CLAUSE -->
+  <div class="mc-legal">
+    <p class="mc-legal-title">Cláusula de Propiedad de Uso — Licencia de Acceso Personal</p>
+    <p class="mc-legal-text">
+      El presente activo musical ha sido generado mediante modelos de inteligencia artificial bajo una modalidad de suscripción profesional activa (Edgar Romero / EAMR). El solicitante entiende que la canción personalizada es un producto único e irrepetible, diseñado exclusivamente para el uso descrito en este cuestionario. Los derechos de distribución, monetización y registro comercial se acuerdan por separado mediante contrato de licencia. IA Music se reserva el derecho de portafolio sobre cualquier composición generada.
+    </p>
+  </div>
 </section>
 
 <footer>
@@ -1896,8 +2696,388 @@ function showPreviewToast() {
   }, 4000);
 }
 
-/* ── INIT ── */
-setupButtons();
+/* ── PODCAST EAMR ──────────────────────────────────────────── */
+(function() {
+  const fileInput   = document.getElementById('pod-file-input');
+  const dropZone    = document.getElementById('pod-drop-zone');
+  const podList     = document.getElementById('pod-list');
+  const podEmpty    = document.getElementById('pod-empty');
+
+  let episodes      = [];   // { id, name, title, url, duration }
+  let currentAudio  = null; // HTMLAudioElement
+  let currentId     = null;
+  let epCounter     = 0;
+
+  // ── DRAG & DROP ──────────────────────────────────────
+  dropZone.addEventListener('dragover', e => { e.preventDefault(); dropZone.classList.add('drag-over'); });
+  dropZone.addEventListener('dragleave', ()  => dropZone.classList.remove('drag-over'));
+  dropZone.addEventListener('drop', e => {
+    e.preventDefault(); dropZone.classList.remove('drag-over');
+    handleFiles(Array.from(e.dataTransfer.files).filter(f => f.type === 'audio/mpeg' || f.name.endsWith('.mp3')));
+  });
+  fileInput.addEventListener('change', e => handleFiles(Array.from(e.target.files)));
+
+  // ── PROCESS FILES ────────────────────────────────────
+  function handleFiles(files) {
+    files.forEach(file => {
+      epCounter++;
+      const id  = 'ep-' + Date.now() + '-' + epCounter;
+      const url = URL.createObjectURL(file);
+      const name = file.name.replace(/\.mp3$/i, '').replace(/[-_]/g, ' ');
+      // Pretty-capitalise
+      const title = name.charAt(0).toUpperCase() + name.slice(1);
+      const ep = { id, name: file.name, title, url, duration: 0, file };
+      episodes.push(ep);
+      renderCard(ep);
+      // Probe duration
+      const probe = new Audio();
+      probe.src = url;
+      probe.addEventListener('loadedmetadata', () => {
+        ep.duration = probe.duration;
+        const durEl = document.getElementById('dur-' + id);
+        if (durEl) durEl.textContent = fmtTime(probe.duration);
+      });
+    });
+    updateEmpty();
+    fileInput.value = '';
+  }
+
+  // ── RENDER EPISODE CARD ──────────────────────────────
+  function renderCard(ep) {
+    const card = document.createElement('div');
+    card.className = 'pod-card';
+    card.id = 'card-' + ep.id;
+
+    const epNum = String(episodes.length).padStart(2, '0');
+
+    card.innerHTML = `
+      <div class="pod-card-top">
+        <div class="pod-card-art">🎙</div>
+        <div class="pod-card-info">
+          <p class="pod-card-ep">EPISODIO ${epNum} · EAMR</p>
+          <h3 class="pod-card-title" title="${ep.title}">${ep.title}</h3>
+          <p class="pod-card-meta">por Edgar Romero · EAMR &nbsp;·&nbsp; <span id="dur-${ep.id}">—</span></p>
+        </div>
+        <div class="pod-card-actions">
+          <button class="pod-play-btn" id="playbtn-${ep.id}" title="Reproducir / Pausar" aria-label="Reproducir">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+          </button>
+          <a class="pod-dl-btn" id="dlbtn-${ep.id}" href="${ep.url}" download="${ep.name}" title="Descargar episodio" aria-label="Descargar">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          </a>
+          <button class="pod-del-btn" id="delbtn-${ep.id}" title="Eliminar episodio" aria-label="Eliminar">✕</button>
+        </div>
+      </div>
+      <div class="pod-player" id="player-${ep.id}">
+        <div class="pod-waveform" id="waveform-${ep.id}">
+          <div class="pod-waveform-bars" id="bars-${ep.id}"></div>
+          <div class="pod-progress-track"><div class="pod-progress-fill" id="pfill-${ep.id}"></div></div>
+        </div>
+        <div class="pod-controls-row">
+          <button class="pod-skip-btn" data-skip="-15" data-id="${ep.id}">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 5V1L7 6l5 5V7c3.31 0 6 2.69 6 6s-2.69 6-6 6-6-2.69-6-6H4c0 4.42 3.58 8 8 8s8-3.58 8-8-3.58-8-8-8z"/></svg>
+            15s
+          </button>
+          <button class="pod-skip-btn" data-skip="15" data-id="${ep.id}">
+            15s
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 5V1l5 5-5 5V7c-3.31 0-6 2.69-6 6s2.69 6 6 6 6-2.69 6-6h2c0 4.42-3.58 8-8 8s-8-3.58-8-8 3.58-8 8-8z"/></svg>
+          </button>
+          <div class="pod-time">
+            <span id="cur-${ep.id}">0:00</span> / <span id="tot-${ep.id}">0:00</span>
+          </div>
+          <div class="pod-vol-wrap">
+            <span class="pod-vol-icon">🔊</span>
+            <input type="range" class="pod-vol-slider" id="vol-${ep.id}" min="0" max="1" step="0.05" value="0.8">
+          </div>
+        </div>
+      </div>
+    `;
+    podList.prepend(card);
+
+    // Build fake waveform bars (decorative)
+    const barsEl = card.querySelector(`#bars-${ep.id}`);
+    for (let i = 0; i < 80; i++) {
+      const b = document.createElement('div');
+      b.className = 'pod-waveform-bar';
+      b.style.height = (18 + Math.random() * 64) + '%';
+      barsEl.appendChild(b);
+    }
+
+    // ── PLAY BUTTON ──
+    card.querySelector(`#playbtn-${ep.id}`).addEventListener('click', () => togglePlay(ep, card));
+
+    // ── WAVEFORM CLICK (seek) ──
+    card.querySelector(`#waveform-${ep.id}`).addEventListener('click', e => {
+      if (currentId !== ep.id || !currentAudio) return;
+      const rect = e.currentTarget.getBoundingClientRect();
+      const pct  = (e.clientX - rect.left) / rect.width;
+      currentAudio.currentTime = pct * currentAudio.duration;
+    });
+
+    // ── SKIP BUTTONS ──
+    card.querySelectorAll('.pod-skip-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        if (currentId !== ep.id || !currentAudio) return;
+        currentAudio.currentTime = Math.max(0, Math.min(currentAudio.duration, currentAudio.currentTime + parseInt(btn.dataset.skip)));
+      });
+    });
+
+    // ── VOLUME ──
+    card.querySelector(`#vol-${ep.id}`).addEventListener('input', e => {
+      if (currentAudio && currentId === ep.id) currentAudio.volume = parseFloat(e.target.value);
+    });
+
+    // ── DELETE ──
+    card.querySelector(`#delbtn-${ep.id}`).addEventListener('click', () => deleteEpisode(ep.id, card));
+  }
+
+  // ── PLAY / PAUSE ─────────────────────────────────────
+  function togglePlay(ep, card) {
+    if (currentId === ep.id) {
+      // Same episode — toggle
+      if (currentAudio.paused) {
+        currentAudio.play();
+        setPlayIcon(card, true);
+      } else {
+        currentAudio.pause();
+        setPlayIcon(card, false);
+      }
+      return;
+    }
+    // Different episode — stop current
+    stopCurrent();
+    currentId   = ep.id;
+    currentAudio = new Audio(ep.url);
+    currentAudio.volume = parseFloat(card.querySelector(`#vol-${ep.id}`).value || 0.8);
+    currentAudio.play().catch(() => {});
+
+    card.classList.add('playing');
+    setPlayIcon(card, true);
+
+    currentAudio.addEventListener('timeupdate', () => updateProgress(ep.id, currentAudio));
+    currentAudio.addEventListener('ended', () => {
+      setPlayIcon(card, false);
+      card.classList.remove('playing');
+      currentId = null; currentAudio = null;
+    });
+  }
+
+  function stopCurrent() {
+    if (currentAudio) { currentAudio.pause(); currentAudio = null; }
+    if (currentId) {
+      const prev = document.getElementById('card-' + currentId);
+      if (prev) { prev.classList.remove('playing'); setPlayIcon(prev, false); }
+    }
+    currentId = null;
+  }
+
+  function setPlayIcon(card, isPlaying) {
+    const btn = card.querySelector('.pod-play-btn');
+    btn.innerHTML = isPlaying
+      ? `<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>`
+      : `<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>`;
+  }
+
+  // ── PROGRESS ─────────────────────────────────────────
+  function updateProgress(id, audio) {
+    const pct  = audio.duration ? (audio.currentTime / audio.duration) * 100 : 0;
+    const fill = document.getElementById('pfill-' + id);
+    const cur  = document.getElementById('cur-'   + id);
+    const tot  = document.getElementById('tot-'   + id);
+    if (fill) fill.style.width = pct + '%';
+    if (cur)  cur.textContent  = fmtTime(audio.currentTime);
+    if (tot)  tot.textContent  = fmtTime(audio.duration);
+
+    // Color waveform bars
+    const bars = document.querySelectorAll(`#bars-${id} .pod-waveform-bar`);
+    const threshold = Math.floor((pct / 100) * bars.length);
+    bars.forEach((b, i) => b.classList.toggle('filled', i < threshold));
+  }
+
+  // ── DELETE ───────────────────────────────────────────
+  function deleteEpisode(id, card) {
+    if (currentId === id) stopCurrent();
+    const ep = episodes.find(e => e.id === id);
+    if (ep) URL.revokeObjectURL(ep.url);
+    episodes = episodes.filter(e => e.id !== id);
+    card.style.opacity = '0'; card.style.transform = 'translateX(20px)';
+    card.style.transition = 'opacity 0.3s, transform 0.3s';
+    setTimeout(() => card.remove(), 320);
+    setTimeout(updateEmpty, 350);
+  }
+
+  // ── HELPERS ──────────────────────────────────────────
+  function updateEmpty() {
+    podEmpty.style.display = episodes.length === 0 ? 'block' : 'none';
+  }
+
+  function fmtTime(s) {
+    if (!s || isNaN(s)) return '0:00';
+    const m = Math.floor(s / 60);
+    const sec = String(Math.floor(s % 60)).padStart(2, '0');
+    return `${m}:${sec}`;
+  }
+
+  updateEmpty();
+})();
+
+
+
+/* ── MI CANCIÓN PERSONALIZADA JS ── */
+(function() {
+  // PILL SELECTION (single select per group)
+  document.querySelectorAll('.mc-pill').forEach(pill => {
+    pill.addEventListener('click', () => {
+      const group = pill.dataset.group;
+      document.querySelectorAll(`.mc-pill[data-group="${group}"]`).forEach(p => p.classList.remove('selected'));
+      pill.classList.toggle('selected');
+      const hidden = document.getElementById('val-' + group);
+      if (hidden) hidden.value = pill.classList.contains('selected') ? pill.dataset.val : '';
+      updateProgress();
+    });
+  });
+
+  // AUTO-FILL DETECTION
+  ['mc-historia','mc-origen','mc-valor','mc-referencia','mc-a1','mc-a2','mc-a3',
+   'mc-nombre','mc-contacto','mc-fecha','mc-extra'].forEach(id => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.addEventListener('input', () => {
+      el.classList.toggle('filled', el.value.trim().length > 0);
+      updateProgress();
+    });
+  });
+
+  // PROGRESS CALCULATOR
+  function updateProgress() {
+    const fields = [
+      document.getElementById('val-dedicada')?.value,
+      document.getElementById('mc-historia')?.value,
+      document.getElementById('val-genero')?.value,
+      document.getElementById('val-voz')?.value,
+      document.getElementById('val-animo')?.value,
+      document.getElementById('mc-a1')?.value,
+      document.getElementById('mc-a2')?.value,
+      document.getElementById('mc-a3')?.value,
+      document.getElementById('mc-nombre')?.value,
+      document.getElementById('mc-contacto')?.value,
+    ];
+    const filled = fields.filter(v => v && v.trim().length > 0).length;
+    const pct = Math.round((filled / fields.length) * 100);
+    document.getElementById('mc-fill').style.width = pct + '%';
+    document.getElementById('mc-pct').textContent = pct + '%';
+  }
+
+  // SCROLL REVEAL for mc-sections
+  const mcSections = document.querySelectorAll('.mc-section');
+  const mcObserver = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.08 });
+  mcSections.forEach(s => mcObserver.observe(s));
+
+  // SUBMIT: compile & copy
+  document.getElementById('mc-submit-btn').addEventListener('click', () => {
+    const nombre = document.getElementById('mc-nombre')?.value?.trim();
+    const contacto = document.getElementById('mc-contacto')?.value?.trim();
+    if (!nombre || !contacto) {
+      // Highlight missing
+      ['mc-nombre','mc-contacto'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el && !el.value.trim()) {
+          el.style.borderColor = 'rgba(255,80,80,0.5)';
+          el.style.boxShadow = '0 0 0 3px rgba(255,60,60,0.08)';
+          setTimeout(() => { el.style.borderColor = ''; el.style.boxShadow = ''; }, 3000);
+        }
+      });
+      document.getElementById('mcs-6').scrollIntoView({ behavior: 'smooth', block: 'center' });
+      return;
+    }
+
+    const data = {
+      dedicada:   document.getElementById('val-dedicada')?.value || '—',
+      historia:   document.getElementById('mc-historia')?.value?.trim() || '—',
+      origen:     document.getElementById('mc-origen')?.value?.trim() || '—',
+      valor:      document.getElementById('mc-valor')?.value?.trim() || '—',
+      genero:     document.getElementById('val-genero')?.value || '—',
+      referencia: document.getElementById('mc-referencia')?.value?.trim() || '—',
+      voz:        document.getElementById('val-voz')?.value || '—',
+      animo:      document.getElementById('val-animo')?.value || '—',
+      a1:         document.getElementById('mc-a1')?.value?.trim() || '',
+      a2:         document.getElementById('mc-a2')?.value?.trim() || '',
+      a3:         document.getElementById('mc-a3')?.value?.trim() || '',
+      a4:         document.getElementById('mc-a4')?.value?.trim() || '',
+      a5:         document.getElementById('mc-a5')?.value?.trim() || '',
+      nombre,
+      contacto,
+      fecha:      document.getElementById('mc-fecha')?.value?.trim() || 'Sin urgencia',
+      extra:      document.getElementById('mc-extra')?.value?.trim() || '—',
+    };
+
+    const anchors = [data.a1,data.a2,data.a3,data.a4,data.a5].filter(Boolean).join(' · ') || '—';
+
+    const msg = [
+      '✦ SOLICITUD DE CANCIÓN PERSONALIZADA — IA MUSIC ✦',
+      '═══════════════════════════════════════',
+      '',
+      '01 · DEDICATORIA',
+      `   ${data.dedicada}`,
+      '',
+      '02 · HISTORIA',
+      `   ${data.historia}`,
+      '',
+      '03 · RAÍCES E IDENTIDAD',
+      `   Origen: ${data.origen}`,
+      `   Valor: ${data.valor}`,
+      '',
+      '04 · GÉNERO MUSICAL',
+      `   ${data.genero}`,
+      `   Referencia: ${data.referencia}`,
+      '',
+      '05 · VOZ Y ÁNIMO',
+      `   Voz: ${data.voz}`,
+      `   Ánimo: ${data.animo}`,
+      '',
+      '06 · PALABRAS ANCLA',
+      `   ${anchors}`,
+      '',
+      '07 · DATOS DE CONTACTO',
+      `   Nombre: ${data.nombre}`,
+      `   Contacto: ${data.contacto}`,
+      `   Fecha límite: ${data.fecha}`,
+      '',
+      '08 · NOTAS ADICIONALES',
+      `   ${data.extra}`,
+      '',
+      '═══════════════════════════════════════',
+      'eamr.11@proton.me · IA Music',
+    ].join('\n');
+
+    // Copy to clipboard
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(msg).catch(() => fallbackCopy(msg));
+    } else {
+      fallbackCopy(msg);
+    }
+
+    // Show success
+    document.getElementById('mc-submit-btn').style.display = 'none';
+    const succ = document.getElementById('mc-success');
+    succ.classList.add('visible');
+    succ.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  });
+
+  function fallbackCopy(text) {
+    const ta = document.createElement('textarea');
+    ta.value = text;
+    ta.style.cssText = 'position:fixed;top:-9999px;opacity:0;';
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+  }
+
+})();
+
 </script>
 </body>
 </html>
