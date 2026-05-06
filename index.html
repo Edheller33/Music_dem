@@ -1509,11 +1509,19 @@ const comFiles = [
   'paso_de_cenizas.mp3'
 ];
 
-let audio = new Audio();
+/* ── ANTI-DOWNLOAD: deshabilita clic derecho en toda la página ── */
+document.addEventListener('contextmenu', e => e.preventDefault());
+
+/* ── AUDIO ENGINE ── */
+const audio = new Audio();
+audio.setAttribute('controlsList', 'nodownload');   // oculta botón descarga en controles nativos
+audio.setAttribute('oncontextmenu', 'return false'); // bloquea menú contextual sobre el elemento
 let analyser = null, audioCtx = null;
 let isPlaying = false;
 let currentTrack = null;
 let allTracks = [];
+
+const PREVIEW_LIMIT = 60; // segundos de preview para canciones comerciales
 
 function initAudioCtx() {
   if (!audioCtx) {
@@ -1634,7 +1642,13 @@ function formatTime(s) {
 function seekTo(e) {
   const rect = document.getElementById('np-bar').getBoundingClientRect();
   const pct = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
-  if (audio.duration) audio.currentTime = pct * audio.duration;
+  if (!audio.duration) return;
+  let target = pct * audio.duration;
+  // Bloquea salto más allá del límite en canciones comerciales
+  if (currentTrack && currentTrack.type === 'com') {
+    target = Math.min(target, PREVIEW_LIMIT - 1);
+  }
+  audio.currentTime = target;
 }
 function setVolume(e) {
   const rect = document.getElementById('np-vol-bar').getBoundingClientRect();
@@ -1649,12 +1663,35 @@ function toggleHeart() {
 }
 
 audio.addEventListener('timeupdate', () => {
-  if (audio.duration) {
-    const pct = (audio.currentTime / audio.duration) * 100;
-    document.getElementById('np-bar-fill').style.width = pct + '%';
-    document.getElementById('np-current').textContent = formatTime(Math.floor(audio.currentTime));
-    document.getElementById('np-duration').textContent = formatTime(Math.floor(audio.duration));
+  if (!audio.duration) return;
+
+  // ── LÍMITE DE 60 s PARA CANCIONES COMERCIALES ──
+  if (currentTrack && currentTrack.type === 'com' && audio.currentTime >= PREVIEW_LIMIT) {
+    audio.pause();
+    audio.currentTime = 0;
+    isPlaying = false;
+    currentTrack.btn.innerHTML = playIcon();
+    currentTrack.btn.classList.remove('playing');
+    updateNpPlayBtn(false);
+    document.getElementById('np-bar-fill').style.width = '100%';
+    document.getElementById('np-current').textContent = '1:00';
+    // Toast en lugar de alert bloqueante
+    showPreviewToast();
+    return;
   }
+
+  // Barra de progreso: para comerciales muestra progreso sobre 60 s (no duración total)
+  let pct, timeTotal;
+  if (currentTrack && currentTrack.type === 'com') {
+    pct = (audio.currentTime / PREVIEW_LIMIT) * 100;
+    timeTotal = formatTime(PREVIEW_LIMIT);
+  } else {
+    pct = (audio.currentTime / audio.duration) * 100;
+    timeTotal = formatTime(Math.floor(audio.duration));
+  }
+  document.getElementById('np-bar-fill').style.width = pct + '%';
+  document.getElementById('np-current').textContent = formatTime(Math.floor(audio.currentTime));
+  document.getElementById('np-duration').textContent = timeTotal;
 });
 audio.addEventListener('ended', () => {
   isPlaying = false;
@@ -1824,6 +1861,40 @@ function drawWaveDivider() {
 }
 drawWaveDivider();
 window.addEventListener('resize', () => { wc.width = window.innerWidth; });
+
+/* ── TOAST DE PREVIEW FINALIZADO ── */
+function showPreviewToast() {
+  let toast = document.getElementById('preview-toast');
+  if (!toast) {
+    toast = document.createElement('div');
+    toast.id = 'preview-toast';
+    toast.style.cssText = `
+      position:fixed; bottom:96px; left:50%; transform:translateX(-50%) translateY(20px);
+      background:rgba(10,8,0,0.97); border:1px solid var(--green);
+      color:var(--cream); padding:14px 28px; border-radius:4px;
+      font-family:'Orbitron',monospace; font-size:0.68rem; letter-spacing:0.12em;
+      text-align:center; z-index:2000; opacity:0;
+      transition:opacity 0.35s ease, transform 0.35s ease;
+      box-shadow:0 0 30px rgba(46,204,113,0.2);
+      max-width:90vw; line-height:1.6;
+    `;
+    document.body.appendChild(toast);
+  }
+  toast.innerHTML = `
+    ◈ VISTA PREVIA FINALIZADA — 60 s ◈<br>
+    <span style="color:var(--green);font-size:0.78rem;">Adquiere la licencia comercial para escuchar la canción completa</span>
+  `;
+  // Mostrar
+  requestAnimationFrame(() => {
+    toast.style.opacity = '1';
+    toast.style.transform = 'translateX(-50%) translateY(0)';
+  });
+  // Ocultar tras 4 s
+  setTimeout(() => {
+    toast.style.opacity = '0';
+    toast.style.transform = 'translateX(-50%) translateY(20px)';
+  }, 4000);
+}
 
 /* ── INIT ── */
 setupButtons();
