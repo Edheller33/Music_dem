@@ -3126,13 +3126,14 @@ setTimeout(() => {
 }, 900);
 
 /* ── AUDIO ENGINE ── */
+const BASE = 'https://edheller33.github.io/Music_dem/';
 const freeFiles = [
   'aunque_me_duela_el_alma.mp3','caliz_del_viento.mp3','cicatriz_de_seda.mp3',
   'doctrina_de_cristal.mp3','eternamente_en_mi_piel.mp3','fuego_en_la_niebla.mp3',
   'lopez_martirios.mp3','mal_del_puerco.mp3','midnight_sanctuary.mp3',
   'prisionero_de_tu_aliento.mp3','manual_de_pureza.mp3','visto_en_azul.mp3',
   'fade_to_static.mp3','fuego_y_verdad.mp3'
-];
+].map(f => BASE + f);
 const comFiles = [
   'agua_de_alquimia.mp3',
   'caliz_y_vientos.mp3',
@@ -3141,13 +3142,14 @@ const comFiles = [
   'espejismos_digitales.mp3',
   'eternidad_en_tus_manos.mp3',
   'paso_de_cenizas.mp3'
-];
+].map(f => BASE + f);
 
 /* ── ANTI-DOWNLOAD: deshabilita clic derecho en toda la página ── */
 document.addEventListener('contextmenu', e => e.preventDefault());
 
 /* ── AUDIO ENGINE ── */
 const audio = new Audio();
+audio.crossOrigin = 'anonymous';
 audio.setAttribute('controlsList', 'nodownload');   // oculta botón descarga en controles nativos
 audio.setAttribute('oncontextmenu', 'return false'); // bloquea menú contextual sobre el elemento
 let analyser = null, audioCtx = null;
