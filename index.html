@@ -745,28 +745,115 @@ footer {
 }
 .mc-subtitle em { color: var(--gold-light); font-style: normal; }
 
-/* PROGRESS BAR */
+/* PROGRESS BAR — DINÁMICA */
 .mc-progress-wrap {
   max-width: 780px; margin: 0 auto 56px;
-  background: rgba(255,255,255,0.04);
+  background: rgba(255,255,255,0.03);
   border: 1px solid var(--border-gold);
-  border-radius: 2px; padding: 14px 20px;
+  border-radius: 3px; padding: 18px 22px 20px;
+  position: relative; overflow: hidden;
+}
+.mc-progress-wrap::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse 60% 100% at 50% 50%, rgba(212,175,55,0.04) 0%, transparent 70%);
+  pointer-events: none;
+  transition: opacity 0.5s;
+}
+.mc-progress-header {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-bottom: 12px;
 }
 .mc-progress-label {
   font-family: 'Orbitron', monospace; font-size: 0.54rem;
   letter-spacing: 0.25em; color: var(--gold-mid); text-transform: uppercase;
-  margin-bottom: 8px; display: flex; justify-content: space-between;
+  display: flex; align-items: center; gap: 8px;
 }
+.mc-progress-pulse {
+  width: 7px; height: 7px; border-radius: 50%;
+  background: var(--gold-mid); opacity: 0.5;
+  flex-shrink: 0;
+}
+.mc-progress-pulse.active {
+  animation: progressPulse 1.2s ease-in-out infinite;
+  background: var(--gold); opacity: 1;
+}
+@keyframes progressPulse {
+  0%,100% { box-shadow: 0 0 0 0 rgba(212,175,55,0.6); transform: scale(1); }
+  50%      { box-shadow: 0 0 0 5px rgba(212,175,55,0); transform: scale(1.3); }
+}
+.mc-progress-pct {
+  font-family: 'Orbitron', monospace; font-size: 1.1rem; font-weight: 700;
+  color: var(--gold); line-height: 1;
+  transition: color 0.4s, text-shadow 0.4s;
+  text-shadow: 0 0 0 transparent;
+}
+.mc-progress-pct.active { text-shadow: 0 0 16px rgba(212,175,55,0.5); }
+.mc-progress-pct.complete { color: var(--cyan); text-shadow: 0 0 20px rgba(0,229,255,0.5); }
+
+/* TRACK */
 .mc-progress-bar {
-  width: 100%; height: 3px; background: rgba(255,255,255,0.07);
-  border-radius: 2px; overflow: hidden;
+  width: 100%; height: 6px; background: rgba(255,255,255,0.06);
+  border-radius: 3px; overflow: visible; position: relative;
+}
+/* Segmented track markers */
+.mc-progress-bar::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: repeating-linear-gradient(
+    90deg,
+    transparent 0%,
+    transparent calc(10% - 1px),
+    rgba(255,255,255,0.07) calc(10% - 1px),
+    rgba(255,255,255,0.07) 10%
+  );
+  border-radius: 3px;
+  pointer-events: none;
 }
 .mc-progress-fill {
   height: 100%; width: 0%;
-  background: linear-gradient(90deg, var(--gold-dark), var(--gold-bright), var(--cyan));
-  border-radius: 2px;
-  transition: width 0.5s cubic-bezier(0.4,0,0.2,1);
+  background: linear-gradient(90deg, var(--gold-dark) 0%, var(--gold) 50%, var(--cyan) 100%);
+  border-radius: 3px;
+  transition: width 0.6s cubic-bezier(0.4,0,0.2,1);
+  position: relative; overflow: visible;
+  box-shadow: 0 0 0 transparent;
+  transition: width 0.6s cubic-bezier(0.4,0,0.2,1), box-shadow 0.4s;
 }
+.mc-progress-fill.active {
+  box-shadow: 0 0 12px rgba(212,175,55,0.4), 0 0 3px rgba(212,175,55,0.6);
+  animation: fillShimmer 2.5s linear infinite;
+}
+.mc-progress-fill.complete {
+  background: linear-gradient(90deg, var(--gold), var(--cyan), var(--gold-bright));
+  box-shadow: 0 0 18px rgba(0,229,255,0.5), 0 0 4px rgba(212,175,55,0.8);
+  animation: fillShimmer 1.5s linear infinite;
+}
+@keyframes fillShimmer {
+  0%   { background-position: -200% center; }
+  100% { background-position:  200% center; }
+}
+/* Thumb dot at leading edge */
+.mc-progress-fill::after {
+  content: '';
+  position: absolute; right: -4px; top: 50%;
+  transform: translateY(-50%);
+  width: 12px; height: 12px; border-radius: 50%;
+  background: var(--gold-bright);
+  border: 2px solid rgba(0,0,0,0.6);
+  box-shadow: 0 0 8px rgba(212,175,55,0.7);
+  opacity: 0; transition: opacity 0.3s;
+}
+.mc-progress-fill.active::after,
+.mc-progress-fill.complete::after { opacity: 1; }
+
+/* Status label */
+.mc-progress-status {
+  font-family: 'Crimson Pro', serif; font-style: italic;
+  font-size: 0.78rem; color: var(--text-muted); margin-top: 10px;
+  display: flex; align-items: center; gap: 6px;
+  min-height: 1.2em; transition: color 0.4s;
+}
+.mc-progress-status.complete { color: var(--cyan); font-style: normal; font-family: 'Cinzel', serif; font-size: 0.62rem; letter-spacing: 0.14em; }
 
 /* FORM SECTIONS */
 .mc-form { max-width: 780px; margin: 0 auto; }
@@ -1526,9 +1613,378 @@ footer {
   padding: 24px; color: var(--text); font-family: 'Crimson Pro', serif;
   font-size: 0.9rem; line-height: 1.75; white-space: pre-wrap;
 }
+
+/* ══════════════════════════════════════════════════════
+   ── BOTÓN ADQUIRIR LICENCIA ──
+══════════════════════════════════════════════════════ */
+.btn-licencia {
+  display: inline-flex; align-items: center; gap: 5px;
+  margin-top: 10px;
+  padding: 7px 13px;
+  font-family: 'Orbitron', monospace; font-size: 0.48rem;
+  font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase;
+  border: none; cursor: pointer; border-radius: 2px;
+  clip-path: polygon(5px 0%, 100% 0%, calc(100% - 5px) 100%, 0% 100%);
+  transition: all 0.22s;
+  white-space: nowrap;
+}
+.btn-licencia-free {
+  background: linear-gradient(135deg, rgba(212,175,55,0.18) 0%, rgba(212,175,55,0.08) 100%);
+  color: var(--gold-bright);
+  border: 1px solid rgba(212,175,55,0.35);
+}
+.btn-licencia-free:hover {
+  background: linear-gradient(135deg, rgba(212,175,55,0.32) 0%, rgba(212,175,55,0.18) 100%);
+  box-shadow: 0 4px 18px rgba(212,175,55,0.2);
+  transform: translateY(-1px);
+}
+.btn-licencia-com {
+  background: linear-gradient(135deg, rgba(212,175,55,0.22) 0%, rgba(192,130,10,0.12) 100%);
+  color: var(--gold-light);
+  border: 1px solid rgba(212,175,55,0.45);
+}
+.btn-licencia-com:hover {
+  background: linear-gradient(135deg, rgba(212,175,55,0.38) 0%, rgba(192,130,10,0.24) 100%);
+  box-shadow: 0 4px 18px rgba(212,175,55,0.25);
+  transform: translateY(-1px);
+  color: var(--gold-bright);
+}
+
+/* ══════════════════════════════════════════════════════
+   ── MODAL DE LICENCIAS ──
+══════════════════════════════════════════════════════ */
+#lic-modal-overlay {
+  position: fixed; inset: 0; z-index: 9500;
+  background: rgba(0,0,0,0.88); backdrop-filter: blur(14px);
+  display: flex; align-items: center; justify-content: center;
+  padding: 20px; opacity: 0; pointer-events: none;
+  transition: opacity 0.3s cubic-bezier(0.4,0,0.2,1);
+}
+#lic-modal-overlay.open { opacity: 1; pointer-events: all; }
+
+#lic-modal {
+  background: #0a0908;
+  border: 1px solid rgba(212,175,55,0.22);
+  border-radius: 4px;
+  width: 100%; max-width: 560px;
+  position: relative; overflow: hidden;
+  transform: translateY(20px) scale(0.97);
+  transition: transform 0.3s cubic-bezier(0.4,0,0.2,1);
+  box-shadow: 0 30px 80px rgba(0,0,0,0.7), 0 0 60px rgba(212,175,55,0.06);
+}
+#lic-modal-overlay.open #lic-modal {
+  transform: translateY(0) scale(1);
+}
+
+/* Top accent bar */
+#lic-modal::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 2px;
+  background: linear-gradient(90deg, transparent, var(--gold-mid), var(--cyan), var(--gold-mid), transparent);
+}
+
+.lic-modal-topbar {
+  display: flex; align-items: flex-start; justify-content: space-between;
+  padding: 28px 28px 0;
+}
+.lic-modal-eyebrow {
+  font-family: 'Orbitron', monospace; font-size: 0.52rem;
+  letter-spacing: 0.38em; color: var(--cyan); text-transform: uppercase;
+  margin-bottom: 6px; opacity: 0.8;
+}
+.lic-modal-track {
+  font-family: 'Cinzel', serif; font-size: 0.95rem;
+  color: var(--cream); font-weight: 700; line-height: 1.3;
+  max-width: 340px;
+}
+.lic-modal-close {
+  background: none; border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 50%; width: 32px; height: 32px;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; color: var(--grey); font-size: 1rem;
+  transition: all 0.2s; flex-shrink: 0; margin-left: 12px; margin-top: 2px;
+}
+.lic-modal-close:hover { color: var(--white); border-color: rgba(255,255,255,0.3); background: rgba(255,255,255,0.05); }
+
+.lic-modal-divider {
+  height: 1px; margin: 20px 28px;
+  background: linear-gradient(90deg, transparent, rgba(212,175,55,0.2), transparent);
+}
+
+.lic-modal-label {
+  font-family: 'Cinzel', serif; font-size: 0.58rem;
+  letter-spacing: 0.22em; text-transform: uppercase;
+  color: var(--text-muted); padding: 0 28px; margin-bottom: 14px;
+}
+
+/* License cards */
+.lic-cards { padding: 0 18px; display: flex; flex-direction: column; gap: 10px; }
+
+.lic-card {
+  position: relative; border-radius: 3px; padding: 18px 20px;
+  cursor: pointer; transition: all 0.22s; overflow: hidden;
+  display: grid; grid-template-columns: 1fr auto;
+  gap: 6px 16px; align-items: center;
+}
+.lic-card::before {
+  content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px;
+  border-radius: 3px 0 0 3px;
+}
+
+/* Creator / Social */
+.lic-card-creator {
+  background: rgba(0,229,255,0.04);
+  border: 1px solid rgba(0,229,255,0.16);
+}
+.lic-card-creator::before { background: var(--cyan); }
+.lic-card-creator:hover {
+  background: rgba(0,229,255,0.09);
+  border-color: rgba(0,229,255,0.38);
+  box-shadow: 0 4px 24px rgba(0,229,255,0.1);
+  transform: translateX(3px);
+}
+
+/* Indie Artist */
+.lic-card-indie {
+  background: rgba(212,175,55,0.04);
+  border: 1px solid rgba(212,175,55,0.18);
+}
+.lic-card-indie::before { background: var(--gold); }
+.lic-card-indie:hover {
+  background: rgba(212,175,55,0.09);
+  border-color: rgba(212,175,55,0.42);
+  box-shadow: 0 4px 24px rgba(212,175,55,0.1);
+  transform: translateX(3px);
+}
+
+/* Comercial / Sync */
+.lic-card-comercial {
+  background: rgba(46,204,113,0.04);
+  border: 1px solid rgba(46,204,113,0.18);
+}
+.lic-card-comercial::before { background: var(--green); }
+.lic-card-comercial:hover {
+  background: rgba(46,204,113,0.09);
+  border-color: rgba(46,204,113,0.42);
+  box-shadow: 0 4px 24px rgba(46,204,113,0.1);
+  transform: translateX(3px);
+}
+
+/* Banda / Mundo Digital */
+.lic-card-band {
+  background: rgba(155,100,255,0.04);
+  border: 1px solid rgba(155,100,255,0.2);
+}
+.lic-card-band::before { background: linear-gradient(180deg, #9B64FF, #C44DFF); }
+.lic-card-band:hover {
+  background: rgba(155,100,255,0.09);
+  border-color: rgba(155,100,255,0.45);
+  box-shadow: 0 4px 24px rgba(155,100,255,0.15);
+  transform: translateX(3px);
+}
+.badge-band { background: rgba(155,100,255,0.12); border: 1px solid rgba(155,100,255,0.32); color: #C088FF; }
+.price-band { color: #C088FF; text-shadow: 0 0 12px rgba(155,100,255,0.4); }
+
+.lic-card-left { min-width: 0; }
+.lic-card-badge {
+  font-family: 'Orbitron', monospace; font-size: 0.44rem;
+  letter-spacing: 0.18em; text-transform: uppercase;
+  padding: 3px 9px; border-radius: 10px; display: inline-block; margin-bottom: 6px;
+}
+.badge-creator  { background: rgba(0,229,255,0.1); border: 1px solid rgba(0,229,255,0.28); color: var(--cyan); }
+.badge-indie    { background: rgba(212,175,55,0.1); border: 1px solid rgba(212,175,55,0.28); color: var(--gold); }
+.badge-comercial{ background: rgba(46,204,113,0.1); border: 1px solid rgba(46,204,113,0.28); color: var(--green); }
+
+.lic-card-name {
+  font-family: 'Cinzel', serif; font-size: 0.82rem;
+  color: var(--cream); font-weight: 700; margin-bottom: 4px;
+}
+.lic-card-para {
+  font-family: 'Crimson Pro', serif; font-size: 0.78rem;
+  color: var(--text-muted); line-height: 1.5; margin-bottom: 6px;
+}
+.lic-card-features {
+  display: flex; flex-wrap: wrap; gap: 5px;
+}
+.lic-feat-tag {
+  font-family: 'Orbitron', monospace; font-size: 0.4rem;
+  letter-spacing: 0.1em; padding: 2px 7px; border-radius: 8px;
+  background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08);
+  color: var(--text-muted); text-transform: uppercase;
+}
+
+.lic-card-right { text-align: right; flex-shrink: 0; }
+.lic-price-mxn {
+  font-family: 'Orbitron', monospace; font-size: 1.2rem; font-weight: 700; line-height: 1;
+}
+.price-cyan  { color: var(--cyan); text-shadow: 0 0 12px rgba(0,229,255,0.3); }
+.price-gold  { color: var(--gold); text-shadow: 0 0 12px rgba(212,175,55,0.3); }
+.price-green { color: var(--green); text-shadow: 0 0 12px rgba(46,204,113,0.3); }
+.lic-price-currency {
+  font-family: 'Cinzel', serif; font-size: 0.5rem;
+  letter-spacing: 0.15em; color: var(--text-muted); margin-top: 3px;
+}
+.lic-buy-arrow {
+  font-size: 1rem; margin-top: 8px; opacity: 0.4; transition: opacity 0.2s, transform 0.2s;
+}
+.lic-card:hover .lic-buy-arrow { opacity: 1; transform: translateX(3px); }
+
+/* Footer del modal */
+.lic-modal-footer {
+  padding: 18px 28px 24px; margin-top: 14px;
+  border-top: 1px solid rgba(255,255,255,0.05);
+  display: flex; align-items: center; justify-content: space-between; gap: 14px;
+}
+.lic-footer-note {
+  font-family: 'Crimson Pro', serif; font-style: italic;
+  font-size: 0.76rem; color: var(--text-muted); opacity: 0.55;
+  line-height: 1.5; flex: 1;
+}
+.lic-footer-contact {
+  font-family: 'Orbitron', monospace; font-size: 0.42rem;
+  letter-spacing: 0.12em; color: var(--gold-mid);
+  text-decoration: none; white-space: nowrap; opacity: 0.7;
+  transition: opacity 0.2s;
+}
+.lic-footer-contact:hover { opacity: 1; }
+
+/* Confirmation screen */
+.lic-confirm {
+  display: none; padding: 32px 28px 28px; text-align: center;
+}
+.lic-confirm.active { display: block; }
+.lic-confirm-icon { font-size: 3rem; margin-bottom: 16px; display: block; }
+.lic-confirm-title {
+  font-family: 'Cinzel', serif; font-size: 1.1rem;
+  color: var(--cream); margin-bottom: 8px;
+}
+.lic-confirm-msg {
+  font-family: 'Crimson Pro', serif; font-style: italic;
+  font-size: 0.9rem; color: var(--text-muted); line-height: 1.7; margin-bottom: 20px;
+}
+.lic-confirm-detail {
+  font-family: 'Orbitron', monospace; font-size: 0.55rem;
+  letter-spacing: 0.18em; padding: 10px 20px; border-radius: 2px;
+  display: inline-block; margin-bottom: 24px;
+}
+.lic-back-btn {
+  font-family: 'Cinzel', serif; font-size: 0.6rem;
+  letter-spacing: 0.18em; text-transform: uppercase;
+  background: none; border: 1px solid rgba(255,255,255,0.12);
+  color: var(--text-muted); padding: 9px 22px; border-radius: 2px;
+  cursor: pointer; transition: all 0.2s;
+}
+.lic-back-btn:hover { border-color: rgba(212,175,55,0.3); color: var(--gold); }
+
+/* Main content of modal */
+.lic-modal-main { }
 </style>
 </head>
 <body>
+
+<!-- MODAL DE LICENCIAS -->
+<div id="lic-modal-overlay" role="dialog" aria-modal="true" aria-label="Adquirir Licencia">
+  <div id="lic-modal">
+    <div class="lic-modal-main" id="lic-main-view">
+      <div class="lic-modal-topbar">
+        <div>
+          <p class="lic-modal-eyebrow">◆ Sonic Unicorn Lab ◆</p>
+          <p class="lic-modal-track" id="lic-track-name">—</p>
+        </div>
+        <button class="lic-modal-close" id="lic-close-btn" aria-label="Cerrar">✕</button>
+      </div>
+      <div class="lic-modal-divider"></div>
+      <p class="lic-modal-label">Selecciona el tipo de licencia</p>
+      <div class="lic-cards">
+        <div class="lic-card lic-card-creator" data-tier="creator" data-price="$99" data-name="Creator / Social Media">
+          <div class="lic-card-left">
+            <span class="lic-card-badge badge-creator">Creator · Social</span>
+            <p class="lic-card-name">Creator / Social Media</p>
+            <p class="lic-card-para">TikTok, Reels, podcasts independientes, uso personal en redes.</p>
+            <div class="lic-card-features">
+              <span class="lic-feat-tag">MP3 Alta Calidad</span>
+              <span class="lic-feat-tag">Redes Sociales</span>
+              <span class="lic-feat-tag">Monetización Personal</span>
+            </div>
+          </div>
+          <div class="lic-card-right">
+            <div class="lic-price-mxn price-cyan">$99</div>
+            <div class="lic-price-currency">MXN</div>
+            <div class="lic-buy-arrow">→</div>
+          </div>
+        </div>
+        <div class="lic-card lic-card-indie" data-tier="indie" data-price="$499" data-name="Indie Artist / Master">
+          <div class="lic-card-left">
+            <span class="lic-card-badge badge-indie">Indie Artist · Master</span>
+            <p class="lic-card-name">Indie Artist / Master</p>
+            <p class="lic-card-para">Distribución en Spotify, Apple Music. Poner tu voz sobre la base. Hasta 50k streams.</p>
+            <div class="lic-card-features">
+              <span class="lic-feat-tag">WAV 24-bit</span>
+              <span class="lic-feat-tag">Distribución Spotify</span>
+              <span class="lic-feat-tag">Hasta 50k Streams</span>
+            </div>
+          </div>
+          <div class="lic-card-right">
+            <div class="lic-price-mxn price-gold">$499</div>
+            <div class="lic-price-currency">MXN</div>
+            <div class="lic-buy-arrow">→</div>
+          </div>
+        </div>
+        <div class="lic-card lic-card-comercial" data-tier="comercial" data-price="$1,499" data-name="Comercial / Sync">
+          <div class="lic-card-left">
+            <span class="lic-card-badge badge-comercial">Comercial · Sync</span>
+            <p class="lic-card-name">Comercial / Sync</p>
+            <p class="lic-card-para">Agencias, cortometrajes, marcas locales. Uso comercial ilimitado sin restricción de plataforma.</p>
+            <div class="lic-card-features">
+              <span class="lic-feat-tag">WAV Master</span>
+              <span class="lic-feat-tag">Uso Ilimitado</span>
+              <span class="lic-feat-tag">Publicidad &amp; TV</span>
+              <span class="lic-feat-tag">Contrato PDF</span>
+            </div>
+          </div>
+          <div class="lic-card-right">
+            <div class="lic-price-mxn price-green">$1,499</div>
+            <div class="lic-price-currency">MXN</div>
+            <div class="lic-buy-arrow">→</div>
+          </div>
+        </div>
+        <div class="lic-card lic-card-band" data-tier="band" data-price="$2,499" data-name="Banda / Mundo Digital">
+          <div class="lic-card-left">
+            <span class="lic-card-badge badge-band">Banda · Mundo Digital</span>
+            <p class="lic-card-name">Banda / Mundo Digital</p>
+            <p class="lic-card-para">Para grupos y bandas que buscan inspiración del universo digital para llevarla al mundo físico. Base instrumental adaptable para agregar voces en vivo.</p>
+            <div class="lic-card-features">
+              <span class="lic-feat-tag">WAV Stems Separados</span>
+              <span class="lic-feat-tag">Licencia de Adaptación</span>
+              <span class="lic-feat-tag">Conciertos &amp; Giras</span>
+              <span class="lic-feat-tag">Grabación en Estudio</span>
+            </div>
+          </div>
+          <div class="lic-card-right">
+            <div class="lic-price-mxn price-band">$2,499</div>
+            <div class="lic-price-currency">MXN</div>
+            <div class="lic-buy-arrow">→</div>
+          </div>
+        </div>
+      </div>
+      <div class="lic-modal-footer">
+        <p class="lic-footer-note">Pago único · Sin royalties futuros · Cesión de derechos conforme a Ley Federal del Derecho de Autor (México)</p>
+        <a href="mailto:eamr_33@proton.me" class="lic-footer-contact">eamr_33@proton.me</a>
+      </div>
+    </div>
+    <div class="lic-confirm" id="lic-confirm-view">
+      <span class="lic-confirm-icon" id="lic-confirm-icon">✦</span>
+      <h3 class="lic-confirm-title" id="lic-confirm-title">Licencia Seleccionada</h3>
+      <p class="lic-confirm-msg" id="lic-confirm-msg">—</p>
+      <div class="lic-confirm-detail" id="lic-confirm-detail">—</div>
+      <p style="font-family:'Crimson Pro',serif;font-size:0.84rem;color:var(--text-muted);line-height:1.65;margin:16px 0 22px;">
+        Escribe a <strong style="color:var(--gold);">eamr_33@proton.me</strong> indicando el track y la licencia elegida.<br>
+        Recibirás instrucciones de pago y el contrato formal en PDF.
+      </p>
+      <button class="lic-back-btn" id="lic-back-btn">← Volver a opciones</button>
+    </div>
+  </div>
+</div>
 
 <!-- CURSOR -->
 <div id="cursor"></div>
@@ -1894,6 +2350,7 @@ footer {
         </button>
         <div class="wave-bars wave-com"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
         <div class="status-label status-label-com">Lista para<br>uso comercial</div>
+        <button class="btn-licencia btn-licencia-com" onclick="openLicModal(this)" data-track="Agua de Alquimia — Master">&#9670; Adquirir Licencia</button>
         <div class="status-sublabel status-sublabel-com">Master certificada</div>
       </div>
     </div>
@@ -1914,6 +2371,7 @@ footer {
         </button>
         <div class="wave-bars wave-com"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
         <div class="status-label status-label-com">Lista para<br>uso comercial</div>
+        <button class="btn-licencia btn-licencia-com" onclick="openLicModal(this)" data-track="Cáliz y Vientos — Master">&#9670; Adquirir Licencia</button>
         <div class="status-sublabel status-sublabel-com">Master certificada</div>
       </div>
     </div>
@@ -1934,6 +2392,7 @@ footer {
         </button>
         <div class="wave-bars wave-com"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
         <div class="status-label status-label-com">Lista para<br>uso comercial</div>
+        <button class="btn-licencia btn-licencia-com" onclick="openLicModal(this)" data-track="Ceniza y Terciopelo — Master">&#9670; Adquirir Licencia</button>
         <div class="status-sublabel status-sublabel-com">Master certificada</div>
       </div>
     </div>
@@ -1954,6 +2413,7 @@ footer {
         </button>
         <div class="wave-bars wave-com"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
         <div class="status-label status-label-com">Lista para<br>uso comercial</div>
+        <button class="btn-licencia btn-licencia-com" onclick="openLicModal(this)" data-track="Creo Todavía — Master">&#9670; Adquirir Licencia</button>
         <div class="status-sublabel status-sublabel-com">Master certificada</div>
       </div>
     </div>
@@ -1974,6 +2434,7 @@ footer {
         </button>
         <div class="wave-bars wave-com"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
         <div class="status-label status-label-com">Lista para<br>uso comercial</div>
+        <button class="btn-licencia btn-licencia-com" onclick="openLicModal(this)" data-track="Espejismos Digitales — Master">&#9670; Adquirir Licencia</button>
         <div class="status-sublabel status-sublabel-com">Master certificada</div>
       </div>
     </div>
@@ -1994,6 +2455,7 @@ footer {
         </button>
         <div class="wave-bars wave-com"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
         <div class="status-label status-label-com">Lista para<br>uso comercial</div>
+        <button class="btn-licencia btn-licencia-com" onclick="openLicModal(this)" data-track="Eternidad en tus Manos — Master">&#9670; Adquirir Licencia</button>
         <div class="status-sublabel status-sublabel-com">Master certificada</div>
       </div>
     </div>
@@ -2014,6 +2476,7 @@ footer {
         </button>
         <div class="wave-bars wave-com"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
         <div class="status-label status-label-com">Lista para<br>uso comercial</div>
+        <button class="btn-licencia btn-licencia-com" onclick="openLicModal(this)" data-track="Paso de Cenizas — Master">&#9670; Adquirir Licencia</button>
         <div class="status-sublabel status-sublabel-com">Master certificada</div>
       </div>
     </div>
@@ -2026,7 +2489,8 @@ footer {
   <p class="pod-eyebrow">◆ Contenido de Valor ◆</p>
   <h2 class="pod-title">Podcast EAMR</h2>
   <p class="pod-subtitle">
-    Análisis, ingeniería emocional y narrativa sonora. <em>Episodios sobre música, IA y el arte de crear activos.</em>
+    Análisis, ingeniería emocional y narrativa sonora. <em>Episodios sobre música, IA y el arte de crear activos.</em><br>
+    <span style="font-family:'Orbitron',monospace;font-size:0.55rem;letter-spacing:0.15em;color:var(--gold-mid);opacity:0.8;">◆ Descarga disponible en cada episodio ◆</span>
   </p>
 
   <!-- UPLOAD ZONE -->
@@ -2263,7 +2727,7 @@ footer {
       <p class="dl-upload-title">Arrastra aquí tus documentos</p>
       <p class="dl-upload-hint">
         Sube tus contratos, certificados o cualquier documento legal relacionado con tu licencia.<br>
-        Formatos aceptados: PDF, Word (.docx) y archivos de texto.
+        <strong style="color:var(--gold-mid);">PDF y TXT:</strong> Solo lectura en pantalla — sin opción de descarga. <strong style="color:var(--text-muted);">Otros formatos:</strong> descarga disponible.
       </p>
       <div class="dl-upload-types">
         <span class="dl-type-badge">PDF</span>
@@ -2292,10 +2756,6 @@ footer {
     <div class="dl-preview-topbar">
       <span class="dl-preview-title" id="dl-preview-title">Vista Previa</span>
       <div style="display:flex;gap:8px;align-items:center;">
-        <a id="dl-preview-download" href="#" download
-          style="font-family:'Orbitron',monospace;font-size:0.5rem;letter-spacing:0.12em;color:#9B7FFF;text-decoration:none;padding:5px 12px;border:1px solid rgba(140,100,255,0.3);border-radius:2px;transition:all 0.2s;">
-          ⬇ Descargar
-        </a>
         <button class="dl-preview-close" id="dl-preview-close">✕</button>
       </div>
     </div>
@@ -2313,14 +2773,18 @@ footer {
   </p>
 
   <!-- PROGRESS -->
-  <div class="mc-progress-wrap">
-    <div class="mc-progress-label">
-      <span>COMPLETADO</span>
-      <span id="mc-pct">0%</span>
+  <div class="mc-progress-wrap" id="mc-progress-wrap">
+    <div class="mc-progress-header">
+      <div class="mc-progress-label">
+        <span class="mc-progress-pulse" id="mc-progress-pulse"></span>
+        <span>Completado</span>
+      </div>
+      <span class="mc-progress-pct" id="mc-pct">0%</span>
     </div>
     <div class="mc-progress-bar">
       <div class="mc-progress-fill" id="mc-fill"></div>
     </div>
+    <p class="mc-progress-status" id="mc-progress-status">Cuéntanos tu historia para comenzar…</p>
   </div>
 
   <form class="mc-form" id="mc-form" autocomplete="off">
@@ -2528,7 +2992,7 @@ footer {
         y lo recibiremos de inmediato.
       </p>
       <p style="font-family:'Orbitron',monospace;font-size:0.55rem;letter-spacing:0.15em;color:var(--gold-dark);margin-top:20px;opacity:0.7;">
-        eamr.11@proton.me · +1 (334) 321-5254
+        eamr_33@proton.me · +1 (334) 321-5254
       </p>
     </div>
   </div>
@@ -3304,7 +3768,6 @@ function showPreviewToast() {
   const modalTitle = document.getElementById('dl-preview-title');
   const modalFrame = document.getElementById('dl-preview-frame');
   const modalClose = document.getElementById('dl-preview-close');
-  const modalDl    = document.getElementById('dl-preview-download');
 
   let uploadedDocs = [];
 
@@ -3371,10 +3834,9 @@ function showPreviewToast() {
           ? `<button class="dl-item-btn dl-item-view" title="Ver" data-id="${doc.id}">
               <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/></svg>
              </button>`
-          : ''}
-        <a class="dl-item-btn" href="${doc.url}" download="${doc.name}" title="Descargar" style="text-decoration:none;display:flex;align-items:center;justify-content:center;">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
-        </a>
+          : `<a class="dl-item-btn" href="${doc.url}" download="${doc.name}" title="Descargar" style="text-decoration:none;display:flex;align-items:center;justify-content:center;">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
+             </a>`}
         <button class="dl-item-btn dl-item-del" title="Eliminar" data-id="${doc.id}">
           <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg>
         </button>
@@ -3391,19 +3853,20 @@ function showPreviewToast() {
 
   function openPreview(doc) {
     modalTitle.textContent = doc.name;
-    modalDl.href = doc.url;
-    modalDl.download = doc.name;
     modalFrame.innerHTML = '';
 
     if (doc.ext === 'pdf') {
       const iframe = document.createElement('iframe');
-      iframe.src = doc.url + '#toolbar=1';
+      // #toolbar=0 hides the PDF browser toolbar (including download)
+      iframe.src = doc.url + '#toolbar=0&navpanes=0&scrollbar=1';
+      iframe.setAttribute('oncontextmenu', 'return false');
       modalFrame.appendChild(iframe);
     } else if (doc.ext === 'txt') {
       doc.file.text().then(text => {
         const pre = document.createElement('div');
         pre.className = 'dl-doc-text-preview';
         pre.textContent = text;
+        pre.oncontextmenu = e => e.preventDefault();
         modalFrame.appendChild(pre);
       });
     }
@@ -3461,7 +3924,17 @@ function showPreviewToast() {
     });
   });
 
-  // PROGRESS CALCULATOR
+  // PROGRESS CALCULATOR — DINÁMICA
+  const progressStatuses = [
+    'Cuéntanos tu historia para comenzar…',
+    'Buen comienzo — sigue llenando los campos…',
+    'Ya vamos tomando forma…',
+    'A mitad del camino — ¡vas muy bien!',
+    'Casi listo — unos detalles más…',
+    'Solo falta lo esencial para contactarte…',
+    '✦ Formulario completo — listo para enviar ✦'
+  ];
+
   function updateProgress() {
     const fields = [
       document.getElementById('val-dedicada')?.value,
@@ -3477,8 +3950,28 @@ function showPreviewToast() {
     ];
     const filled = fields.filter(v => v && v.trim().length > 0).length;
     const pct = Math.round((filled / fields.length) * 100);
-    document.getElementById('mc-fill').style.width = pct + '%';
-    document.getElementById('mc-pct').textContent = pct + '%';
+    const fill = document.getElementById('mc-fill');
+    const pctEl = document.getElementById('mc-pct');
+    const pulse = document.getElementById('mc-progress-pulse');
+    const status = document.getElementById('mc-progress-status');
+    const wrap = document.getElementById('mc-progress-wrap');
+
+    fill.style.width = pct + '%';
+    pctEl.textContent = pct + '%';
+
+    const isActive = pct > 0 && pct < 100;
+    const isComplete = pct === 100;
+
+    fill.classList.toggle('active', isActive);
+    fill.classList.toggle('complete', isComplete);
+    pctEl.classList.toggle('active', isActive);
+    pctEl.classList.toggle('complete', isComplete);
+    pulse.classList.toggle('active', pct > 0);
+
+    // Status message
+    const idx = Math.min(Math.floor(filled / 1.6), progressStatuses.length - 1);
+    status.textContent = progressStatuses[idx];
+    status.classList.toggle('complete', isComplete);
   }
 
   // SCROLL REVEAL for mc-sections
@@ -3562,7 +4055,7 @@ function showPreviewToast() {
       `   ${data.extra}`,
       '',
       '═══════════════════════════════════════',
-      'eamr.11@proton.me · IA Music',
+      'eamr_33@proton.me · IA Music',
     ].join('\n');
 
     // Copy to clipboard
@@ -3589,6 +4082,101 @@ function showPreviewToast() {
     document.body.removeChild(ta);
   }
 
+})();
+
+
+/* ═══════════════════════════════════════════════════════
+   SISTEMA DE LICENCIAS — SONIC UNICORN LAB
+═══════════════════════════════════════════════════════ */
+(function() {
+  const overlay   = document.getElementById('lic-modal-overlay');
+  const closeBtn  = document.getElementById('lic-close-btn');
+  const backBtn   = document.getElementById('lic-back-btn');
+  const trackName = document.getElementById('lic-track-name');
+  const mainView  = document.getElementById('lic-main-view');
+  const confirmV  = document.getElementById('lic-confirm-view');
+  const confIcon  = document.getElementById('lic-confirm-icon');
+  const confTitle = document.getElementById('lic-confirm-title');
+  const confMsg   = document.getElementById('lic-confirm-msg');
+  const confDetail= document.getElementById('lic-confirm-detail');
+
+  const tierConfig = {
+    creator: {
+      icon: '🎵',
+      title: 'Creator / Social Media — $99 MXN',
+      msg: 'Archivo MP3 de alta calidad con derecho a monetizar en redes sociales personales (TikTok, Reels, Podcast). Impulse buy perfecto para creadores de contenido.',
+      detailText: 'MP3 · Redes Sociales · Monetización Personal',
+      detailStyle: 'background:rgba(0,229,255,0.08);border:1px solid rgba(0,229,255,0.28);color:#00E5FF;'
+    },
+    indie: {
+      icon: '🎸',
+      title: 'Indie Artist / Master — $499 MXN',
+      msg: 'Archivo WAV 24-bit con derechos de distribución limitada (hasta 50,000 streams). Ideal para cantantes independientes en Spotify y Apple Music.',
+      detailText: 'WAV 24-bit · Distribución Streaming · Hasta 50k Streams',
+      detailStyle: 'background:rgba(212,175,55,0.08);border:1px solid rgba(212,175,55,0.28);color:#D4AF37;'
+    },
+    comercial: {
+      icon: '⚡',
+      title: 'Comercial / Sync — $1,499 MXN',
+      msg: 'Licencia de uso comercial ilimitado para agencias, cortometrajes y marcas. Incluye contrato PDF de cesión de derechos conforme a la Ley Federal del Derecho de Autor.',
+      detailText: 'WAV Master · Uso Ilimitado · Contrato PDF · Publicidad & TV',
+      detailStyle: 'background:rgba(46,204,113,0.08);border:1px solid rgba(46,204,113,0.28);color:#2ECC71;'
+    },
+    band: {
+      icon: '🎸',
+      title: 'Banda / Mundo Digital — $2,499 MXN',
+      msg: 'Licencia especial para grupos y bandas que quieran llevar la inspiración digital al escenario y el estudio. Incluye stems separados, derechos de adaptación con voz en vivo, uso en conciertos, giras y grabación en estudio.',
+      detailText: 'WAV Stems · Adaptación · Conciertos & Estudio',
+      detailStyle: 'background:rgba(155,100,255,0.08);border:1px solid rgba(155,100,255,0.32);color:#C088FF;'
+    }
+  };
+
+  window.openLicModal = function(btn) {
+    const track = btn.getAttribute('data-track') || '—';
+    trackName.textContent = track;
+    mainView.style.display = '';
+    confirmV.classList.remove('active');
+    overlay.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  };
+
+  function closeLicModal() {
+    overlay.classList.remove('open');
+    document.body.style.overflow = '';
+    setTimeout(() => {
+      mainView.style.display = '';
+      confirmV.classList.remove('active');
+    }, 320);
+  }
+
+  if (closeBtn) closeBtn.addEventListener('click', closeLicModal);
+  overlay.addEventListener('click', (e) => { if (e.target === overlay) closeLicModal(); });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeLicModal(); });
+
+  if (backBtn) backBtn.addEventListener('click', () => {
+    confirmV.classList.remove('active');
+    mainView.style.display = '';
+  });
+
+  document.querySelectorAll('.lic-card').forEach(card => {
+    card.addEventListener('click', () => {
+      const tier = card.getAttribute('data-tier');
+      const cfg  = tierConfig[tier];
+      if (!cfg) return;
+      confIcon.textContent   = cfg.icon;
+      confTitle.textContent  = cfg.title;
+      confMsg.textContent    = cfg.msg;
+      confDetail.textContent = cfg.detailText;
+      const baseStyle = 'font-family:\'Orbitron\',monospace;font-size:0.52rem;letter-spacing:0.14em;padding:10px 22px;border-radius:3px;display:inline-block;';
+      confDetail.setAttribute('style', baseStyle + cfg.detailStyle);
+      mainView.style.display = 'none';
+      confirmV.classList.add('active');
+    });
+  });
+
+  document.querySelectorAll('.btn-licencia, .lic-card, .lic-modal-close, .lic-back-btn, .lic-footer-contact').forEach(el => {
+    el.style.cursor = 'pointer';
+  });
 })();
 
 </script>
