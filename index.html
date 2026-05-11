@@ -799,6 +799,195 @@ footer {
 @media (max-width: 480px) {
   .cp-grid-3 { grid-template-columns: 1fr; }
 }
+
+/* ── SEPARADORES DE GÉNERO (columna libre) ── */
+.genre-separator {
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 18px 8px 22px;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+  position: sticky; top: 82px; z-index: 5;
+}
+.genre-sep-dot {
+  width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0;
+}
+.genre-sep-label {
+  font-family: 'Orbitron', monospace;
+  font-size: 0.54rem; letter-spacing: 0.3em;
+  text-transform: uppercase; opacity: 0.85; flex: 1;
+}
+.genre-sep-count {
+  font-family: 'Orbitron', monospace;
+  font-size: 0.48rem; letter-spacing: 0.15em;
+  opacity: 0.4; color: var(--text-muted);
+}
+/* colores por macrogénero */
+.gsep-regional  { background: #D4703A; }
+.gsep-rock      { background: #9B59B6; }
+.gsep-pop       { background: #E91E8C; }
+.gsep-hiphop    { background: #E07A20; }
+.gsep-postrock  { background: #1abc9c; }
+.gsep-cumbia    { background: #2ECC71; }
+.gsep-norteno   { background: #8DAF3A; }
+.gsep-urban     { background: #FF6B8A; }
+.gsep-synthwave { background: #00E5FF; }
+.gsep-altpop    { background: #B07FD0; }
+.gsep-bolero    { background: #C9960C; }
+.gsep-folk      { background: #7B5E3A; }
+
+.label-regional  { color: #D4703A; }
+.label-rock      { color: #B07FD0; }
+.label-pop       { color: #E91E8C; }
+.label-hiphop    { color: #E07A20; }
+.label-postrock  { color: #1abc9c; }
+.label-cumbia    { color: #2ECC71; }
+.label-norteno   { color: #8DAF3A; }
+.label-urban     { color: #FF6B8A; }
+.label-synthwave { color: #00E5FF; }
+.label-altpop    { color: #B07FD0; }
+.label-bolero    { color: #C9960C; }
+.label-folk      { color: #7B5E3A; }
+
+.gsep-bg-regional  { background: rgba(212,112,58,0.06); }
+.gsep-bg-rock      { background: rgba(155,89,182,0.06); }
+.gsep-bg-pop       { background: rgba(233,30,140,0.06); }
+.gsep-bg-hiphop    { background: rgba(224,122,32,0.06); }
+.gsep-bg-postrock  { background: rgba(26,188,156,0.06); }
+.gsep-bg-cumbia    { background: rgba(46,204,113,0.06); }
+.gsep-bg-norteno   { background: rgba(141,175,58,0.06); }
+.gsep-bg-urban     { background: rgba(255,107,138,0.06); }
+.gsep-bg-synthwave { background: rgba(0,229,255,0.06); }
+.gsep-bg-altpop    { background: rgba(176,127,208,0.06); }
+.gsep-bg-bolero    { background: rgba(201,150,12,0.06); }
+.gsep-bg-folk      { background: rgba(123,94,58,0.06); }
+
+/* ── BADGE PRECIO EN CANCIÓN COMERCIAL ── */
+.song-price-badge {
+  display: inline-flex; align-items: center; gap: 5px;
+  font-family: 'Orbitron', monospace;
+  font-size: 0.6rem; font-weight: 700;
+  letter-spacing: 0.1em;
+  padding: 3px 8px; border-radius: 3px; margin-top: 7px;
+  background: rgba(212,175,55,0.12);
+  border: 1px solid rgba(212,175,55,0.3);
+  color: var(--gold-bright);
+  width: fit-content;
+}
+.song-price-badge .badge-icon { font-size: 0.75rem; }
+
+/* ── CALCULADORA DE PRECIO ── */
+.calc-wrap {
+  background: linear-gradient(135deg, rgba(212,175,55,0.05) 0%, rgba(0,229,255,0.03) 100%);
+  border: 1px solid rgba(212,175,55,0.18);
+  border-radius: 4px;
+  padding: 28px 24px 24px;
+  margin-bottom: 28px;
+}
+.calc-title {
+  font-family: 'Cinzel', serif;
+  font-size: 0.95rem; letter-spacing: 0.18em;
+  color: var(--gold-bright); margin-bottom: 6px;
+  text-transform: uppercase;
+}
+.calc-subtitle {
+  font-family: 'Crimson Pro', serif;
+  font-style: italic; font-size: 0.88rem;
+  color: var(--text-muted); margin-bottom: 22px;
+}
+.calc-grid {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 14px; margin-bottom: 20px;
+}
+@media (max-width: 600px) { .calc-grid { grid-template-columns: 1fr; } }
+.calc-field label {
+  display: block;
+  font-family: 'Cinzel', serif;
+  font-size: 0.6rem; letter-spacing: 0.2em;
+  color: var(--text-muted); text-transform: uppercase;
+  margin-bottom: 7px;
+}
+.calc-select {
+  width: 100%; background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(212,175,55,0.2);
+  color: var(--cream); font-family: 'Rajdhani', sans-serif;
+  font-size: 0.88rem; padding: 9px 12px;
+  border-radius: 3px; outline: none;
+  cursor: pointer; transition: border-color 0.2s;
+  -webkit-appearance: none; appearance: none;
+}
+.calc-select:focus { border-color: var(--gold); }
+.calc-select option { background: #111; }
+.calc-addon-list {
+  display: flex; flex-wrap: wrap; gap: 8px;
+  margin-top: 4px;
+}
+.calc-addon {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 0.8rem; padding: 5px 12px;
+  border-radius: 3px; cursor: pointer;
+  border: 1px solid rgba(212,175,55,0.2);
+  background: rgba(255,255,255,0.03);
+  color: var(--text-muted);
+  transition: all 0.2s;
+  user-select: none;
+}
+.calc-addon.active {
+  background: rgba(212,175,55,0.14);
+  border-color: var(--gold-mid);
+  color: var(--gold-bright);
+}
+.calc-result-bar {
+  display: flex; align-items: center; justify-content: space-between;
+  flex-wrap: wrap; gap: 14px;
+  background: rgba(0,0,0,0.3);
+  border: 1px solid rgba(212,175,55,0.25);
+  border-radius: 3px; padding: 16px 20px;
+  margin-top: 6px;
+}
+.calc-result-label {
+  font-family: 'Cinzel', serif;
+  font-size: 0.65rem; letter-spacing: 0.22em;
+  color: var(--text-muted); text-transform: uppercase;
+}
+.calc-result-price {
+  font-family: 'Orbitron', monospace;
+  font-size: 1.6rem; font-weight: 900;
+  color: var(--gold-bright);
+  text-shadow: 0 0 20px rgba(212,175,55,0.4);
+  transition: all 0.3s;
+}
+.calc-result-note {
+  font-family: 'Crimson Pro', serif;
+  font-style: italic; font-size: 0.78rem;
+  color: var(--text-muted); margin-top: 4px;
+  min-width: 100%;
+}
+.calc-incl {
+  display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px;
+}
+.calc-incl-tag {
+  font-family: 'Orbitron', monospace;
+  font-size: 0.5rem; letter-spacing: 0.12em;
+  padding: 3px 9px; border-radius: 2px;
+  background: rgba(46,204,113,0.1);
+  border: 1px solid rgba(46,204,113,0.25);
+  color: var(--green-light);
+  opacity: 0; transform: translateY(4px);
+  transition: all 0.3s;
+}
+.calc-incl-tag.show { opacity: 1; transform: translateY(0); }
+.calc-cta {
+  margin-top: 16px; text-align: right;
+}
+.calc-cta-btn {
+  font-family: 'Orbitron', monospace;
+  font-size: 0.62rem; font-weight: 700; letter-spacing: 0.15em;
+  padding: 10px 22px;
+  background: linear-gradient(135deg, var(--gold) 0%, #FF8C00 100%);
+  color: #000; border: none; cursor: pointer;
+  clip-path: polygon(6px 0%, 100% 0%, calc(100% - 6px) 100%, 0% 100%);
+  text-transform: uppercase; transition: all 0.25s;
+}
+.calc-cta-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 24px rgba(212,175,55,0.4); }
 </style>
 </head>
 <body>
@@ -884,7 +1073,12 @@ footer {
       18 Canciones · Solo Uso Personal
     </div>
 
-    <!-- 01 -->
+    <!-- ══ REGIONAL MEXICANO ══ -->
+    <div class="genre-separator gsep-bg-regional">
+      <span class="genre-sep-dot gsep-regional"></span>
+      <span class="genre-sep-label label-regional">Regional Mexicano · Ranchero · Mariachi</span>
+      <span class="genre-sep-count">1 canción</span>
+    </div>
     <div class="song-card song-card-free">
       <div class="song-num">01</div>
       <div class="song-body">
@@ -900,7 +1094,12 @@ footer {
       </div>
     </div>
 
-    <!-- 02 -->
+    <!-- ══ ROCK · INDIE · ALTERNATIVO ══ -->
+    <div class="genre-separator gsep-bg-rock">
+      <span class="genre-sep-dot gsep-rock"></span>
+      <span class="genre-sep-label label-rock">Rock · Indie · Alternativo · Shoegaze</span>
+      <span class="genre-sep-count">3 canciones</span>
+    </div>
     <div class="song-card song-card-free">
       <div class="song-num">02</div>
       <div class="song-body">
@@ -915,104 +1114,6 @@ footer {
         <div class="status-label status-label-free">Solo uso<br>personal</div>
       </div>
     </div>
-
-    <!-- 03 -->
-    <div class="song-card song-card-free">
-      <div class="song-num">03</div>
-      <div class="song-body">
-        <h3 class="song-title">Cicatriz de Seda</h3>
-        <p class="song-genre">Pop-Rock · Balada Rock · Power Ballad Contemporánea</p>
-        <p class="song-desc">La marca imborrable de un amor complejo narrada con madurez emocional. Dualidad: suave como seda, permanente como cicatriz. Vulnerabilidad del pasado y empoderamiento del presente.</p>
-        <p class="song-emotion">Superación · Empoderamiento · Transformación · Despecho Elegante</p>
-      </div>
-      <div class="song-player">
-        <button class="player-btn player-btn-free" aria-label="Reproducir"><svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></button>
-        <div class="wave-bars wave-free"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
-        <div class="status-label status-label-free">Solo uso<br>personal</div>
-      </div>
-    </div>
-
-    <!-- 04 -->
-    <div class="song-card song-card-free">
-      <div class="song-num">04</div>
-      <div class="song-body">
-        <h3 class="song-title">Doctrina de Cristal</h3>
-        <p class="song-genre">Hip-Hop Clásico (Boom Bap) · Conscious Rap · Oratoria Urbana</p>
-        <p class="song-desc">Manifiesto contra la hipocresía y el extremismo ideológico. La producción prioriza la claridad del mensaje sobre la complejidad melódica.</p>
-        <p class="song-emotion">Directo · Confrontativo · Asertivo · Urgente</p>
-      </div>
-      <div class="song-player">
-        <button class="player-btn player-btn-free" aria-label="Reproducir"><svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></button>
-        <div class="wave-bars wave-free"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
-        <div class="status-label status-label-free">Solo uso<br>personal</div>
-      </div>
-    </div>
-
-    <!-- 05 -->
-    <div class="song-card song-card-free">
-      <div class="song-num">05</div>
-      <div class="song-body">
-        <h3 class="song-title">Eternamente en mi Piel</h3>
-        <p class="song-genre">Balada Pop · Rock · Power Ballad · Lírica de Duelo</p>
-        <p class="song-desc">Explora la persistencia del recuerdo de un ser querido tras su partida. Metáforas sobre la soledad cotidiana — el café frío, la lluvia, el silencio — para ilustrar el vacío emocional.</p>
-        <p class="song-emotion">Serenidad · Reverencia · Alivio · Esperanza</p>
-      </div>
-      <div class="song-player">
-        <button class="player-btn player-btn-free" aria-label="Reproducir"><svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></button>
-        <div class="wave-bars wave-free"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
-        <div class="status-label status-label-free">Solo uso<br>personal</div>
-      </div>
-    </div>
-
-    <!-- 06 -->
-    <div class="song-card song-card-free">
-      <div class="song-num">06</div>
-      <div class="song-body">
-        <h3 class="song-title">Fuego en la Niebla</h3>
-        <p class="song-genre">Post-Rock · Ambient · Neo-Folk Oscuro</p>
-        <p class="song-desc">Una composición instrumental que dialoga con el silencio. El fuego como símbolo de pasión y destrucción simultáneas, la niebla como barrera entre lo real y lo deseado.</p>
-        <p class="song-emotion">Melancolía · Tensión Contenida · Anhelo · Pérdida</p>
-      </div>
-      <div class="song-player">
-        <button class="player-btn player-btn-free" aria-label="Reproducir"><svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></button>
-        <div class="wave-bars wave-free"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
-        <div class="status-label status-label-free">Solo uso<br>personal</div>
-      </div>
-    </div>
-
-    <!-- 07 -->
-    <div class="song-card song-card-free">
-      <div class="song-num">07</div>
-      <div class="song-body">
-        <h3 class="song-title">Lopez Martirios</h3>
-        <p class="song-genre">Cumbia Sonidera · Sátira Urbana · Crónica de Barrio</p>
-        <p class="song-desc">Narra de forma irónica los problemas de inundaciones recurrentes en avenidas de la ciudad. Crítica directa a la falta de planeación urbana, usando el humor para procesar la frustración social.</p>
-        <p class="song-emotion">Ironía · Crítica Social · Humor Filosófico · Identidad</p>
-      </div>
-      <div class="song-player">
-        <button class="player-btn player-btn-free" aria-label="Reproducir"><svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></button>
-        <div class="wave-bars wave-free"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
-        <div class="status-label status-label-free">Solo uso<br>personal</div>
-      </div>
-    </div>
-
-    <!-- 08 -->
-    <div class="song-card song-card-free">
-      <div class="song-num">08</div>
-      <div class="song-body">
-        <h3 class="song-title">Mal del Puerco</h3>
-        <p class="song-genre">Norteño Alternativo · Corrido Poético · Folk Rural</p>
-        <p class="song-desc">Crónica irónica de la comodidad que adormece. Metáfora de ese estado de semi-consciencia en que nos instala la satisfacción fácil. Letras que punzan con humor y verdad.</p>
-        <p class="song-emotion">Ironía · Crítica Social · Humor Filosófico · Tierra</p>
-      </div>
-      <div class="song-player">
-        <button class="player-btn player-btn-free" aria-label="Reproducir"><svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></button>
-        <div class="wave-bars wave-free"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
-        <div class="status-label status-label-free">Solo uso<br>personal</div>
-      </div>
-    </div>
-
-    <!-- 09 -->
     <div class="song-card song-card-free">
       <div class="song-num">09</div>
       <div class="song-body">
@@ -1027,24 +1128,6 @@ footer {
         <div class="status-label status-label-free">Solo uso<br>personal</div>
       </div>
     </div>
-
-    <!-- 10 -->
-    <div class="song-card song-card-free">
-      <div class="song-num">10</div>
-      <div class="song-body">
-        <h3 class="song-title">Prisionero de tu Aliento</h3>
-        <p class="song-genre">Pop Romántico · Balada Latina · Lírica de Claudicación</p>
-        <p class="song-desc">Habita honestamente el duelo, camina entre árboles esqueléticos y fuentes rotas, esperando que llueva sobre las cenizas. Guitarra de acero fría y reverb vacío como sonido del derrumbe emocional.</p>
-        <p class="song-emotion">Entrega · Vulnerabilidad · Pasión · Ironía Romántica</p>
-      </div>
-      <div class="song-player">
-        <button class="player-btn player-btn-free" aria-label="Reproducir"><svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></button>
-        <div class="wave-bars wave-free"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
-        <div class="status-label status-label-free">Solo uso<br>personal</div>
-      </div>
-    </div>
-
-    <!-- 11 -->
     <div class="song-card song-card-free">
       <div class="song-num">11</div>
       <div class="song-body">
@@ -1060,7 +1143,145 @@ footer {
       </div>
     </div>
 
-    <!-- 12 -->
+    <!-- ══ POP · BALADA · POWER BALLAD ══ -->
+    <div class="genre-separator gsep-bg-pop">
+      <span class="genre-sep-dot gsep-pop"></span>
+      <span class="genre-sep-label label-pop">Pop · Balada · Power Ballad</span>
+      <span class="genre-sep-count">3 canciones</span>
+    </div>
+    <div class="song-card song-card-free">
+      <div class="song-num">03</div>
+      <div class="song-body">
+        <h3 class="song-title">Cicatriz de Seda</h3>
+        <p class="song-genre">Pop-Rock · Balada Rock · Power Ballad Contemporánea</p>
+        <p class="song-desc">La marca imborrable de un amor complejo narrada con madurez emocional. Dualidad: suave como seda, permanente como cicatriz. Vulnerabilidad del pasado y empoderamiento del presente.</p>
+        <p class="song-emotion">Superación · Empoderamiento · Transformación · Despecho Elegante</p>
+      </div>
+      <div class="song-player">
+        <button class="player-btn player-btn-free" aria-label="Reproducir"><svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></button>
+        <div class="wave-bars wave-free"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+        <div class="status-label status-label-free">Solo uso<br>personal</div>
+      </div>
+    </div>
+    <div class="song-card song-card-free">
+      <div class="song-num">05</div>
+      <div class="song-body">
+        <h3 class="song-title">Eternamente en mi Piel</h3>
+        <p class="song-genre">Balada Pop · Rock · Power Ballad · Lírica de Duelo</p>
+        <p class="song-desc">Explora la persistencia del recuerdo de un ser querido tras su partida. Metáforas sobre la soledad cotidiana — el café frío, la lluvia, el silencio — para ilustrar el vacío emocional.</p>
+        <p class="song-emotion">Serenidad · Reverencia · Alivio · Esperanza</p>
+      </div>
+      <div class="song-player">
+        <button class="player-btn player-btn-free" aria-label="Reproducir"><svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></button>
+        <div class="wave-bars wave-free"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+        <div class="status-label status-label-free">Solo uso<br>personal</div>
+      </div>
+    </div>
+    <div class="song-card song-card-free">
+      <div class="song-num">10</div>
+      <div class="song-body">
+        <h3 class="song-title">Prisionero de tu Aliento</h3>
+        <p class="song-genre">Pop Romántico · Balada Latina · Lírica de Claudicación</p>
+        <p class="song-desc">Habita honestamente el duelo, camina entre árboles esqueléticos y fuentes rotas, esperando que llueva sobre las cenizas. Guitarra de acero fría y reverb vacío como sonido del derrumbe emocional.</p>
+        <p class="song-emotion">Entrega · Vulnerabilidad · Pasión · Ironía Romántica</p>
+      </div>
+      <div class="song-player">
+        <button class="player-btn player-btn-free" aria-label="Reproducir"><svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></button>
+        <div class="wave-bars wave-free"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+        <div class="status-label status-label-free">Solo uso<br>personal</div>
+      </div>
+    </div>
+
+    <!-- ══ HIP-HOP · CONSCIOUS RAP ══ -->
+    <div class="genre-separator gsep-bg-hiphop">
+      <span class="genre-sep-dot gsep-hiphop"></span>
+      <span class="genre-sep-label label-hiphop">Hip-Hop · Conscious Rap · Oratoria Urbana</span>
+      <span class="genre-sep-count">1 canción</span>
+    </div>
+    <div class="song-card song-card-free">
+      <div class="song-num">04</div>
+      <div class="song-body">
+        <h3 class="song-title">Doctrina de Cristal</h3>
+        <p class="song-genre">Hip-Hop Clásico (Boom Bap) · Conscious Rap · Oratoria Urbana</p>
+        <p class="song-desc">Manifiesto contra la hipocresía y el extremismo ideológico. La producción prioriza la claridad del mensaje sobre la complejidad melódica.</p>
+        <p class="song-emotion">Directo · Confrontativo · Asertivo · Urgente</p>
+      </div>
+      <div class="song-player">
+        <button class="player-btn player-btn-free" aria-label="Reproducir"><svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></button>
+        <div class="wave-bars wave-free"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+        <div class="status-label status-label-free">Solo uso<br>personal</div>
+      </div>
+    </div>
+
+    <!-- ══ POST-ROCK · AMBIENT · NEO-FOLK ══ -->
+    <div class="genre-separator gsep-bg-postrock">
+      <span class="genre-sep-dot gsep-postrock"></span>
+      <span class="genre-sep-label label-postrock">Post-Rock · Ambient · Neo-Folk</span>
+      <span class="genre-sep-count">1 canción</span>
+    </div>
+    <div class="song-card song-card-free">
+      <div class="song-num">06</div>
+      <div class="song-body">
+        <h3 class="song-title">Fuego en la Niebla</h3>
+        <p class="song-genre">Post-Rock · Ambient · Neo-Folk Oscuro</p>
+        <p class="song-desc">Una composición instrumental que dialoga con el silencio. El fuego como símbolo de pasión y destrucción simultáneas, la niebla como barrera entre lo real y lo deseado.</p>
+        <p class="song-emotion">Melancolía · Tensión Contenida · Anhelo · Pérdida</p>
+      </div>
+      <div class="song-player">
+        <button class="player-btn player-btn-free" aria-label="Reproducir"><svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></button>
+        <div class="wave-bars wave-free"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+        <div class="status-label status-label-free">Solo uso<br>personal</div>
+      </div>
+    </div>
+
+    <!-- ══ CUMBIA SONIDERA ══ -->
+    <div class="genre-separator gsep-bg-cumbia">
+      <span class="genre-sep-dot gsep-cumbia"></span>
+      <span class="genre-sep-label label-cumbia">Cumbia Sonidera · Crónica de Barrio</span>
+      <span class="genre-sep-count">1 canción</span>
+    </div>
+    <div class="song-card song-card-free">
+      <div class="song-num">07</div>
+      <div class="song-body">
+        <h3 class="song-title">Lopez Martirios</h3>
+        <p class="song-genre">Cumbia Sonidera · Sátira Urbana · Crónica de Barrio</p>
+        <p class="song-desc">Narra de forma irónica los problemas de inundaciones recurrentes en avenidas de la ciudad. Crítica directa a la falta de planeación urbana, usando el humor para procesar la frustración social.</p>
+        <p class="song-emotion">Ironía · Crítica Social · Humor Filosófico · Identidad</p>
+      </div>
+      <div class="song-player">
+        <button class="player-btn player-btn-free" aria-label="Reproducir"><svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></button>
+        <div class="wave-bars wave-free"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+        <div class="status-label status-label-free">Solo uso<br>personal</div>
+      </div>
+    </div>
+
+    <!-- ══ NORTEÑO · CORRIDO · FOLK RURAL ══ -->
+    <div class="genre-separator gsep-bg-norteno">
+      <span class="genre-sep-dot gsep-norteno"></span>
+      <span class="genre-sep-label label-norteno">Norteño · Corrido · Folk Rural</span>
+      <span class="genre-sep-count">1 canción</span>
+    </div>
+    <div class="song-card song-card-free">
+      <div class="song-num">08</div>
+      <div class="song-body">
+        <h3 class="song-title">Mal del Puerco</h3>
+        <p class="song-genre">Norteño Alternativo · Corrido Poético · Folk Rural</p>
+        <p class="song-desc">Crónica irónica de la comodidad que adormece. Metáfora de ese estado de semi-consciencia en que nos instala la satisfacción fácil. Letras que punzan con humor y verdad.</p>
+        <p class="song-emotion">Ironía · Crítica Social · Humor Filosófico · Tierra</p>
+      </div>
+      <div class="song-player">
+        <button class="player-btn player-btn-free" aria-label="Reproducir"><svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></button>
+        <div class="wave-bars wave-free"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+        <div class="status-label status-label-free">Solo uso<br>personal</div>
+      </div>
+    </div>
+
+    <!-- ══ URBAN POP · REGGAETÓN · R&B ══ -->
+    <div class="genre-separator gsep-bg-urban">
+      <span class="genre-sep-dot gsep-urban"></span>
+      <span class="genre-sep-label label-urban">Urban Pop · Reggaetón · R&amp;B Latino</span>
+      <span class="genre-sep-count">1 canción</span>
+    </div>
     <div class="song-card song-card-free">
       <div class="song-num">12</div>
       <div class="song-body">
@@ -1076,7 +1297,12 @@ footer {
       </div>
     </div>
 
-    <!-- 13 -->
+    <!-- ══ SYNTHWAVE · ELECTRO ══ -->
+    <div class="genre-separator gsep-bg-synthwave">
+      <span class="genre-sep-dot gsep-synthwave"></span>
+      <span class="genre-sep-label label-synthwave">Synthwave · Electro · Nostálgico Futurista</span>
+      <span class="genre-sep-count">1 canción</span>
+    </div>
     <div class="song-card song-card-free">
       <div class="song-num">13</div>
       <div class="song-body">
@@ -1092,23 +1318,12 @@ footer {
       </div>
     </div>
 
-    <!-- 14 -->
-    <div class="song-card song-card-free">
-      <div class="song-num">14</div>
-      <div class="song-body">
-        <h3 class="song-title">Fuego y Verdad</h3>
-        <p class="song-genre">Blues Rock · Americana · Confesional Acústico</p>
-        <p class="song-desc">La confrontación entre el yo verdadero y la máscara social. El fuego como catalizador de la honestidad radical. Letra confesional sobre autenticidad en tiempos de performance constante.</p>
-        <p class="song-emotion">Autenticidad · Confrontación · Liberación · Integridad</p>
-      </div>
-      <div class="song-player">
-        <button class="player-btn player-btn-free" aria-label="Reproducir"><svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></button>
-        <div class="wave-bars wave-free"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
-        <div class="status-label status-label-free">Solo uso<br>personal</div>
-      </div>
+    <!-- ══ ALT-POP · ELECTRÓNICA ÍNTIMA ══ -->
+    <div class="genre-separator gsep-bg-altpop">
+      <span class="genre-sep-dot gsep-altpop"></span>
+      <span class="genre-sep-label label-altpop">Alt-Pop · Electrónica Íntima · Indie Nocturno</span>
+      <span class="genre-sep-count">1 canción</span>
     </div>
-
-    <!-- 15 -->
     <div class="song-card song-card-free">
       <div class="song-num">15</div>
       <div class="song-body">
@@ -1124,7 +1339,33 @@ footer {
       </div>
     </div>
 
-    <!-- 16 -->
+    <!-- ══ BLUES · AMERICANA ══ -->
+    <div class="genre-separator" style="background:rgba(180,120,50,0.06);padding:10px 18px 8px 22px;display:flex;align-items:center;gap:10px;border-bottom:1px solid rgba(255,255,255,0.04);position:sticky;top:82px;z-index:5;">
+      <span class="genre-sep-dot" style="background:#C87A2A"></span>
+      <span class="genre-sep-label" style="color:#C87A2A;font-family:'Orbitron',monospace;font-size:0.54rem;letter-spacing:0.3em;text-transform:uppercase;opacity:0.85;flex:1;">Blues Rock · Americana · Confesional</span>
+      <span class="genre-sep-count">1 canción</span>
+    </div>
+    <div class="song-card song-card-free">
+      <div class="song-num">14</div>
+      <div class="song-body">
+        <h3 class="song-title">Fuego y Verdad</h3>
+        <p class="song-genre">Blues Rock · Americana · Confesional Acústico</p>
+        <p class="song-desc">La confrontación entre el yo verdadero y la máscara social. El fuego como catalizador de la honestidad radical. Letra confesional sobre autenticidad en tiempos de performance constante.</p>
+        <p class="song-emotion">Autenticidad · Confrontación · Liberación · Integridad</p>
+      </div>
+      <div class="song-player">
+        <button class="player-btn player-btn-free" aria-label="Reproducir"><svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></button>
+        <div class="wave-bars wave-free"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+        <div class="status-label status-label-free">Solo uso<br>personal</div>
+      </div>
+    </div>
+
+    <!-- ══ BOLERO · JAZZ LATINO ══ -->
+    <div class="genre-separator gsep-bg-bolero">
+      <span class="genre-sep-dot gsep-bolero"></span>
+      <span class="genre-sep-label label-bolero">Bolero Moderno · Jazz Latino · Elegía</span>
+      <span class="genre-sep-count">1 canción</span>
+    </div>
     <div class="song-card song-card-free">
       <div class="song-num">16</div>
       <div class="song-body">
@@ -1140,6 +1381,12 @@ footer {
       </div>
     </div>
 
+    <!-- ══ FOLK OSCURO · AMERICANA GÓTICA ══ -->
+    <div class="genre-separator gsep-bg-folk">
+      <span class="genre-sep-dot gsep-folk"></span>
+      <span class="genre-sep-label label-folk">Folk Oscuro · Americana Gótica · Tierra</span>
+      <span class="genre-sep-count">2 canciones</span>
+    </div>
     <!-- 17 -->
     <div class="song-card song-card-free">
       <div class="song-num">17</div>
@@ -1155,8 +1402,6 @@ footer {
         <div class="status-label status-label-free">Solo uso<br>personal</div>
       </div>
     </div>
-
-    <!-- 18 -->
     <div class="song-card song-card-free">
       <div class="song-num">18</div>
       <div class="song-body">
@@ -1189,6 +1434,7 @@ footer {
         <p class="song-genre song-genre-com">Electrónica Experimental · Ambient Alquímico · Downtempo Conceptual</p>
         <p class="song-desc">La transformación del sufrimiento en sabiduría como proceso alquímico. El agua como símbolo de la fluidez necesaria para mutar sin perder la esencia. Producción maestra lista para licencia editorial y sincronización cinematográfica.</p>
         <p class="song-emotion song-emotion-com">Transformación · Alquimia Interior · Fluidez · Trascendencia</p>
+        <span class="song-price-badge"><span class="badge-icon">🦄</span> $9,000 MXN</span>
       </div>
       <div class="song-player">
         <div class="avail-dot"></div>
@@ -1208,6 +1454,7 @@ footer {
         <p class="song-genre song-genre-com">Modern Rock · Alternative Metal · Arreglos Atmosféricos</p>
         <p class="song-desc">Redención existencial y lucha interna contra el olvido. Explora la fragilidad humana —"náufragos de un cielo de papel"— y la búsqueda de significado en la desolación. Versión maestra certificada con producción expandida y derechos de explotación comercial total.</p>
         <p class="song-emotion song-emotion-com">Redención · Fragilidad · Desolación · Lucha Existencial</p>
+        <span class="song-price-badge"><span class="badge-icon">🦄</span> $18,000 MXN</span>
       </div>
       <div class="song-player">
         <div class="avail-dot"></div>
@@ -1227,6 +1474,7 @@ footer {
         <p class="song-genre song-genre-com">Indie Folk Acústico · Intimate Singer-Songwriter</p>
         <p class="song-desc">Explora la dualidad de la memoria amorosa: el contraste entre la destrucción (ceniza) y la suavidad del recuerdo (terciopelo), y la fragilidad de los vínculos humanos. Versión maestra certificada con arreglos de cuerdas y derechos de distribución global.</p>
         <p class="song-emotion song-emotion-com">Dualidad · Nostalgia · Claroscuro · Intimidad Agridulce</p>
+        <span class="song-price-badge"><span class="badge-icon">🦄</span> $12,000 MXN</span>
       </div>
       <div class="song-player">
         <div class="avail-dot"></div>
@@ -1246,6 +1494,7 @@ footer {
         <p class="song-genre song-genre-com">Indie Pop Atmosférico · Balada Cinematográfica</p>
         <p class="song-desc">La persistencia de la fe y la esperanza a pesar de la adversidad; la capacidad de seguir creyendo en lo invisible, en la luz y en los sueños cuando el entorno sugiere lo contrario. Producción pop con arreglos orquestales, lista para playlists editoriales y sincronización masiva.</p>
         <p class="song-emotion song-emotion-com">Resiliencia · Esperanza · Fe Inquebrantable · Luminosidad</p>
+        <span class="song-price-badge"><span class="badge-icon">🦄</span> $45,000 MXN</span>
       </div>
       <div class="song-player">
         <div class="avail-dot"></div>
@@ -1265,6 +1514,7 @@ footer {
         <p class="song-genre song-genre-com">Synth-Wave Atmosférico · Rap · Art-Pop · Electrónica Experimental</p>
         <p class="song-desc">La alienación en la era de la hiperconectividad, la fragilidad de la identidad frente a las pantallas y la búsqueda de una verdad humana en un entorno de realidades distorsionadas por la tecnología. Registro ISRC incluido, lista para distribución en todas las plataformas.</p>
         <p class="song-emotion song-emotion-com">Alienación · Melancolía Digital · Desconexión · Introspección Crítica</p>
+        <span class="song-price-badge"><span class="badge-icon">🦄</span> $9,000 MXN</span>
       </div>
       <div class="song-player">
         <div class="avail-dot"></div>
@@ -1284,6 +1534,7 @@ footer {
         <p class="song-genre song-genre-com">Pop Rock · Power Ballad · Elementos Orquestales</p>
         <p class="song-desc">El refugio emocional y espiritual que se encuentra en un ser amado en momentos de crisis personal. Explora la gratitud por la reconstrucción personal a través del amor incondicional. Ideal para sincronización en cine, series y publicidad.</p>
         <p class="song-emotion song-emotion-com">Refugio · Gratitud · Seguridad · Amor Incondicional</p>
+        <span class="song-price-badge"><span class="badge-icon">🦄</span> $7,000 MXN</span>
       </div>
       <div class="song-player">
         <div class="avail-dot"></div>
@@ -1303,6 +1554,7 @@ footer {
         <p class="song-genre song-genre-com">Rock Alternativo · Metal Atmosférico · Matices Progresivos</p>
         <p class="song-desc">Transformación a través del dolor, el renacimiento tras la pérdida y la resiliencia existencial. Versión maestra certificada con producción de alta gama, lista para registro en plataformas, distribución global y sincronización de alto impacto.</p>
         <p class="song-emotion song-emotion-com">Catarsis · Renacimiento · Fortaleza · Transformación</p>
+        <span class="song-price-badge"><span class="badge-icon">🦄</span> $12,000 MXN</span>
       </div>
       <div class="song-player">
         <div class="avail-dot"></div>
@@ -1555,28 +1807,28 @@ footer {
     </div>
     <div class="doc-card">
       <div class="doc-card-icon">📋</div>
-      <div class="doc-card-title">Contrato y catalogo de licenciamiento musical eamr Bundle 2026 </div>
+      <div class="doc-card-title">Contrato y Catálogo de Licenciamiento Musical EAMR-Bundle</div>
       <div class="doc-card-desc">Es el menú de productos y la oferta de preventa. Su objetivo es mostrar la variedad de tu catálogo y dar un incentivo económico (descuento) para que alguien compre todas las canciones de una vez en lugar de solo una.</div>
-      <a class="doc-view-btn" href="#" onclick="openPDF('contrato_y_catalogo_de_licenciamiento_musical_eamr_bundle_2026.pdf','Contrato y Catálogo de Licenciamiento Musical EAMR-Bundle'); return false;">◆ Ver Documento</a>
+      <a class="doc-view-btn" href="#" onclick="openPDF('contrato_y_catalogo_de_licenciamiento_musical_eamr_Bundle_2026.pdf','Contrato y Catálogo de Licenciamiento Musical EAMR-Bundle'); return false;">◆ Ver Documento</a>
       <p class="doc-no-download">🔒 Solo lectura · Sin descarga</p>
     </div>
     <div class="doc-card">
       <div class="doc-card-icon">📊</div>
-      <div class="doc-card-title">Justificación Financiera eamr pdf</div>
+      <div class="doc-card-title">Justificación Financiera EAMR</div>
       <div class="doc-card-desc">Este documento técnico desglosa la viabilidad económica de adquirir el catálogo EAMR 2026. Es una lectura esencial para tomadores de decisiones, directores de A&amp;R y agencias de publicidad. Detalla cómo ahorrar hasta un 42% en comparación con la producción musical tradicional, proyecta retornos de inversión y justifica el precio preferencial de $80,000 MXN por el catálogo completo.</div>
-      <a class="doc-view-btn" href="#" onclick="openPDF('justificacion_financiera_eamr.pdf','Justificación Financiera EAMR'); return false;">◆ Ver Documento</a>
+      <a class="doc-view-btn" href="#" onclick="openPDF('justificacion_financiera_eamr_copia.pdf','Justificación Financiera EAMR'); return false;">◆ Ver Documento</a>
       <p class="doc-no-download">🔒 Solo lectura · Sin descarga</p>
     </div>
     <div class="doc-card">
       <div class="doc-card-icon">⚖️</div>
-      <div class="doc-card-title">eamr paquete legal sunoai pro 2026 pdf</div>
+      <div class="doc-card-title">Hoja de Respaldo Legal — Términos Suno AI</div>
       <div class="doc-card-desc">Resumen ejecutivo de los términos de uso de Suno AI relevantes para uso comercial: titularidad, restricciones, distribución en DSPs y registro ante sociedades de gestión colectiva.</div>
       <a class="doc-view-btn" href="#" onclick="openPDF('eamr_paquete_legal_sunoai_pro_2026.pdf','Hoja de Respaldo Legal — Términos Suno AI'); return false;">◆ Ver Documento</a>
       <p class="doc-no-download">🔒 Solo lectura · Sin descarga</p>
     </div>
     <div class="doc-card">
       <div class="doc-card-icon">🎵</div>
-      <div class="doc-card-title">Tarifario de Activos Musicales Registrables 2026 pdf</div>
+      <div class="doc-card-title">Tarifario de Activos Musicales Registrables 2026</div>
       <div class="doc-card-desc">Formaliza el tarifario de servicios de creación musical mediante Inteligencia de Arquitectura Sonora y Minería Emocional. Incluye precios por perfil de cliente, paquete de entrega (WAV, documentación contractual) y alcance de derechos cedidos bajo el estándar Sonic Unicorn Lab.</div>
       <a class="doc-view-btn" href="#" onclick="openPDF('tarifario_de_activos_musicales_registrables_2026.pdf','Tarifario de Activos Musicales Registrables 2026'); return false;">◆ Ver Documento</a>
       <p class="doc-no-download">🔒 Solo lectura · Sin descarga</p>
@@ -1771,6 +2023,52 @@ footer {
       <div class="cp-field">
         <label class="cp-field-label">¿Algo más que agregar?</label>
         <textarea class="cp-textarea" id="cp-extra" placeholder="Cualquier detalle que no haya cupido arriba..." rows="3"></textarea>
+      </div>
+    </div>
+
+    <!-- CALCULADORA DE PRECIO -->
+    <div class="calc-wrap">
+      <p class="calc-title">◆ Calculadora de Precio</p>
+      <p class="calc-subtitle">Selecciona las opciones de tu canción y obtén un presupuesto al instante.</p>
+      <div class="calc-grid">
+        <div class="calc-field">
+          <label>¿Para qué es tu canción?</label>
+          <select class="calc-select" id="calc-proposito" onchange="calcPrice()">
+            <option value="">— Selecciona el propósito —</option>
+            <option value="personal">🎁 Regalo · Uso Personal</option>
+            <option value="digital">📱 Redes Sociales · Vlogs (pequeños canales)</option>
+            <option value="comercial">📻 Radio · Podcast · Negocio Local</option>
+            <option value="pro">🦄 Producción Pro · Unicornio Sónico</option>
+          </select>
+        </div>
+        <div class="calc-field">
+          <label>Calidad del archivo</label>
+          <select class="calc-select" id="calc-calidad" onchange="calcPrice()">
+            <option value="mp3">MP3 Alta Fidelidad (320 kbps)</option>
+            <option value="wav">WAV 24-bit · Master Profesional</option>
+          </select>
+        </div>
+      </div>
+      <div class="calc-field">
+        <label>Extras opcionales</label>
+        <div class="calc-addon-list">
+          <div class="calc-addon" id="addon-stems" onclick="toggleAddon(this, 'stems', 200)">Stems separados (+$200)</div>
+          <div class="calc-addon" id="addon-revision" onclick="toggleAddon(this, 'revision', 150)">Revisión / Re-generación (+$150)</div>
+          <div class="calc-addon" id="addon-portada" onclick="toggleAddon(this, 'portada', 100)">Portada IA (+$100)</div>
+          <div class="calc-addon" id="addon-letra" onclick="toggleAddon(this, 'letra', 80)">Archivo de letra PDF (+$80)</div>
+          <div class="calc-addon" id="addon-isrc" onclick="toggleAddon(this, 'isrc', 0)">ISRC incluido (gratis en Pro)</div>
+        </div>
+      </div>
+      <div class="calc-result-bar">
+        <div>
+          <p class="calc-result-label">Precio estimado</p>
+          <p class="calc-result-price" id="calc-precio">— MXN</p>
+          <p class="calc-result-note" id="calc-nota">Selecciona el propósito de tu canción para ver el precio.</p>
+        </div>
+      </div>
+      <div class="calc-incl" id="calc-incl-tags"></div>
+      <div class="calc-cta">
+        <button class="calc-cta-btn" onclick="applyCalcToForm()">▶ Generar Solicitud con este Presupuesto</button>
       </div>
     </div>
 
@@ -2491,6 +2789,83 @@ Enviado desde: https://edheller33.github.io/Music_dem/`
   );
 
   window.location.href = 'mailto:eamr_33@proton.me?subject=' + subject + '&body=' + body;
+}
+
+/* ── CALCULADORA DE PRECIO ── */
+const CALC_BASE = { personal: 99, digital: 150, comercial: 200, pro: 250 };
+const CALC_WAV_DELTA = { personal: 0, digital: 50, comercial: 100, pro: 0 };
+const CALC_INCLUDES = {
+  personal: ['MP3 320kbps', 'Uso personal ilimitado'],
+  digital: ['MP3 320kbps', 'Portada IA básica', '1 revisión', 'Monetización básica YT/TikTok'],
+  comercial: ['WAV 24-bit', 'Mezcla optimizada', 'Spots radio/podcast', 'Redes con monetización'],
+  pro: ['WAV 24-bit', 'Stems incluidos', 'ISRC gratuito', 'Licencia comercial total', 'Documentación legal']
+};
+const CALC_NOTAS = {
+  personal: 'Para regalo, eventos familiares o escucha privada. Sin derechos de monetización.',
+  digital: 'Ideal para creadores de contenido en crecimiento. Monetización básica en plataformas.',
+  comercial: 'Para negocios, radio local e intros de podcast. Uso comercial con alcance amplio.',
+  pro: 'El paquete completo — Unicornio Sónico. Licencia comercial plena, stems y documentación legal.'
+};
+let calcAddons = { stems: false, revision: false, portada: false, letra: false, isrc: false };
+let calcAddonPrices = { stems: 200, revision: 150, portada: 100, letra: 80, isrc: 0 };
+
+function toggleAddon(el, key, price) {
+  calcAddons[key] = !calcAddons[key];
+  el.classList.toggle('active');
+  calcPrice();
+}
+
+function calcPrice() {
+  const prop = document.getElementById('calc-proposito').value;
+  const cal = document.getElementById('calc-calidad').value;
+  if (!prop) {
+    document.getElementById('calc-precio').textContent = '— MXN';
+    document.getElementById('calc-nota').textContent = 'Selecciona el propósito de tu canción para ver el precio.';
+    document.getElementById('calc-incl-tags').innerHTML = '';
+    return;
+  }
+  let base = CALC_BASE[prop];
+  if (cal === 'wav') base += CALC_WAV_DELTA[prop];
+  // Si es pro, WAV ya está incluido
+  if (prop === 'pro') { base = 250; }
+  // Sumar addons (ISRC gratis en pro)
+  let extras = 0;
+  for (const [k, active] of Object.entries(calcAddons)) {
+    if (active) {
+      let p = calcAddonPrices[k];
+      if (k === 'isrc' && prop === 'pro') p = 0;
+      extras += p;
+    }
+  }
+  const total = base + extras;
+  const el = document.getElementById('calc-precio');
+  el.textContent = '$' + total.toLocaleString('es-MX') + ' MXN';
+  el.style.textShadow = '0 0 30px rgba(212,175,55,0.6)';
+  setTimeout(() => { el.style.textShadow = '0 0 20px rgba(212,175,55,0.4)'; }, 300);
+  document.getElementById('calc-nota').textContent = CALC_NOTAS[prop];
+  // Renderizar tags de incluidos
+  const includes = [...(CALC_INCLUDES[prop] || [])];
+  if (calcAddons.stems && prop !== 'pro') includes.push('Stems separados');
+  if (calcAddons.revision) includes.push('Revisión incluida');
+  if (calcAddons.portada) includes.push('Portada IA');
+  if (calcAddons.letra) includes.push('Letra en PDF');
+  const tagsEl = document.getElementById('calc-incl-tags');
+  tagsEl.innerHTML = includes.map((t, i) => `<span class="calc-incl-tag" style="transition-delay:${i * 0.05}s">${t}</span>`).join('');
+  requestAnimationFrame(() => {
+    document.querySelectorAll('.calc-incl-tag').forEach(t => t.classList.add('show'));
+  });
+}
+
+function applyCalcToForm() {
+  const prop = document.getElementById('calc-proposito').value;
+  const precio = document.getElementById('calc-precio').textContent;
+  if (!prop) { alert('Selecciona primero el propósito de tu canción en la calculadora.'); return; }
+  const extra = document.getElementById('cp-extra');
+  const nota = `[Presupuesto calculado: ${precio} — Nivel: ${document.getElementById('calc-proposito').selectedOptions[0]?.text || prop}]`;
+  extra.value = (extra.value ? extra.value + '\n' : '') + nota;
+  extra.style.borderColor = 'var(--gold)';
+  setTimeout(() => { extra.style.borderColor = ''; }, 2000);
+  extra.scrollIntoView({ behavior: 'smooth', block: 'center' });
 }
 
 /* ── BLOQUEO ADICIONAL DE DESCARGA (botón derecho en audio) ── */
