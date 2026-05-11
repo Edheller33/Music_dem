@@ -805,7 +805,7 @@ footer {
   display: flex; align-items: center; gap: 10px;
   padding: 10px 18px 8px 22px;
   border-bottom: 1px solid rgba(255,255,255,0.04);
-  position: sticky; top: 82px; z-index: 5;
+  position: relative; z-index: 1;
 }
 .genre-sep-dot {
   width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0;
@@ -873,6 +873,30 @@ footer {
   width: fit-content;
 }
 .song-price-badge .badge-icon { font-size: 0.75rem; }
+
+/* ── MICRO-TAGS DE USO EN COLUMNA COMERCIAL ── */
+.uso-tags {
+  display: flex; flex-wrap: wrap; gap: 5px; margin-top: 8px;
+}
+.uso-tag {
+  font-family: 'Orbitron', monospace;
+  font-size: 0.42rem; letter-spacing: 0.18em; text-transform: uppercase;
+  padding: 2px 7px; border-radius: 2px;
+  border: 1px solid rgba(46,204,113,0.25);
+  background: rgba(46,204,113,0.06);
+  color: var(--green-light); opacity: 0.85;
+  white-space: nowrap;
+}
+.uso-tag-gold {
+  border-color: rgba(212,175,55,0.3);
+  background: rgba(212,175,55,0.07);
+  color: var(--gold-light);
+}
+.uso-tag-cyan {
+  border-color: rgba(0,229,255,0.25);
+  background: rgba(0,229,255,0.06);
+  color: var(--cyan);
+}
 
 /* ── CALCULADORA DE PRECIO ── */
 .calc-wrap {
@@ -1340,7 +1364,7 @@ footer {
     </div>
 
     <!-- ══ BLUES · AMERICANA ══ -->
-    <div class="genre-separator" style="background:rgba(180,120,50,0.06);padding:10px 18px 8px 22px;display:flex;align-items:center;gap:10px;border-bottom:1px solid rgba(255,255,255,0.04);position:sticky;top:82px;z-index:5;">
+    <div class="genre-separator" style="background:rgba(180,120,50,0.06);padding:10px 18px 8px 22px;display:flex;align-items:center;gap:10px;border-bottom:1px solid rgba(255,255,255,0.04);position:relative;z-index:1;">
       <span class="genre-sep-dot" style="background:#C87A2A"></span>
       <span class="genre-sep-label" style="color:#C87A2A;font-family:'Orbitron',monospace;font-size:0.54rem;letter-spacing:0.3em;text-transform:uppercase;opacity:0.85;flex:1;">Blues Rock · Americana · Confesional</span>
       <span class="genre-sep-count">1 canción</span>
@@ -1435,6 +1459,12 @@ footer {
         <p class="song-desc">La transformación del sufrimiento en sabiduría como proceso alquímico. El agua como símbolo de la fluidez necesaria para mutar sin perder la esencia. Producción maestra lista para licencia editorial y sincronización cinematográfica.</p>
         <p class="song-emotion song-emotion-com">Transformación · Alquimia Interior · Fluidez · Trascendencia</p>
         <span class="song-price-badge"><span class="badge-icon">🦄</span> $9,000 MXN</span>
+        <div class="uso-tags">
+          <span class="uso-tag uso-tag-gold">Stems incluidos</span>
+          <span class="uso-tag">Sincronización editorial</span>
+          <span class="uso-tag uso-tag-cyan">ISRC registrado</span>
+          <span class="uso-tag uso-tag-gold">Licencia exclusiva</span>
+        </div>
       </div>
       <div class="song-player">
         <div class="avail-dot"></div>
@@ -1455,6 +1485,12 @@ footer {
         <p class="song-desc">Redención existencial y lucha interna contra el olvido. Explora la fragilidad humana —"náufragos de un cielo de papel"— y la búsqueda de significado en la desolación. Versión maestra certificada con producción expandida y derechos de explotación comercial total.</p>
         <p class="song-emotion song-emotion-com">Redención · Fragilidad · Desolación · Lucha Existencial</p>
         <span class="song-price-badge"><span class="badge-icon">🦄</span> $18,000 MXN</span>
+        <div class="uso-tags">
+          <span class="uso-tag uso-tag-gold">Buyout total</span>
+          <span class="uso-tag uso-tag-cyan">Cine · TV · Publicidad</span>
+          <span class="uso-tag uso-tag-gold">Stems incluidos</span>
+          <span class="uso-tag">Derechos de PI cedidos</span>
+        </div>
       </div>
       <div class="song-player">
         <div class="avail-dot"></div>
@@ -1475,6 +1511,12 @@ footer {
         <p class="song-desc">Explora la dualidad de la memoria amorosa: el contraste entre la destrucción (ceniza) y la suavidad del recuerdo (terciopelo), y la fragilidad de los vínculos humanos. Versión maestra certificada con arreglos de cuerdas y derechos de distribución global.</p>
         <p class="song-emotion song-emotion-com">Dualidad · Nostalgia · Claroscuro · Intimidad Agridulce</p>
         <span class="song-price-badge"><span class="badge-icon">🦄</span> $12,000 MXN</span>
+        <div class="uso-tags">
+          <span class="uso-tag uso-tag-gold">Stems incluidos</span>
+          <span class="uso-tag">Distribución global</span>
+          <span class="uso-tag uso-tag-cyan">Streaming · Playlists</span>
+          <span class="uso-tag uso-tag-gold">ISRC registrado</span>
+        </div>
       </div>
       <div class="song-player">
         <div class="avail-dot"></div>
@@ -1495,6 +1537,12 @@ footer {
         <p class="song-desc">La persistencia de la fe y la esperanza a pesar de la adversidad; la capacidad de seguir creyendo en lo invisible, en la luz y en los sueños cuando el entorno sugiere lo contrario. Producción pop con arreglos orquestales, lista para playlists editoriales y sincronización masiva.</p>
         <p class="song-emotion song-emotion-com">Resiliencia · Esperanza · Fe Inquebrantable · Luminosidad</p>
         <span class="song-price-badge"><span class="badge-icon">🦄</span> $45,000 MXN</span>
+        <div class="uso-tags">
+          <span class="uso-tag uso-tag-gold">Exclusividad absoluta</span>
+          <span class="uso-tag uso-tag-cyan">Campañas nacionales / internacionales</span>
+          <span class="uso-tag uso-tag-gold">Buyout + Retiro de catálogo</span>
+          <span class="uso-tag">Cesión total de PI</span>
+        </div>
       </div>
       <div class="song-player">
         <div class="avail-dot"></div>
@@ -1515,6 +1563,12 @@ footer {
         <p class="song-desc">La alienación en la era de la hiperconectividad, la fragilidad de la identidad frente a las pantallas y la búsqueda de una verdad humana en un entorno de realidades distorsionadas por la tecnología. Registro ISRC incluido, lista para distribución en todas las plataformas.</p>
         <p class="song-emotion song-emotion-com">Alienación · Melancolía Digital · Desconexión · Introspección Crítica</p>
         <span class="song-price-badge"><span class="badge-icon">🦄</span> $9,000 MXN</span>
+        <div class="uso-tags">
+          <span class="uso-tag uso-tag-gold">Stems incluidos</span>
+          <span class="uso-tag uso-tag-cyan">ISRC registrado</span>
+          <span class="uso-tag">Plataformas digitales</span>
+          <span class="uso-tag uso-tag-gold">Licencia exclusiva</span>
+        </div>
       </div>
       <div class="song-player">
         <div class="avail-dot"></div>
@@ -1535,6 +1589,12 @@ footer {
         <p class="song-desc">El refugio emocional y espiritual que se encuentra en un ser amado en momentos de crisis personal. Explora la gratitud por la reconstrucción personal a través del amor incondicional. Ideal para sincronización en cine, series y publicidad.</p>
         <p class="song-emotion song-emotion-com">Refugio · Gratitud · Seguridad · Amor Incondicional</p>
         <span class="song-price-badge"><span class="badge-icon">🦄</span> $7,000 MXN</span>
+        <div class="uso-tags">
+          <span class="uso-tag uso-tag-cyan">Cine · Series · Spots</span>
+          <span class="uso-tag uso-tag-gold">Stems incluidos</span>
+          <span class="uso-tag">Sincronización audiovisual</span>
+          <span class="uso-tag uso-tag-gold">ISRC registrado</span>
+        </div>
       </div>
       <div class="song-player">
         <div class="avail-dot"></div>
@@ -1555,6 +1615,12 @@ footer {
         <p class="song-desc">Transformación a través del dolor, el renacimiento tras la pérdida y la resiliencia existencial. Versión maestra certificada con producción de alta gama, lista para registro en plataformas, distribución global y sincronización de alto impacto.</p>
         <p class="song-emotion song-emotion-com">Catarsis · Renacimiento · Fortaleza · Transformación</p>
         <span class="song-price-badge"><span class="badge-icon">🦄</span> $12,000 MXN</span>
+        <div class="uso-tags">
+          <span class="uso-tag uso-tag-gold">Stems incluidos</span>
+          <span class="uso-tag uso-tag-cyan">Distribución global</span>
+          <span class="uso-tag">Sincronización de alto impacto</span>
+          <span class="uso-tag uso-tag-gold">ISRC registrado</span>
+        </div>
       </div>
       <div class="song-player">
         <div class="avail-dot"></div>
@@ -1654,49 +1720,77 @@ footer {
     <!-- CARD UNICORNIO SÓNICO -->
     <div class="precio-card precio-card-ia">
       <span class="precio-card-tag tag-ia">🦄 Unicornio Sónico</span>
-      <h3 class="precio-card-title">Composición de Arquitectura Emocional Única</h3>
-      <div class="precio-feature"><span class="precio-feature-icon">🧬</span><p class="precio-feature-text"><strong>Concepto irrepetible:</strong> Cada canción es generada como un arquetipo emocional único — no existe otra igual en ningún catálogo del mundo.</p></div>
-      <div class="precio-feature"><span class="precio-feature-icon">🎭</span><p class="precio-feature-text"><strong>Estrategia narrativa profunda:</strong> Letra, métrica, género y emoción diseñados como sistema coherente: minería emocional aplicada a la experiencia humana.</p></div>
-      <div class="precio-feature"><span class="precio-feature-icon">⚙️</span><p class="precio-feature-text"><strong>Ingeniería de prompt avanzada:</strong> Decenas de iteraciones de IA más criterio humano para llegar al resultado final. No es un clic, es arquitectura.</p></div>
-      <div class="precio-feature"><span class="precio-feature-icon">📡</span><p class="precio-feature-text"><strong>Resonancia masiva:</strong> Diseñadas con principios de psicología del oyente para activar emociones específicas y crear identidad de marca sonora.</p></div>
+      <h3 class="precio-card-title">Uso Personal · Regalo · Redes Sociales</h3>
+      <div class="precio-feature"><span class="precio-feature-icon">🎁</span><p class="precio-feature-text"><strong>Para qué sirve:</strong> Ideal para uso privado, regalos personales, quinceañeras, bodas, tributos o contenido en redes sociales sin fines de lucro.</p></div>
+      <div class="precio-feature"><span class="precio-feature-icon">🧬</span><p class="precio-feature-text"><strong>Concepto irrepetible:</strong> Cada canción es un arquetipo emocional único — no existe otra igual en ningún catálogo del mundo.</p></div>
+      <div class="precio-feature"><span class="precio-feature-icon">📦</span><p class="precio-feature-text"><strong>Qué incluye:</strong> Archivo MP3/WAV en alta calidad con la firma sonora del artista. Sin derechos de monetización ni distribución comercial.</p></div>
+      <div class="precio-feature"><span class="precio-feature-icon">💡</span><p class="precio-feature-text"><strong>Justificación:</strong> Precio accesible para quienes buscan una pieza única con tecnología de punta pero sin necesidades comerciales complejas.</p></div>
       <div class="precio-divider"></div>
       <div class="precio-price-block">
-        <p class="precio-price-label">Precio por licencia comercial</p>
+        <p class="precio-price-label">Precio por licencia personal</p>
         <p class="precio-price-value price-gold">$500–$1,500 MXN</p>
-        <p class="precio-price-note">Por canción. Incluye derechos totales, stems, ISRC y documentación legal.</p>
+        <p class="precio-price-note">Por canción. Solo uso personal o privado — sin monetización comercial.</p>
       </div>
     </div>
 
     <!-- CARD HIT DE RADIO -->
     <div class="precio-card precio-card-hit">
       <span class="precio-card-tag tag-hit">📻 Hit de Radio</span>
-      <h3 class="precio-card-title">Canción con Fórmula de Impacto Radiofónico</h3>
-      <div class="precio-feature"><span class="precio-feature-icon">🎯</span><p class="precio-feature-text"><strong>Estructura comercial validada:</strong> Construida sobre patrones probados de éxito en radio: intro hook, pre-chorus, chorus explosivo, bridge emocional y outro memorable.</p></div>
-      <div class="precio-feature"><span class="precio-feature-icon">🔊</span><p class="precio-feature-text"><strong>Producción de vanguardia:</strong> Voces y mezclas tratadas para claridad cristalina. Loudness optimizado, frecuencias balanceadas para auriculares y bocinas.</p></div>
-      <div class="precio-feature"><span class="precio-feature-icon">💰</span><p class="precio-feature-text"><strong>Monetización inmediata:</strong> Lista para subirse a plataformas, generar regalías y ser pitcheada a sellos, supervisores musicales y marcas.</p></div>
-      <div class="precio-feature"><span class="precio-feature-icon">📈</span><p class="precio-feature-text"><strong>Playlist editorial ready:</strong> Diseñada con mood, tempo y género que los algoritmos de Spotify y Apple priorizan en sus playlists de alto alcance.</p></div>
+      <h3 class="precio-card-title">Streaming · Plataformas · Monetización</h3>
+      <div class="precio-feature"><span class="precio-feature-icon">🎯</span><p class="precio-feature-text"><strong>Para qué sirve:</strong> Proyectos que buscan sonar en Spotify, Apple Music, radio local o videos monetizados en YouTube y TikTok.</p></div>
+      <div class="precio-feature"><span class="precio-feature-icon">🔊</span><p class="precio-feature-text"><strong>Masterización comercial:</strong> Producción optimizada para estándares de emisión — loudness, frecuencias y claridad calibrados para competir con producciones internacionales.</p></div>
+      <div class="precio-feature"><span class="precio-feature-icon">💰</span><p class="precio-feature-text"><strong>Qué incluye:</strong> MP3 320kbps, portada IA básica, 1 revisión y Licencia de Uso Comercial básica con monetización en plataformas.</p></div>
+      <div class="precio-feature"><span class="precio-feature-icon">📈</span><p class="precio-feature-text"><strong>Justificación:</strong> El costo refleja el proceso de pulido sonoro para sonar profesional en cualquier bocina, junto con los derechos para monetizar tu contenido.</p></div>
       <div class="precio-divider"></div>
       <div class="precio-price-block">
         <p class="precio-price-label">Precio por licencia comercial</p>
         <p class="precio-price-value price-green">$300–$800 MXN</p>
-        <p class="precio-price-note">Por canción. Producción radio-ready, mezcla y master incluidos.</p>
+        <p class="precio-price-note">Por canción. Producción radio-ready, mezcla, master y licencia de monetización básica.</p>
       </div>
     </div>
 
     <!-- CARD NUEVA: GRUPOS Y BANDAS -->
     <div class="precio-card precio-card-banda">
       <span class="precio-card-tag tag-banda">🎸 Grupos & Bandas</span>
-      <h3 class="precio-card-title">Inspiración Digital para Artistas Humanos</h3>
-      <div class="precio-feature"><span class="precio-feature-icon">🌐</span><p class="precio-feature-text"><strong>Puente entre IA y arte vivo:</strong> La IA genera el concepto emocional y la estructura. Tu banda lo ejecuta, lo adapta y lo transforma en algo propio y auténtico.</p></div>
-      <div class="precio-feature"><span class="precio-feature-icon">🎼</span><p class="precio-feature-text"><strong>Base de composición lista:</strong> Recibes letra completa, estructura de acordes sugerida, tempo, mood y ficha de diseño emocional. Tu punto de partida, no tu limitación.</p></div>
-      <div class="precio-feature"><span class="precio-feature-icon">🔓</span><p class="precio-feature-text"><strong>Licencia de adaptación total:</strong> Puedes modificar, remezclar, re-arreglar o reinterpretar la obra a tu estilo sin restricciones. La IA inspira; tú y tu banda crean.</p></div>
-      <div class="precio-feature"><span class="precio-feature-icon">📋</span><p class="precio-feature-text"><strong>Documentación legal incluida:</strong> Contrato de cesión y certificado de entrega. Pueden registrar la adaptación resultante a nombre del grupo o banda.</p></div>
+      <h3 class="precio-card-title">Composición · Inspiración · Repertorio en Vivo</h3>
+      <div class="precio-feature"><span class="precio-feature-icon">🌐</span><p class="precio-feature-text"><strong>Para qué sirve:</strong> Agrupaciones musicales que necesitan una base sólida para ensayar, hacer covers o integrar a su repertorio en vivo o en estudio.</p></div>
+      <div class="precio-feature"><span class="precio-feature-icon">🎼</span><p class="precio-feature-text"><strong>Base de composición lista:</strong> Letra completa, estructura de acordes sugerida, guía rítmica, tempo, mood y ficha emocional. Tu punto de partida, no tu limitación.</p></div>
+      <div class="precio-feature"><span class="precio-feature-icon">🔓</span><p class="precio-feature-text"><strong>Qué incluye:</strong> 1–3 composiciones base adaptadas para ejecución grupal, fichas emocionales y documentación legal para registro a nombre de la banda.</p></div>
+      <div class="precio-feature"><span class="precio-feature-icon">💡</span><p class="precio-feature-text"><strong>Justificación:</strong> Se cobra por la complejidad de la composición multi-instrumento, diseñada para ser interpretada y adaptada por músicos reales con total libertad creativa.</p></div>
       <div class="precio-divider"></div>
       <div class="precio-price-block">
         <p class="precio-price-label">Precio por paquete de inspiración</p>
         <p class="precio-price-value price-purple">$800–$2,000 MXN</p>
         <p class="precio-price-note">Incluye 1–3 composiciones base, fichas emocionales y documentación legal completa.</p>
       </div>
+    </div>
+  </div>
+
+  <!-- UNICORNIO PREMIUM — COLUMNA DERECHA -->
+  <div class="vs-section" style="margin-top:48px;">
+    <h3 class="vs-title" style="color:var(--gold-bright);font-size:1rem;letter-spacing:0.15em;">🦄 ¿Por qué los Masters de la columna derecha tienen precios más altos?</h3>
+    <div style="max-width:860px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px;">
+
+      <div style="background:rgba(212,175,55,0.05);border:1px solid rgba(212,175,55,0.18);border-radius:3px;padding:18px 16px;">
+        <p style="font-family:'Orbitron',monospace;font-size:0.52rem;letter-spacing:0.25em;color:var(--gold);margin-bottom:8px;text-transform:uppercase;">Exclusividad Absoluta</p>
+        <p style="font-family:'Crimson Pro',serif;font-size:0.88rem;color:var(--text);line-height:1.65;">Una vez adquirida, la canción se <strong style="color:var(--cream);">retira permanentemente del catálogo</strong>. Nadie más podrá usarla ni comercializarla. Es tuya y solo tuya.</p>
+      </div>
+
+      <div style="background:rgba(212,175,55,0.05);border:1px solid rgba(212,175,55,0.18);border-radius:3px;padding:18px 16px;">
+        <p style="font-family:'Orbitron',monospace;font-size:0.52rem;letter-spacing:0.25em;color:var(--gold);margin-bottom:8px;text-transform:uppercase;">Stems Separados</p>
+        <p style="font-family:'Crimson Pro',serif;font-size:0.88rem;color:var(--text);line-height:1.65;">Recibes los archivos <strong style="color:var(--cream);">independientes por pista</strong> (voz, batería, bajo, sintetizadores) para que un ingeniero de sonido pueda remezclar o editar a futuro.</p>
+      </div>
+
+      <div style="background:rgba(212,175,55,0.05);border:1px solid rgba(212,175,55,0.18);border-radius:3px;padding:18px 16px;">
+        <p style="font-family:'Orbitron',monospace;font-size:0.52rem;letter-spacing:0.25em;color:var(--gold);margin-bottom:8px;text-transform:uppercase;">Propiedad Intelectual</p>
+        <p style="font-family:'Crimson Pro',serif;font-size:0.88rem;color:var(--text);line-height:1.65;"><strong style="color:var(--cream);">Cesión total de derechos</strong> para registro legal a nombre del cliente. La obra puede registrarse ante sociedades de gestión colectiva (SACM, BMI, etc.).</p>
+      </div>
+
+      <div style="background:rgba(212,175,55,0.05);border:1px solid rgba(212,175,55,0.18);border-radius:3px;padding:18px 16px;">
+        <p style="font-family:'Orbitron',monospace;font-size:0.52rem;letter-spacing:0.25em;color:var(--gold);margin-bottom:8px;text-transform:uppercase;">Uso Cinematográfico</p>
+        <p style="font-family:'Crimson Pro',serif;font-size:0.88rem;color:var(--text);line-height:1.65;">Licencia ilimitada para <strong style="color:var(--cream);">cine, televisión, publicidad</strong> de alcance nacional o internacional. Sin restricciones de uso ni territorios.</p>
+      </div>
+
     </div>
   </div>
 
@@ -1796,43 +1890,65 @@ footer {
 <section id="documentos">
   <p class="doc-eyebrow">◆ Respaldo Legal EAMR ◆</p>
   <h2 class="doc-title">Documentos Legales</h2>
-  <p class="doc-subtitle">Consulta los contratos y certificados del paquete legal. Solo lectura — sin descarga directa.</p>
-  <div class="doc-grid">
-    <div class="doc-card">
-      <div class="doc-card-icon">📄</div>
-      <div class="doc-card-title">Contrato de Cesión EAMR — 6 Canciones</div>
-      <div class="doc-card-desc">Es un Contrato de Cesión de Derechos Patrimoniales. Su función es trasladar legalmente la propiedad comercial de las canciones de ti (el autor/generador) hacia el comprador. Es el papel que garantiza que, aunque la música se hizo con IA, el comprador es el dueño legítimo para cobrar regalías, subirla a Spotify o usarla en televisión.</div>
-      <a class="doc-view-btn" href="#" onclick="openPDF('contrato_cesion_eamr_6_canciones.pdf','Contrato de Cesión EAMR — 6 Canciones'); return false;">◆ Ver Documento</a>
-      <p class="doc-no-download">🔒 Solo lectura · Sin descarga</p>
-    </div>
+  <p class="doc-subtitle">Instrumentos contractuales y técnicos del catálogo EAMR 2026. Solo lectura — sin descarga directa.</p>
+  <div class="doc-grid" style="grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); max-width: 1000px;">
+
+    <!-- 1. CATÁLOGO Y LICENCIAMIENTO -->
     <div class="doc-card">
       <div class="doc-card-icon">📋</div>
-      <div class="doc-card-title">Contrato y Catálogo de Licenciamiento Musical EAMR-Bundle</div>
-      <div class="doc-card-desc">Es el menú de productos y la oferta de preventa. Su objetivo es mostrar la variedad de tu catálogo y dar un incentivo económico (descuento) para que alguien compre todas las canciones de una vez en lugar de solo una.</div>
-      <a class="doc-view-btn" href="#" onclick="openPDF('contrato_y_catalogo_de_licenciamiento_musical_eamr_Bundle_2026.pdf','Contrato y Catálogo de Licenciamiento Musical EAMR-Bundle'); return false;">◆ Ver Documento</a>
+      <div class="doc-card-title">Catálogo de Licenciamiento Musical EAMR — Bundle 2026</div>
+      <div class="doc-card-desc">
+        <strong style="color:var(--gold-light);font-family:'Cinzel',serif;font-size:0.78rem;">¿Qué es?</strong><br>
+        El catálogo oficial del paquete maestro de 6 canciones. Funciona como el instrumento de oferta comercial: detalla el inventario de obras con su perfil de mercado, los precios individuales y el precio preferencial del bundle.<br><br>
+        <strong style="color:var(--gold-light);font-family:'Cinzel',serif;font-size:0.78rem;">¿Para qué sirve?</strong><br>
+        Es el documento que se presenta a sellos discográficos, productoras audiovisuales o editoras musicales para iniciar una negociación de adquisición del catálogo completo o de obras individuales. Incluye los términos de comercialización y la garantía de origen bajo Suno AI Pro.
+      </div>
+      <a class="doc-view-btn" href="#" onclick="openPDF('contrato_y_catalogo_de_licenciamiento_musical_eamr_bundle_2026.pdf','Catálogo de Licenciamiento Musical EAMR — Bundle 2026'); return false;">◆ Ver Documento</a>
       <p class="doc-no-download">🔒 Solo lectura · Sin descarga</p>
     </div>
+
+    <!-- 2. CONTRATO DE CESIÓN -->
+    <div class="doc-card">
+      <div class="doc-card-icon">📄</div>
+      <div class="doc-card-title">Contrato de Cesión de Derechos Patrimoniales — 6 Canciones</div>
+      <div class="doc-card-desc">
+        <strong style="color:var(--gold-light);font-family:'Cinzel',serif;font-size:0.78rem;">¿Qué es?</strong><br>
+        El instrumento legal que formaliza la transferencia de propiedad comercial de las 6 obras musicales del cedente (EAMR) al cesionario. Incluye ficha técnica, fragmento lírico y precio individual de cada canción.<br><br>
+        <strong style="color:var(--gold-light);font-family:'Cinzel',serif;font-size:0.78rem;">¿Para qué sirve?</strong><br>
+        Garantiza que el adquirente sea el titular legítimo para cobrar regalías, distribuir en plataformas de streaming, usar la obra en televisión o publicidad, y registrarla ante sociedades de gestión colectiva (SACM, BMI). Es el respaldo legal de la operación de compra.
+      </div>
+      <a class="doc-view-btn" href="#" onclick="openPDF('contrato_cesion_eamr_6_canciones.pdf','Contrato de Cesión de Derechos Patrimoniales — 6 Canciones'); return false;">◆ Ver Documento</a>
+      <p class="doc-no-download">🔒 Solo lectura · Sin descarga</p>
+    </div>
+
+    <!-- 3. JUSTIFICACIÓN FINANCIERA -->
     <div class="doc-card">
       <div class="doc-card-icon">📊</div>
-      <div class="doc-card-title">Justificación Financiera EAMR</div>
-      <div class="doc-card-desc">Este documento técnico desglosa la viabilidad económica de adquirir el catálogo EAMR 2026. Es una lectura esencial para tomadores de decisiones, directores de A&amp;R y agencias de publicidad. Detalla cómo ahorrar hasta un 42% en comparación con la producción musical tradicional, proyecta retornos de inversión y justifica el precio preferencial de $80,000 MXN por el catálogo completo.</div>
-      <a class="doc-view-btn" href="#" onclick="openPDF('justificacion_financiera_eamr_copia.pdf','Justificación Financiera EAMR'); return false;">◆ Ver Documento</a>
+      <div class="doc-card-title">Justificación Financiera y Escenarios de Inversión — EAMR 2026</div>
+      <div class="doc-card-desc">
+        <strong style="color:var(--gold-light);font-family:'Cinzel',serif;font-size:0.78rem;">¿Qué es?</strong><br>
+        Análisis de eficiencia económica comparativa entre la producción musical tradicional y el modelo EAMR. Incluye tres escenarios de retorno sobre inversión (conservador, moderado y de alto impacto) y la matriz de valorización individual vs bundle.<br><br>
+        <strong style="color:var(--gold-light);font-family:'Cinzel',serif;font-size:0.78rem;">¿Para qué sirve?</strong><br>
+        Es la lectura esencial para directores de A&amp;R, agencias de publicidad y tomadores de decisión que necesitan justificar internamente la adquisición del catálogo. Demuestra un ahorro estimado del 42% respecto a la producción convencional y proyecta retornos de hasta $250,000+ MXN con gestión activa.
+      </div>
+      <a class="doc-view-btn" href="#" onclick="openPDF('justificacion_financiera_eamr.pdf','Justificación Financiera y Escenarios de Inversión — EAMR 2026'); return false;">◆ Ver Documento</a>
       <p class="doc-no-download">🔒 Solo lectura · Sin descarga</p>
     </div>
-    <div class="doc-card">
-      <div class="doc-card-icon">⚖️</div>
-      <div class="doc-card-title">Hoja de Respaldo Legal — Términos Suno AI</div>
-      <div class="doc-card-desc">Resumen ejecutivo de los términos de uso de Suno AI relevantes para uso comercial: titularidad, restricciones, distribución en DSPs y registro ante sociedades de gestión colectiva.</div>
-      <a class="doc-view-btn" href="#" onclick="openPDF('eamr_paquete_legal_sunoai_pro_2026.pdf','Hoja de Respaldo Legal — Términos Suno AI'); return false;">◆ Ver Documento</a>
-      <p class="doc-no-download">🔒 Solo lectura · Sin descarga</p>
-    </div>
+
+    <!-- 4. TARIFARIO -->
     <div class="doc-card">
       <div class="doc-card-icon">🎵</div>
-      <div class="doc-card-title">Tarifario de Activos Musicales Registrables 2026</div>
-      <div class="doc-card-desc">Formaliza el tarifario de servicios de creación musical mediante Inteligencia de Arquitectura Sonora y Minería Emocional. Incluye precios por perfil de cliente, paquete de entrega (WAV, documentación contractual) y alcance de derechos cedidos bajo el estándar Sonic Unicorn Lab.</div>
-      <a class="doc-view-btn" href="#" onclick="openPDF('tarifario_de_activos_musicales_registrables_2026.pdf','Tarifario de Activos Musicales Registrables 2026'); return false;">◆ Ver Documento</a>
+      <div class="doc-card-title">Tarifario de Activos Musicales Registrables — Sonic Unicorn Lab 2026</div>
+      <div class="doc-card-desc">
+        <strong style="color:var(--gold-light);font-family:'Cinzel',serif;font-size:0.78rem;">¿Qué es?</strong><br>
+        El catálogo de servicios de creación musical personalizada bajo el estándar Sonic Unicorn Lab. Detalla 10 perfiles de cliente con su inversión correspondiente (desde $850 MXN hasta $8,500 MXN), tiempos de entrega y el paquete completo de activos digitales y documentación legal incluida.<br><br>
+        <strong style="color:var(--gold-light);font-family:'Cinzel',serif;font-size:0.78rem;">¿Para qué sirve?</strong><br>
+        Es el instrumento comercial para clientes que requieren una canción hecha a medida: desde un autorretrato sonoro personal hasta un himno institucional para campaña política. Incluye el alcance total de derechos cedidos y las notas legales sobre jurisdicción y pago único sin royalties futuros.
+      </div>
+      <a class="doc-view-btn" href="#" onclick="openPDF('tarifario_de_activos_musicales_registrables_2026.pdf','Tarifario de Activos Musicales Registrables — Sonic Unicorn Lab 2026'); return false;">◆ Ver Documento</a>
       <p class="doc-no-download">🔒 Solo lectura · Sin descarga</p>
     </div>
+
   </div>
 </section>
 
