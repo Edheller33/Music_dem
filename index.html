@@ -1085,6 +1085,372 @@ footer {
   text-transform: uppercase; transition: all 0.25s;
 }
 .calc-cta-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 24px rgba(212,175,55,0.4); }
+
+/* ════════════════════════════════════════════════════════
+   ★  KIOSKO IA MUSIC v2  — SECCIÓN INTEGRADA
+════════════════════════════════════════════════════════ */
+
+/* ── SECCIÓN ENVOLVENTE ── */
+#kioskos {
+  position: relative;
+  z-index: 1;
+  background: linear-gradient(180deg, #060504 0%, #080808 60%, #060504 100%);
+  overflow: hidden;
+  padding-bottom: 80px;
+}
+
+/* ── CANVAS ONDAS DE FONDO ── */
+#kioskos-wave-canvas {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  width: 100%; height: 180px;
+  opacity: 0.18;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ── LÍNEA SUPERIOR ANIMADA ── */
+.kb-topline {
+  position: relative;
+  height: 3px;
+  background: linear-gradient(90deg,
+    transparent 0%,
+    var(--gold-mid) 20%,
+    var(--cyan) 50%,
+    var(--green-mid) 80%,
+    transparent 100%
+  );
+  animation: topline-sweep 4s ease-in-out infinite alternate;
+}
+@keyframes topline-sweep {
+  from { opacity: 0.4; background-position: 0% 50%; }
+  to   { opacity: 1;   background-position: 100% 50%; }
+}
+
+/* ── BANNER SUPERIOR ── */
+.kioskos-banner {
+  position: relative; z-index: 2;
+  text-align: center;
+  padding: 60px 24px 50px;
+  border-bottom: 1px solid rgba(212,175,55,0.1);
+  background: linear-gradient(160deg,
+    rgba(212,175,55,0.05) 0%,
+    rgba(0,229,255,0.03) 50%,
+    rgba(46,204,113,0.04) 100%);
+}
+.kb-label {
+  font-family: 'Orbitron', monospace;
+  font-size: 0.62rem; letter-spacing: 0.5em;
+  color: var(--cyan); text-transform: uppercase;
+  margin-bottom: 14px; opacity: 0.85;
+}
+.kb-title {
+  font-family: 'Cinzel Decorative', serif;
+  font-size: clamp(1.6rem, 4vw, 3rem);
+  color: var(--gold-bright);
+  text-shadow: 0 0 50px rgba(212,175,55,0.35);
+  line-height: 1.15; margin-bottom: 12px;
+}
+.kb-title em { font-style: normal; color: var(--cyan); text-shadow: 0 0 30px rgba(0,229,255,0.35); }
+.kb-sub {
+  font-family: 'Crimson Pro', serif; font-style: italic;
+  font-size: 1.05rem; color: var(--text-muted);
+  max-width: 540px; margin: 0 auto; line-height: 1.8;
+}
+.kb-sub strong { color: var(--gold-light); font-style: normal; }
+
+/* Embudo visual */
+.kb-funnel {
+  display: flex; align-items: center; justify-content: center;
+  gap: 0; flex-wrap: wrap;
+  margin: 24px auto 0; max-width: 600px;
+}
+.kb-funnel-step {
+  display: flex; flex-direction: column; align-items: center;
+  padding: 12px 18px;
+  flex: 1; min-width: 100px;
+}
+.kf-price {
+  font-family: 'Orbitron', monospace;
+  font-weight: 900; font-size: 1.1rem;
+  margin-bottom: 3px;
+}
+.kf-label {
+  font-family: 'Cinzel', serif;
+  font-size: 0.52rem; letter-spacing: 0.22em;
+  text-transform: uppercase; opacity: 0.65;
+}
+.kf-step1 .kf-price { color: var(--gold-bright); }
+.kf-step2 .kf-price { color: var(--green-bright); }
+.kf-step3 .kf-price { color: var(--purple-bright); }
+.kf-arrow {
+  font-family: 'Orbitron', monospace; font-size: 1.2rem;
+  color: rgba(255,255,255,0.12); margin: 0 4px;
+  align-self: center;
+}
+.kb-urgency-bar {
+  display: inline-flex; align-items: center; gap: 9px;
+  margin-top: 22px;
+  padding: 7px 20px 7px 14px;
+  border: 1px solid rgba(255,80,80,0.4);
+  background: rgba(255,60,60,0.07);
+  border-radius: 2px;
+  font-family: 'Orbitron', monospace;
+  font-size: 0.54rem; letter-spacing: 0.28em;
+  color: #FF6B6B; text-transform: uppercase;
+}
+.urgency-blink {
+  width: 7px; height: 7px; border-radius: 50%;
+  background: #FF4040;
+  box-shadow: 0 0 8px #FF4040;
+  animation: blink-red 1.2s ease-in-out infinite;
+}
+@keyframes blink-red {
+  0%,100% { opacity: 1; }
+  50%      { opacity: 0.2; }
+}
+
+/* ── ECUALIZADOR ANIMADO CENTRAL ── */
+.kb-eq-wrap {
+  display: flex; align-items: flex-end; justify-content: center;
+  gap: 4px; height: 40px; margin: 20px 0 0;
+}
+.kb-eq-bar {
+  width: 5px; border-radius: 3px 3px 0 0;
+  animation: eq-bounce var(--dur, 1.2s) ease-in-out infinite var(--del, 0s);
+  background: linear-gradient(180deg, var(--cyan), var(--gold));
+}
+@keyframes eq-bounce {
+  0%,100% { height: 6px; opacity: 0.4; }
+  50%      { height: var(--h, 28px); opacity: 1; }
+}
+
+/* ── GRID KIOSKOS ── */
+.kioskos-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2px;
+  position: relative; z-index: 2;
+}
+@media (max-width: 780px) {
+  .kioskos-grid { grid-template-columns: 1fr; }
+}
+
+/* ── KIOSKO BASE ── */
+.kiosko {
+  position: relative;
+  padding: 48px 38px 52px;
+  display: flex; flex-direction: column; gap: 0;
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.kiosko:hover { transform: translateY(-4px); }
+
+/* ── KIOSKO A — VERSIONES EXCLUSIVAS ── */
+.kiosko-a {
+  background:
+    linear-gradient(160deg, rgba(155,89,182,0.08) 0%, rgba(212,175,55,0.05) 40%, transparent 100%);
+  border-right: 1px solid rgba(255,255,255,0.04);
+}
+.kiosko-a:hover { box-shadow: inset 0 0 80px rgba(155,89,182,0.06); }
+.kiosko-a::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  background: linear-gradient(90deg, transparent, var(--purple), var(--gold-bright), var(--purple), transparent);
+  animation: topline-sweep 3s ease-in-out infinite alternate;
+}
+.kiosko-a .k-bg-deco {
+  position: absolute; bottom: -30px; right: -20px;
+  width: 180px; height: 180px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(155,89,182,0.07) 0%, transparent 70%);
+  pointer-events: none;
+  animation: deco-pulse 5s ease-in-out infinite;
+}
+@keyframes deco-pulse {
+  0%,100% { transform: scale(1); opacity: 0.6; }
+  50%      { transform: scale(1.15); opacity: 1; }
+}
+
+/* ── KIOSKO B — CORRIDOS ── */
+.kiosko-b {
+  background:
+    linear-gradient(160deg, rgba(139,26,26,0.1) 0%, rgba(212,175,55,0.05) 40%, transparent 100%);
+}
+.kiosko-b:hover { box-shadow: inset 0 0 80px rgba(192,57,43,0.05); }
+.kiosko-b::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  background: linear-gradient(90deg, transparent, #C0392B, var(--gold-bright), #C0392B, transparent);
+  animation: topline-sweep 3.5s 0.5s ease-in-out infinite alternate;
+}
+.kiosko-b .k-bg-deco {
+  position: absolute; bottom: -30px; right: -20px;
+  width: 200px; height: 200px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(192,57,43,0.07) 0%, transparent 70%);
+  pointer-events: none;
+  animation: deco-pulse 6s ease-in-out infinite;
+}
+
+/* ── BADGE ── */
+.k-launch-badge {
+  position: absolute; top: 18px; right: 20px;
+  display: inline-flex; align-items: center; gap: 5px;
+  font-family: 'Orbitron', monospace;
+  font-size: 0.46rem; letter-spacing: 0.28em;
+  text-transform: uppercase; padding: 4px 10px;
+  border-radius: 2px; z-index: 3;
+}
+.k-badge-a { background: rgba(155,89,182,0.18); border: 1px solid rgba(155,89,182,0.45); color: var(--purple-bright); }
+.k-badge-b { background: rgba(192,57,43,0.18); border: 1px solid rgba(192,57,43,0.45); color: #FF8080; }
+.k-badge-dot { width: 5px; height: 5px; border-radius: 50%; animation: pulse-dot 1.6s ease-in-out infinite; }
+.k-badge-dot-a { background: var(--purple-bright); box-shadow: 0 0 6px var(--purple); }
+.k-badge-dot-b { background: #FF4040; box-shadow: 0 0 6px #FF4040; }
+@keyframes pulse-dot { 0%,100% { opacity:1; transform:scale(1); } 50% { opacity:0.3; transform:scale(0.6); } }
+
+/* ── EYEBROW ── */
+.k-eyebrow {
+  font-family: 'Orbitron', monospace;
+  font-size: 0.57rem; letter-spacing: 0.42em;
+  text-transform: uppercase; margin-bottom: 12px; opacity: 0.75;
+}
+.k-eyebrow-a { color: var(--purple-bright); }
+.k-eyebrow-b { color: #CC6060; }
+
+/* ── TITLE ── */
+.k-title {
+  font-family: 'Cinzel Decorative', serif;
+  font-size: clamp(1.1rem, 2.2vw, 1.65rem); line-height: 1.2; margin-bottom: 8px;
+}
+.k-title-a { color: var(--gold-bright); text-shadow: 0 0 28px rgba(212,175,55,0.2), 0 0 60px rgba(155,89,182,0.15); }
+.k-title-b { color: var(--gold-bright); text-shadow: 0 0 28px rgba(212,175,55,0.2), 0 0 60px rgba(192,57,43,0.15); }
+
+/* ── DIVIDER ── */
+.k-divider { width: 70px; height: 1px; margin: 8px 0 16px; border-radius: 1px; }
+.k-divider-a { background: linear-gradient(90deg, var(--purple), var(--gold-mid), transparent); }
+.k-divider-b { background: linear-gradient(90deg, #C0392B, var(--gold-mid), transparent); }
+
+/* ── TAGLINE ── */
+.k-tagline {
+  font-family: 'Crimson Pro', serif; font-style: italic;
+  font-size: 1rem; color: var(--text-muted); line-height: 1.7; margin-bottom: 22px;
+}
+.k-tagline em { font-style: normal; }
+.k-tagline-a em { color: var(--purple-bright); }
+.k-tagline-b em { color: #FF8080; }
+
+/* ── ECUALIZADOR KIOSKO ── */
+.k-eq { display: flex; align-items: flex-end; gap: 3px; height: 32px; margin-bottom: 20px; }
+.k-eq-bar { width: 4px; border-radius: 2px 2px 0 0; animation: eq-bounce var(--dur,1.1s) ease-in-out infinite var(--del,0s); }
+.k-eq-bar-a { background: linear-gradient(180deg, var(--purple-bright), var(--gold)); }
+.k-eq-bar-b { background: linear-gradient(180deg, #FF6060, var(--gold)); }
+
+/* ── PRECIO ── */
+.k-precio-wrap { display: flex; align-items: baseline; gap: 8px; margin-bottom: 5px; }
+.k-precio {
+  font-family: 'Orbitron', monospace; font-weight: 900;
+  font-size: clamp(3rem, 5vw, 4.5rem); line-height: 1;
+  letter-spacing: -0.03em;
+  animation: precio-glow 3s ease-in-out infinite;
+}
+.k-precio-a { color: var(--gold-bright); text-shadow: 0 0 40px rgba(212,175,55,0.5), 0 0 80px rgba(155,89,182,0.2); }
+.k-precio-b { color: var(--gold-bright); text-shadow: 0 0 40px rgba(212,175,55,0.5), 0 0 80px rgba(192,57,43,0.2); }
+@keyframes precio-glow { 0%,100% { filter: brightness(1); } 50% { filter: brightness(1.15); } }
+.k-precio-currency { font-family: 'Orbitron', monospace; font-size: 1rem; font-weight: 700; opacity: 0.6; align-self: flex-end; margin-bottom: 6px; }
+.k-precio-sup { font-family: 'Cinzel', serif; font-size: 0.58rem; letter-spacing: 0.22em; text-transform: uppercase; margin-bottom: 22px; }
+.k-precio-sup-a { color: var(--purple-bright); opacity: 0.7; }
+.k-precio-sup-b { color: #CC6060; opacity: 0.7; }
+
+/* ── ONDA SVG ── */
+.k-wave-wrap { margin-bottom: 22px; overflow: hidden; height: 32px; }
+.k-wave-svg { width: 100%; height: 32px; }
+.k-wave-path-a { stroke: var(--purple); stroke-width: 1.5; fill: none; opacity: 0.55; }
+.k-wave-path-b { stroke: #C0392B; stroke-width: 1.5; fill: none; opacity: 0.55; }
+.k-wave-path-gold { stroke: var(--gold-mid); stroke-width: 1; fill: none; opacity: 0.35; }
+
+/* ── FEATURES ── */
+.k-features { list-style: none; display: flex; flex-direction: column; gap: 9px; margin-bottom: 24px; }
+.k-feature { display: flex; align-items: flex-start; gap: 10px; font-family: 'Rajdhani', sans-serif; font-size: 0.92rem; color: var(--text-muted); line-height: 1.5; }
+.k-feature-icon { flex-shrink: 0; width: 18px; height: 18px; display: flex; align-items: center; justify-content: center; border-radius: 50%; font-size: 0.6rem; margin-top: 1px; }
+.k-feat-a { background: rgba(155,89,182,0.14); border: 1px solid rgba(155,89,182,0.4); color: var(--purple-bright); }
+.k-feat-b { background: rgba(192,57,43,0.14); border: 1px solid rgba(192,57,43,0.4); color: #FF8080; }
+
+/* ── GÉNEROS ── */
+.k-generos-wrap { display: flex; flex-wrap: wrap; gap: 7px; margin-bottom: 22px; }
+.k-genero-tag { font-family: 'Cinzel', serif; font-size: 0.54rem; letter-spacing: 0.16em; text-transform: uppercase; padding: 5px 12px; border-radius: 2px; border: 1px solid rgba(192,57,43,0.3); background: rgba(192,57,43,0.07); color: #FF9090; transition: all 0.2s; }
+.k-genero-tag:hover { border-color: rgba(192,57,43,0.6); background: rgba(192,57,43,0.14); color: #FFBBBB; }
+.k-genero-nota { font-family: 'Crimson Pro', serif; font-style: italic; font-size: 0.78rem; color: var(--text-muted); opacity: 0.7; margin-bottom: 22px; line-height: 1.6; padding-left: 10px; border-left: 2px solid rgba(255,255,255,0.08); }
+
+/* ── TABLA DE PRECIOS ── */
+.k-price-table { background: rgba(0,0,0,0.35); border-radius: 3px; margin-bottom: 26px; border: 1px solid rgba(212,175,55,0.1); overflow: hidden; }
+.k-pt-header { font-family: 'Cinzel', serif; font-size: 0.56rem; letter-spacing: 0.26em; color: var(--gold-mid); text-transform: uppercase; opacity: 0.75; padding: 10px 16px; border-bottom: 1px solid rgba(255,255,255,0.05); }
+.k-pt-row { display: flex; justify-content: space-between; align-items: center; padding: 8px 16px; border-bottom: 1px solid rgba(255,255,255,0.04); }
+.k-pt-row:last-child { border-bottom: none; }
+.k-pt-row.k-pt-highlight { background: rgba(212,175,55,0.06); }
+.k-pt-label { font-family: 'Crimson Pro', serif; font-size: 0.84rem; color: var(--text-muted); }
+.k-pt-val { font-family: 'Orbitron', monospace; font-size: 0.68rem; font-weight: 700; white-space: nowrap; margin-left: 10px; }
+.kv-muted   { color: var(--grey); opacity: 0.6; }
+.kv-low     { color: var(--gold-mid); }
+.kv-high    { color: var(--gold-bright); }
+.kv-eamr    { color: var(--green-bright); text-shadow: 0 0 12px rgba(46,204,113,0.5); animation: eamr-pulse 2.2s ease-in-out infinite; }
+@keyframes eamr-pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.6; } }
+
+/* ── MINI FORMULARIO ── */
+.k-mini-form { background: rgba(0,0,0,0.25); border: 1px solid rgba(192,57,43,0.2); border-radius: 3px; padding: 18px 20px; margin-bottom: 22px; }
+.k-mini-form-title { font-family: 'Cinzel', serif; font-size: 0.64rem; letter-spacing: 0.2em; color: #CC6060; text-transform: uppercase; margin-bottom: 14px; opacity: 0.85; }
+.k-mini-input { width: 100%; background: rgba(255,255,255,0.03); border: 1px solid rgba(192,57,43,0.22); color: var(--cream); font-family: 'Crimson Pro', serif; font-size: 0.94rem; padding: 9px 13px; border-radius: 2px; outline: none; transition: border-color 0.2s, background 0.2s; margin-bottom: 9px; -webkit-appearance: none; }
+.k-mini-input:focus { border-color: rgba(192,57,43,0.55); background: rgba(192,57,43,0.04); }
+.k-mini-input::placeholder { color: rgba(255,255,255,0.2); font-style: italic; }
+.k-mini-select { width: 100%; background: rgba(255,255,255,0.03); border: 1px solid rgba(192,57,43,0.22); color: var(--cream); font-family: 'Crimson Pro', serif; font-size: 0.94rem; padding: 9px 13px; border-radius: 2px; outline: none; -webkit-appearance: none; appearance: none; cursor: pointer; margin-bottom: 9px; transition: border-color 0.2s; }
+.k-mini-select:focus { border-color: rgba(192,57,43,0.55); }
+.k-mini-select option { background: #111; }
+
+/* ── CTA BOTONES ── */
+.k-cta { display: flex; flex-direction: column; gap: 10px; margin-top: auto; }
+.k-btn-primary { display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; padding: 14px 24px; font-family: 'Orbitron', monospace; font-size: 0.68rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; border: none; cursor: pointer; clip-path: polygon(10px 0%, 100% 0%, calc(100% - 10px) 100%, 0% 100%); transition: all 0.25s; position: relative; overflow: hidden; }
+.k-btn-primary::after { content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%; background: rgba(255,255,255,0.1); transition: left 0.35s ease; }
+.k-btn-primary:hover::after { left: 100%; }
+.k-btn-a { background: linear-gradient(135deg, var(--purple) 0%, var(--gold-mid) 60%, var(--gold-bright) 100%); color: #fff; box-shadow: 0 4px 24px rgba(155,89,182,0.3); }
+.k-btn-a:hover { transform: translateY(-2px); box-shadow: 0 8px 35px rgba(155,89,182,0.5); }
+.k-btn-b { background: linear-gradient(135deg, #8B1A1A 0%, #C0392B 50%, var(--gold-mid) 100%); color: #fff; box-shadow: 0 4px 24px rgba(192,57,43,0.35); }
+.k-btn-b:hover { transform: translateY(-2px); box-shadow: 0 8px 35px rgba(192,57,43,0.6); }
+.k-btn-secondary { display: flex; align-items: center; justify-content: center; gap: 6px; width: 100%; padding: 9px 20px; font-family: 'Cinzel', serif; font-size: 0.57rem; letter-spacing: 0.22em; text-transform: uppercase; background: none; cursor: pointer; transition: all 0.2s; border-radius: 2px; text-decoration: none; }
+.k-btn-sec-a { border: 1px solid rgba(155,89,182,0.3); color: var(--purple-bright); }
+.k-btn-sec-a:hover { border-color: var(--purple); background: rgba(155,89,182,0.07); }
+.k-btn-sec-b { border: 1px solid rgba(192,57,43,0.3); color: #CC6060; }
+.k-btn-sec-b:hover { border-color: #C0392B; background: rgba(192,57,43,0.07); }
+
+/* ── EMBUDO FOOTER ── */
+.kioskos-funnel-footer { position: relative; z-index: 2; padding: 44px 32px 0; }
+.kff-title { font-family: 'Cinzel', serif; font-size: 0.66rem; letter-spacing: 0.35em; color: var(--gold-mid); text-transform: uppercase; text-align: center; margin-bottom: 28px; opacity: 0.7; }
+.kff-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 2px; max-width: 760px; margin: 0 auto; }
+@media (max-width: 600px) { .kff-grid { grid-template-columns: 1fr; } }
+.kff-card { padding: 20px 22px; text-align: center; border: 1px solid rgba(255,255,255,0.05); background: rgba(255,255,255,0.02); transition: all 0.25s; }
+.kff-card:hover { background: rgba(255,255,255,0.04); }
+.kff-num { font-family: 'Bebas Neue', sans-serif; font-size: 2.6rem; line-height: 1; margin-bottom: 4px; }
+.kff-step-label { font-family: 'Cinzel', serif; font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 8px; opacity: 0.7; }
+.kff-desc { font-family: 'Crimson Pro', serif; font-style: italic; font-size: 0.85rem; color: var(--text-muted); line-height: 1.65; }
+.kff-c1 .kff-num { color: var(--gold-bright); } .kff-c2 .kff-num { color: var(--green-bright); } .kff-c3 .kff-num { color: var(--purple-bright); }
+.kff-c1 .kff-step-label { color: var(--gold-mid); } .kff-c2 .kff-step-label { color: var(--green-mid); } .kff-c3 .kff-step-label { color: var(--purple-bright); }
+
+/* ── NOTA LEGAL ── */
+.kioskos-footer-note { text-align: center; padding: 28px 24px 0; font-family: 'Crimson Pro', serif; font-style: italic; font-size: 0.82rem; color: var(--text-muted); opacity: 0.6; line-height: 1.8; border-top: 1px solid rgba(255,255,255,0.04); margin-top: 40px; }
+.kioskos-footer-note a { color: var(--gold-mid); text-decoration: none; }
+.kioskos-footer-note a:hover { text-decoration: underline; }
+
+/* ── RESPONSIVE KIOSKOS ── */
+@media (max-width: 780px) {
+  .kiosko { padding: 36px 22px 40px; }
+  .kiosko-a { border-right: none; border-bottom: 2px solid rgba(155,89,182,0.2); }
+}
+@media (max-width: 480px) {
+  .k-precio { font-size: 3rem; }
+  .kb-funnel { flex-direction: column; gap: 8px; }
+  .kf-arrow { transform: rotate(90deg); }
+}
+.k-feature-muted { opacity: 0.55; }
+.k-feature-muted em { font-style: normal; }
+
+/* ════ FIN ESTILOS KIOSKO IA MUSIC v2 ════ */
 </style>
 </head>
 <body>
@@ -1108,6 +1474,7 @@ footer {
     <a href="#licencias" class="nav-link">Licencias</a>
     <a href="#faq" class="nav-link">FAQ</a>
     <a href="#documentos" class="nav-link">Documentos</a>
+    <a href="#kioskos" class="nav-link">Kiosko</a>
     <a href="#cancion-personalizada" class="nav-link">Mi Canción</a>
   </div>
 </nav>
@@ -2254,6 +2621,197 @@ footer {
   </div>
 </section>
 
+<!-- ════════════════════════════════════════════════════════
+     ★  KIOSKO IA MUSIC v2  — SECCIÓN INTEGRADA
+════════════════════════════════════════════════════════ -->
+<section id="kioskos">
+
+  <!-- Canvas ondas de fondo -->
+  <canvas id="kioskos-wave-canvas"></canvas>
+
+  <!-- Línea superior -->
+  <div class="kb-topline"></div>
+
+  <!-- ── BANNER ── -->
+  <div class="kioskos-banner">
+    <p class="kb-label">◆ El Kiosko IA Music · EAMR ◆</p>
+    <h2 class="kb-title">Kiosko <em>IA Music</em></h2>
+    <p class="kb-sub">
+      Ediciones rápidas y personalizadas de alta calidad.<br>
+      <strong>El punto de entrada a nuestro universo sonoro.</strong><br>
+      Pago único · Sin suscripciones · Con derechos.
+    </p>
+
+    <!-- Embudo de precios -->
+    <div class="kb-funnel">
+      <div class="kb-funnel-step kf-step1">
+        <span class="kf-price">$100</span>
+        <span class="kf-label">Variante Alternativa</span>
+      </div>
+      <span class="kf-arrow">→</span>
+      <div class="kb-funnel-step kf-step2">
+        <span class="kf-price">$200</span>
+        <span class="kf-label">Tu Historia en Corrido</span>
+      </div>
+      <span class="kf-arrow">→</span>
+      <div class="kb-funnel-step kf-step3">
+        <span class="kf-price">Premium</span>
+        <span class="kf-label">Producción · ticket alto</span>
+      </div>
+    </div>
+
+    <!-- Ecualizador decorativo central -->
+    <div class="kb-eq-wrap" id="kb-eq"></div>
+
+    <!-- Barra de urgencia -->
+    <div class="kb-urgency-bar">
+      <span class="urgency-blink"></span>
+      Disponibilidad limitada · Producción limitada por capacidad
+    </div>
+  </div>
+
+  <!-- ── GRID DOS KIOSKOS ── -->
+  <div class="kioskos-grid">
+
+    <!-- KIOSKO 1 — VARIANTE ALTERNATIVA DE CATÁLOGO -->
+    <div class="kiosko kiosko-a">
+      <div class="k-bg-deco"></div>
+      <span class="k-launch-badge k-badge-a">
+        <span class="k-badge-dot k-badge-dot-a"></span>
+        KIOSKO 01 · Variante de Catálogo
+      </span>
+      <p class="k-eyebrow k-eyebrow-a">◆ Variante Alternativa · Catálogo EAMR</p>
+      <h3 class="k-title k-title-a">La Probadita<br>Sonora</h3>
+      <div class="k-divider k-divider-a"></div>
+      <p class="k-tagline k-tagline-a">
+        ¿Te gustó una canción de nuestro catálogo pero la quieres con un ritmo diferente, otro tempo o un matiz distinto?
+        Obtén una <em>mezcla alternativa</em> de nuestros temas principales.
+      </p>
+      <div class="k-eq" id="k-eq-a"></div>
+      <div class="k-precio-wrap">
+        <span class="k-precio-currency">$</span>
+        <span class="k-precio k-precio-a">100</span>
+        <span class="k-precio-currency">MXN</span>
+      </div>
+      <p class="k-precio-sup k-precio-sup-a">Pago único · Tuya para siempre · Sin renovaciones</p>
+      <div class="k-wave-wrap">
+        <svg class="k-wave-svg" viewBox="0 0 400 32" preserveAspectRatio="none">
+          <path class="k-wave-path-a" id="wave-a-1" d=""/>
+          <path class="k-wave-path-gold" id="wave-a-2" d=""/>
+        </svg>
+      </div>
+      <ul class="k-features">
+        <li class="k-feature"><span class="k-feature-icon k-feat-a">🎧</span>Licencia de Uso Personal · Comparte sin restricciones</li>
+        <li class="k-feature"><span class="k-feature-icon k-feat-a">📁</span>Archivo Estéreo Final · MP3 320 kbps descarga inmediata</li>
+        <li class="k-feature"><span class="k-feature-icon k-feat-a">📲</span>Redes Sociales Libres · Uso personal sin límites</li>
+        <li class="k-feature"><span class="k-feature-icon k-feat-a">💿</span>Hoja con letra de la canción incluida</li>
+        <li class="k-feature k-feature-muted"><span class="k-feature-icon k-feat-a">✗</span><em>No incluye canales separados (Stems)</em></li>
+        <li class="k-feature k-feature-muted"><span class="k-feature-icon k-feat-a">✗</span><em>Sin exclusividad sobre la obra</em> — otros pueden adquirirla también</li>
+      </ul>
+      <p class="k-genero-nota" style="margin-top:10px;">
+        Esta versión musical permanece disponible en el catálogo para otros usuarios.
+        Si necesitas un track 100% exclusivo, consulta nuestras licencias Premium.
+      </p>
+      <div class="k-cta">
+        <button class="k-btn-primary k-btn-a" onclick="kioskoContacto('version')">
+          🎵 Quiero Mi Variante · $100
+        </button>
+        <a href="#catalogo" class="k-btn-secondary k-btn-sec-a">
+          ◎ Explorar catálogo libre primero
+        </a>
+      </div>
+    </div>
+
+    <!-- KIOSKO 2 — TU HISTORIA EN CORRIDO -->
+    <div class="kiosko kiosko-b">
+      <div class="k-bg-deco"></div>
+      <span class="k-launch-badge k-badge-b">
+        <span class="k-badge-dot k-badge-dot-b"></span>
+        KIOSKO 02 · 24 Horas
+      </span>
+      <p class="k-eyebrow k-eyebrow-b">◆ Corrido Personalizado · Tu Historia · Tu Canción</p>
+      <h3 class="k-title k-title-b">Tu Historia<br>Hecha Corrido</h3>
+      <div class="k-divider k-divider-b"></div>
+      <p class="k-tagline k-tagline-b">
+        Un corrido <em>100% tuyo</em>, con tu nombre, tu historia y tus derechos comerciales.
+        Entrega garantizada en <em>24 horas hábiles</em>. Cuatro géneros disponibles.
+      </p>
+      <div class="k-eq" id="k-eq-b"></div>
+      <div class="k-precio-wrap">
+        <span class="k-precio-currency">$</span>
+        <span class="k-precio k-precio-b">200</span>
+        <span class="k-precio-currency">MXN</span>
+      </div>
+      <p class="k-precio-sup k-precio-sup-b">Pago único · Derechos comerciales incluidos · Sin costos ocultos</p>
+      <div class="k-wave-wrap">
+        <svg class="k-wave-svg" viewBox="0 0 400 32" preserveAspectRatio="none">
+          <path class="k-wave-path-b" id="wave-b-1" d=""/>
+          <path class="k-wave-path-gold" id="wave-b-2" d=""/>
+        </svg>
+      </div>
+      <div class="k-generos-wrap">
+        <span class="k-genero-tag">Corrido Tradicional</span>
+        <span class="k-genero-tag">Corrido Progresivo</span>
+        <span class="k-genero-tag">Corrido Tumbado</span>
+        <span class="k-genero-tag">Estética Bélica · Cinematic</span>
+      </div>
+      <p class="k-genero-nota">
+        El estilo "bélico / cinematic" se produce como estética musical dramática.
+        No incluye contenido que glorifique crimen real, violencia ni actividades ilícitas.
+      </p>
+      <ul class="k-features">
+        <li class="k-feature"><span class="k-feature-icon k-feat-b">🎵</span>Derechos Comerciales Incluidos · Listo para Monetizar en Redes</li>
+        <li class="k-feature"><span class="k-feature-icon k-feat-b">⚡</span>Entrega en 24 Horas Hábiles</li>
+        <li class="k-feature"><span class="k-feature-icon k-feat-b">🎧</span>Canción completa · MP3 alta calidad · Archivo estéreo final</li>
+        <li class="k-feature"><span class="k-feature-icon k-feat-b">🔁</span>1 recreación gratuita si la versión no te convence (misma letra)</li>
+        <li class="k-feature k-feature-muted"><span class="k-feature-icon k-feat-b">✗</span><em>No incluye registro ISRC</em></li>
+        <li class="k-feature k-feature-muted"><span class="k-feature-icon k-feat-b">✗</span><em>Sin edición de partitura ni Stems</em> — archivo final listo para escucharse</li>
+      </ul>
+      <div class="k-cta">
+        <a href="#cancion-personalizada" class="k-btn-primary k-btn-b" style="text-align:center;display:block;text-decoration:none;">
+          🤠 Solicitar Mi Corrido · $200
+        </a>
+        <a href="#catalogo" class="k-btn-secondary k-btn-sec-b">
+          ◎ Ver el catálogo completo
+        </a>
+      </div>
+    </div>
+
+  </div><!-- /kioskos-grid -->
+
+  <!-- ── EMBUDO ESTRATÉGICO (footer visual) ── -->
+  <div class="kioskos-funnel-footer">
+    <p class="kff-title">◆ Sistema Comercial Musical EAMR · 3 Niveles ◆</p>
+    <div class="kff-grid">
+      <div class="kff-card kff-c1">
+        <div class="kff-num">$100</div>
+        <p class="kff-step-label">Nivel 1 · Entrada</p>
+        <p class="kff-desc">Volumen y confianza. El cliente prueba el sonido EAMR con inversión mínima.</p>
+      </div>
+      <div class="kff-card kff-c2">
+        <div class="kff-num">$200</div>
+        <p class="kff-step-label">Nivel 2 · Margen</p>
+        <p class="kff-desc">Personalización y diferenciación. Tu historia convertida en canción con derechos.</p>
+      </div>
+      <div class="kff-card kff-c3">
+        <div class="kff-num">+</div>
+        <p class="kff-step-label">Nivel 3 · Premium</p>
+        <p class="kff-desc">Producción completa, stems, licencias avanzadas. Ticket alto, cliente convertido.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Nota legal -->
+  <p class="kioskos-footer-note">
+    Todos los pagos se coordinan directamente con Edgar ·
+    <a href="mailto:eamr_33@proton.me">eamr_33@proton.me</a> ·
+    Precios en pesos mexicanos (MXN) · Pago único, sin renovaciones ·
+    Letra alternativa a la original tiene costo adicional de $100 MXN.
+  </p>
+
+</section>
+<!-- ════ FIN SECCIÓN KIOSKO IA MUSIC v2 ════ -->
+
 <!-- ═══════ CANCIÓN PERSONALIZADA ═══════ -->
 <section id="cancion-personalizada">
   <p class="cp-eyebrow">◆ Sonic Unicorn Lab · EAMR ◆</p>
@@ -3300,8 +3858,138 @@ document.addEventListener('contextmenu', e => {
   }
 });
 
+/* ── KIOSKO IA MUSIC v2 — FUNCIONES ── */
+
+function kioskoContacto(tipo) {
+  const subject = encodeURIComponent('Solicitud Versión Exclusiva · Kiosko 01 EAMR — $100 MXN');
+  const body = encodeURIComponent(
+`Hola Edgar,
+
+Me interesa adquirir una Versión Exclusiva del Kiosko 01 EAMR.
+
+Precio acordado: $100 MXN — Pago único.
+
+Por favor indícame qué versiones están disponibles actualmente y los pasos para el pago.
+
+Gracias.`
+  );
+  window.location.href = 'mailto:eamr_33@proton.me?subject=' + subject + '&body=' + body;
+}
+
+function kioskoCorreido() {
+  const nombre   = (document.getElementById('mf-nombre')?.value   || '').trim();
+  const genero   = (document.getElementById('mf-genero')?.value   || '').trim();
+  const contacto = (document.getElementById('mf-contacto')?.value || '').trim();
+  const historia = (document.getElementById('mf-historia')?.value || '').trim();
+  if (!nombre && !contacto) {
+    alert('Para agilizar tu solicitud, escribe al menos tu nombre y un medio de contacto.');
+    return;
+  }
+  const subject = encodeURIComponent('Solicitud Corrido Personalizado 24h · EAMR — $200 MXN');
+  const body = encodeURIComponent(
+`SOLICITUD CORRIDO PERSONALIZADO — KIOSKO 02 EAMR
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Nombre / Protagonista : ${nombre || '(no especificado)'}
+Género solicitado     : ${genero || '(no especificado)'}
+Contacto (WA/Email)   : ${contacto || '(no especificado)'}
+Historia / Datos clave:
+${historia || '(sin historia aún — la coordinaremos por chat)'}
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Precio: $200 MXN · Pago único
+Entrega: 24 horas hábiles
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Enviado desde: https://edheller33.github.io/Music_dem/`
+  );
+  window.location.href = 'mailto:eamr_33@proton.me?subject=' + subject + '&body=' + body;
+}
+
+function initKioskos() {
+  /* Ecualizador central (banner) */
+  const kbEq = document.getElementById('kb-eq');
+  if (kbEq) {
+    const heights = [10,18,28,22,35,28,14,38,22,30,18,24,35,16,28,22,38,14,30,26,18];
+    const delays  = [0,.1,.2,.15,.05,.25,.3,.12,.08,.2,.35,.05,.18,.28,.1,.22,.07,.32,.15,.24,.04];
+    const durs    = [1.1,1.3,0.9,1.4,1.0,1.2,0.8,1.5,1.1,0.95,1.3,0.85,1.2,1.0,1.4,0.9,1.15,1.35,1.0,1.25,0.88];
+    heights.forEach((h, i) => {
+      const bar = document.createElement('span');
+      bar.className = 'kb-eq-bar';
+      bar.style.cssText = `--dur:${durs[i]}s;--del:${delays[i]}s;--h:${h}px;height:${Math.round(h*0.3)}px;`;
+      kbEq.appendChild(bar);
+    });
+  }
+  /* Ecualizador Kiosko A */
+  const eqA = document.getElementById('k-eq-a');
+  if (eqA) {
+    const hs=[8,16,26,20,32,24,12,30,20,28,14,22],ds=[0,.08,.18,.12,.04,.22,.28,.1,.06,.18,.33,.03],du=[1.1,1.3,0.9,1.4,1.0,1.2,0.8,1.5,1.1,0.95,1.3,0.85];
+    hs.forEach((h,i)=>{ const b=document.createElement('span'); b.className='k-eq-bar k-eq-bar-a'; b.style.cssText=`--dur:${du[i]}s;--del:${ds[i]}s;--h:${h}px;height:${Math.round(h*0.3)}px;`; eqA.appendChild(b); });
+  }
+  /* Ecualizador Kiosko B */
+  const eqB = document.getElementById('k-eq-b');
+  if (eqB) {
+    const hs=[14,24,18,30,22,36,16,28,20,34,12,26],ds=[0,.1,.2,.06,.16,.03,.25,.14,.09,.19,.3,.07],du=[0.9,1.3,1.1,0.85,1.2,1.0,1.4,0.95,1.15,0.88,1.25,1.05];
+    hs.forEach((h,i)=>{ const b=document.createElement('span'); b.className='k-eq-bar k-eq-bar-b'; b.style.cssText=`--dur:${du[i]}s;--del:${ds[i]}s;--h:${h}px;height:${Math.round(h*0.3)}px;`; eqB.appendChild(b); });
+  }
+  /* Ondas SVG animadas */
+  animateKWave('wave-a-1', 0,    1.8, 14);
+  animateKWave('wave-a-2', 0.8,  2.3, 8);
+  animateKWave('wave-b-1', 0.4,  1.6, 16);
+  animateKWave('wave-b-2', 1.1,  2.5, 10);
+  /* Canvas ondas de fondo */
+  initKioskosWaveCanvas();
+}
+
+function animateKWave(id, phaseOffset, speed, amplitude) {
+  const path = document.getElementById(id);
+  if (!path) return;
+  let t = phaseOffset;
+  const W = 400, H = 32, cy = H / 2;
+  function frame() {
+    t += speed * 0.012;
+    let d = `M 0 ${cy}`;
+    for (let x = 0; x <= W; x += 5) {
+      const y = cy + Math.sin((x / W) * Math.PI * 4 + t) * amplitude
+                   + Math.sin((x / W) * Math.PI * 7 + t * 1.3) * (amplitude * 0.35);
+      d += ` L ${x} ${y}`;
+    }
+    path.setAttribute('d', d);
+    requestAnimationFrame(frame);
+  }
+  requestAnimationFrame(frame);
+}
+
+function initKioskosWaveCanvas() {
+  const canvas = document.getElementById('kioskos-wave-canvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  function resize() { canvas.width = canvas.offsetWidth || window.innerWidth; canvas.height = canvas.offsetHeight || 180; }
+  resize();
+  window.addEventListener('resize', resize);
+  const waves = [
+    { color:'rgba(212,175,55,0.5)', amp:22, freq:2.2, speed:0.4,  _phase:0    },
+    { color:'rgba(0,229,255,0.35)', amp:16, freq:3.1, speed:0.6,  _phase:1.2  },
+    { color:'rgba(155,89,182,0.35)',amp:28, freq:1.8, speed:0.3,  _phase:0.6  },
+    { color:'rgba(192,57,43,0.3)', amp:18, freq:2.7, speed:0.5,  _phase:2.1  },
+  ];
+  function drawWaves() {
+    const W=canvas.width, H=canvas.height;
+    ctx.clearRect(0,0,W,H);
+    waves.forEach(w=>{
+      w._phase+=w.speed*0.012;
+      ctx.beginPath(); ctx.moveTo(0,H/2);
+      for(let x=0;x<=W;x+=3){
+        const y=H/2+Math.sin((x/W)*Math.PI*w.freq*2+w._phase)*w.amp+Math.sin((x/W)*Math.PI*w.freq*3.5+w._phase*1.2)*(w.amp*0.4);
+        ctx.lineTo(x,y);
+      }
+      ctx.strokeStyle=w.color; ctx.lineWidth=1.5; ctx.stroke();
+    });
+    requestAnimationFrame(drawWaves);
+  }
+  requestAnimationFrame(drawWaves);
+}
+
 /* ── INIT ── */
 setupButtons();
+initKioskos();
 </script>
 </body>
 </html>
