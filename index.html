@@ -3309,13 +3309,33 @@ setTimeout(() => {
 /* ── AUDIO ENGINE ── */
 const PREVIEW_LIMIT = 60; // segundos de preview para comerciales
 
+// ORDEN: sigue el orden real de aparición de los botones .player-btn-free en el DOM
+// (agrupados por género, NO por número de canción)
+// 00-Aunque Me Duela el Alma, 01-Cáliz del Viento, 02-Midnight Sanctuary(09),
+// 03-Manual de Pureza(11), 04-Cicatriz de Seda(03), 05-Eternamente en mi Piel(05),
+// 06-Prisionero de tu Aliento(10), 07-Doctrina de Cristal(04), 08-Fuego en la Niebla(06),
+// 09-Lopez Martirios(07), 10-Mal del Puerco(08), 11-Visto en Azul(12),
+// 12-Fade to Static(13), 13-Fuego y Verdad(14), 14-Precio de la Ilusión(16),
+// 15-No Masks(15), 16-Sentencia del Tiempo(17), 17-Cosecha de Sombra(18)
 const freeFiles = [
-  'aunque_me_duela_el_alma.mp3','caliz_del_viento.mp3','cicatriz_de_seda.mp3',
-  'doctrina_de_cristal.mp3','eternamente_en_mi_piel.mp3','fuego_en_la_niebla.mp3',
-  'lopez_martirios.mp3','mal_del_puerco.mp3','midnight_sanctuary.mp3',
-  'prisionero_de_tu_aliento.mp3','manual_de_pureza.mp3','visto_en_azul.mp3',
-  'fade_to_static.mp3','fuego_y_verdad.mp3',
-  'no_masks.mp3','precio_de_la_ilusion.mp3','sentencia_del_tiempo.mp3','cosecha_de_sombra.mp3'
+  'aunque_me_duela_el_alma.mp3',   // 00 · Aunque Me Duela el Alma
+  'caliz_del_viento.mp3',           // 01 · Cáliz del Viento
+  'midnight_sanctuary.mp3',         // 02 · Midnight Sanctuary
+  'manual_de_pureza.mp3',           // 03 · Manual de Pureza
+  'cicatriz_de_seda.mp3',           // 04 · Cicatriz de Seda
+  'eternamente_en_mi_piel.mp3',     // 05 · Eternamente en mi Piel
+  'prisionero_de_tu_aliento.mp3',   // 06 · Prisionero de tu Aliento
+  'doctrina_de_cristal.mp3',        // 07 · Doctrina de Cristal
+  'fuego_en_la_niebla.mp3',         // 08 · Fuego en la Niebla
+  'lopez_martirios.mp3',            // 09 · Lopez Martirios
+  'mal_del_puerco.mp3',             // 10 · Mal del Puerco
+  'visto_en_azul.mp3',              // 11 · Visto en Azul
+  'fade_to_static.mp3',             // 12 · Fade to Static
+  'fuego_y_verdad.mp3',             // 13 · Fuego y Verdad
+  'precio_de_la_ilusion.mp3',       // 14 · Precio de la Ilusión
+  'no_masks.mp3',                   // 15 · No Masks
+  'sentencia_del_tiempo.mp3',       // 16 · Sentencia del Tiempo
+  'cosecha_de_sombra.mp3'           // 17 · Cosecha de Sombra
 ];
 
 // Archivos de canciones comerciales — agrega los nombres de archivo correctos cuando estén en GitHub
