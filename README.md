@@ -1,21 +1,28 @@
 <div align="center">
+  <!-- This outer div establishes the global center and full width -->
+  <div style="background-color: #0d1117; width: 100%; padding: 40px 0; border-radius: 8px;">
+    <!-- This inner div creates the continuous dark panel with appropriate spacing -->
 
-<img src="./kraken_logo.png" alt="EAMR Emblem" width="220" />
+    <img src="./kraken_logo.png" alt="EAMR Emblem" width="220" />
 
-<br/><br/>
+    <br/><br/>
 
-<img src="./banner.svg" alt="EAMR banner" width="100%" />
+    <!-- Original typing banner remains unchanged -->
+    <img src="https://readme-typing-svg.demolab.com?font=Orbitron&size=20&duration=3000&pause=800&color=D4AF37&center=true&vCenter=true&width=600&lines=Composiciones+originales+generadas+con+IA;Licenciamiento+comercial+documentado;Cat%C3%A1logo+en+expansi%C3%B3n+constante" alt="typing banner" />
 
-<br/>
+    <br/><br/>
 
-<img src="https://readme-typing-svg.demolab.com?font=Orbitron&size=20&duration=3000&pause=800&color=D4AF37&center=true&vCenter=true&width=600&lines=Composiciones+originales+generadas+con+IA;Licenciamiento+comercial+documentado;Cat%C3%A1logo+en+expansi%C3%B3n+constante" alt="typing banner" />
+    <!-- Adjusted button layout to ensure good positioning on the new panel -->
+    <div style="display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; max-width: 800px;">
+      <a href="https://edheller33.github.io/Music_dem/"><img src="https://img.shields.io/badge/CATÁLOGO_EN_VIVO-D4AF37?style=for-the-badge&logo=githubpages&logoColor=black" alt="Sitio en vivo" /></a>
+      <a href="#-licenciamiento"><img src="https://img.shields.io/badge/LICENCIAMIENTO-2ECC71?style=for-the-badge&logo=musicbrainz&logoColor=black" alt="Licencias" /></a>
+      <a href="https://github.com/edheller33"><img src="https://img.shields.io/badge/EDGARDO_ROMERO-111111?style=for-the-badge&logo=github&logoColor=D4AF37" alt="Autor" /></a>
+    </div>
 
-<br/><br/>
+    <!-- This div ends the internal dark panel -->
+  </div>
 
-[![Sitio en vivo](https://img.shields.io/badge/CATÁLOGO_EN_VIVO-D4AF37?style=for-the-badge&logo=githubpages&logoColor=black)](https://edheller33.github.io/Music_dem/)
-[![Licencias](https://img.shields.io/badge/LICENCIAMIENTO-2ECC71?style=for-the-badge&logo=musicbrainz&logoColor=black)](#-licenciamiento)
-[![Autor](https://img.shields.io/badge/EDGARDO_ROMERO-111111?style=for-the-badge&logo=github&logoColor=D4AF37)](https://github.com/edheller33)
-
+<!-- This div ends the general centering -->
 </div>
 
 ---
