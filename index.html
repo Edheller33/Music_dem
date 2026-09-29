@@ -1373,6 +1373,7 @@ footer {
     <a href="#btc-pago" class="nav-link" style="color:#F7931A;">₿ Pagar BTC</a>
     <a href="#mi-cancion" class="nav-link">✨ Mi Canción</a>
     <a href="#simulador-licencias" class="nav-link" style="color:#00E5FF;">⚖️ Simulador</a>
+    <a href="#documentos" class="nav-link" style="color:var(--cyan);">📄 Documentos</a>
     <a href="#faq" class="nav-link" style="color:var(--gold-bright);">❓ FAQ</a>
   </div>
   <!-- Hamburger button (mobile only) -->
@@ -1403,6 +1404,9 @@ footer {
   </a>
   <a href="#simulador-licencias" class="nav-mobile-link" id="mm-simulador" style="color:#00E5FF;">
     <span class="nav-ml-icon">⚖️</span> Simulador de Licencias y Contratos
+  </a>
+  <a href="#documentos" class="nav-mobile-link" id="mm-documentos" style="color:var(--cyan);">
+    <span class="nav-ml-icon">📄</span> Documentos y Contratos (PDF)
   </a>
   <a href="#faq" class="nav-mobile-link" id="mm-faq" style="color:var(--gold-bright);">
     <span class="nav-ml-icon">❓</span> FAQ Preguntas comunes y dudas
@@ -3284,6 +3288,250 @@ window.location.href='mailto:eamr_33@proton.me?subject=Adquirir: Tía del Tupper
     </p>
   </div>
 </section>
+
+<!-- ═══════ DOCUMENTOS · VISOR PDF ═══════ -->
+<style>
+#documentos{position:relative;z-index:1;background:linear-gradient(180deg,#050505 0%,#080a0c 50%,#050505 100%);border-top:2px solid rgba(0,229,255,0.3);padding:70px 20px 90px;overflow:hidden;}
+#documentos .dc-bg{position:absolute;inset:0;background:radial-gradient(ellipse 60% 30% at 50% 0%,rgba(0,229,255,0.07) 0%,transparent 60%);pointer-events:none;}
+.dc-inner{max-width:1000px;margin:0 auto;position:relative;}
+.dc-eyebrow{text-align:center;font-family:'Orbitron',monospace;font-size:0.6rem;letter-spacing:0.4em;text-transform:uppercase;color:var(--cyan);opacity:0.85;margin-bottom:14px;}
+.dc-title{text-align:center;font-family:'Cinzel Decorative',serif;font-size:clamp(1.3rem,3.8vw,2.3rem);color:var(--gold-bright);text-shadow:0 0 40px var(--gold-glow);margin-bottom:12px;line-height:1.25;}
+.dc-title span{color:#fff;}
+.dc-subtitle{text-align:center;font-family:'Crimson Pro',serif;font-style:italic;font-size:1rem;color:var(--text-muted);max-width:660px;margin:0 auto 30px;line-height:1.75;}
+.dc-tabs{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px;margin-bottom:22px;}
+.dc-tab{text-align:left;cursor:pointer;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.09);border-radius:4px;padding:14px 16px;color:var(--text);transition:border-color .25s,background .25s,box-shadow .25s;font:inherit;}
+.dc-tab:hover{border-color:rgba(212,175,55,0.35);}
+.dc-tab:focus-visible{outline:2px solid var(--gold);outline-offset:2px;}
+.dc-tab.active{border-color:rgba(0,229,255,0.55);background:rgba(0,229,255,0.05);box-shadow:0 0 22px rgba(0,229,255,0.09);}
+.dc-tab-top{display:flex;align-items:center;gap:10px;margin-bottom:6px;}
+.dc-tab-ico{font-size:1.3rem;line-height:1;}
+.dc-tab-name{font-family:'Cinzel',serif;font-size:0.82rem;line-height:1.35;color:var(--white);}
+.dc-tab.active .dc-tab-name{color:var(--gold-bright);}
+.dc-tab-desc{font-family:'Crimson Pro',serif;font-size:0.9rem;line-height:1.5;color:var(--text-muted);}
+.dc-bar{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px;padding:10px 14px;border:1px solid rgba(212,175,55,0.2);border-bottom:none;border-radius:4px 4px 0 0;background:rgba(212,175,55,0.05);}
+.dc-bar-title{font-family:'Orbitron',monospace;font-size:0.6rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--gold);}
+.dc-bar-title small{color:var(--text-muted);letter-spacing:0.08em;margin-left:8px;}
+.dc-actions{display:flex;flex-wrap:wrap;align-items:center;gap:8px;}
+.dc-btn{display:inline-flex;align-items:center;justify-content:center;min-width:40px;min-height:40px;padding:0 14px;cursor:pointer;text-decoration:none;font-family:'Cinzel',serif;font-size:0.58rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--cyan);background:rgba(0,229,255,0.07);border:1px solid rgba(0,229,255,0.4);border-radius:3px;transition:background .2s;}
+.dc-btn:hover{background:rgba(0,229,255,0.16);}
+.dc-btn:focus-visible{outline:2px solid var(--gold);outline-offset:2px;}
+.dc-btn.gold{color:var(--gold-bright);background:rgba(212,175,55,0.08);border-color:rgba(212,175,55,0.4);}
+.dc-btn.gold:hover{background:rgba(212,175,55,0.16);}
+.dc-zoom-val{font-family:'Orbitron',monospace;font-size:0.6rem;color:var(--text-muted);min-width:42px;text-align:center;}
+.dc-viewer{border:1px solid rgba(212,175,55,0.2);border-radius:0 0 4px 4px;background:#0c0c0c;height:min(78vh,900px);min-height:420px;overflow:auto;-webkit-overflow-scrolling:touch;padding:18px;text-align:center;}
+.dc-page{display:block;margin:0 auto 18px;background:#fff;box-shadow:0 6px 28px rgba(0,0,0,0.6);max-width:none;}
+.dc-page:last-child{margin-bottom:0;}
+.dc-status{font-family:'Crimson Pro',serif;font-style:italic;color:var(--text-muted);padding:60px 10px;font-size:1rem;}
+.dc-frame{width:100%;height:100%;min-height:400px;border:0;background:#fff;}
+.dc-note{text-align:center;font-family:'Crimson Pro',serif;font-size:0.78rem;font-style:italic;color:var(--text-muted);opacity:0.65;margin:22px auto 0;max-width:640px;line-height:1.7;}
+@media (max-width:640px){
+  #documentos{padding:56px 14px 70px;}
+  .dc-viewer{padding:10px;height:72vh;}
+  .dc-bar{flex-direction:column;align-items:stretch;}
+  .dc-actions{justify-content:space-between;}
+}
+</style>
+
+<section id="documentos">
+  <div class="dc-bg"></div>
+  <div class="dc-inner">
+    <p class="dc-eyebrow">Contratos · Certificados · Fichas técnicas</p>
+    <h2 class="dc-title">Documentos <span>del Catálogo</span></h2>
+    <p class="dc-subtitle">Consulta los formatos que acompañan cada cesión: certificado de autenticidad, ficha técnica de entrega y contrato de cesión de derechos patrimoniales. Son formatos base; los campos en blanco se llenan por obra y por cesionario.</p>
+
+    <div class="dc-tabs" id="dc-tabs" role="tablist" aria-label="Documentos disponibles"></div>
+
+    <div class="dc-bar">
+      <div class="dc-bar-title"><span id="dc-name">—</span><small id="dc-pages"></small></div>
+      <div class="dc-actions">
+        <button type="button" class="dc-btn" id="dc-zoom-out" aria-label="Reducir zoom">−</button>
+        <span class="dc-zoom-val" id="dc-zoom-val">100%</span>
+        <button type="button" class="dc-btn" id="dc-zoom-in" aria-label="Aumentar zoom">+</button>
+        <a class="dc-btn" id="dc-open" href="#" target="_blank" rel="noopener">↗ Abrir</a>
+        <a class="dc-btn gold" id="dc-download" href="#" download>⬇ Descargar</a>
+      </div>
+    </div>
+    <div class="dc-viewer" id="dc-viewer" tabindex="0" aria-live="polite"></div>
+
+    <p class="dc-note">Estos documentos son formatos informativos. El certificado es un registro interno del catálogo EAMR y no constituye registro ante INDAUTOR ni otra autoridad. Para un contrato real, solicítalo por correo.</p>
+  </div>
+</section>
+
+<script>
+(function(){
+  // Para agregar más PDFs: súbelos a la carpeta /documentos y añade una entrada aquí.
+  var DOCS = [
+    { icon:'🏅', title:'Certificado de Autenticidad', short:'Certificado de Autenticidad',
+      desc:'Registro interno con código hash y huella acústica de la obra.',
+      file:'documentos/certificado_de_autenticidad_eamr.pdf' },
+    { icon:'📐', title:'Ficha de Entrega y Especificaciones Técnicas', short:'Ficha Técnica (Anexo)',
+      desc:'Formatos de entrega (MP3 / WAV), derechos cedidos y alcance legal.',
+      file:'documentos/ficha_anexo_tecnico_eamr.pdf' },
+    { icon:'📜', title:'Contrato de Cesión de Derechos Patrimoniales', short:'Contrato de Cesión',
+      desc:'Cesión onerosa con exclusividad, cláusulas de pago, garantía y alcance IA.',
+      file:'documentos/contrato_de_cesion_eamr.pdf' }
+  ];
+
+  var PDFJS_SRC = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js';
+  var PDFJS_WORKER = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+
+  var tabsEl = document.getElementById('dc-tabs');
+  var viewer = document.getElementById('dc-viewer');
+  var nameEl = document.getElementById('dc-name');
+  var pagesEl = document.getElementById('dc-pages');
+  var openEl = document.getElementById('dc-open');
+  var dlEl = document.getElementById('dc-download');
+  var zoomVal = document.getElementById('dc-zoom-val');
+  var section = document.getElementById('documentos');
+  if (!tabsEl || !viewer) return;
+
+  var current = -1, token = 0, pdfDoc = null, zoom = 1, libPromise = null, started = false;
+
+  function el(tag, cls, text){
+    var n = document.createElement(tag);
+    if (cls) n.className = cls;
+    if (text != null) n.textContent = text;
+    return n;
+  }
+
+  // Tabs
+  DOCS.forEach(function(d, i){
+    var b = el('button', 'dc-tab');
+    b.type = 'button';
+    b.setAttribute('role', 'tab');
+    b.setAttribute('aria-selected', 'false');
+    var top = el('div', 'dc-tab-top');
+    top.appendChild(el('span', 'dc-tab-ico', d.icon));
+    top.appendChild(el('span', 'dc-tab-name', d.short));
+    b.appendChild(top);
+    b.appendChild(el('div', 'dc-tab-desc', d.desc));
+    b.addEventListener('click', function(){ openDoc(i); });
+    tabsEl.appendChild(b);
+  });
+
+  function setStatus(msg){
+    viewer.innerHTML = '';
+    viewer.appendChild(el('p', 'dc-status', msg));
+  }
+
+  function loadLib(){
+    if (window.pdfjsLib) return Promise.resolve(window.pdfjsLib);
+    if (libPromise) return libPromise;
+    libPromise = new Promise(function(res, rej){
+      var s = document.createElement('script');
+      s.src = PDFJS_SRC;
+      s.onload = function(){
+        if (!window.pdfjsLib) return rej(new Error('pdfjs'));
+        window.pdfjsLib.GlobalWorkerOptions.workerSrc = PDFJS_WORKER;
+        res(window.pdfjsLib);
+      };
+      s.onerror = function(){ libPromise = null; rej(new Error('pdfjs-load')); };
+      document.head.appendChild(s);
+    });
+    return libPromise;
+  }
+
+  async function renderPages(my){
+    if (!pdfDoc) return;
+    var frag = document.createDocumentFragment();
+    var avail = Math.max(240, viewer.clientWidth - (window.innerWidth <= 640 ? 20 : 36));
+    var dpr = Math.min(window.devicePixelRatio || 1, 2.5);
+    var canvases = [];
+    for (var n = 1; n <= pdfDoc.numPages; n++){
+      var page = await pdfDoc.getPage(n);
+      if (my !== token) return;
+      var base = page.getViewport({ scale: 1 });
+      var cssScale = (avail / base.width) * zoom;
+      var vp = page.getViewport({ scale: cssScale * dpr });
+      var c = el('canvas', 'dc-page');
+      c.width = Math.floor(vp.width);
+      c.height = Math.floor(vp.height);
+      c.style.width = Math.floor(vp.width / dpr) + 'px';
+      c.style.height = Math.floor(vp.height / dpr) + 'px';
+      c.setAttribute('role', 'img');
+      c.setAttribute('aria-label', DOCS[current].title + ' — página ' + n);
+      await page.render({ canvasContext: c.getContext('2d'), viewport: vp }).promise;
+      if (my !== token) return;
+      canvases.push(c);
+      frag.appendChild(c);
+    }
+    var top = viewer.scrollTop, left = viewer.scrollLeft;
+    viewer.innerHTML = '';
+    viewer.appendChild(frag);
+    viewer.scrollTop = top; viewer.scrollLeft = left;
+  }
+
+  function fallbackFrame(d){
+    viewer.innerHTML = '';
+    viewer.style.padding = '0';
+    var f = document.createElement('iframe');
+    f.className = 'dc-frame';
+    f.src = d.file;
+    f.title = d.title;
+    viewer.appendChild(f);
+  }
+
+  async function openDoc(i){
+    if (i === current) return;
+    current = i; started = true;
+    var my = ++token;
+    var d = DOCS[i];
+    pdfDoc = null; zoom = 1; zoomVal.textContent = '100%';
+    viewer.style.padding = '';
+    Array.prototype.forEach.call(tabsEl.children, function(t, k){
+      t.classList.toggle('active', k === i);
+      t.setAttribute('aria-selected', k === i ? 'true' : 'false');
+    });
+    nameEl.textContent = d.title;
+    pagesEl.textContent = '';
+    openEl.href = d.file;
+    dlEl.href = d.file;
+    setStatus('Cargando documento…');
+    try {
+      var lib = await loadLib();
+      var doc = await lib.getDocument(d.file).promise;
+      if (my !== token) return;
+      pdfDoc = doc;
+      pagesEl.textContent = doc.numPages + (doc.numPages === 1 ? ' página' : ' páginas');
+      viewer.scrollTop = 0;
+      await renderPages(my);
+    } catch (e) {
+      if (my !== token) return;
+      fallbackFrame(d);
+    }
+  }
+
+  function setZoom(z){
+    if (!pdfDoc) return;
+    zoom = Math.min(2.4, Math.max(0.6, Math.round(z * 10) / 10));
+    zoomVal.textContent = Math.round(zoom * 100) + '%';
+    renderPages(++token);
+  }
+  document.getElementById('dc-zoom-in').addEventListener('click', function(){ setZoom(zoom + 0.2); });
+  document.getElementById('dc-zoom-out').addEventListener('click', function(){ setZoom(zoom - 0.2); });
+
+  var rt, lastW = 0;
+  window.addEventListener('resize', function(){
+    clearTimeout(rt);
+    rt = setTimeout(function(){
+      if (pdfDoc && viewer.clientWidth !== lastW){ lastW = viewer.clientWidth; renderPages(++token); }
+    }, 250);
+  });
+
+  // Carga diferida: abre el primer documento al acercarse a la sección
+  function autoStart(){ if (!started) openDoc(0); }
+  if ('IntersectionObserver' in window){
+    var io = new IntersectionObserver(function(entries){
+      if (entries.some(function(e){ return e.isIntersecting; })){ autoStart(); io.disconnect(); }
+    }, { rootMargin: '400px 0px' });
+    io.observe(section);
+  } else { autoStart(); }
+
+  // Enlace directo: #documentos abre la sección; #documentos-contrato etc. no requiere más
+  if (location.hash === '#documentos') autoStart();
+})();
+</script>
+
 
 <!-- ═══════ FAQ · PREGUNTAS COMUNES Y DUDAS ═══════ -->
 <style>
