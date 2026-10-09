@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0B0C0E">
+<title>EAMR · Canción</title>
+<style>
+  :root{--ink:#0B0C0E;--panel:#16181D;--gold:#C9A227;--gold-text:#E9D9A0;--bone:#EDE6D3;--muted:#A19B8D}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--ink);color:var(--bone);font-family:system-ui,-apple-system,Roboto,sans-serif;
+       min-height:100vh;display:grid;place-items:center;padding:24px}
+  main{width:min(480px,100%);background:var(--panel);border:1px solid rgba(201,162,39,.25);
+       border-radius:20px;padding:28px 22px;text-align:center}
+  h1{font-family:Georgia,serif;font-size:1.7rem;line-height:1.2;margin-bottom:6px}
+  .sub{color:var(--gold-text);font-size:.95rem;margin-bottom:22px}
+  audio{width:100%;margin-bottom:12px}
+  .msg{color:var(--muted);font-size:.85rem;min-height:1.2em;margin-bottom:18px}
+  a.btn{display:inline-block;min-height:48px;line-height:48px;padding:0 22px;border-radius:14px;
+        background:linear-gradient(135deg,#C9A227,#8F6D1C);color:#17110A;font-weight:650;text-decoration:none}
+  .fine{margin-top:18px;color:var(--muted);font-size:.8rem}
+  .fine a{color:var(--gold-text)}
+</style>
+</head>
+<body>
+<main>
+  <h1 id="titulo">Cargando…</h1>
+  <p class="sub">EAMR · Edgardo Romero</p>
+  <audio id="a" controls controlslist="nodownload noplaybackrate" preload="metadata"></audio>
+  <p class="msg" id="msg"></p>
+  <a class="btn" href="./">← Volver al catálogo</a>
+  <p class="fine">Vista previa de 45 s. Licencias: <a href="mailto:eamr_33@proton.me">eamr_33@proton.me</a></p>
+</main>
+
+<script>
+(() => {
+  const MAX = 45;                                   // segundos de muestra (pon 0 para canción completa)
+  const SMALL = new Set(['de','del','la','el','en','y','por','como','mi','on','the','at','and','in']);
+
+  const slug = (new URLSearchParams(location.search).get('s') || '').trim();
+  const titulo = document.getElementById('titulo');
+  const audio  = document.getElementById('a');
+  const msg    = document.getElementById('msg');
+
+  if (!slug) { titulo.textContent = 'Falta la canción'; msg.textContent = 'Usa cancion.html?s=nombre_del_archivo'; return; }
+
+  titulo.textContent = slug.split('_')
+    .map((w,i)=> i && SMALL.has(w) ? w : w.charAt(0).toUpperCase()+w.slice(1)).join(' ');
+  document.title = titulo.textContent + ' · EAMR';
+
+  // Prueba el nombre tal cual (con ñ) y luego sin ñ/acentos; en .wav y .mp3
+  const sinTildes = t => t.normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/ñ/gi,'n');
+  const nombres = [...new Set([slug, sinTildes(slug)])];
+  const candidatos = nombres.flatMap(n => [encodeURI(n)+'.wav', encodeURI(n)+'.mp3']);
+  const base = nombres[0];
+  let i = 0;
+  const probar = () => {
+    if (i >= candidatos.length) { msg.textContent = 'No se encontró el audio (' + base + '.wav/.mp3).'; return; }
+    audio.src = candidatos[i++];
+  };
+  audio.addEventListener('error', probar);
+  audio.addEventListener('timeupdate', () => { if (MAX && audio.currentTime >= MAX) { audio.pause(); audio.currentTime = 0; msg.textContent = 'Fin de la muestra de ' + MAX + ' s.'; } });
+  audio.addEventListener('play', () => { msg.textContent = ''; });
+  probar();
+})();
+</script>
+</body>
+</html>
