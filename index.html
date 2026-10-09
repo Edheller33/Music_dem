@@ -25,7 +25,7 @@
   --gold:#C9A227;
   --gold-text:#E9D9A0;
   --bone:#EDE6D3;
-  --muted:#A19B8D;
+  --muted:#B9B3A4;
 
   --c-gold:#C9A227;
   --c-verde:#58AE86;
@@ -106,9 +106,9 @@ a{color:inherit}
 /* ═════════ SECCIONES ═════════ */
 section{margin-top:40px}
 .sec-head{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin-bottom:14px}
-h2{font-family:var(--display);font-weight:600;font-size:1.45rem;letter-spacing:.01em}
+h2{font-family:var(--display);font-weight:700;font-size:1.55rem;letter-spacing:.01em;color:var(--gold-text)}
 .sec-head .count{color:var(--muted);font-size:.9rem}
-.lede{color:var(--muted);font-size:.95rem;margin:-6px 0 16px;max-width:46ch}
+.lede{color:#CFC8B8;font-size:1.02rem;line-height:1.6;margin:-6px 0 16px;max-width:46ch}
 
 /* Atajos */
 .shortcuts{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
@@ -176,7 +176,7 @@ h2{font-family:var(--display);font-weight:600;font-size:1.45rem;letter-spacing:.
 .track.active .play{background:var(--gold);color:#17110A;border-color:var(--gold)}
 .t-main{min-width:0}
 .t-title{font-family:var(--display);font-size:1.12rem;font-weight:600;line-height:1.25;overflow-wrap:anywhere}
-.t-genre{margin-top:2px;font-size:.88rem;color:var(--gold-text);opacity:.9}
+.t-genre{margin-top:2px;font-size:.95rem;color:var(--gold-text);opacity:.9}
 .t-desc{margin-top:4px;font-size:.88rem;color:var(--muted);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 .t-side{display:flex;flex-direction:column;align-items:flex-end;gap:8px}
 .badge{
@@ -196,7 +196,7 @@ h2{font-family:var(--display);font-weight:600;font-size:1.45rem;letter-spacing:.
 .empty{padding:36px 8px;text-align:center;color:var(--muted)}
 .empty strong{display:block;color:var(--bone);font-family:var(--display);font-size:1.1rem;margin-bottom:6px;font-weight:600}
 
-.note{margin-top:28px;padding:16px;border-radius:var(--r-md);background:var(--panel);border:1px solid var(--line-soft);color:var(--muted);font-size:.9rem}
+.note{margin-top:28px;padding:16px;border-radius:var(--r-md);background:var(--panel);border:1px solid var(--line-soft);color:#CFC8B8;font-size:.98rem;line-height:1.6}
 footer{margin-top:34px;text-align:center;color:var(--muted);font-size:.85rem}
 
 /* ═════════ REPRODUCTOR ═════════ */
@@ -224,24 +224,57 @@ footer{margin-top:34px;text-align:center;color:var(--muted);font-size:.85rem}
 
 /* Géneros y secciones informativas */
 .genre{margin-top:26px}
-.genre h3{display:flex;justify-content:space-between;align-items:baseline;gap:10px;font-family:var(--display);font-size:1.08rem;font-weight:600;color:var(--gold-text);padding-bottom:8px;border-bottom:1px solid var(--line);line-height:1.3}
-.genre h3 small{font-family:var(--body);font-size:.82rem;color:var(--muted);font-weight:400;white-space:nowrap}
+.genre{--c:var(--c-gold);--ct:color-mix(in srgb,var(--c) 55%,#fff)}
+.genre.verde{--c:var(--c-verde)}.genre.rosa{--c:var(--c-rosa)}.genre.naranja{--c:var(--c-naranja)}.genre.cian{--c:var(--c-cian)}
+.genre h3{display:flex;justify-content:space-between;align-items:center;gap:10px;font-family:var(--display);font-size:1.2rem;font-weight:700;color:var(--ct);
+  padding:10px 14px;border-radius:12px;border-left:4px solid var(--c);border-bottom:0;line-height:1.3;letter-spacing:.02em;
+  background:linear-gradient(90deg,color-mix(in srgb,var(--c) 16%,transparent),transparent)}
+.genre .t-genre{color:var(--ct)}
+.genre .track.active .play{background:var(--c);border-color:var(--c)}
+.genre h3 small{font-family:var(--body);font-size:.88rem;color:#CFC8B8;font-weight:500;white-space:nowrap}
 .soon{padding:14px 2px;color:var(--muted);font-size:.92rem}
 .t-title a{color:inherit;text-decoration:none}
 .badge.hit{color:#C7E8D6;border-color:rgba(88,174,134,.45);background:rgba(88,174,134,.12)}
-.info{display:grid;gap:10px;margin-top:14px}
-details{border:1px solid var(--line-soft);border-radius:var(--r-md);background:var(--panel)}
-details[open]{border-color:var(--line)}
-summary{list-style:none;cursor:pointer;min-height:56px;padding:14px 16px;display:flex;justify-content:space-between;align-items:center;gap:12px;font-family:var(--display);font-weight:600;font-size:1.05rem}
-summary::-webkit-details-marker{display:none}
-summary::after{content:'+';color:var(--gold);font-size:1.5rem;line-height:1;transition:transform .25s}
-details[open] summary::after{transform:rotate(45deg)}
-.d-body{padding:0 16px 16px;display:grid;gap:10px;font-size:.94rem;color:var(--muted)}
-.d-body b{color:var(--bone);font-weight:600}
-.d-body .sub{color:var(--gold-text);font-family:var(--display);font-size:1rem;margin-top:6px}
-.d-body .price{color:var(--gold-text)}
-.d-body .fine{font-size:.84rem;font-style:italic}
-.d-body a{color:var(--gold-text)}
+/* ── Acordeones de licencias: tarjetas de color, texto grande y legible ── */
+.info{display:grid;gap:12px;margin-top:14px}
+.acc{--c:var(--c-gold);--ct:color-mix(in srgb,var(--c) 55%,#fff);
+  border:1px solid color-mix(in srgb,var(--c) 34%,transparent);
+  border-left:4px solid var(--c);border-radius:var(--r-md);
+  background:linear-gradient(180deg,color-mix(in srgb,var(--c) 10%,var(--ink-2)),color-mix(in srgb,var(--c) 4%,var(--ink-2)))}
+.acc.verde{--c:var(--c-verde)}.acc.rosa{--c:var(--c-rosa)}.acc.naranja{--c:var(--c-naranja)}.acc.cian{--c:var(--c-cian)}
+.acc[open]{border-color:color-mix(in srgb,var(--c) 60%,transparent);border-left-color:var(--c);box-shadow:0 8px 26px rgba(0,0,0,.35)}
+.acc summary{list-style:none;cursor:pointer;min-height:64px;padding:14px 16px;display:flex;align-items:center;gap:14px;
+  font-family:var(--display);font-weight:700;font-size:1.18rem;line-height:1.25;color:var(--ct);letter-spacing:.01em}
+.acc summary::-webkit-details-marker{display:none}
+.acc summary .ic{flex:none;width:42px;height:42px;border-radius:50%;display:grid;place-items:center;font-size:1.2rem;
+  background:color-mix(in srgb,var(--c) 18%,var(--ink));border:1px solid color-mix(in srgb,var(--c) 55%,transparent)}
+.acc summary .tt{flex:1;min-width:0}
+.acc summary::after{content:'+';flex:none;color:var(--ct);font-size:1.7rem;font-weight:400;line-height:1;transition:transform .25s}
+.acc[open] summary::after{transform:rotate(45deg)}
+.d-body{padding:2px 18px 20px;display:grid;gap:14px;font-size:1.04rem;line-height:1.65;color:#DAD4C4}
+.d-body p{margin:0}
+.d-body b{color:var(--ct);font-weight:700}
+.d-body .sub{margin-top:8px;padding:10px 14px;border-radius:12px;border-left:4px solid var(--c);
+  background:color-mix(in srgb,var(--c) 14%,transparent);color:var(--ct);font-family:var(--display);font-size:1.14rem;font-weight:700;line-height:1.35}
+.d-body .sub b{font-size:inherit}
+.d-body .fine{font-size:.92rem;font-style:italic;color:#B9B2A2;padding-top:4px;border-top:1px dashed color-mix(in srgb,var(--c) 30%,transparent)}
+.d-body a{color:var(--ct);text-underline-offset:3px}
+
+/* ── Secciones: Maquetas gratis y Preguntas ── */
+.panel-sec{--c:var(--c-verde);--ct:color-mix(in srgb,var(--c) 55%,#fff);
+  border:1px solid color-mix(in srgb,var(--c) 34%,transparent);border-left:4px solid var(--c);border-radius:var(--r-md);padding:18px;
+  background:linear-gradient(180deg,color-mix(in srgb,var(--c) 10%,var(--ink-2)),color-mix(in srgb,var(--c) 4%,var(--ink-2)))}
+.panel-sec.cian{--c:var(--c-cian)}
+.panel-sec p{margin:0 0 12px;font-size:1.04rem;line-height:1.65;color:#DAD4C4}
+.panel-sec b{color:var(--ct);font-weight:700}
+.panel-sec .warn{border-left:4px solid var(--c-naranja);background:rgba(212,144,63,.13);padding:12px 14px;border-radius:12px;color:#F3DDB9}
+.panel-sec .warn b{color:#F5C581}
+.btn-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:6px}
+.btn-row .btn{flex:1 1 190px}
+.pill-free{font-family:var(--body);font-size:.7rem;font-weight:700;letter-spacing:.1em;padding:4px 10px;border-radius:999px;
+  background:var(--c-verde);color:#08150F;vertical-align:middle;margin-left:8px}
+.badge.free{color:#08150F;border-color:var(--c-verde);background:var(--c-verde)}
+.note-pdf{font-size:.95rem;color:#B9B2A2;font-style:italic}
 /* Install */
 .install{display:none;margin:16px auto 0;min-height:44px;padding:0 18px;border-radius:999px;border:1px solid var(--line);color:var(--gold-text);font-weight:600;font-size:.92rem}
 .install.show{display:inline-flex;align-items:center}
@@ -267,7 +300,7 @@ details[open] summary::after{transform:rotate(45deg)}
     <h1>EAMR</h1>
     <p class="role">Estratega de Activos Musicales Registrables</p>
     <canvas id="radar" class="radar" role="img" aria-label="Huella digital tipo radar que reacciona al sonido"></canvas>
-    <p class="facts">Ingeniería Sonora· Activos Musicales Unicos · Minería Emocional</p>
+    <p class="facts">Vista previa de 45 s · Audio sin pérdida · Descarga protegida</p>
     <canvas id="bands" class="bands" aria-hidden="true"></canvas>
 
     <div class="hero-actions">
@@ -324,12 +357,39 @@ details[open] summary::after{transform:rotate(45deg)}
     <p class="note">Las muestras son solo para escucha. El uso comercial requiere licencia: escribe a <a href="mailto:eamr_33@proton.me" style="color:var(--gold-text)">eamr_33@proton.me</a>.</p>
   </section>
 
+  <section class="wrap" id="maquetas" aria-labelledby="h-maq">
+    <div class="sec-head"><h2 id="h-maq">Maquetas personales<span class="pill-free">GRATIS</span></h2></div>
+    <div class="panel-sec">
+      <p><b>Maquetas originales de uso personal.</b> Explora el universo sonoro sin costo.</p>
+      <p class="warn"><b>Prohibido su uso comercial:</b> no incluyen licencia comercial. Si subes una a YouTube, TikTok o Spotify, pruébalo antes en el simulador de licencias.</p>
+      <div class="genre verde" id="freeList"></div>
+      <div class="btn-row">
+        <a class="btn btn-primary" href="mailto:eamr_33@proton.me?subject=Maqueta%20personal%20gratis">Pedir mi maqueta</a>
+        <a class="btn btn-ghost" href="https://edheller33.github.io/Music_dem/#simulador-licencias" target="_blank" rel="noopener">Probar el simulador</a>
+      </div>
+    </div>
+  </section>
+
   <section class="wrap" aria-labelledby="h-info">
     <div class="sec-head"><h2 id="h-info">Licencias, precios y pagos</h2></div>
     <div class="info" id="info"></div>
   </section>
 
-  <footer class="wrap">Guadalajara, Jalisco · México<br>Sonic Unicorn Lab · EAMR 2026<br><span class="fine">Contrato y simulador de licencias, «Mi canción» y FAQ: catálogo completo.</span></footer>
+  <section class="wrap" id="faq" aria-labelledby="h-faq">
+    <div class="sec-head"><h2 id="h-faq">Preguntas y respuestas</h2></div>
+    <p class="lede">Dudas frecuentes sobre licencias musicales.</p>
+    <div class="info" id="faqList"></div>
+    <div class="panel-sec cian" style="margin-top:14px">
+      <p><b>¿Quedó alguna duda?</b> Consulta el documento completo de preguntas y dudas sobre licencias musicales.</p>
+      <div class="btn-row">
+        <a class="btn btn-primary" id="faqBtn" href="faq_preguntas_dudas_sobre_licencias_musicales.pdf" target="_blank" rel="noopener">📄 Abrir documento (PDF)</a>
+        <a class="btn btn-ghost" href="mailto:eamr_33@proton.me?subject=Duda%20sobre%20licencias">Escribirnos</a>
+      </div>
+      <p class="note-pdf" id="faqNo" hidden>El documento PDF estará disponible muy pronto.</p>
+    </div>
+  </section>
+
+  <footer class="wrap">Guadalajara, Jalisco · México<br>Sonic Unicorn Lab · EAMR 2026<br><span class="fine">Contrato, simulador de licencias y «Mi canción»: catálogo completo.</span></footer>
 </main>
 
 <!-- Reproductor fijo -->
@@ -386,16 +446,13 @@ const TRACKS = [];
 GENRES.forEach(g=>{
   g.items = g.songs.split(/\s+/).filter(Boolean).map(x=>{
     const [slug,f='']=x.split('+');
-    return {slug,title:toTitle(slug),genre:g.name,group:g.id,hit:f==='H',premium:f==='P',file:encodeURI(FILEMAP[slug]||slug)+'.wav',page:'cancion.html?s='+encodeURIComponent(slug)};
+    return {slug,title:toTitle(slug),genre:g.name,group:g.id,hit:f==='H',premium:f==='P',free:f==='F',file:encodeURI(FILEMAP[slug]||slug)+'.wav',page:'cancion.html?s='+encodeURIComponent(slug)};
   }).sort((a,b)=>a.title.localeCompare(b.title,'es',{numeric:true}));
   g.items.forEach(t=>{ t.id=TRACKS.length; TRACKS.push(t); });
 });
 
 /* ═════════ INFORMACIÓN (catálogo antiguo) ═════════ */
 const INFO = [
- {t:'Maquetas personales (gratis)', b:[
-  ['','Maquetas originales de uso personal. Explora el universo sonoro sin costo.'],
-  ['Prohibido su uso comercial:','no incluyen licencia comercial. Si subes una a YouTube, TikTok o Spotify, pruébalo antes en el simulador de licencias.']]},
  {t:'Niveles de licencia y precios', b:[
   ['Comercial','· $100 a $1,000 MXN. Canciones únicas, archivo WAV, sin royalties. YouTube, TikTok, Spotify y anuncios.'],
   ['Estudio Master','· $1,500 a $15,000 MXN. Versiones máster con licencia total.'],
@@ -476,15 +533,17 @@ function rowFor(t){
   btn.addEventListener('click',()=>onRowPlay(t.id));
   const main=el('div','t-main');
   const ti=el('div','t-title'); const a=el('a',null,t.title); a.href=t.page; ti.appendChild(a);
-  main.append(ti, el('div','t-genre', t.hit?'Hit comercial':'Maqueta'));
+  main.append(ti, el('div','t-genre', t.hit?'Hit comercial':(t.free?'Maqueta gratis · uso personal':'Maqueta')));
   const side=el('div','t-side');
   if(t.hit) side.appendChild(el('span','badge hit','Hit comercial'));
+  if(t.free) side.appendChild(el('span','badge free','Gratis'));
   if(t.premium) side.appendChild(el('span','badge','Premium'));
   const eq=el('span','eq'); eq.setAttribute('aria-hidden','true'); eq.innerHTML='<i></i><i></i><i></i><i></i>'; side.appendChild(eq);
   li.append(btn,main,side);
   return li;
 }
 
+const GCOL={corrido:'',banda:'naranja',cumbia:'cian',bolero:'rosa',pop:'rosa',reggae:'verde',gangsta:'naranja',rap:'cian',elec:'cian',rock:'rosa',nuevas:'verde'};
 function render(){
   listEl.textContent='';
   const q=state.query.trim(); let total=0;
@@ -493,7 +552,7 @@ function render(){
     const items=g.items.filter(match);
     if(q && !items.length) return;
     total+=items.length;
-    const sec=el('div','genre');
+    const sec=el('div','genre '+(GCOL[g.id]||''));
     const h=el('h3',null,g.name); h.appendChild(el('small',null,g.items.length?items.length+(items.length===1?' canción':' canciones'):'Próximamente'));
     sec.appendChild(h);
     if(items.length){ const ul=el('ul','tracks'); items.forEach(t=>ul.appendChild(rowFor(t))); sec.appendChild(ul); }
@@ -502,11 +561,15 @@ function render(){
   });
   if(q && !total) listEl.appendChild(el('p','empty','Sin resultados para «'+q+'». Prueba con otro título.'));
   countEl.textContent = total+(total===1?' canción':' canciones');
+  const freeEl=$('freeList'); freeEl.textContent='';
+  const fr=TRACKS.filter(t=>t.free);
+  if(fr.length){ const ul=el('ul','tracks'); fr.forEach(t=>ul.appendChild(rowFor(t))); freeEl.appendChild(ul); }
+  else freeEl.appendChild(el('p','soon','Pronto habrá maquetas gratuitas para escuchar aquí.'));
   paintActive();
 }
 
 function paintActive(){
-  listEl.querySelectorAll('.track').forEach(li=>{
+  document.querySelectorAll('.track').forEach(li=>{
     const on = +li.dataset.id===state.idx;
     li.classList.toggle('active',on);
     li.classList.toggle('is-playing',on&&state.playing);
@@ -516,10 +579,21 @@ function paintActive(){
   });
 }
 
+const ACC_STYLE=[
+  {c:'',       i:'💰'},  /* Niveles de licencia y precios */
+  {c:'rosa',   i:'💎'},  /* Catálogo Premium */
+  {c:'cian',   i:'🦄'},  /* Unicornio Sónico y Hit de Radio */
+  {c:'naranja',i:'₿'},   /* Pagar con Bitcoin */
+  {c:'verde',  i:'📄'},  /* Documentos del catálogo */
+  {c:'cian',   i:'⚖️'}   /* Derechos y nota legal */
+];
 function buildInfo(){
   const box=$('info');
   INFO.forEach((d,i)=>{
-    const det=el('details'); const sm=el('summary',null,d.t); det.appendChild(sm);
+    const st=ACC_STYLE[i]||{c:'',i:'♪'};
+    const det=el('details','acc '+st.c);
+    const sm=el('summary'); const ic=el('span','ic',st.i); ic.setAttribute('aria-hidden','true');
+    sm.append(ic, el('span','tt',d.t)); det.appendChild(sm);
     const body=el('div','d-body');
     d.b.forEach(([k,v,kind])=>{
       const p=el('p', kind||'');
@@ -529,6 +603,32 @@ function buildInfo(){
     });
     det.appendChild(body); box.appendChild(det);
   });
+}
+
+/* ═════════ PREGUNTAS Y RESPUESTAS ═════════ */
+const FAQ=[
+ ['¿Puedo usar una maqueta gratuita en YouTube, TikTok o Spotify?','No. Las maquetas gratuitas son solo para uso personal y no puedes monetizarlas. Para publicar en plataformas necesitas una licencia comercial. Si tienes dudas, pruébalo antes en el simulador de licencias.'],
+ ['¿Qué incluye la licencia Comercial?','Canciones únicas, archivo WAV y sin royalties, para YouTube, TikTok, Spotify y anuncios. Va de $100 a $1,000 MXN según la canción.'],
+ ['¿Cómo puedo pagar?','En MXN, USD o Bitcoin (BTC). Para pagar con BTC escribes a eamr_33@proton.me con la canción y el tipo de licencia; te respondemos con la dirección y el monto del día, válido por 30 minutos.'],
+ ['¿Qué recibo después de pagar?','Con 1 confirmación en la red (10 a 30 min) recibes el MP3, la página HTML, la documentación de licencia y, si aplica, stems e ISRC.'],
+ ['¿Qué derechos transfiere una licencia comercial?','Transfiere al licenciatario los derechos que la plataforma de IA otorga sobre los audios generados (Suno AI, bajo suscripción profesional Pro/Premier vigente al generarlos), en sus términos y sujetos a la ley de propiedad intelectual de cada país.'],
+ ['¿Se puede registrar una canción hecha con IA?','No se garantiza que una obra generada 100% por IA, sin intervención humana sustancial, sea registrable o protegible en todas las jurisdicciones. En México (INDAUTOR) y Estados Unidos (U.S. Copyright Office) se exige aportación humana significativa. Esto es informativo y no es asesoría legal.']
+];
+function buildFaq(){
+  const box=$('faqList'); const cols=['','cian','verde','rosa','naranja','cian'];
+  FAQ.forEach(([q,a],i)=>{
+    const det=el('details','acc '+cols[i%cols.length]);
+    const sm=el('summary'); const ic=el('span','ic','?'); ic.setAttribute('aria-hidden','true');
+    sm.append(ic, el('span','tt',q)); det.appendChild(sm);
+    const body=el('div','d-body'); body.appendChild(el('p',null,a));
+    det.appendChild(body); box.appendChild(det);
+  });
+  /* Si el PDF aún no está subido, avisa en lugar de abrir un error 404 */
+  if(/^https?:$/.test(location.protocol)){
+    fetch($('faqBtn').getAttribute('href'),{method:'HEAD'}).then(r=>{
+      if(!r.ok){ $('faqBtn').hidden=true; $('faqNo').hidden=false; }
+    }).catch(()=>{});
+  }
 }
 
 /* ═════════ REPRODUCTOR ═════════ */
@@ -578,18 +678,30 @@ function load(idx){
   pTitle.textContent=t.title; setSub(t.genre);
   if(failed.has(t.id)){ state.mode='sim'; return; }
   state.mode='audio';
-  audio.src=t.file; audio.currentTime=0;
+  t.cand=candidatos(t); t.ci=0;
+  audio.preload='auto';
+  audio.src=t.cand[0]; audio.currentTime=0;
+}
+/* Si existe previews/nombre.mp3 (muestra ligera), se usa primero; si no, el .wav */
+function candidatos(t){
+  const stem=decodeURI(t.file).replace(/\.wav$/i,'');
+  const out=[]; const p=PREV.get(sinTildes(stem));
+  if(p) out.push('previews/'+encodeURI(p));
+  out.push(t.file); return out;
 }
 
 function play(idx){
-  ensureAnalyser();
   if(idx!==state.idx) load(idx);
   const t=TRACKS[state.idx];
   if(state.mode==='sim'){ startSim(); return; }
   state.playing=true; paintPlayer();
   const p=audio.play();
-  if(p&&p.catch) p.catch(()=>{ failed.add(t.id); startSim(); });
-  startTimer(); setSub(t.genre); mediaMeta(); mediaState();
+  if(p&&p.catch) p.catch(err=>{
+    if(err&&err.name==='AbortError') return;                        /* cambio de fuente: no es un fallo */
+    if(t.cand && t.ci<t.cand.length-1) return;                     /* el handler de error probará el siguiente archivo */
+    failed.add(t.id); startSim();
+  });
+  startTimer(); setSub('Cargando…'); mediaMeta(); mediaState();
 }
 function pause(){
   state.playing=false;
@@ -611,7 +723,14 @@ function step(dir){
   play(next.id);
 }
 
-audio.addEventListener('error',()=>{ if(state.idx>=0 && state.mode==='audio'){ failed.add(state.idx); if(state.playing) startSim(); } });
+audio.addEventListener('error',()=>{
+  if(state.idx<0 || state.mode!=='audio') return;
+  const t=TRACKS[state.idx];
+  if(t.cand && t.ci<t.cand.length-1){ t.ci++; audio.src=t.cand[t.ci]; if(state.playing) audio.play().catch(()=>{}); return; }
+  failed.add(state.idx); if(state.playing) startSim();
+});
+audio.addEventListener('waiting',()=>{ if(state.playing && state.mode==='audio') setSub('Cargando…'); });
+audio.addEventListener('playing',()=>{ if(state.idx>=0){ setSub(TRACKS[state.idx].genre); ensureAnalyser(); } });
 audio.addEventListener('ended',finish);
 toggleBtn.addEventListener('click',()=>{ if(state.idx<0) return; state.playing?pause():play(state.idx); });
 prevBtn.addEventListener('click',()=>step(-1));
@@ -814,28 +933,35 @@ if('serviceWorker' in navigator && (location.protocol==='https:'||location.hostn
 buildFilters();
 render();
 buildInfo();
+buildFaq();
 
 /* ═════════ CANCIONES NUEVAS (automático): todo .wav del repo que no esté en la lista aparece en «Nuevas» ═════════ */
 const REPO='edheller33/Music_dem';
 const sinTildes=t=>t.normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/ñ/gi,'n');
+const PREV=new Map();
 async function cargarNuevas(){
   if(!/^https?:$/.test(location.protocol)) return;
-  let names=null;
-  try{ const c=JSON.parse(sessionStorage.getItem('eamr_wavs')||'null'); if(c && Date.now()-c.t<600000) names=c.n; }catch(_){}
-  if(!names){
+  let info=null;
+  try{ const c=JSON.parse(sessionStorage.getItem('eamr_tree')||'null'); if(c && Date.now()-c.t<600000) info=c; }catch(_){}
+  if(!info){
     try{
-      const r=await fetch('https://api.github.com/repos/'+REPO+'/contents/');
+      const r=await fetch('https://api.github.com/repos/'+REPO+'/git/trees/main?recursive=1');
       if(!r.ok) return;
-      names=(await r.json()).filter(f=>f.type==='file'&&/\.wav$/i.test(f.name)).map(f=>f.name);
-      try{ sessionStorage.setItem('eamr_wavs',JSON.stringify({t:Date.now(),n:names})); }catch(_){}
+      const tree=(await r.json()).tree||[];
+      info={t:Date.now(),
+        w:tree.filter(f=>f.type==='blob'&&!f.path.includes('/')&&/\.wav$/i.test(f.path)).map(f=>f.path),
+        p:tree.filter(f=>f.type==='blob'&&/^previews\/[^/]+\.mp3$/i.test(f.path)).map(f=>f.path.slice(9))};
+      try{ sessionStorage.setItem('eamr_tree',JSON.stringify(info)); }catch(_){}
     }catch(_){ return; }
   }
+  info.p.forEach(n=>PREV.set(sinTildes(n.replace(/\.mp3$/i,'')),n));
+  const names=info.w;
   const conocidos=new Set();
   TRACKS.forEach(t=>{ conocidos.add(sinTildes(t.slug)); conocidos.add(sinTildes(decodeURI(t.file).replace(/\.wav$/i,''))); });
   const nuevas=names.map(n=>n.replace(/\.wav$/i,'')).filter(stem=>!conocidos.has(sinTildes(stem)));
   if(!nuevas.length) return;
   const g={id:'nuevas',chip:'Nuevas',name:'NUEVAS',songs:'',items:[]};
-  g.items=nuevas.map(stem=>({slug:stem,title:toTitle(stem),genre:g.name,group:'nuevas',hit:false,premium:false,
+  g.items=nuevas.map(stem=>({slug:stem,title:toTitle(stem),genre:g.name,group:'nuevas',hit:false,premium:false,free:false,
     file:encodeURI(stem)+'.wav',page:'cancion.html?s='+encodeURIComponent(stem)}))
     .sort((a,b)=>a.title.localeCompare(b.title,'es',{numeric:true}));
   g.items.forEach(t=>{ t.id=TRACKS.length; TRACKS.push(t); });
