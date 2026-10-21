@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="./kraken_logo.png" alt="EAMR Emblem" width="280" />
+<img src="./kraken_movimiento.mp4" alt="EAMR Emblem" width="280" />
 
 <br/><br/>
 
