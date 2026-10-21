@@ -1,10 +1,10 @@
 <div align="center">
 
-<img src="./kraken_movimiento.mp4" alt="EAMR Emblem" width="280" />
+<img src="./kraken_escudo.webp" alt="EAMR Emblem" width="280" />
 
 <br/><br/>
 
-<img src="https://readme-typing-svg.demolab.com?font=Orbitron&size=20&duration=3000&pause=800&color=D4AF37&center=true&vCenter=true&width=600&lines=Composiciones+originales+generadas+con+IA;Licenciamiento+comercial+documentado;Cat%C3%A1logo+en+expansi%C3%B3n+constante" alt="typing banner" />
+<img src="https://readme-typing-svg.demolab.com?font=Orbitron&size=14&duration=3000&pause=800&color=D4AF37&center=true&vCenter=true&width=380&lines=Composiciones+originales+generadas+con+IA;Licenciamiento+comercial+documentado;Cat%C3%A1logo+en+expansi%C3%B3n+constante" alt="typing banner" />
 
 <br/><br/>
 
